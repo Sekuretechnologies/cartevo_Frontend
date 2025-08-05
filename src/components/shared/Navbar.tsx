@@ -1,0 +1,292 @@
+import { RxArrowLeft, RxCaretDown } from "react-icons/rx";
+import { IoIosDisc, IoIosNotificationsOutline } from "react-icons/io";
+import { CgProfile } from "react-icons/cg";
+import { FaArrowLeft, FaCalendar, FaCheck, FaUser } from "react-icons/fa";
+import Image from "next/image";
+import "./style-navbar.css";
+import CustomDropdown from "./CustomDropdown";
+import Link from "next/link";
+import { BsArrowLeft } from "react-icons/bs";
+import {
+	useScrollPosition,
+	useScrollXPosition,
+	useScrollYPosition,
+} from "react-use-scroll-position";
+import variables from "@/variables.module.scss";
+import cstyle from "./styles/navbar-style.module.scss";
+import Modal from "./Modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectCurrentUser } from "@/redux/slices/auth";
+import {
+	selectCurrentVersion,
+	selectLimitDate,
+	selectStartDate,
+	setVersion,
+} from "@/redux/slices_v2/settings";
+import CustomDropdown2 from "./CustomDropdown2";
+import CButton from "./CButton";
+import { usePathname, useRouter } from "next/navigation";
+import { AuthService } from "@/api/services/auth";
+import toast from "react-hot-toast";
+import { useMutation } from "react-query";
+import { hasPermission } from "@/utils/permissions";
+import { useState } from "react";
+import ChangeLimitDateModalForm from "@/app/dashboard/v2/home/modals/ChangeLimitDateModalForm";
+import { getTextFormattedDate, parseDateObject } from "@/utils/DateFormat";
+import ChangeStartDateModalForm from "@/app/dashboard/v2/home/modals/ChangeStartDateModalForm";
+import { UserSearchTags } from "./search/UserSearchTags";
+import SearchUserInput from "./search/UserSearchInput";
+import { MdCheck, MdLogout } from "react-icons/md";
+type Props = {
+	title: string | undefined;
+	backLink?: string;
+	goBack?: (data?: any) => void;
+	isExpanded: boolean;
+};
+
+let scrollPositionY = 0;
+
+const handleLogout = async (email: string) => {
+	const response = await AuthService.logout({ email });
+	if (!response.ok) {
+		const responseBody = await response.json();
+		throw new Error(responseBody.message);
+	}
+};
+
+export default function Navbar(props: Props) {
+	const router = useRouter();
+	const pathname = usePathname();
+	const dispatch = useDispatch();
+	const { title, backLink, goBack, isExpanded } = props;
+	const classNames = (...classes: string[]): string =>
+		classes.filter(Boolean).join(" ");
+
+	const currentUser = useSelector(selectCurrentUser);
+	const currentVersion = useSelector(selectCurrentVersion);
+	const currentStartDate = useSelector(selectStartDate);
+	const currentLimitDate = useSelector(selectLimitDate);
+
+	const [isChangeLimitDateModalFormOpen, setIsChangeLimitDateModalFormOpen] =
+		useState(false);
+	const [isChangeStartDateModalFormOpen, setIsChangeStartDateModalFormOpen] =
+		useState(false);
+
+	const mutation = useMutation({
+		mutationFn: async () => handleLogout(currentUser.email),
+		onError: (err: any) => {
+			if (err.message == "Compte inexistant") {
+				toast.success("A bientot! Redirecting...");
+				dispatch(logOut());
+				router.push("/login");
+			} else {
+				console.error("Logout onError : ", err.message);
+				toast.error(err.message);
+			}
+		},
+		onSuccess: (data) => {
+			toast.success("A bientot! Redirecting...");
+			dispatch(logOut());
+			router.push("/login");
+		},
+	});
+
+	const onLogout = () => {
+		console.log("ON_LOGOUT");
+
+		mutation.mutate();
+	};
+
+	const handleVersion = (e: any) => {
+		if (e.target.checked) {
+			dispatch(setVersion(2));
+		} else {
+			dispatch(setVersion(1));
+		}
+	};
+
+	// Use the useScrollPosition hook to get the current scroll position
+	scrollPositionY = useScrollYPosition();
+
+	return (
+		<div className={`w-full pl-0  md:pl-0 ${cstyle["navbar-container"]}`}>
+			<div
+				style={{
+					width: isExpanded
+						? "calc(100% - 250px)"
+						: "calc(100% - 80px)",
+					zIndex: "1000",
+					boxShadow: `${
+						scrollPositionY > 0
+							? "0 4px 6px -1px  rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+							: ""
+					}`,
+					backgroundColor: `${scrollPositionY > 0 ? "white" : ""}`,
+				}}
+				className={`fixed w-full flex justify-between items-center h-fit pl-[60px] md:pl-0 px-5 md:px-10 py-5 ${cstyle["navbar-subcontainer"]}`}
+			>
+				<div className="md:pl-[25px] relative w-full flex justify-start items-center gap-3">
+					{backLink ? (
+						<Link
+							href={backLink}
+							className="absolute top-1 left-[-23px] hidden md:block"
+						>
+							<FaArrowLeft color="#000" size={20} />
+						</Link>
+					) : goBack ? (
+						<div
+							onClick={goBack}
+							className="absolute top-1 left-[-23px] cursor-pointer hidden md:block"
+						>
+							<FaArrowLeft color="#000" size={20} />
+						</div>
+					) : (
+						<></>
+					)}
+
+					<h1 className="font-semibold text-xl md:text-2xl pl-1 py-0">
+						{title}
+					</h1>
+				</div>
+				<div className="flex justify-between items-center gap-3">
+					<div className="flex justify-between items-center gap-[0px]">
+						{/* <div className="relative w-[30px] h-[30px] flex justify-center items-center rounded-full bg-[#F4EFE3]">
+							<IoIosNotificationsOutline
+								color="#1F66FF"
+								size={22}
+							/>
+							<div
+								className="absolute bottom-[-8px] right-[-8px] w-[18px] h-[18px] bg-[#18BC7A] rounded-full 
+                    text-center flex justify-center items-center text-[10px] font-bold text-white"
+							>
+								14
+							</div>
+						</div> */}
+						<div className="relative hidden md:flex mr-10 w-[300px]">
+							<SearchUserInput
+								onSelected={(data) =>
+									router.push(
+										`/dashboard/v2/users_accounts/manage/${data.id}`
+									)
+								}
+							/>
+						</div>
+
+						<label
+							htmlFor="modeToggle"
+							className="flex items-center cursor-pointer"
+						>
+							<div className="relative">
+								<input
+									type="checkbox"
+									defaultChecked={currentVersion == 2}
+									onChange={(e) => handleVersion(e)}
+									id="modeToggle"
+									className="sr-only"
+								/>
+								<div className="switchbar block bg-gray-200 w-[120px] h-[33px] rounded-full flex items-center px-2 text-xs">
+									<span className="testMode font-bold text-[18px] text-gray-600">
+										Live
+									</span>
+									<span className="proMode font-bold text-[18px] text-gray-600">
+										Sandbox
+									</span>
+								</div>
+
+								<div
+									className="dot absolute left-1 top-[2px] bg-[#1F66FF] w-[28px] h-[28px] 
+                        rounded-full transition flex justify-center items-center"
+								>
+									<span className="w-[14px] h-[14px] rounded-[5px] border border-solid border-4 border-white"></span>
+								</div>
+							</div>
+						</label>
+
+						<div className="ml-10 text-sm">
+							{currentUser?.last_name?.split(" ")[0] || "WAKAM"}
+						</div>
+
+						<CustomDropdown2
+							btnChild={
+								<div
+									className="flex justify-center items-center"
+									style={{
+										width: 35,
+										height: 35,
+										borderRadius: "50%",
+										position: "relative",
+										background: "#1f66ff",
+									}}
+								>
+									<FaUser color={"white"} />
+								</div>
+							}
+							cstyle={""}
+							iconSize={20}
+							items={[
+								<div
+									key={"1"}
+									className="flex justify-center w-full px-3 gap-2"
+								>
+									<span className="text-nowrap text-md ">
+										<div
+											className="flex justify-center items-center"
+											style={{
+												width: 80,
+												height: 80,
+												borderRadius: "50%",
+												position: "relative",
+												background: "#1f66ff",
+											}}
+										>
+											<FaUser color={"white"} size={40} />
+										</div>
+									</span>
+								</div>,
+								<div
+									key={"2"}
+									className="flex justify-center w-full px-3 gap-2"
+								>
+									<span className="text-nowrap text-sm ">
+										{currentUser?.last_name}
+									</span>
+								</div>,
+								<div
+									key={"3"}
+									className="flex justify-center w-full px-3 gap-2"
+								>
+									<span className="text-nowrap text-sm ">
+										{currentUser?.email}
+									</span>
+								</div>,
+								<div
+									key={"4"}
+									className="flex justify-center w-full px-3 gap-2 py-3"
+								>
+									<CButton
+										text={"Status check"}
+										btnStyle={"outlineDark"}
+										href={"/retrait-gb"}
+										icon={<MdCheck size={40} />}
+									/>
+								</div>,
+								<div
+									key={"6"}
+									className="flex justify-center w-full px-3 gap-2"
+								>
+									<CButton
+										text={"Deconnexion"}
+										btnStyle={"outlineDark"}
+										onClick={onLogout}
+										icon={<MdLogout size={40} />}
+									/>
+								</div>,
+							]}
+						/>
+					</div>
+				</div>
+			</div>
+			{/* <Modal/>  */}
+		</div>
+	);
+}

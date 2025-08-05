@@ -1,0 +1,366 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Medium"),
+		url("/assets/fonts/Lufga-Medium.woff2") format("woff2");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-ExtraBold-Italic"),
+		url("/assets/fonts/Lufga-ExtraBoldItalic.woff2") format("woff2");
+	font-weight: 800;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-ExtraLight"),
+		url("/assets/fonts/Lufga-ExtraLight.woff2") format("woff2");
+	font-weight: 200;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Black-Italic"),
+		url("/assets/fonts/Lufga-BlackItalic.woff2") format("woff2");
+	font-weight: 900;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Black"),
+		url("/assets/fonts/Lufga-Black.woff2") format("woff2");
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Light-Italic"),
+		url("/assets/fonts/Lufga-LightItalic.woff2") format("woff2");
+	font-weight: 300;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Regular"),
+		url("/assets/fonts/Lufga-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-ExtraBold"),
+		url("/assets/fonts/Lufga-ExtraBold.woff2") format("woff2");
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Light"),
+		url("/assets/fonts/Lufga-Light.woff2") format("woff2");
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Bold-Italic"),
+		url("/assets/fonts/Lufga-BoldItalic.woff2") format("woff2");
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-ExtraLight-Italic"),
+		url("/assets/fonts/Lufga-ExtraLightItalic.woff2") format("woff2");
+	font-weight: 200;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Bold"),
+		url("/assets/fonts/Lufga-Bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Medium-Italic"),
+		url("/assets/fonts/Lufga-MediumItalic.woff2") format("woff2");
+	font-weight: 500;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Italic"),
+		url("/assets/fonts/Lufga-Italic.woff2") format("woff2");
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-SemiBold"),
+		url("/assets/fonts/Lufga-SemiBold.woff2") format("woff2");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-SemiBold-Italic"),
+		url("/assets/fonts/Lufga-SemiBoldItalic.woff2") format("woff2");
+	font-weight: 600;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Thin-Italic"),
+		url("/assets/fonts/Lufga-ThinItalic.woff2") format("woff2");
+	font-weight: 100;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lufga";
+	src: local("Lufga-Thin"),
+		url("/assets/fonts/Lufga-Thin.woff2") format("woff2");
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+} */
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Black"),
+		url("/assets/satoshi-font/Satoshi-Black.woff") format("woff");
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Black-Italic"),
+		url("/assets/satoshi-font/Satoshi-BlackItalic.woff") format("woff");
+	font-weight: 900;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Bold"),
+		url("/assets/satoshi-font/Satoshi-Bold.woff") format("woff");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Bold-Italic"),
+		url("/assets/satoshi-font/Satoshi-BoldItalic.woff") format("woff");
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Light"),
+		url("/assets/satoshi-font/Satoshi-Light.woff") format("woff");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Light-Italic"),
+		url("/assets/satoshi-font/Satoshi-LightItalic.woff") format("woff");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Medium"),
+		url("/assets/satoshi-font/Satoshi-Medium.woff") format("woff");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Medium-Italic"),
+		url("/assets/satoshi-font/Satoshi-MediumItalic.woff") format("woff");
+	font-weight: 600;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Regular"),
+		url("/assets/satoshi-font/Satoshi-Regular.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Satoshi";
+	src: local("Satoshi-Italic"),
+		url("/assets/satoshi-font/Satoshi-Italic.woff") format("woff");
+	font-weight: 500;
+	font-style: italic;
+	font-display: swap;
+}
+
+:root {
+	font-family: Satoshi, sans-serif;
+	/* font-family: 'Lufga'; */
+	/* line-height: 5dvi; */
+}
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;:root
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+} */
+
+/* body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+} */
+
+@layer utilities {
+	.text-balance {
+		text-wrap: balance;
+	}
+}
+
+/* //////////////////////////////////////////////////////////////// */
+
+.TabsList {
+	/* flex-shrink: 0; */
+	/* display: flex; */
+	/* display: inline; */
+	/* border-bottom: 1px solid #999; */
+}
+
+/* @media (max-width: 720px) {
+  .TabsList {
+    display: flex;
+    flex-direction: column;
+  }
+} */
+
+.TabsTrigger {
+	/* font-family: inherit; */
+	/* background-color: white; */
+	padding: 0 20px;
+	height: 45px;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 15px;
+	line-height: 1;
+	color: #999;
+	user-select: none;
+}
+.TabsTrigger:first-child {
+	border-top-left-radius: 6px;
+}
+.TabsTrigger:last-child {
+	border-top-right-radius: 6px;
+}
+.TabsTrigger:hover {
+	color: #444;
+}
+.TabsTrigger[data-state="active"] {
+	color: black;
+	box-shadow: inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor;
+}
+.TabsTrigger:focus {
+	position: relative;
+	/* box-shadow: 0 0 0 2px black; */
+}
+
+.loadingSpinner {
+	border: 4px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 4px solid #1f66ff;
+	width: 40px;
+	height: 40px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

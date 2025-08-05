@@ -1,0 +1,122 @@
+
+.sidebar-container {
+    position: relative;
+    width: 250px;
+    height: 100vh;
+    background: 'white';
+    
+
+    // @media (max-width: 720px) {
+    //   position: 'absolute';
+    //   z-index: 2000;
+    // }
+}
+.sidebar-container,
+.sidebar-container > div {
+    transition: all ease-in .3s;
+}
+
+@media (max-width: 720px) {
+  .sidebar-container {
+    position: absolute;
+    z-index: 2000 !important;
+    background: white;
+    top: 80px;
+  }
+}
+
+.sidebar-toggle {
+    position: absolute;
+    bottom: 50px;
+    right: -10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    cursor: pointer;
+}
+.sidebar-toggle-input:not(:checked) + label .chevronLeft {
+  display: none;
+}
+.sidebar-toggle-input:not(:checked) + label .chevronRight {
+  display: block;
+}
+.sidebar-toggle-input:checked + label .chevronLeft {
+  display: block;
+}
+.sidebar-toggle-input:checked + label .chevronRight {
+  display: none;
+}
+
+// .sidebar-toggle-input:not(:checked) ~ .sidebar-container,
+// .sidebar-toggle-input:not(:checked) ~ .sidebar-container > div {
+//     width: 80px !important;
+//     overflow-x: hidden;
+// }
+
+
+
+/* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
+.menu__toggle {
+  opacity: 0;
+}
+
+.menu__toggle:checked ~ .menu__btn > span {
+  transform: rotate(45deg);
+}
+.menu__toggle:checked ~ .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0);
+}
+.menu__toggle:checked ~ .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+.menu__toggle:checked ~ .menu__box {
+  visibility: visible;
+  left: 0;
+}
+
+.menu__btn {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 30px;
+  left: 20px;
+
+  width: 26px;
+  height: 26px;
+
+  cursor: pointer;
+  z-index: 1;
+}
+
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  display: block;
+  position: absolute;
+
+  width: 100%;
+  height: 2px;
+
+  background-color: black;
+
+  transition-duration: .25s;
+}
+.menu__btn > span::before {
+  content: '';
+  top: -8px;
+}
+.menu__btn > span::after {
+  content: '';
+  top: 8px;
+}
+/* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */

@@ -1,0 +1,13 @@
+.dualGrid {
+    display: grid;
+    width: 100%;
+    gap: 50px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.contentGrid {
+    display: grid;
+    // width: 100%;
+    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+}

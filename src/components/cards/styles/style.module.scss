@@ -1,0 +1,43 @@
+.infoCardGrid {
+	display: grid;
+	width: 100%;
+	gap: 20px;
+	grid-template-columns: repeat(3, 1fr);
+
+	@media only screen and (min-width: 1130px) and (max-width: 1300px) {
+		grid-template-columns: repeat(3, 1fr);
+
+		& div:nth-child(1) {
+			grid-column: 1;
+			grid-row: 2 / 4;
+			grid-column-end: span 1;
+			border: unset;
+		}
+
+		& div:nth-child(1) {
+			grid-column: 1;
+			grid-row: 2 / 4;
+			grid-column-end: span 3;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			border: unset;
+
+			& div {
+				gap: 30px;
+				align-items: center;
+				& div {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+
+	@media only screen and (max-width: 1130px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media only screen and (max-width: 860px) {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}

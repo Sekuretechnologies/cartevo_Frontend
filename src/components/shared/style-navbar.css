@@ -1,0 +1,27 @@
+#modeToggle ~ .switchbar {
+	display: flex;
+	justify-content: flex-end;
+}
+
+#modeToggle:checked ~ .switchbar {
+	justify-content: flex-start;
+}
+
+#modeToggle ~ .switchbar .testMode {
+	display: none;
+}
+#modeToggle ~ .switchbar .proMode {
+	display: block;
+}
+
+#modeToggle:checked ~ .switchbar .testMode {
+	display: block;
+}
+#modeToggle:checked ~ .switchbar .proMode {
+	display: none;
+}
+
+#modeToggle:checked ~ .dot {
+	transform: translateX(300%);
+	background-color: #1f66ff;
+}
