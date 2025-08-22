@@ -1,5 +1,112 @@
 import { z } from "zod";
 
+export const personalInfoSchema = z
+	.object({
+		company_name: z.string().min(3, {
+			message:
+				"Le nom de l'entreprise doit contenir au moins 3 caractères",
+		}),
+		first_name: z.string().min(2, {
+			message: "Le prénom doit contenir au moins 2 caractères",
+		}),
+		last_name: z
+			.string()
+			.min(2, { message: "Le nom doit contenir au moins 2 caractères" }),
+		role: z.string().min(2, { message: "Le rôle est requis" }),
+		phone_number: z
+			.string()
+			.min(7, { message: "Numéro de téléphone invalide" })
+			.regex(/^[\d+\-\s]+$/, { message: "Numéro de téléphone invalide" }),
+		gender: z.string().min(1, { message: "Le genre est requis" }),
+		nationality: z
+			.string()
+			.min(2, { message: "La nationalité est requise" }),
+		id_document_type: z
+			.string()
+			.min(2, { message: "Type de pièce requis" }),
+		id_number: z.string().min(3, { message: "Numéro de pièce requis" }),
+		id_document_front: z
+			.instanceof(File)
+			.refine((file) => file.size > 0 && file.name !== "", {
+				message: "Recto de la pièce requis",
+			}),
+		id_document_back: z
+			.instanceof(File)
+			.refine((file) => file.size > 0 && file.name !== "", {
+				message: "Verso de la pièce requis",
+			}),
+		country_of_residence: z
+			.string()
+			.min(2, { message: "Pays de résidence requis" }),
+		state: z.string().min(2, { message: "Région/État requis" }),
+		city: z.string().min(2, { message: "Ville requise" }),
+		street: z.string().min(2, { message: "Adresse requise" }),
+		postal_code: z.string().min(2, { message: "Code postal requis" }),
+		proof_of_address: z
+			.instanceof(File)
+			.refine((file) => file.size > 0 && file.name !== "", {
+				message: "Justificatif de domicile requis",
+			}),
+		email: z
+			.string({ message: "Entrez un email valide" })
+			.email({ message: "Entrez un email valide" }),
+		password: z.string({ message: "Entrez un mot de passe" }).min(8, {
+			message: "Le mot de passe doit contenir au moins 8 caractères",
+		}),
+		confirm_password: z.string({ message: "Confirmez le mot de passe" }),
+	})
+	.refine((data) => data.password === data.confirm_password, {
+		message: "Les mots de passe ne correspondent pas",
+		path: ["confirm_password"],
+	});
+
+export const businessInfoSchema = z.object({
+	business_name: z.string().min(3, {
+		message: "Le nom de l'entreprise doit contenir au moins 3 caractères",
+	}),
+	business_phone_number: z
+		.string()
+		.min(7, { message: "Numéro de téléphone invalide" })
+		.regex(/^[\d+\-\s]+$/, { message: "Numéro de téléphone invalide" }),
+	business_address: z
+		.string()
+		.min(5, { message: "L'adresse de l'entreprise est requise" }),
+	business_type: z
+		.string()
+		.min(2, { message: "Le type d'entreprise est requis" }),
+	country_of_operation: z
+		.string()
+		.min(2, { message: "Le pays d'opération est requis" }),
+	tax_id_number: z
+		.string()
+		.min(3, { message: "Le numéro d'identification fiscale est requis" }),
+	business_website: z
+		.string()
+		.url({ message: "Entrez une URL valide pour le site web" })
+		.optional()
+		.or(z.literal("")),
+	business_description: z.string().min(10, {
+		message: "La description doit contenir au moins 10 caractères",
+	}),
+	source_of_funds: z
+		.string()
+		.min(2, { message: "La source de fonds est requise" }),
+	share_holding_document: z.instanceof(File).refine((file) => file.size > 0, {
+		message: "Le document d'actionnariat est requis",
+	}),
+	incorporation_certificate: z
+		.instanceof(File)
+		.refine((file) => file.size > 0, {
+			message: "Le certificat d'incorporation est requis",
+		}),
+	proof_of_address: z.instanceof(File).refine((file) => file.size > 0, {
+		message: "Le justificatif de domicile est requis",
+	}),
+	memart: z
+		.instanceof(File)
+		.refine((file) => file.size > 0, { message: "Le MEMART est requis" }),
+});
+
 export const loginSchema = z.object({
 	email: z
 		.string({ message: "Entrez un email valide" })

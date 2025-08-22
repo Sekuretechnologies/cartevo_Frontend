@@ -1,4 +1,4 @@
-import { HashLoader } from "react-spinners";
+import { PuffLoader } from "react-spinners";
 
 const Loading = () => {
 	return (
@@ -7,7 +7,7 @@ const Loading = () => {
 				"h-screen w-screen fixed z-[99999] flex items-center justify-center"
 			}
 		>
-			<HashLoader size={40} color="#1F66FF" />
+			<PuffLoader size={40} color="#1F66FF" />
 		</div>
 	);
 };

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { loginSchema } from "@/validation/FormValidation";
+import { personalInfoSchema } from "@/validation/FormValidation";
 import { FaChevronRight, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +26,7 @@ import urls from "@/config/urls";
 import urlsV2 from "@/config/urls_v2";
 import { useState } from "react";
 
-const handleLogin = async (data: z.infer<typeof loginSchema>) => {
+const handlePersonalInfo = async (data: z.infer<typeof personalInfoSchema>) => {
 	const response = await AuthService.login(data);
 	if (!response.ok) {
 		const responseBody = await response.json();
@@ -43,13 +43,13 @@ const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 	return responseJson;
 };
 
-export default function LogiForm() {
+export default function PersonalInfoForm() {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const previousUrl = window.sessionStorage.getItem("previousUrl");
 	const router = useRouter();
 	const dispatch = useDispatch();
-	const form = useForm<z.infer<typeof loginSchema>>({
-		resolver: zodResolver(loginSchema),
+	const form = useForm<z.infer<typeof personalInfoSchema>>({
+		resolver: zodResolver(personalInfoSchema),
 		defaultValues: {
 			email: "",
 			password: "",
@@ -57,7 +57,7 @@ export default function LogiForm() {
 	});
 
 	const mutation = useMutation({
-		mutationFn: handleLogin,
+		mutationFn: handlePersonalInfo,
 		onError: (err: any) => {
 			console.error("Login onError : ", err.message);
 			toast.error(err.message);

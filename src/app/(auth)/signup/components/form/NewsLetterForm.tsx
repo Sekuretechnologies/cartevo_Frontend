@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import CButton from "@/components/shared/CButton";
 import { AuthService } from "@/api/services/auth";
 import { useMutation } from "react-query";
-import { HashLoader, PuffLoader } from "react-spinners";
+import { HashLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/redux/slices/auth";
@@ -43,7 +43,7 @@ const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 	return responseJson;
 };
 
-export default function LogiForm() {
+export default function NewsLetterForm() {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const previousUrl = window.sessionStorage.getItem("previousUrl");
 	const router = useRouter();
@@ -71,12 +71,12 @@ export default function LogiForm() {
 			toast.success("Login successful! Redirecting...");
 			dispatch(setCredentials({ token, getSekureApiToken, user }));
 			// router.push("/verify-token");
-			router.push(urls.wallets.root);
+			router.push(previousUrl || urlsV2.dashboardHome.root);
 		},
 	});
 
 	const onSubmit = (data: any) => {
-		mutation.mutate(data);
+		// mutation.mutate(data);
 	};
 	const onError = (err: any) => {
 		console.error("any", err);
@@ -91,12 +91,10 @@ export default function LogiForm() {
 						name="email"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel className="text-gray-900 text-md tracking-tight">
-									Email
-								</FormLabel>
 								<FormControl>
 									<Input
 										className="px-6 w-full bg-app-lightgray"
+										placeholder="your@email.com"
 										{...field}
 									/>
 								</FormControl>
@@ -104,75 +102,25 @@ export default function LogiForm() {
 							</FormItem>
 						)}
 					/>
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel className="text-gray-900 text-md font-[500] tracking-tight">
-									Password
-								</FormLabel>
-								<FormControl className="relative">
-									<div>
-										<Input
-											type={`${
-												passwordVisible
-													? "text"
-													: "password"
-											}`}
-											className="px-6 w-full bg-app-lightgray"
-											{...field}
-										/>
-										<div className="absolute text-gray-500 cursor-pointer right-[10px] top-[12px]">
-											{passwordVisible ? (
-												<FaEyeSlash
-													onClick={() =>
-														setPasswordVisible(
-															false
-														)
-													}
-												/>
-											) : (
-												<FaEye
-													onClick={() =>
-														setPasswordVisible(true)
-													}
-												/>
-											)}
-										</div>
-									</div>
-								</FormControl>
-								<FormMessage className="text-red-400" />
-							</FormItem>
-						)}
-					/>
 				</div>
-
-				{/* <div className="text-right">
-          <a href="#" className="inline-block w-[272px] text-md font-[400]">Mot de passe oublié ?</a>
-        </div> */}
-				{/* <Link href="#" className="text-gray-800 font-semibold text-righttext-md">Forgotten Password?</Link> */}
-				<div className={`mt-[50px]`}>
+				<div className={`mt-[20px]`}>
 					<CButton
-						text={"Continue"}
+						text={"Recevoir Newsletter"}
 						btnStyle={"blue"}
 						type={"submit"}
-						// href={`/`}
-						// icon={<FaChevronRight />}
-						width={"200px"}
+						width={"100%"}
 						height={"40px"}
 					/>
 				</div>
 				<div
 					className={classNames(
-						"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-0 left-0 h-full w-full flex items-center justify-center",
+						"transition-all invisible z-20 bg-blue-900/30 opacity-0 absolute top-0 left-0 h-full w-full flex items-center justify-center",
 						{
-							"!opacity-100 !visible z-[1000]":
-								mutation.isLoading,
+							"!opacity-100 !visible z-20": mutation.isLoading,
 						}
 					)}
 				>
-					<PuffLoader
+					<HashLoader
 						className="shrink-0"
 						size={50}
 						color="#1F66FF"
