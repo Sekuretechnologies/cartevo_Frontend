@@ -1,13 +1,26 @@
 "use client";
-
 import { useTitle } from "@/hooks/useTitle";
 import { setCurrentStep } from "@/redux/slices/signup";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "./components/Footer";
-import PersonalInfoForm from "./components/form/PersonalInfoForm";
+// import PersonalInfoForm from "./components/form/PersonalInfoForm";
 import ProgressBar from "./components/ProgressBar";
-import CompanyInfoForm from "./components/form/CompanyInfoForm";
+// import CompanyInfoForm from "./components/form/CompanyInfoForm";
+
+import dynamic from "next/dynamic";
+const PersonalInfoForm = dynamic(
+	() => import("./components/form/PersonalInfoForm"),
+	{
+		ssr: false,
+	}
+);
+const CompanyInfoForm = dynamic(
+	() => import("./components/form/CompanyInfoForm"),
+	{
+		ssr: false,
+	}
+);
 
 export default function SignupPage() {
 	useTitle("Cartevo | Signup");
