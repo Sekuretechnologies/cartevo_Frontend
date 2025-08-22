@@ -42,7 +42,7 @@ const LoginPage = () => {
 					<div className="w-full max-w-[400px]">
 						<LoginForm />
 						<div className="mt-6 text-app-secondary text-sm">
-							Don't have an account?{" "}
+							{`Don't have an account?`}{" "}
 							<a
 								href="/signup"
 								className="text-app-primary underline hover:text-app-secondary"
