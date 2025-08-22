@@ -21,6 +21,9 @@ import { FaEye, FaEyeSlash, FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { PuffLoader } from "react-spinners";
+import { AuthService } from "@/api/services/auth";
+import { setCredentials } from "@/redux/slices/auth";
+import { generateRandomCode, getFileExtension } from "@/utils/utils";
 
 // declare global {
 // 	interface Window {
@@ -88,11 +91,71 @@ export const personalInfoSchema = z
 		path: ["confirm_password"],
 	});
 
+// const handlePersonalInfo = async (data: z.infer<typeof personalInfoSchema>) => {
+// 	// This will be updated to handle personal info submission for company signup
+// 	console.log("Personal info submitted:", data);
+// 	// TODO: Replace with actual API call for signup
+// 	return { success: true, data };
+// };
 const handlePersonalInfo = async (data: z.infer<typeof personalInfoSchema>) => {
-	// This will be updated to handle personal info submission for company signup
-	console.log("Personal info submitted:", data);
-	// TODO: Replace with actual API call for signup
-	return { success: true, data };
+	//-------------------------------------------------------
+	const formData = new FormData();
+	Object.entries(data || {})?.map(([key, value]: any[]) => {
+		// console.log({ key }, { value });
+		if (
+			![
+				"id_document_front",
+				"id_document_back",
+				"proof_of_address",
+			]?.includes(key)
+		) {
+			formData.append(`${key}`, value || "");
+		}
+	});
+
+	const id_document_front = {
+		file: data.id_document_front,
+		name: generateRandomCode(32),
+		extension: getFileExtension(data.id_document_front?.name),
+	};
+	const id_document_back = {
+		file: data.id_document_back,
+		name: generateRandomCode(32),
+		extension: getFileExtension(data.id_document_back?.name),
+	};
+	const proof_of_address = {
+		file: data.proof_of_address,
+		name: generateRandomCode(32),
+		extension: getFileExtension(data.proof_of_address?.name),
+	};
+
+	formData.append(
+		"id_document_front",
+		id_document_front.file,
+		`${id_document_front.name}.${id_document_front.extension}`
+	);
+	formData.append(
+		"id_document_back",
+		id_document_back.file,
+		`${id_document_back.name}.${id_document_back.extension}`
+	);
+	formData.append(
+		"proof_of_address",
+		proof_of_address.file,
+		`${proof_of_address.name}.${proof_of_address.extension}`
+	);
+	//-------------------------------------------------------
+	const response = await AuthService.registerStep1(formData);
+	if (!response.ok) {
+		const responseBody = await response.json();
+		if (response.status === 401) {
+			throw new Error(responseBody.message);
+		} else {
+			throw new Error("Error. Couldn't Register Personal Informations.");
+		}
+	}
+	const responseJson = await response.json();
+	return responseJson;
 };
 
 export default function PersonalInfoForm({
@@ -144,6 +207,18 @@ export default function PersonalInfoForm({
 		},
 		onSuccess: (data) => {
 			console.log("Personal info submitted successfully:", data);
+			const token = "";
+			const user = {
+				id: data.user_id,
+				name: data.user_name,
+				email: data.user_email,
+			};
+			const company = {
+				id: data.company_id,
+				name: data.company_name,
+			};
+			toast.success("OTP Verified successfully! Redirecting...");
+			dispatch(setCredentials({ token, company, user }));
 			toast.success(
 				"Personal information saved! Proceeding to next step..."
 			);

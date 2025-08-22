@@ -4,15 +4,15 @@ const authSlice = createSlice({
 	name: "auth",
 	initialState: {
 		token: null,
-		getSekureApiToken: null,
+		company: null,
 		user: null,
 		user_email: null,
 	},
 	reducers: {
 		setCredentials: (state, action) => {
-			const { token, getSekureApiToken, user } = action.payload;
+			const { token, company, user } = action.payload;
 			state.token = token;
-			state.getSekureApiToken = getSekureApiToken;
+			state.company = company;
 			state.user = user;
 		},
 		setCurrentUserEmail: (state, action) => {
@@ -33,6 +33,7 @@ export const { setCredentials, setCurrentUserEmail, logOut } =
 export default authSlice.reducer;
 
 export const selectCurrentUser = (state: any) => state.auth.user;
+export const selectCurrentCompany = (state: any) => state.auth.company;
 export const selectCurrentUserEmail = (state: any) => state.auth.user_email;
 export const selectCurrentToken = (state: any) => state.auth.token;
 export const selectCurrentGetSekureApiToken = (state: any) =>

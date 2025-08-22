@@ -18,8 +18,16 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
+import { AuthService } from "@/api/services/auth";
+import { selectCurrentCompany, selectCurrentUser } from "@/redux/slices/auth";
+import {
+	generateRandomCode,
+	getFileExtension,
+	removeAllSpaces,
+} from "@/utils/utils";
+import { UserService } from "@/api/services/user";
 
 declare global {
 	interface Window {
@@ -74,15 +82,77 @@ export const businessInfoSchema = z.object({
 	// }),
 });
 
+// const handleCompanyInfo = async (data: z.infer<typeof businessInfoSchema>) => {
+// 	// This will be updated to handle company info submission for company signup
+// 	console.log("Company info submitted:", data);
+// 	// TODO: Replace with actual API call for signup
+// 	return { success: true, data };
+// };
 const handleCompanyInfo = async (data: z.infer<typeof businessInfoSchema>) => {
-	// This will be updated to handle company info submission for company signup
-	console.log("Company info submitted:", data);
-	// TODO: Replace with actual API call for signup
-	return { success: true, data };
+	//-------------------------------------------------------
+	const formData = new FormData();
+	Object.entries(data || {})?.map(([key, value]: any[]) => {
+		// console.log({ key }, { value });
+		if (
+			![
+				"share_holding_document",
+				"incorporation_certificate",
+				"proof_of_address",
+			]?.includes(key)
+		) {
+			formData.append(`${key}`, value || "");
+		}
+	});
+
+	const share_holding_document = {
+		file: data.share_holding_document,
+		name: generateRandomCode(32),
+		extension: getFileExtension(data.share_holding_document?.name),
+	};
+	const incorporation_certificate = {
+		file: data.incorporation_certificate,
+		name: generateRandomCode(32),
+		extension: getFileExtension(data.incorporation_certificate?.name),
+	};
+	const proof_of_address = {
+		file: data.proof_of_address,
+		name: generateRandomCode(32),
+		extension: getFileExtension(data.proof_of_address?.name),
+	};
+
+	formData.append(
+		"share_holding_document",
+		share_holding_document.file,
+		`${share_holding_document.name}.${share_holding_document.extension}`
+	);
+	formData.append(
+		"incorporation_certificate",
+		incorporation_certificate.file,
+		`${incorporation_certificate.name}.${incorporation_certificate.extension}`
+	);
+	formData.append(
+		"proof_of_address",
+		proof_of_address.file,
+		`${proof_of_address.name}.${proof_of_address.extension}`
+	);
+	//-------------------------------------------------------
+	const response: any = await AuthService.registerStep2(formData);
+	if (!response.ok) {
+		const responseBody = await response.json();
+		if (response.status === 401) {
+			throw new Error(responseBody.message);
+		} else {
+			throw new Error("Error. Couldn't Register Company Informations.");
+		}
+	}
+	const responseJson = await response.json();
+	return responseJson;
 };
 
 export default function CompanyInfoForm() {
 	const router = useRouter();
+	const currentCompany: any = useSelector(selectCurrentCompany);
+	const currentUser: any = useSelector(selectCurrentUser);
 	const dispatch = useDispatch();
 	const form = useForm<z.infer<typeof businessInfoSchema>>({
 		resolver: zodResolver(businessInfoSchema),
@@ -103,6 +173,23 @@ export default function CompanyInfoForm() {
 		},
 	});
 
+	// 	company_id: "company-uuid"
+	//   business_name: "Acme Corporation Ltd"
+	//   business_phone_number: "+237123456789"
+	//   business_address: "123 Business Street, Yaoundé"
+	//   business_type: "Technology"
+	//   country_of_operation: "Cameroon"
+	//   tax_id_number: "TAX123456789"
+	//   business_website: "https://acme.com"
+	//   business_description: "Technology company providing software solutions"
+	//   source_of_funds: "Investment"
+
+	//   // File uploads (optional)
+	//   share_holding_document: [File]    // Share holding document
+	//   incorporation_certificate: [File] // Incorporation certificate
+	//   proof_of_address: [File]         // Business proof of address
+	//   memart: [File]                   // MEMART document
+
 	const mutation = useMutation({
 		mutationFn: handleCompanyInfo,
 		onError: (err: any) => {
@@ -117,7 +204,8 @@ export default function CompanyInfoForm() {
 	});
 
 	const onSubmit = (data: any) => {
-		mutation.mutate(data);
+		const bizData = { ...data, company_id: currentCompany.id };
+		mutation.mutate(bizData);
 	};
 	const onError = (err: any) => {
 		console.error("Form validation error:", err);

@@ -2,7 +2,6 @@ import { AuthService } from "@/api/services/auth";
 import CButton from "@/components/shared/CButton";
 import { Form } from "@/components/ui/form";
 import urls from "@/config/urls";
-import { setCredentials } from "@/redux/slices/auth";
 import { verifyOtpSchema } from "@/validation/FormValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
@@ -11,10 +10,8 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useMutation } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
 import { z } from "zod";
-import { selectCurrentUserEmail } from "@/redux/slices/auth";
 
 const handleVerifyOtp = async (data: z.infer<typeof verifyOtpSchema>) => {
 	const response = await AuthService.verifyOtp(data);
@@ -48,13 +45,11 @@ const handleVerifyOtp = async (data: z.infer<typeof verifyOtpSchema>) => {
 
 export default function VerifyOtpForm() {
 	// const previousUrl = window.sessionStorage.getItem("previousUrl");
-	const currentUserEmail: any = useSelector(selectCurrentUserEmail);
 	const router = useRouter();
-	const dispatch = useDispatch();
 	const form = useForm<z.infer<typeof verifyOtpSchema>>({
 		resolver: zodResolver(verifyOtpSchema),
 		defaultValues: {
-			email: currentUserEmail,
+			email: "",
 			otp: "",
 		},
 	});
@@ -62,25 +57,22 @@ export default function VerifyOtpForm() {
 	const mutation = useMutation({
 		mutationFn: handleVerifyOtp,
 		onError: (err: any) => {
-			console.error("Verification OTP onError : ", err.message);
+			console.error("Verification Token onError : ", err.message);
 			toast.error(err.message);
 		},
 		onSuccess: (data) => {
-			console.log("Verification OTP onSuccess : ", data);
-			const token = data.access_token;
-			const user = data.user;
-			const company = data.company;
-			// localStorage.setItem("access_token", token);
-			toast.success("OTP Verified successfully! Redirecting...");
-			dispatch(setCredentials({ token, company, user }));
+			console.log("Verification Token onSuccess : ", data);
+			toast.success("Verification Token successful! Redirecting...");
 			const redirectTo = data.redirect_to;
 			if (redirectTo === "waiting") {
-				router.push("/waiting-kyb");
+				router.push("/signup?step=2");
 			} else if (redirectTo === "step2") {
 				router.push("/signup?step=2");
 			} else {
 				router.push(urls.wallets.root);
 			}
+
+			// router.push(previousUrl || urlsV2.dashboardHome.root);
 		},
 	});
 
