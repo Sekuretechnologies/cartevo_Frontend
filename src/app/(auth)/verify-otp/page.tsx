@@ -8,7 +8,7 @@ import NewsLetterForm from "./components/form/NewsLetterForm";
 import Footer from "./components/Footer";
 //---------------------------------------
 
-const LoginPage = () => {
+const VerifyOtpPage = () => {
 	useTitle("Cartevo | Verify OTP");
 	return (
 		<section className="relative flex flex-col h-screen mt-0  w-full">
@@ -48,4 +48,4 @@ const LoginPage = () => {
 	);
 };
 
-export default LoginPage;
+export default VerifyOtpPage;

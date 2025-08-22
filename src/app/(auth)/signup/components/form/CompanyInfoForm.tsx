@@ -69,9 +69,9 @@ export const businessInfoSchema = z.object({
 	proof_of_address: z.instanceof(File).refine((file) => file.size > 0, {
 		message: "Le justificatif de domicile est requis",
 	}),
-	memart: z.instanceof(File).refine((file) => file.size > 0, {
-		message: "Le MEMART est requis",
-	}),
+	// memart: z.instanceof(File).refine((file) => file.size > 0, {
+	// 	message: "Le MEMART est requis",
+	// }),
 });
 
 const handleCompanyInfo = async (data: z.infer<typeof businessInfoSchema>) => {
@@ -99,7 +99,7 @@ export default function CompanyInfoForm() {
 			share_holding_document: undefined,
 			incorporation_certificate: undefined,
 			proof_of_address: undefined,
-			memart: undefined,
+			// memart: undefined,
 		},
 	});
 
@@ -399,7 +399,7 @@ export default function CompanyInfoForm() {
 							)}
 						/>
 
-						<FormField
+						{/* <FormField
 							control={form.control}
 							name="memart"
 							render={({ field }) => (
@@ -413,14 +413,14 @@ export default function CompanyInfoForm() {
 											accept="image/*,.pdf"
 											className="px-6 w-full bg-app-lightgray"
 											placeholder="Upload MEMART document"
-											value={field.value.name || ""}
+											value={field.value?.name || ""}
 											readOnly
 										/>
 									</FormControl>
 									<FormMessage className="text-red-400" />
 								</FormItem>
 							)}
-						/>
+						/> */}
 					</div>
 
 					{/* Block 3: Document Upload Section */}

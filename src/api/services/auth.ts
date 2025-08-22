@@ -3,13 +3,13 @@ import { authUrls, userUrls } from "../urls";
 
 export class AuthService {
 	static login = (info: any) =>
-		BaseMethods.postRequest(authUrls.LOGIN_USER, info, false);
+		BaseMethods.postRequest(authUrls.LOGIN, info, false);
 	static logout = (info: any) =>
-		BaseMethods.postRequest(authUrls.LOGOUT_USER, info, true);
-	static generateToken = () =>
-		BaseMethods.postRequest(authUrls.GENERATE_TOKEN, {}, true);
-	static verifToken = (info: any) =>
-		BaseMethods.postRequest(authUrls.VERIF_TOKEN, info, true);
+		BaseMethods.postRequest(authUrls.LOGOUT, info, true);
+	// static resendOtp = () =>
+	// 	BaseMethods.postRequest(authUrls.RESEND_OTP, {}, true);
+	static verifyOtp = (info: any) =>
+		BaseMethods.postRequest(authUrls.VERIFY_OTP, info, true);
 	// static register = (info:any) =>
 	//     BaseMethods.postRequest(authUrls.REGISTER_USER, info, false);
 	// static current_user = () =>

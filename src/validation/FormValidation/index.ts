@@ -124,8 +124,9 @@ export const loginSchema = z.object({
 	password: z.string({ message: "Entrez un mot de passe" }),
 });
 
-export const verifyTokenSchema = z.object({
-	code: z.string({ message: "Ce champ est reuis" }),
+export const verifyOtpSchema = z.object({
+	email: z.string(),
+	otp: z.string(),
 });
 
 export const adminSchema = z.object({

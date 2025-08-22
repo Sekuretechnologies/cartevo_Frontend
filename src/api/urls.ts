@@ -1,6 +1,5 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-export const BASE_URL = `https://adminskrapi.fly.dev/api/v1`;
-export const GETSEKURE_API_URL = `https://api.getsekure.com/api/v1`;
+export const BASE_URL = `https://api.cartevo.co/api/v1`;
 
 // export const API_V2_BASE_URL = `http://localhost:3000/api/v2/admin`;
 // export const API_V2_BASE_URL = `https://apigetsekure.com/api/v2/admin`;
@@ -15,12 +14,14 @@ export const API_V2_BASE_URL = `https://skr-api-v2.fly.dev/api/v2/admin`;
 // };
 
 /** ============================================================ */
-export const BASE_URL_AUTH = `${API_V2_BASE_URL}/auth`; // `${API_V2_PROD_BASE_URL}/auth`;
+export const BASE_URL_AUTH = `${BASE_URL}/auth`;
 export const authUrls = {
-	LOGIN_USER: `${BASE_URL_AUTH}/login`,
-	LOGOUT_USER: `${BASE_URL_AUTH}/logout`,
-	GENERATE_TOKEN: `${BASE_URL_AUTH}/generate-token`,
-	VERIF_TOKEN: `${BASE_URL_AUTH}/verify-token`,
+	LOGIN: `${BASE_URL_AUTH}/login`,
+	LOGOUT: `${BASE_URL_AUTH}/logout`,
+	// RESEND_OTP: `${BASE_URL_AUTH}/resend-otp`,
+	VERIFY_OTP: `${BASE_URL_AUTH}/verify-otp`,
+	REGISTER_STEP1: `${BASE_URL}/company/register/step1`,
+	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
 };
 
 /** ------------------------------------ */

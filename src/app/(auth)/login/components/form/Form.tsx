@@ -19,7 +19,7 @@ import { useMutation } from "react-query";
 import { HashLoader, PuffLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "@/redux/slices/auth";
+import { setCurrentUserEmail } from "@/redux/slices/auth";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
 import urls from "@/config/urls";
@@ -43,7 +43,7 @@ const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 	return responseJson;
 };
 
-export default function LogiForm() {
+export default function LoginForm() {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const previousUrl = window.sessionStorage.getItem("previousUrl");
 	const router = useRouter();
@@ -64,14 +64,10 @@ export default function LogiForm() {
 		},
 		onSuccess: (data) => {
 			console.log("Login onSuccess : ", data);
-			const token = data.token;
-			const getSekureApiToken = data.getSekureApiToken;
-			const user = data.data.user;
-			localStorage.setItem("sktoken", token);
 			toast.success("Login successful! Redirecting...");
-			dispatch(setCredentials({ token, getSekureApiToken, user }));
-			// router.push("/verify-token");
-			router.push(urls.wallets.root);
+			dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
+			router.push("/verify-otp");
+			// router.push(urls.wallets.root);
 		},
 	});
 
