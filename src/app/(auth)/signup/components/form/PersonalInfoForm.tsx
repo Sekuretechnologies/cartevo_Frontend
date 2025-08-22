@@ -62,14 +62,14 @@ export default function PersonalInfoForm({
 			nationality: "",
 			id_document_type: "",
 			id_number: "",
-			id_document_front: new File([], ""),
-			id_document_back: new File([], ""),
+			id_document_front: undefined,
+			id_document_back: undefined,
 			country_of_residence: "",
 			state: "",
 			city: "",
 			street: "",
 			postal_code: "",
-			proof_of_address: new File([], ""),
+			proof_of_address: undefined,
 			email: "",
 			password: "",
 			confirm_password: "",
@@ -104,7 +104,7 @@ export default function PersonalInfoForm({
 	const handleFileChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		setPreview: (url: string | null) => void,
-		fieldOnChange: (value: File) => void
+		fieldOnChange: (value: any) => void
 	) => {
 		const file = e.target.files?.[0];
 		if (file) {
@@ -119,7 +119,7 @@ export default function PersonalInfoForm({
 		} else {
 			setPreview(null);
 			// Create an empty File object when no file is selected
-			fieldOnChange(new File([], ""));
+			fieldOnChange(undefined);
 		}
 	};
 

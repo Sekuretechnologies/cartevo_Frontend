@@ -84,7 +84,7 @@ export default function CompanyInfoForm() {
 	const handleFileChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		setPreview: (url: string | null) => void,
-		fieldOnChange: (value: File | undefined) => void
+		fieldOnChange: (value: any) => void
 	) => {
 		const file = e.target.files?.[0];
 		if (file) {
