@@ -2,7 +2,7 @@ import { z } from "zod";
 
 declare global {
 	interface Window {
-		File: typeof File;
+		FileList: typeof FileList;
 	}
 }
 
@@ -32,13 +32,13 @@ export const personalInfoSchema = z
 			.min(2, { message: "Type de pièce requis" }),
 		id_number: z.string().min(3, { message: "Numéro de pièce requis" }),
 		id_document_front: z
-			.instanceof(File)
-			.refine((file) => file.size > 0 && file.name !== "", {
+			.instanceof(FileList)
+			.refine((file) => file?.[0].size > 0 && file?.[0].name !== "", {
 				message: "Recto de la pièce requis",
 			}),
 		id_document_back: z
-			.instanceof(File)
-			.refine((file) => file.size > 0 && file.name !== "", {
+			.instanceof(FileList)
+			.refine((file) => file?.[0].size > 0 && file?.[0].name !== "", {
 				message: "Verso de la pièce requis",
 			}),
 		country_of_residence: z
@@ -49,8 +49,8 @@ export const personalInfoSchema = z
 		street: z.string().min(2, { message: "Adresse requise" }),
 		postal_code: z.string().min(2, { message: "Code postal requis" }),
 		proof_of_address: z
-			.instanceof(File)
-			.refine((file) => file.size > 0 && file.name !== "", {
+			.instanceof(FileList)
+			.refine((file) => file?.[0].size > 0 && file?.[0].name !== "", {
 				message: "Justificatif de domicile requis",
 			}),
 		email: z
@@ -97,20 +97,26 @@ export const businessInfoSchema = z.object({
 	source_of_funds: z
 		.string()
 		.min(2, { message: "La source de fonds est requise" }),
-	share_holding_document: z.instanceof(File).refine((file) => file.size > 0, {
-		message: "Le document d'actionnariat est requis",
-	}),
+	share_holding_document: z
+		.instanceof(FileList)
+		.refine((file) => file?.[0].size > 0, {
+			message: "Le document d'actionnariat est requis",
+		}),
 	incorporation_certificate: z
-		.instanceof(File)
-		.refine((file) => file.size > 0, {
+		.instanceof(FileList)
+		.refine((file) => file?.[0].size > 0, {
 			message: "Le certificat d'incorporation est requis",
 		}),
-	proof_of_address: z.instanceof(File).refine((file) => file.size > 0, {
-		message: "Le justificatif de domicile est requis",
-	}),
+	proof_of_address: z
+		.instanceof(FileList)
+		.refine((file) => file?.[0].size > 0, {
+			message: "Le justificatif de domicile est requis",
+		}),
 	memart: z
-		.instanceof(File)
-		.refine((file) => file.size > 0, { message: "Le MEMART est requis" }),
+		.instanceof(FileList)
+		.refine((file) => file?.[0].size > 0, {
+			message: "Le MEMART est requis",
+		}),
 });
 
 export const loginSchema = z.object({
