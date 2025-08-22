@@ -213,7 +213,7 @@ export default function LoginForm() {
 				</div>
 			</form>
 			<p className="mt-4 text-sm text-gray-600 dark:text-gray-300 text-center">
-				You didn't receive the code ?{" "}
+				{`You didn't receive the code ?`}{" "}
 				<button
 					onClick={handleResend}
 					className="text-blue-600 hover:underline dark:text-blue-400 focus:outline-none"
