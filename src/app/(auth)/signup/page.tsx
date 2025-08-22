@@ -68,7 +68,7 @@ export default function SignupPage() {
 						<ProgressBar step={currentStep} total={2} />
 					</div>
 					<span className="text-lg text-app-secondary">{`Step ${currentStep}/2`}</span>
-					<div className="absolute bottom-[100px] left-0 w-full h-[200px]">
+					<div className="absolute bottom-[100px] left-0 w-full h-[90px]">
 						<img
 							src="/images/white-cartevo-logo-001.svg"
 							alt="white-cartevo-logo"

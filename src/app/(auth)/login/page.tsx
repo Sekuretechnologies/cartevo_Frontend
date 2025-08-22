@@ -24,19 +24,19 @@ const LoginPage = () => {
 			</nav>
 			<div className="w-full h-[90vh] grid grid-cols-12">
 				<div className="relative col-span-5 pl-[150px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
-					<h1 className="font-bold text-4xl text-app-secondary">
-						Sign in
-					</h1>
-					<span className="text-lg text-app-secondary">
-						Innovative Payments for a Digital World.
-					</span>
-					<div className="absolute bottom-[100px] left-0 w-full h-[200px]">
+					<div className="absolute bottom-[100px] left-0 w-full h-[90px]">
 						<img
 							src="/images/white-cartevo-logo-001.svg"
 							alt="white-cartevo-logo"
 							className=""
 						/>
 					</div>
+					<h1 className="font-bold text-4xl text-app-secondary">
+						Sign in
+					</h1>
+					<span className="text-lg text-app-secondary">
+						Innovative Payments for a Digital World.
+					</span>
 				</div>
 				<div className="col-span-7 flex justify-center items-center px-[50px]">
 					<div className="w-full max-w-[400px]">
