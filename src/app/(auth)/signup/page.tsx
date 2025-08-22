@@ -1,14 +1,13 @@
 "use client";
 
 import { useTitle } from "@/hooks/useTitle";
-import Footer from "./components/Footer";
-import { useDispatch, useSelector } from "react-redux";
 import { setCurrentStep } from "@/redux/slices/signup";
-import PersonalInfoForm from "./components/form/PersonalInfoForm";
-import CompanyInfoForm from "./components/form/CompanyInfoForm";
-import ProgressBar from "./components/ProgressBar";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import Footer from "./components/Footer";
+import PersonalInfoForm from "./components/form/PersonalInfoForm";
+import ProgressBar from "./components/ProgressBar";
+import CompanyInfoForm from "./components/form/CompanyInfoForm";
 
 export default function SignupPage() {
 	useTitle("Cartevo | Signup");

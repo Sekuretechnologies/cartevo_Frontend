@@ -1,10 +1,8 @@
-"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { businessInfoSchema } from "@/validation/FormValidation";
-import { FaChevronRight, FaFileAlt } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
+// import { businessInfoSchema } from "@/validation/FormValidation";
+import CButton from "@/components/shared/CButton";
 import {
 	Form,
 	FormControl,
@@ -14,18 +12,67 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import CButton from "@/components/shared/CButton";
-import { AuthService } from "@/api/services/auth";
-import { useMutation } from "react-query";
-import { HashLoader, PuffLoader } from "react-spinners";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "@/redux/slices/auth";
-import { useRouter } from "next/navigation";
 import classNames from "classnames";
-import urls from "@/config/urls";
-import urlsV2 from "@/config/urls_v2";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { FaFileAlt } from "react-icons/fa";
+import { useMutation } from "react-query";
+import { useDispatch } from "react-redux";
+import { PuffLoader } from "react-spinners";
+
+declare global {
+	interface Window {
+		File: typeof File;
+	}
+}
+
+export const businessInfoSchema = z.object({
+	business_name: z.string().min(3, {
+		message: "Le nom de l'entreprise doit contenir au moins 3 caractères",
+	}),
+	business_phone_number: z
+		.string()
+		.min(7, { message: "Numéro de téléphone invalide" })
+		.regex(/^[\d+\-\s]+$/, { message: "Numéro de téléphone invalide" }),
+	business_address: z
+		.string()
+		.min(5, { message: "L'adresse de l'entreprise est requise" }),
+	business_type: z
+		.string()
+		.min(2, { message: "Le type d'entreprise est requis" }),
+	country_of_operation: z
+		.string()
+		.min(2, { message: "Le pays d'opération est requis" }),
+	tax_id_number: z
+		.string()
+		.min(3, { message: "Le numéro d'identification fiscale est requis" }),
+	business_website: z
+		.string()
+		.url({ message: "Entrez une URL valide pour le site web" })
+		.optional()
+		.or(z.literal("")),
+	business_description: z.string().min(10, {
+		message: "La description doit contenir au moins 10 caractères",
+	}),
+	source_of_funds: z
+		.string()
+		.min(2, { message: "La source de fonds est requise" }),
+	share_holding_document: z.instanceof(File).refine((file) => file.size > 0, {
+		message: "Le document d'actionnariat est requis",
+	}),
+	incorporation_certificate: z
+		.instanceof(File)
+		.refine((file) => file.size > 0, {
+			message: "Le certificat d'incorporation est requis",
+		}),
+	proof_of_address: z.instanceof(File).refine((file) => file.size > 0, {
+		message: "Le justificatif de domicile est requis",
+	}),
+	memart: z.instanceof(File).refine((file) => file.size > 0, {
+		message: "Le MEMART est requis",
+	}),
+});
 
 const handleCompanyInfo = async (data: z.infer<typeof businessInfoSchema>) => {
 	// This will be updated to handle company info submission for company signup
@@ -362,9 +409,11 @@ export default function CompanyInfoForm() {
 									</FormLabel>
 									<FormControl>
 										<Input
+											type="file"
+											accept="image/*,.pdf"
 											className="px-6 w-full bg-app-lightgray"
 											placeholder="Upload MEMART document"
-											value={field.value?.name || ""}
+											value={field.value.name || ""}
 											readOnly
 										/>
 									</FormControl>
