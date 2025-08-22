@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+declare global {
+	interface Window {
+		File: typeof File;
+	}
+}
+
 export const personalInfoSchema = z
 	.object({
 		company_name: z.string().min(3, {
