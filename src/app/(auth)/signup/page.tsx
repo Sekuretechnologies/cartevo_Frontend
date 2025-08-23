@@ -32,7 +32,7 @@ export default function SignupPage() {
 			? dispatch(setCurrentStep(2))
 			: dispatch(setCurrentStep(1));
 
-	const { currentStep, isCompleted } = useSelector(selectCurrentStep);
+	const currentStep = useSelector(selectCurrentStep) || 1;
 
 	const handleNext = () => {
 		dispatch(setCurrentStep(currentStep + 1));
