@@ -163,9 +163,6 @@ const handlePersonalInfo = async (data: z.infer<typeof personalInfoSchema>) => {
 	return responseJson;
 };
 
-// Register English locale for country names
-countries.registerLocale(enLocale);
-
 // Static array of company roles
 const roles = [
 	{ key: "Administrator", label: "Administrator" },
@@ -183,10 +180,12 @@ const genderData = [
 		label: "Female",
 	},
 	{
-		key: "others",
-		label: "Others",
+		key: "other",
+		label: "Other",
 	},
 ];
+// Register English locale for country names
+countries.registerLocale(enLocale);
 // Generate list of country codes and names
 const countryNames = countries.getNames("en", { select: "official" });
 const countryOptions = Object.entries(countryNames).map(([code, name]) => ({
@@ -265,7 +264,7 @@ export default function PersonalInfoForm({
 
 	const onSubmit = (data: any) => {
 		goNextPage();
-		// mutation.mutate(data);
+		mutation.mutate(data);
 	};
 	const onError = (err: any) => {
 		console.error("any", err);
@@ -278,11 +277,12 @@ export default function PersonalInfoForm({
 	// };
 	const handleFieldChange = (
 		fieldName: "role" | "gender" | "nationality" | "country_of_residence",
+		itemList: any[],
 		data: any
 	) => {
 		const value: string = data.target.value;
-		console.log(fieldName, value, getLabelByKey(value, roles));
-		form.setValue(fieldName, String(getLabelByKey(value, roles) || ""));
+		console.log(fieldName, value, getLabelByKey(value, itemList));
+		form.setValue(fieldName, String(getLabelByKey(value, itemList) || ""));
 	};
 
 	// Helper for file preview
@@ -477,6 +477,7 @@ export default function PersonalInfoForm({
 												onChange={(data) =>
 													handleFieldChange(
 														"role",
+														roles,
 														data
 													)
 												}
@@ -520,6 +521,7 @@ export default function PersonalInfoForm({
 												onChange={(data) =>
 													handleFieldChange(
 														"gender",
+														genderData,
 														data
 													)
 												}
@@ -552,7 +554,7 @@ export default function PersonalInfoForm({
 										<FormControl>
 											<Select
 												{...field}
-												placeholder="Select Role"
+												placeholder="Select Nationality"
 												style={{
 													width: "100%",
 												}}
@@ -563,6 +565,7 @@ export default function PersonalInfoForm({
 												onChange={(data) =>
 													handleFieldChange(
 														"country_of_residence",
+														countryOptions,
 														data
 													)
 												}
@@ -599,7 +602,7 @@ export default function PersonalInfoForm({
 										<FormControl>
 											<Select
 												{...field}
-												placeholder="Select Role"
+												placeholder="Select Country of Residence"
 												style={{
 													width: "100%",
 												}}
@@ -610,6 +613,7 @@ export default function PersonalInfoForm({
 												onChange={(data) =>
 													handleFieldChange(
 														"country_of_residence",
+														countryOptions,
 														data
 													)
 												}

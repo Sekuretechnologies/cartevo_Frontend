@@ -25,9 +25,13 @@ import { selectCurrentCompany, selectCurrentUser } from "@/redux/slices/auth";
 import {
 	generateRandomCode,
 	getFileExtension,
+	getLabelByKey,
 	removeAllSpaces,
 } from "@/utils/utils";
 import { UserService } from "@/api/services/user";
+import { Select, SelectItem } from "@nextui-org/select";
+import countries from "i18n-iso-countries";
+import enLocale from "i18n-iso-countries/langs/en.json";
 
 declare global {
 	interface Window {
@@ -82,12 +86,33 @@ export const businessInfoSchema = z.object({
 	// }),
 });
 
-// const handleCompanyInfo = async (data: z.infer<typeof businessInfoSchema>) => {
-// 	// This will be updated to handle company info submission for company signup
-// 	console.log("Company info submitted:", data);
-// 	// TODO: Replace with actual API call for signup
-// 	return { success: true, data };
-// };
+const businessTypes = [
+	{ key: "corporation", label: "Corporation" },
+	{ key: "llc", label: "LLC" },
+	{ key: "partnership", label: "Partnership" },
+	{ key: "sole_proprietorship", label: "Sole Proprietorship" },
+	{ key: "nonprofit", label: "Nonprofit" },
+	{ key: "other", label: "Other" },
+];
+
+const sourcesOfFunds = [
+	{ key: "business_revenue", label: "Business Revenue" },
+	{ key: "investment", label: "Investment" },
+	{ key: "loan", label: "Business Loan" },
+	{ key: "inheritance", label: "Inheritance" },
+	{ key: "savings", label: "Personal Savings" },
+	{ key: "other", label: "Other" },
+];
+
+// Register English locale for country names
+countries.registerLocale(enLocale);
+// Generate list of country codes and names
+const countryNames = countries.getNames("en", { select: "official" });
+const countryOptions = Object.entries(countryNames).map(([code, name]) => ({
+	key: code,
+	label: name,
+}));
+
 const handleCompanyInfo = async (data: z.infer<typeof businessInfoSchema>) => {
 	//-------------------------------------------------------
 	const formData = new FormData();
@@ -239,6 +264,16 @@ export default function CompanyInfoForm() {
 		}
 	};
 
+	const handleFieldChange = (
+		fieldName: "business_type" | "country_of_operation" | "source_of_funds",
+		itemList: any[],
+		data: any
+	) => {
+		const value: string = data.target.value;
+		console.log(fieldName, value, getLabelByKey(value, itemList));
+		form.setValue(fieldName, String(getLabelByKey(value, itemList) || ""));
+	};
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
@@ -336,7 +371,36 @@ export default function CompanyInfoForm() {
 											Business Type
 										</FormLabel>
 										<FormControl>
-											<select
+											<Select
+												{...field}
+												placeholder="Select Business Type"
+												style={{
+													width: "100%",
+												}}
+												className={`bg-app-lightgray text-gray-900 font-normal`}
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onChange={(data) =>
+													handleFieldChange(
+														"business_type",
+														businessTypes,
+														data
+													)
+												}
+											>
+												{businessTypes.map(
+													(item, idx) => (
+														<SelectItem
+															key={item.key}
+															value={item.key}
+														>
+															{item.label}
+														</SelectItem>
+													)
+												)}
+											</Select>
+											{/* <select
 												className="px-6 py-3 w-full bg-app-lightgray border border-gray-200 rounded-md"
 												{...field}
 											>
@@ -359,7 +423,7 @@ export default function CompanyInfoForm() {
 												<option value="other">
 													Other
 												</option>
-											</select>
+											</select> */}
 										</FormControl>
 										<FormMessage className="text-red-400" />
 									</FormItem>
@@ -374,11 +438,40 @@ export default function CompanyInfoForm() {
 											Country of Operation
 										</FormLabel>
 										<FormControl>
-											<Input
+											<Select
+												{...field}
+												placeholder="Select Country of Operation"
+												style={{
+													width: "100%",
+												}}
+												className={`bg-app-lightgray text-gray-900 font-normal`}
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onChange={(data) =>
+													handleFieldChange(
+														"country_of_operation",
+														countryOptions,
+														data
+													)
+												}
+											>
+												{countryOptions.map(
+													(item, idx) => (
+														<SelectItem
+															key={item.key}
+															value={item.key}
+														>
+															{item.label}
+														</SelectItem>
+													)
+												)}
+											</Select>
+											{/* <Input
 												className="px-6 w-full bg-app-lightgray"
 												placeholder="Enter country of operation"
 												{...field}
-											/>
+											/> */}
 										</FormControl>
 										<FormMessage className="text-red-400" />
 									</FormItem>
@@ -458,7 +551,34 @@ export default function CompanyInfoForm() {
 										Source of Funds
 									</FormLabel>
 									<FormControl>
-										<select
+										<Select
+											{...field}
+											placeholder="Select Source of Funds"
+											style={{
+												width: "100%",
+											}}
+											className={`bg-app-lightgray text-gray-900 font-normal`}
+											defaultSelectedKeys={[
+												field.value ?? "",
+											]}
+											onChange={(data) =>
+												handleFieldChange(
+													"source_of_funds",
+													sourcesOfFunds,
+													data
+												)
+											}
+										>
+											{sourcesOfFunds.map((item, idx) => (
+												<SelectItem
+													key={item.key}
+													value={item.key}
+												>
+													{item.label}
+												</SelectItem>
+											))}
+										</Select>
+										{/* <select
 											className="px-6 py-3 w-full bg-app-lightgray border border-gray-200 rounded-md"
 											{...field}
 										>
@@ -481,7 +601,7 @@ export default function CompanyInfoForm() {
 												Personal Savings
 											</option>
 											<option value="other">Other</option>
-										</select>
+										</select> */}
 									</FormControl>
 									<FormMessage className="text-red-400" />
 								</FormItem>
