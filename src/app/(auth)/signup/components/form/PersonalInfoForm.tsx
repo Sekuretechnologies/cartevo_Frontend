@@ -251,7 +251,7 @@ export default function PersonalInfoForm({
 			console.error("Personal info submission error:", err.message);
 			toast.error(err.message);
 		},
-		onSuccess: (data) => {
+		onSuccess: (data: any) => {
 			console.log("Personal info submitted successfully:", data);
 			const token = "";
 			const user = {
