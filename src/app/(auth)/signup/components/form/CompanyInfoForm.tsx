@@ -37,48 +37,48 @@ declare global {
 
 export const businessInfoSchema = z.object({
 	business_name: z.string().min(3, {
-		message: "Le nom de l'entreprise doit contenir au moins 3 caractères",
+		message: "Business name must be at least 3 characters long",
 	}),
 	business_phone_number: z
 		.string()
-		.min(7, { message: "Numéro de téléphone invalide" })
-		.regex(/^[\d+\-\s]+$/, { message: "Numéro de téléphone invalide" }),
-	business_address: z
-		.string()
-		.min(5, { message: "L'adresse de l'entreprise est requise" }),
-	business_type: z
-		.string()
-		.min(2, { message: "Le type d'entreprise est requis" }),
-	country_of_operation: z
-		.string()
-		.min(2, { message: "Le pays d'opération est requis" }),
-	tax_id_number: z
-		.string()
-		.min(3, { message: "Le numéro d'identification fiscale est requis" }),
+		.min(7, { message: "Invalid phone number" })
+		.regex(/^[\d+\-\s]+$/, { message: "Invalid phone number" }),
+	business_address: z.string().min(5, {
+		message: "Business address is required",
+	}),
+	business_type: z.string().min(2, {
+		message: "Business type is required",
+	}),
+	country_of_operation: z.string().min(2, {
+		message: "Country of operation is required",
+	}),
+	tax_id_number: z.string().min(3, {
+		message: "Tax identification number is required",
+	}),
 	business_website: z
 		.string()
-		.url({ message: "Entrez une URL valide pour le site web" })
+		.url({ message: "Please enter a valid URL" })
 		.optional()
 		.or(z.literal("")),
 	business_description: z.string().min(10, {
-		message: "La description doit contenir au moins 10 caractères",
+		message: "Description must be at least 10 characters long",
 	}),
-	source_of_funds: z
-		.string()
-		.min(2, { message: "La source de fonds est requise" }),
+	source_of_funds: z.string().min(2, {
+		message: "Source of funds is required",
+	}),
 	share_holding_document: z.instanceof(File).refine((file) => file.size > 0, {
-		message: "Le document d'actionnariat est requis",
+		message: "Shareholding document is required",
 	}),
 	incorporation_certificate: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, {
-			message: "Le certificat d'incorporation est requis",
+			message: "Incorporation certificate is required",
 		}),
 	proof_of_address: z.instanceof(File).refine((file) => file.size > 0, {
-		message: "Le justificatif de domicile est requis",
+		message: "Proof of address is required",
 	}),
 	// memart: z.instanceof(File).refine((file) => file.size > 0, {
-	// 	message: "Le MEMART est requis",
+	//   message: "MEMART document is required",
 	// }),
 });
 

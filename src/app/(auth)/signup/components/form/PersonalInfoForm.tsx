@@ -34,60 +34,59 @@ import { generateRandomCode, getFileExtension } from "@/utils/utils";
 export const personalInfoSchema = z
 	.object({
 		company_name: z.string().min(3, {
-			message:
-				"Le nom de l'entreprise doit contenir au moins 3 caractères",
+			message: "Company name must be at least 3 characters long",
 		}),
 		first_name: z.string().min(2, {
-			message: "Le prénom doit contenir au moins 2 caractères",
+			message: "First name must be at least 2 characters long",
 		}),
-		last_name: z
-			.string()
-			.min(2, { message: "Le nom doit contenir au moins 2 caractères" }),
-		role: z.string().min(2, { message: "Le rôle est requis" }),
+		last_name: z.string().min(2, {
+			message: "Last name must be at least 2 characters long",
+		}),
+		role: z.string().min(2, { message: "Role is required" }),
 		phone_number: z
 			.string()
-			.min(7, { message: "Numéro de téléphone invalide" })
-			.regex(/^[\d+\-\s]+$/, { message: "Numéro de téléphone invalide" }),
-		gender: z.string().min(1, { message: "Le genre est requis" }),
-		nationality: z
+			.min(7, { message: "Invalid phone number" })
+			.regex(/^[\d+\-\s]+$/, { message: "Invalid phone number" }),
+		gender: z.string().min(1, { message: "Gender is required" }),
+		nationality: z.string().min(2, { message: "Nationality is required" }),
+		id_document_type: z.string().min(2, {
+			message: "Document type is required",
+		}),
+		id_number: z
 			.string()
-			.min(2, { message: "La nationalité est requise" }),
-		id_document_type: z
-			.string()
-			.min(2, { message: "Type de pièce requis" }),
-		id_number: z.string().min(3, { message: "Numéro de pièce requis" }),
+			.min(3, { message: "Document number is required" }),
 		id_document_front: z
 			.instanceof(File)
 			.refine((file) => file?.size > 0 && file?.name !== "", {
-				message: "Recto de la pièce requis",
+				message: "Front side of the document is required",
 			}),
 		id_document_back: z
 			.instanceof(File)
 			.refine((file) => file?.size > 0 && file?.name !== "", {
-				message: "Verso de la pièce requis",
+				message: "Back side of the document is required",
 			}),
 		country_of_residence: z
 			.string()
-			.min(2, { message: "Pays de résidence requis" }),
-		state: z.string().min(2, { message: "Région/État requis" }),
-		city: z.string().min(2, { message: "Ville requise" }),
-		street: z.string().min(2, { message: "Adresse requise" }),
-		postal_code: z.string().min(2, { message: "Code postal requis" }),
+			.min(2, { message: "Country of residence is required" }),
+		state: z.string().min(2, { message: "State/Region is required" }),
+		city: z.string().min(2, { message: "City is required" }),
+		street: z.string().min(2, { message: "Street address is required" }),
+		postal_code: z.string().min(2, { message: "Postal code is required" }),
 		proof_of_address: z
 			.instanceof(File)
 			.refine((file) => file?.size > 0 && file?.name !== "", {
-				message: "Justificatif de domicile requis",
+				message: "Proof of address is required",
 			}),
 		email: z
-			.string({ message: "Entrez un email valide" })
-			.email({ message: "Entrez un email valide" }),
-		password: z.string({ message: "Entrez un mot de passe" }).min(8, {
-			message: "Le mot de passe doit contenir au moins 8 caractères",
+			.string({ message: "Please enter a valid email" })
+			.email({ message: "Please enter a valid email" }),
+		password: z.string({ message: "Please enter a password" }).min(8, {
+			message: "Password must be at least 8 characters long",
 		}),
-		confirm_password: z.string({ message: "Confirmez le mot de passe" }),
+		confirm_password: z.string({ message: "Please confirm the password" }),
 	})
 	.refine((data) => data.password === data.confirm_password, {
-		message: "Les mots de passe ne correspondent pas",
+		message: "Passwords do not match",
 		path: ["confirm_password"],
 	});
 
