@@ -267,8 +267,8 @@ export default function PersonalInfoForm({
 			toast.success(
 				"Personal information saved! Proceeding to next step..."
 			);
-			goNextPage();
-			// router.push("/signup?step=2");
+			// goNextPage();
+			router.push("/signup?step=2");
 			// TODO: Navigate to company info form or next step
 		},
 	});
