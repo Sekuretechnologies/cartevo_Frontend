@@ -79,19 +79,20 @@ export default function SignupPage() {
 				<div className="col-span-7 flex justify-center items-center px-[50px]">
 					<div className="w-full max-w-[700px] my-10">
 						{currentStep === 1 && (
-							<PersonalInfoForm goNextPage={handleNext} />
+							<>
+								<PersonalInfoForm goNextPage={handleNext} />
+								<div className="mt-8 text-app-secondary text-sm">
+									Already have an account?{" "}
+									<a
+										href="/login"
+										className="text-app-primary underline hover:text-app-secondary"
+									>
+										Sign in here
+									</a>
+								</div>
+							</>
 						)}
 						{currentStep === 2 && <CompanyInfoForm />}
-
-						<div className="mt-8 text-app-secondary text-sm">
-							Already have an account?{" "}
-							<a
-								href="/login"
-								className="text-app-primary underline hover:text-app-secondary"
-							>
-								Sign in here
-							</a>
-						</div>
 					</div>
 				</div>
 			</div>
