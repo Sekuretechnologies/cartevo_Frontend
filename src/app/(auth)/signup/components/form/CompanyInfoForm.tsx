@@ -39,6 +39,8 @@ declare global {
 	}
 }
 
+const MAX_FILE_SIZE = 1024 * 1024 * 1; // 1MB in bytes
+
 export const businessInfoSchema = z.object({
 	business_name: z.string().min(3, {
 		message: "Business name must be at least 3 characters long",
@@ -70,17 +72,30 @@ export const businessInfoSchema = z.object({
 	source_of_funds: z.string().min(2, {
 		message: "Source of funds is required",
 	}),
-	share_holding_document: z.instanceof(File).refine((file) => file.size > 0, {
-		message: "Shareholding document is required",
-	}),
+	share_holding_document: z
+		.instanceof(File)
+		.refine((file) => file.size > 0, {
+			message: "Shareholding document is required",
+		})
+		.refine((file) => file?.size <= MAX_FILE_SIZE, {
+			message: "Document must not exceed 1MB",
+		}),
 	incorporation_certificate: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, {
 			message: "Incorporation certificate is required",
+		})
+		.refine((file) => file?.size <= MAX_FILE_SIZE, {
+			message: "Document must not exceed 1MB",
 		}),
-	proof_of_address: z.instanceof(File).refine((file) => file.size > 0, {
-		message: "Proof of address is required",
-	}),
+	proof_of_address: z
+		.instanceof(File)
+		.refine((file) => file.size > 0, {
+			message: "Proof of address is required",
+		})
+		.refine((file) => file?.size <= MAX_FILE_SIZE, {
+			message: "Document must not exceed 1MB",
+		}),
 	// memart: z.instanceof(File).refine((file) => file.size > 0, {
 	//   message: "MEMART document is required",
 	// }),
@@ -619,7 +634,7 @@ export default function CompanyInfoForm() {
 									<FormControl>
 										<Input
 											type="file"
-											accept="image/*,.pdf"
+											accept="image/jpeg, image/jpg, image/png, .pdf"
 											className="px-6 w-full bg-app-lightgray"
 											placeholder="Upload MEMART document"
 											value={field.value?.name || ""}
@@ -651,7 +666,7 @@ export default function CompanyInfoForm() {
 												<Input
 													type="file"
 													className="px-6 w-full bg-app-lightgray"
-													accept="image/*,.pdf"
+													accept="image/jpeg, image/jpg, image/png, .pdf"
 													onChange={(e) =>
 														handleFileChange(
 															e,
@@ -690,7 +705,7 @@ export default function CompanyInfoForm() {
 												<Input
 													type="file"
 													className="px-6 w-full bg-app-lightgray"
-													accept="image/*,.pdf"
+													accept="image/jpeg, image/jpg, image/png, .pdf"
 													onChange={(e) =>
 														handleFileChange(
 															e,
@@ -730,7 +745,7 @@ export default function CompanyInfoForm() {
 											<Input
 												type="file"
 												className="px-6 w-full bg-app-lightgray"
-												accept="image/*,.pdf"
+												accept="image/jpeg, image/jpg, image/png, .pdf"
 												onChange={(e) =>
 													handleFileChange(
 														e,

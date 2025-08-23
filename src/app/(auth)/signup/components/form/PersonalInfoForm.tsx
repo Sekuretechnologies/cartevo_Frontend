@@ -37,6 +37,8 @@ import enLocale from "i18n-iso-countries/langs/en.json";
 // 	}
 // }
 
+const MAX_FILE_SIZE = 1024 * 1024 * 1; // 1MB in bytes
+
 export const personalInfoSchema = z
 	.object({
 		company_name: z.string().min(3, {
@@ -65,11 +67,17 @@ export const personalInfoSchema = z
 			.instanceof(File)
 			.refine((file) => file?.size > 0 && file?.name !== "", {
 				message: "Front side of the document is required",
+			})
+			.refine((file) => file?.size <= MAX_FILE_SIZE, {
+				message: "Document must not exceed 1MB",
 			}),
 		id_document_back: z
 			.instanceof(File)
 			.refine((file) => file?.size > 0 && file?.name !== "", {
 				message: "Back side of the document is required",
+			})
+			.refine((file) => file?.size <= MAX_FILE_SIZE, {
+				message: "Document must not exceed 1MB",
 			}),
 		country_of_residence: z
 			.string()
@@ -82,6 +90,9 @@ export const personalInfoSchema = z
 			.instanceof(File)
 			.refine((file) => file?.size > 0 && file?.name !== "", {
 				message: "Proof of address is required",
+			})
+			.refine((file) => file?.size <= MAX_FILE_SIZE, {
+				message: "Document must not exceed 1MB",
 			}),
 		email: z
 			.string({ message: "Please enter a valid email" })
@@ -820,7 +831,7 @@ export default function PersonalInfoForm({
 												<Input
 													type="file"
 													className="px-6 w-full bg-app-lightgray"
-													accept="image/*,.pdf"
+													accept="image/jpeg, image/jpg, image/png, .pdf"
 													onChange={(e) =>
 														handleFileChange(
 															e,
@@ -859,7 +870,7 @@ export default function PersonalInfoForm({
 												<Input
 													type="file"
 													className="px-6 w-full bg-app-lightgray"
-													accept="image/*,.pdf"
+													accept="image/jpeg, image/jpg, image/png, .pdf"
 													onChange={(e) =>
 														handleFileChange(
 															e,
@@ -900,7 +911,7 @@ export default function PersonalInfoForm({
 											<Input
 												type="file"
 												className="px-6 w-full bg-app-lightgray"
-												accept="image/*,.pdf"
+												accept="image/jpeg, image/jpg, image/png, .pdf"
 												onChange={(e) =>
 													handleFileChange(
 														e,

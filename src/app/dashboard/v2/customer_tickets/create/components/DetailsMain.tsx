@@ -46,7 +46,7 @@ declare global {
 	}
 }
 
-const MAX_FILE_SIZE = 1024 * 1024 * 2; // 5MB in bytes
+const MAX_FILE_SIZE = 1024 * 1024 * 1; // 1MB in bytes
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif"];
 
 export const customerTicketSchema = z.object({

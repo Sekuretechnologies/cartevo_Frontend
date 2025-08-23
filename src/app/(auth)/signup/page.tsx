@@ -49,7 +49,7 @@ export default function SignupPage() {
 	};
 
 	return (
-		<section className="relative flex flex-col h-screen mt-0 w-full">
+		<section className="relative flex flex-col mt-0 w-full">
 			<nav className="absolute z-10 top-0 left-0 w-full h-[80px] px-[150px] flex items-center">
 				<div className="max-w-[1250px]">
 					<img
