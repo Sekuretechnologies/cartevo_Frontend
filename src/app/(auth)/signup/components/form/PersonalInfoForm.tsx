@@ -23,7 +23,13 @@ import { useDispatch } from "react-redux";
 import { PuffLoader } from "react-spinners";
 import { AuthService } from "@/api/services/auth";
 import { setCredentials } from "@/redux/slices/auth";
-import { generateRandomCode, getFileExtension } from "@/utils/utils";
+import {
+	generateRandomCode,
+	getFileExtension,
+	getLabelByKey,
+} from "@/utils/utils";
+import countries from "i18n-iso-countries";
+import enLocale from "i18n-iso-countries/langs/en.json";
 
 // declare global {
 // 	interface Window {
@@ -157,6 +163,37 @@ const handlePersonalInfo = async (data: z.infer<typeof personalInfoSchema>) => {
 	return responseJson;
 };
 
+// Register English locale for country names
+countries.registerLocale(enLocale);
+
+// Static array of company roles
+const roles = [
+	{ key: "Administrator", label: "Administrator" },
+	{ key: "Developer", label: "Developer" },
+	{ key: "Manager", label: "Manager" },
+	{ key: "Officer", label: "Officer" },
+];
+const genderData = [
+	{
+		key: "male",
+		label: "Male",
+	},
+	{
+		key: "female",
+		label: "Female",
+	},
+	{
+		key: "others",
+		label: "Others",
+	},
+];
+// Generate list of country codes and names
+const countryNames = countries.getNames("en", { select: "official" });
+const countryOptions = Object.entries(countryNames).map(([code, name]) => ({
+	key: code,
+	label: name,
+}));
+
 export default function PersonalInfoForm({
 	goNextPage,
 }: {
@@ -232,6 +269,20 @@ export default function PersonalInfoForm({
 	};
 	const onError = (err: any) => {
 		console.error("any", err);
+	};
+
+	// const handleRoleChange = (data: any) => {
+	// 	const value: string = data.target.value;
+	// 	console.log("role", value, getLabelByKey(value, roles));
+	// 	form.setValue("role", String(getLabelByKey(value, roles) || ""));
+	// };
+	const handleFieldChange = (
+		fieldName: "role" | "gender" | "nationality" | "country_of_residence",
+		data: any
+	) => {
+		const value: string = data.target.value;
+		console.log(fieldName, value, getLabelByKey(value, roles));
+		form.setValue(fieldName, String(getLabelByKey(value, roles) || ""));
 	};
 
 	// Helper for file preview
@@ -413,11 +464,32 @@ export default function PersonalInfoForm({
 											</span>
 										</FormLabel>
 										<FormControl>
-											<Input
-												className="px-6 w-full bg-app-lightgray"
-												placeholder="e.g., CEO, Manager, etc."
+											<Select
 												{...field}
-											/>
+												placeholder="Select Role"
+												style={{
+													width: "100%",
+												}}
+												className={`bg-app-lightgray text-gray-900 font-normal`}
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onChange={(data) =>
+													handleFieldChange(
+														"role",
+														data
+													)
+												}
+											>
+												{roles.map((item, idx) => (
+													<SelectItem
+														key={item.key}
+														value={item.key}
+													>
+														{item.label}
+													</SelectItem>
+												))}
+											</Select>
 										</FormControl>
 										<FormMessage className="text-red-400" />
 									</FormItem>
@@ -440,36 +512,26 @@ export default function PersonalInfoForm({
 												placeholder="Select Gender"
 												style={{
 													width: "100%",
-													// background: "#F4EFE3",
 												}}
 												className={`bg-app-lightgray text-gray-900 font-normal`}
-												onChange={(value) =>
-													field.onChange(value)
-												}
-												selectedKeys={
-													field.value
-														? [field.value]
-														: []
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onChange={(data) =>
+													handleFieldChange(
+														"gender",
+														data
+													)
 												}
 											>
-												<SelectItem
-													key="male"
-													value="male"
-												>
-													Male
-												</SelectItem>
-												<SelectItem
-													key="female"
-													value="female"
-												>
-													Female
-												</SelectItem>
-												<SelectItem
-													key="other"
-													value="other"
-												>
-													Other
-												</SelectItem>
+												{genderData.map((item, idx) => (
+													<SelectItem
+														key={item.key}
+														value={item.key}
+													>
+														{item.label}
+													</SelectItem>
+												))}
 											</Select>
 										</FormControl>
 										<FormMessage className="text-red-400" />
@@ -488,11 +550,39 @@ export default function PersonalInfoForm({
 											Nationality
 										</FormLabel>
 										<FormControl>
-											<Input
+											<Select
+												{...field}
+												placeholder="Select Role"
+												style={{
+													width: "100%",
+												}}
+												className={`bg-app-lightgray text-gray-900 font-normal`}
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onChange={(data) =>
+													handleFieldChange(
+														"country_of_residence",
+														data
+													)
+												}
+											>
+												{countryOptions.map(
+													(item, idx) => (
+														<SelectItem
+															key={item.key}
+															value={item.key}
+														>
+															{item.label}
+														</SelectItem>
+													)
+												)}
+											</Select>
+											{/* <Input
 												className="px-6 w-full bg-app-lightgray"
 												placeholder="Enter your nationality"
 												{...field}
-											/>
+											/> */}
 										</FormControl>
 										<FormMessage className="text-red-400" />
 									</FormItem>
@@ -507,11 +597,39 @@ export default function PersonalInfoForm({
 											Country of Residence
 										</FormLabel>
 										<FormControl>
-											<Input
+											<Select
+												{...field}
+												placeholder="Select Role"
+												style={{
+													width: "100%",
+												}}
+												className={`bg-app-lightgray text-gray-900 font-normal`}
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onChange={(data) =>
+													handleFieldChange(
+														"country_of_residence",
+														data
+													)
+												}
+											>
+												{countryOptions.map(
+													(item, idx) => (
+														<SelectItem
+															key={item.key}
+															value={item.key}
+														>
+															{item.label}
+														</SelectItem>
+													)
+												)}
+											</Select>
+											{/* <Input
 												className="px-6 w-full bg-app-lightgray"
 												placeholder="Enter country of residence"
 												{...field}
-											/>
+											/> */}
 										</FormControl>
 										<FormMessage className="text-red-400" />
 									</FormItem>

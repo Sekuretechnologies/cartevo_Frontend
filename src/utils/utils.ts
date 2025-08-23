@@ -1,3 +1,8 @@
+export function getLabelByKey(key: string, data: any): string | undefined {
+	const item = data.find((item: any) => item.key === key);
+	return item ? item.label : undefined;
+}
+
 export function getAvailableBalance(
 	accounts: any[],
 	countryCode: string,
