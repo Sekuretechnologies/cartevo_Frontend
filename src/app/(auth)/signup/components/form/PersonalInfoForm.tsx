@@ -564,7 +564,7 @@ export default function PersonalInfoForm({
 												]}
 												onChange={(data) =>
 													handleFieldChange(
-														"country_of_residence",
+														"nationality",
 														countryOptions,
 														data
 													)
