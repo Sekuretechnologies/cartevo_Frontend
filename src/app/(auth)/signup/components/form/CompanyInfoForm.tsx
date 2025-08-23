@@ -197,7 +197,7 @@ export default function CompanyInfoForm() {
 	const form = useForm<z.infer<typeof businessInfoSchema>>({
 		resolver: zodResolver(businessInfoSchema),
 		defaultValues: {
-			business_name: "",
+			business_name: currentCompany.name || "",
 			business_phone_number: "",
 			business_address: "",
 			business_type: "",

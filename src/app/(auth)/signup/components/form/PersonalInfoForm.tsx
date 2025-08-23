@@ -253,20 +253,32 @@ export default function PersonalInfoForm({
 		},
 		onSuccess: (data: any) => {
 			console.log("Personal info submitted successfully:", data);
-			const token = "";
-			const user = {
-				id: data.user_id,
-				name: data.user_name,
-				email: data.user_email,
-			};
-			const company = {
-				id: data.company_id,
-				name: data.company_name,
-			};
-			dispatch(setCredentials({ token, company, user }));
-			toast.success(
-				"Personal information saved! Proceeding to next step..."
-			);
+			if (data.success) {
+				const token = "";
+				const user = {
+					id: data.user_id,
+					name: data.user_name,
+					email: data.user_email,
+				};
+				const company = {
+					id: data.company_id,
+					name: data.company_name,
+				};
+				dispatch(setCredentials({ token, company, user }));
+				toast.success(
+					"Personal information saved! Proceeding to next step..."
+				);
+			} else {
+				const token = "";
+				const user = {};
+				const company = {
+					id: data.company_id,
+					name: data.company_name,
+				};
+				dispatch(setCredentials({ token, company, user }));
+				toast("User already exists! Proceeding to next step...");
+			}
+
 			// goNextPage();
 			router.push("/signup?step=2");
 			// TODO: Navigate to company info form or next step
