@@ -263,12 +263,12 @@ export default function PersonalInfoForm({
 				id: data.company_id,
 				name: data.company_name,
 			};
-			toast.success("OTP Verified successfully! Redirecting...");
 			dispatch(setCredentials({ token, company, user }));
 			toast.success(
 				"Personal information saved! Proceeding to next step..."
 			);
 			goNextPage();
+			// router.push("/signup?step=2");
 			// TODO: Navigate to company info form or next step
 		},
 	});

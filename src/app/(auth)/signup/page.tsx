@@ -1,6 +1,6 @@
 "use client";
 import { useTitle } from "@/hooks/useTitle";
-import { setCurrentStep } from "@/redux/slices/signup";
+import { selectCurrentStep, setCurrentStep } from "@/redux/slices/signup";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "./components/Footer";
@@ -32,9 +32,7 @@ export default function SignupPage() {
 			? dispatch(setCurrentStep(2))
 			: dispatch(setCurrentStep(1));
 
-	const { currentStep, isCompleted } = useSelector(
-		(state: any) => state.signup
-	);
+	const { currentStep, isCompleted } = useSelector(selectCurrentStep);
 
 	const handleNext = () => {
 		dispatch(setCurrentStep(currentStep + 1));
