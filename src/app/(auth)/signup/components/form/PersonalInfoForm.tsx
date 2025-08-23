@@ -523,7 +523,7 @@ export default function PersonalInfoForm({
 					{/* Address Block */}
 					<div className="mb-8 space-y-[15px]">
 						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
-							Address Information
+							Personal Address Informations
 						</h3>
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 							<FormField
@@ -609,7 +609,7 @@ export default function PersonalInfoForm({
 					{/* ID Document Block */}
 					<div className="mb-8 space-y-[15px]">
 						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
-							ID Document Information
+							Personal ID Document Informations
 						</h3>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<FormField
