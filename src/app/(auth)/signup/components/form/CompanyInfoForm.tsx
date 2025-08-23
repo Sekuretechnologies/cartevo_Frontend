@@ -199,6 +199,7 @@ export default function CompanyInfoForm() {
 		onSuccess: (data) => {
 			console.log("Company info submitted successfully:", data);
 			toast.success("Company information saved! Registration completed.");
+			router.push("/login");
 			// TODO: Navigate to verification or dashboard
 		},
 	});
