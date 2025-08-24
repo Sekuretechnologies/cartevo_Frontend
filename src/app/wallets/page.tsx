@@ -56,7 +56,7 @@ let infoData: TDataList[] = [
 				},
 			},
 			{
-				label: { text: "Solde disponible", fw: "", color: "#444" },
+				label: { text: "Available balance", fw: "", color: "#444" },
 				value: {
 					text: "136 000",
 					fs: "25px",
@@ -122,7 +122,7 @@ let infoData: TDataList[] = [
 				},
 			},
 			{
-				label: { text: "Solde disponible", fw: "", color: "#444" },
+				label: { text: "Available balance", fw: "", color: "#444" },
 				value: {
 					text: "1460",
 					fs: "25px",
