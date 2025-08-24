@@ -13,7 +13,7 @@ export const API_V2_BASE_URL = `https://skr-api-v2.fly.dev/api/v2/admin`;
 //   // REGISTER_USER: `${BASE_URL}/signup`,
 // };
 
-/** ============================================================ */
+/** AUTH ============================================================ */
 export const BASE_URL_AUTH = `${BASE_URL}/auth`;
 export const authUrls = {
 	LOGIN: `${BASE_URL_AUTH}/login`,
@@ -22,6 +22,12 @@ export const authUrls = {
 	VERIFY_OTP: `${BASE_URL_AUTH}/verify-otp`,
 	REGISTER_STEP1: `${BASE_URL}/company/register/step1`,
 	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
+};
+
+/** COMPANY ============================================================ */
+export const BASE_URL_COMPANY = `${BASE_URL}/company`;
+export const companyUrls = {
+	GET_WALLETS: `${BASE_URL_COMPANY}/wallets`,
 };
 
 /** ------------------------------------ */

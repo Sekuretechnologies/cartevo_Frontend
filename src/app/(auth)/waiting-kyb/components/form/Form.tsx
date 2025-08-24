@@ -1,4 +1,4 @@
-import { AuthService } from "@/api/services/auth";
+import { AuthService } from "@/api/services/cartevo-api/auth";
 import CButton from "@/components/shared/CButton";
 import { Form } from "@/components/ui/form";
 import urls from "@/config/urls";

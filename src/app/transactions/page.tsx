@@ -67,7 +67,7 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { FaArrowsRotate } from "react-icons/fa6";
 import * as CFlags from "country-flag-icons/react/3x2";
 import { getCategoryModeV2, getCategoryTypeV2 } from "@/utils/graphs";
-import TransactionModal from "../dashboard/v2/users_accounts/manage/[id]/components/Tabs/Transactions/modals/TransactionModal";
+// import TransactionModal from "../dashboard/v2/users_accounts/manage/[id]/components/Tabs/Transactions/modals/TransactionModal";
 import {
 	headerTransactionData,
 	headerUserTransactionDataV2,
@@ -188,7 +188,7 @@ export default function Home() {
 									onClick={() => setIsOpen(index)}
 									btnStyle={"outlineDark"}
 								/>
-								<Modal
+								{/* <Modal
 									index={`${index}`}
 									name={"pending"}
 									isOpen={isOpen === index}
@@ -200,7 +200,7 @@ export default function Home() {
 											item={item}
 										/>
 									}
-								/>
+								/> */}
 							</div>
 						</>
 					),

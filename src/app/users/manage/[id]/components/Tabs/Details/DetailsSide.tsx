@@ -29,8 +29,7 @@ import { setKYCWarningsList } from "@/redux/slices_v2/kyc";
 import { hasPermission } from "@/utils/permissions";
 import { IoIosSend } from "react-icons/io";
 import NotificationModalForm from "./modals/NotificationModalForm";
-import ReleaseStandByAccountBalanceModalForm from "./modals/ReleaseStandByAccountBalanceModalForm";
-import EditRegStatusModalForm from "./modals/EditRegStatusModalForm";
+
 import { CustomerService } from "@/api/services/v2/customer";
 import { HashLoader } from "react-spinners";
 import classNames from "classnames";
@@ -159,70 +158,6 @@ export default function DetailsSide() {
 					)}
 				</span>
 			</div>
-			{customerDetails?.customer?.regularisation_status ? (
-				<>
-					<div>
-						<p className="text-gray-800 text-sm font-normal tracking-tight">
-							Methode regularisation
-						</p>
-						<span className="">
-							{customerDetails?.customer?.regularisation_method}
-						</span>
-					</div>
-
-					<div>
-						<p className="text-gray-800 text-sm font-normal tracking-tight">
-							Numero telephone regularisation
-						</p>
-						<span className="">
-							{customerDetails?.customer?.regularisation_phone}
-						</span>
-					</div>
-
-					<div>
-						<p className="text-gray-800 text-sm font-normal tracking-tight">
-							Statut regularisation
-						</p>
-						<span className="">
-							{customerDetails?.customer?.regularisation_status}
-						</span>
-					</div>
-
-					{hasPermission(
-						currentUser,
-						"user_account_details:details",
-						"edit"
-					) &&
-					customerDetails?.customer?.regularisation_status !==
-						"PAID" ? (
-						<>
-							<CButton
-								text={`Modifier statut regularisation`} //{'Reverser vers solde actif'}
-								// href={`?editRegStatus=true`}
-								onClick={() => setIsOpen("editRegStatus")}
-								btnStyle={"dark"}
-								icon={<FourDots />}
-								width={"100%"}
-							/>
-							<Modal
-								isOpen={isOpen === "editRegStatus"}
-								setIsOpen={setIsOpen}
-								name={"editRegStatus"}
-								modalContent={
-									<EditRegStatusModalForm
-										setIsOpen={setIsOpen}
-										customer={customerDetails?.customer}
-									/>
-								}
-							/>
-						</>
-					) : (
-						<></>
-					)}
-				</>
-			) : (
-				<></>
-			)}
 
 			<div className="">
 				<p className="text-gray-800 text-sm font-normal tracking-tight">
@@ -332,50 +267,6 @@ export default function DetailsSide() {
 						) ?? 0
 					} XAF `}
 				</p>
-				{hasPermission(
-					currentUser,
-					"user_account_details:details",
-					"edit"
-				) && (customerDetails?.customer?.old_balance_xaf || 0) > 0 ? (
-					<>
-						{customerDetails?.customer?.regularisation_status ===
-						"PROCESSING" ? (
-							<>
-								<CButton
-									text={`Regulariser`} //{'Reverser vers solde actif'}
-									// href={`?releaseStandByAccount=true`}
-									onClick={() =>
-										setIsOpen("releaseStandByAccount")
-									}
-									btnStyle={"red"}
-									icon={<FourDots />}
-									width={"100%"}
-								/>
-								<Modal
-									isOpen={isOpen === "releaseStandByAccount"}
-									setIsOpen={setIsOpen}
-									name={"releaseStandByAccount"}
-									modalContent={
-										<ReleaseStandByAccountBalanceModalForm
-											customer={customerDetails?.customer}
-										/>
-									}
-								/>
-							</>
-						) : (
-							<>
-								<CButton
-									text={`Regulariser`}
-									btnStyle={"grey"}
-									icon={<FourDots />}
-									width={"100%"}
-								/>
-							</>
-						)}
-					</>
-				) : (
-					<></>
-				)}
 			</div>
 
 			<div className="">

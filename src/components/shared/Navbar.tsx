@@ -1,21 +1,4 @@
-import { RxArrowLeft, RxCaretDown } from "react-icons/rx";
-import { IoIosDisc, IoIosNotificationsOutline } from "react-icons/io";
-import { CgProfile } from "react-icons/cg";
-import { FaArrowLeft, FaCalendar, FaCheck, FaUser } from "react-icons/fa";
-import Image from "next/image";
-import "./style-navbar.css";
-import CustomDropdown from "./CustomDropdown";
-import Link from "next/link";
-import { BsArrowLeft } from "react-icons/bs";
-import {
-	useScrollPosition,
-	useScrollXPosition,
-	useScrollYPosition,
-} from "react-use-scroll-position";
-import variables from "@/variables.module.scss";
-import cstyle from "./styles/navbar-style.module.scss";
-import Modal from "./Modal/Modal";
-import { useDispatch, useSelector } from "react-redux";
+import { AuthService } from "@/api/services/cartevo-api/auth";
 import { logOut, selectCurrentUser } from "@/redux/slices/auth";
 import {
 	selectCurrentVersion,
@@ -23,20 +6,20 @@ import {
 	selectStartDate,
 	setVersion,
 } from "@/redux/slices_v2/settings";
-import CustomDropdown2 from "./CustomDropdown2";
-import CButton from "./CButton";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AuthService } from "@/api/services/auth";
-import toast from "react-hot-toast";
-import { useMutation } from "react-query";
-import { hasPermission } from "@/utils/permissions";
 import { useState } from "react";
-import ChangeLimitDateModalForm from "@/app/dashboard/v2/home/modals/ChangeLimitDateModalForm";
-import { getTextFormattedDate, parseDateObject } from "@/utils/DateFormat";
-import ChangeStartDateModalForm from "@/app/dashboard/v2/home/modals/ChangeStartDateModalForm";
-import { UserSearchTags } from "./search/UserSearchTags";
-import SearchUserInput from "./search/UserSearchInput";
+import toast from "react-hot-toast";
+import { FaArrowLeft, FaUser } from "react-icons/fa";
 import { MdCheck, MdLogout } from "react-icons/md";
+import { useMutation } from "react-query";
+import { useDispatch, useSelector } from "react-redux";
+import { useScrollYPosition } from "react-use-scroll-position";
+import CButton from "./CButton";
+import CustomDropdown2 from "./CustomDropdown2";
+import SearchUserInput from "./search/UserSearchInput";
+import "./style-navbar.css";
+import cstyle from "./styles/navbar-style.module.scss";
 type Props = {
 	title: string | undefined;
 	backLink?: string;

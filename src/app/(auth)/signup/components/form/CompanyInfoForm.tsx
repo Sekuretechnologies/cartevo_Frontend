@@ -20,7 +20,7 @@ import { FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
-import { AuthService } from "@/api/services/auth";
+import { AuthService } from "@/api/services/cartevo-api/auth";
 import { selectCurrentCompany, selectCurrentUser } from "@/redux/slices/auth";
 import {
 	generateRandomCode,
@@ -28,7 +28,7 @@ import {
 	getLabelByKey,
 	removeAllSpaces,
 } from "@/utils/utils";
-import { UserService } from "@/api/services/user";
+
 import { Select, SelectItem } from "@nextui-org/select";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";

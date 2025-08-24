@@ -39,7 +39,7 @@ import classNames from "classnames";
 import { useMutation } from "react-query";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { TransactionService } from "@/api/services/v2/transaction";
+// import { TransactionService } from "@/api/services/v2/transaction";
 import CustomDropdown from "@/components/shared/CustomDropdown";
 import { RxDotsHorizontal } from "react-icons/rx";
 
@@ -306,38 +306,38 @@ const infoData: TDataList[] = [
 ];
 
 const handleVerifyTrxStatus = async (queryData: any) => {
-	const { trxId } = queryData;
-	// console.log("handleTransaction : ", {currentUserId, customerId, label, body});
-	// return {currentUserId, customerId, label, body}
-	const response = await TransactionService.verify_trx_status({
-		trxId,
-	});
-	if (!response.ok) {
-		const responseBody = await response.json();
-		throw new Error(responseBody.message);
-	}
-	const responseJson = await response.json();
-	return responseJson;
+	// const { trxId } = queryData;
+	// // console.log("handleTransaction : ", {currentUserId, customerId, label, body});
+	// // return {currentUserId, customerId, label, body}
+	// const response = await TransactionService.verify_trx_status({
+	// 	trxId,
+	// });
+	// if (!response.ok) {
+	// 	const responseBody = await response.json();
+	// 	throw new Error(responseBody.message);
+	// }
+	// const responseJson = await response.json();
+	// return responseJson;
 };
 
 const handleCheckPartnerTrx = async (queryData: any) => {
-	const { trxId } = queryData;
-	// console.log("handleTransaction : ", {currentUserId, customerId, label, body});
-	// return {currentUserId, customerId, label, body}
-	const response = await TransactionService.check_partner_trx({
-		trxId,
-	});
-	if (!response.ok) {
-		const responseBody = await response.json();
-		throw new Error(responseBody.message);
-	}
-	const responseJson = await response.json();
-	return responseJson;
+	// const { trxId } = queryData;
+	// // console.log("handleTransaction : ", {currentUserId, customerId, label, body});
+	// // return {currentUserId, customerId, label, body}
+	// const response = await TransactionService.check_partner_trx({
+	// 	trxId,
+	// });
+	// if (!response.ok) {
+	// 	const responseBody = await response.json();
+	// 	throw new Error(responseBody.message);
+	// }
+	// const responseJson = await response.json();
+	// return responseJson;
 };
 
 interface TransferModalProps {
 	item: any;
-	customer: any;
+	customer?: any;
 	setIsOpen?: (data?: any) => void;
 }
 interface ItmInterface {

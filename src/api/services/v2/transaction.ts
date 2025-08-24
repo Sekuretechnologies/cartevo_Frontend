@@ -20,12 +20,32 @@ export class TransactionService {
 		if (userId) query_params.adminUserId = userId;
 		if (customerId) query_params.customerId = customerId;
 		if (limitDate) query_params.limitDate = limitDate;
-		return BaseMethods.postRequest(
-			transactionUrlsV2.MANAGE_USER_ACCOUNT_TRANSACTIONS,
-			body,
-			true,
-			query_params
-		);
+
+		if (body.momo && body.type === "withdrawal") {
+			query_params.momo = body.momo;
+
+			console.log("manage_user_account_transactions : ", {
+				userId,
+				customerId,
+				label,
+				body,
+				limitDate,
+				query_params,
+			});
+			return BaseMethods.postRequest(
+				"", // transactionUrlsV2.DO_USER_TRANSACTION,
+				body,
+				true,
+				query_params
+			);
+		} else {
+			return BaseMethods.postRequest(
+				transactionUrlsV2.MANAGE_USER_ACCOUNT_TRANSACTIONS,
+				body,
+				true,
+				query_params
+			);
+		}
 	};
 	static get_stats_periodic = ({
 		period,

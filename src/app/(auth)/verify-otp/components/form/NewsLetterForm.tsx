@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CButton from "@/components/shared/CButton";
-import { AuthService } from "@/api/services/auth";
+import { AuthService } from "@/api/services/cartevo-api/auth";
 import { useMutation } from "react-query";
 import { HashLoader } from "react-spinners";
 import toast from "react-hot-toast";

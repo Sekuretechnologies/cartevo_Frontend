@@ -21,7 +21,7 @@ import { FaEye, FaEyeSlash, FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { PuffLoader } from "react-spinners";
-import { AuthService } from "@/api/services/auth";
+import { AuthService } from "@/api/services/cartevo-api/auth";
 import { setCredentials } from "@/redux/slices/auth";
 import {
 	generateRandomCode,
