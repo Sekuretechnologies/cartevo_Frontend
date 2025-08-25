@@ -647,19 +647,19 @@ export default function PersonalInfoForm() {
 											>
 												<SelectItem
 													key="PASSORT"
-													value="passport"
+													value="PASSORT"
 												>
 													Passport
 												</SelectItem>
 												<SelectItem
 													key="NIN"
-													value="national_id"
+													value="NIN"
 												>
 													National ID
 												</SelectItem>
 												<SelectItem
 													key="DRIVERS_LICENSE"
-													value="driving_license"
+													value="DRIVERS_LICENSE"
 												>
 													Driving License
 												</SelectItem>
