@@ -83,7 +83,7 @@ export default function Customers() {
 						: item.country,
 				phone: item.country_phone_code
 					? `${item.country_phone_code} ${item.phone}`
-					: item.phone,
+					: item.phone_number,
 				email: item.email,
 				// balance: item.balance_xaf?.toLocaleString("en-EN"),
 				nbCards: item.number_of_cards, //item.numberOfCards,
