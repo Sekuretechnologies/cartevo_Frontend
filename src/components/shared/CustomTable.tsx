@@ -92,8 +92,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
 					searchTerm={searchTerm}
 				/>
 				<div className="flex items-center gap-5 ml-0 md:ml-[100px] mt-5 md:mt-0">
-					{btn}
-
 					{filter ? (
 						<CButton
 							text={"Filter"}
@@ -105,6 +103,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
 					) : (
 						<></>
 					)}
+
+					{btn}
 
 					{
 						threeButtons ? (

@@ -18,6 +18,7 @@ import { selectCurrentToken } from "@/redux/slices/auth";
 import { selectSearchTerm } from "@/redux/slices/search";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import { useDispatch, useSelector } from "react-redux";
+import { HiPlus } from "react-icons/hi";
 
 const getAllCustomers = async ({ queryKey }: any) => {
 	const [_key, token, st, filterContent] = queryKey;
@@ -130,6 +131,16 @@ export default function Customers() {
 						filterType={"transaction"}
 						filterContent={filterContent}
 						setFilterContent={setFilterContent}
+						btn={
+							<CButton
+								text={"New customer"}
+								btnStyle={"blue"}
+								href={"/customers/create"}
+								icon={<HiPlus />}
+								width={"250px"}
+								height={"40px"}
+							/>
+						}
 					/>
 				</div>
 
