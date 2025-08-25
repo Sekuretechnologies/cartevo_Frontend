@@ -34,6 +34,8 @@ const getAllCustomers = async ({ queryKey }: any) => {
 	console.log("getAllCustomers filterContent : ", filterContent);
 	console.log("getAllCustomers params : ", params);
 
+	console.log("get Company Customers accessToken :: ", token);
+
 	const response = await CustomerService.get_customers(params);
 	const responseJson = await response.json();
 	if (!response.ok) {

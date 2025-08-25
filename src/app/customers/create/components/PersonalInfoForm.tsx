@@ -100,6 +100,7 @@ const handlePersonalInfo = async (
 	token: string,
 	data: z.infer<typeof customerInfoSchema>
 ) => {
+	console.log("handlePersonalInfo accessToken :: ", token);
 	//-------------------------------------------------------
 	const formData = new FormData();
 	Object.entries(data || {})?.map(([key, value]: any[]) => {
@@ -139,7 +140,7 @@ const handlePersonalInfo = async (
 
 	//-------------------------------------------------------
 	const response = await CustomerService.create_customer({
-		token: "",
+		token: token || "",
 		data: formData,
 	});
 	if (!response.ok) {
