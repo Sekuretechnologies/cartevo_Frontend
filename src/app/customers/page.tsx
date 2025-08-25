@@ -82,7 +82,7 @@ export default function Customers() {
 						? "Congo RDC"
 						: item.country,
 				phone: item.country_phone_code
-					? `${item.country_phone_code} ${item.phone}`
+					? `${item.country_phone_code} ${item.phone_number}`
 					: item.phone_number,
 				email: item.email,
 				// balance: item.balance_xaf?.toLocaleString("en-EN"),
