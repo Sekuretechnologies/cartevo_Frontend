@@ -145,7 +145,7 @@ export default function ManageUserAccount() {
 							>
 								<div className="w-fit">
 									<TabsList
-										defaultValue={"Transactions"}
+										defaultValue={"Cards"}
 										className="TabsList grid grid-cols-2 md:flex mb-[120px] md:mb-0"
 									>
 										<TabsTrigger

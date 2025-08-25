@@ -83,7 +83,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 				</div>
 			</div>
 
-			<div className="flex flex-col gap-5 py-5 border-b-1">
+			{/* <div className="flex flex-col gap-5 py-5 border-b-1">
 				<div className="">
 					<p className="text-gray-800 text-sm font-normal tracking-tight">
 						{`Sum of cards balances`}
@@ -108,14 +108,14 @@ const UserDetails = ({ search, setSearch }: Props) => {
 						} USD `}
 					</p>
 				</div>
-			</div>
-			<div className="flex flex-col gap-5 py-5">
+			</div> */}
+			<div className="flex flex-col gap-5 py-5 border-t-1">
 				<div>
 					<p className="text-gray-800 text-sm font-normal tracking-tight">
 						{"Phone"}
 					</p>
 					<span className="font-bold">
-						{`(${customerDetails?.country_phone_code}) ${customerDetails?.phone}`}
+						{`(${customerDetails?.country_phone_code}) ${customerDetails?.phone_number}`}
 					</span>
 				</div>
 
