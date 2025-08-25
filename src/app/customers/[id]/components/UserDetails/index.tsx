@@ -75,12 +75,10 @@ const UserDetails = ({ search, setSearch }: Props) => {
 					</div>
 				</div>
 				<div className="w-full py-5 ">
-					<h1 className="text-lg text-gray-700 font-bold">{`${userData?.customer?.first_name} ${userData?.customer?.last_name}`}</h1>
-					<p className="text-md text-gray-500">
-						{userData?.customer?.email}
-					</p>
+					<h1 className="text-lg text-gray-700 font-bold">{`${userData?.first_name} ${userData?.last_name}`}</h1>
+					<p className="text-md text-gray-500">{userData?.email}</p>
 					{/* <p className="text-md text-gray-500">
-						{userData?.customer?.phone}
+						{userData?.phone}
 					</p> */}
 				</div>
 			</div>
@@ -92,7 +90,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 					</p>
 					<p className="text-[#000] text-xl font-bold tracking-tight my-1">
 						{`${
-							customerDetails?.customer?.balance_xaf?.toLocaleString(
+							customerDetails?.balance_xaf?.toLocaleString(
 								"fr-FR"
 							) ?? 0
 						} USD `}
@@ -104,7 +102,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 					</p>
 					<p className="text-[#000] text-xl font-bold tracking-tight my-1">
 						{`${
-							customerDetails?.customer?.balance_xaf?.toLocaleString(
+							customerDetails?.balance_xaf?.toLocaleString(
 								"fr-FR"
 							) ?? 0
 						} USD `}
@@ -117,7 +115,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 						{"Phone"}
 					</p>
 					<span className="font-bold">
-						{`(${customerDetails?.customer?.country_phone_code}) ${customerDetails?.customer?.phone}`}
+						{`(${customerDetails?.country_phone_code}) ${customerDetails?.phone}`}
 					</span>
 				</div>
 
@@ -126,25 +124,21 @@ const UserDetails = ({ search, setSearch }: Props) => {
 						{"Country"}
 					</p>
 					<span className="font-bold">
-						{`(${customerDetails?.customer?.country_iso_code}) ${customerDetails?.customer?.country}`}
+						{`(${customerDetails?.country_iso_code}) ${customerDetails?.country}`}
 					</span>
 				</div>
 				<div>
 					<p className="text-gray-800 text-sm font-normal tracking-tight">
 						{"ID"}
 					</p>
-					<span className="font-bold">
-						{customerDetails?.customer?.id}
-					</span>
+					<span className="font-bold">{customerDetails?.id}</span>
 				</div>
 				<div>
 					<p className="text-gray-800 text-sm font-normal tracking-tight">
 						{"Created at"}
 					</p>
 					<span className="font-bold">
-						{getFormattedDateTime(
-							customerDetails?.customer?.created_at
-						)}
+						{getFormattedDateTime(customerDetails?.created_at)}
 					</span>
 				</div>
 			</div>

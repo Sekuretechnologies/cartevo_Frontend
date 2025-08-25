@@ -2,6 +2,17 @@ export function getLabelByKey(key: string, data: any): string | undefined {
 	const item = data.find((item: any) => item.key === key);
 	return item ? item.label : undefined;
 }
+export function getIso2ByKey(key: string, data: any): string | undefined {
+	const item = data.find((item: any) => item.key === key);
+	return item ? item.iso2 : undefined;
+}
+export function getPhonePrefixByKey(
+	key: string,
+	data: any
+): string | undefined {
+	const item = data.find((item: any) => item.key === key);
+	return item ? item.phonePrefix : undefined;
+}
 
 export function getAvailableBalance(
 	accounts: any[],

@@ -18,3 +18,23 @@ export const companyUrls = {
 	GET_WALLETS: `${BASE_URL_COMPANY}/wallets`,
 	GET_TRANSACTIONS: `${BASE_URL_COMPANY}/transactions`,
 };
+
+/** CUSTOMER ============================================================ */
+export const BASE_URL_CUSTOMER = `${BASE_URL}/customers`;
+export const customersUrls = {
+	GET_CUSTOMERS: `${BASE_URL_CUSTOMER}`,
+	GET_CUSTOMER: (id: any) => `${BASE_URL_CUSTOMER}/${id}`,
+	CREATE_CUSTOMER: `${BASE_URL_CUSTOMER}`,
+	UPDATE_CUSTOMER: `${BASE_URL_CUSTOMER}`,
+	GET_CUSTOMER_CARDS: (id: any) => `${BASE_URL_CUSTOMER}/${id}/cards`,
+	GET_CUSTOMER_TRANSACTIONS: (id: any) =>
+		`${BASE_URL_CUSTOMER}/${id}/transactions`,
+};
+
+/** CARD ============================================================ */
+export const BASE_URL_CARD = `${BASE_URL}/cards`;
+export const cardsUrls = {
+	GET_CARDS: `${BASE_URL_CARD}`,
+	CREATE_CARD: `${BASE_URL_CARD}`,
+	UPDATE_CARD: `${BASE_URL_CARD}`,
+};

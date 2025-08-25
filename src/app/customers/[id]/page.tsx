@@ -1,9 +1,10 @@
 "use client";
-import { CustomerService } from "@/api/services/v2/customer";
+import { CustomerService } from "@/api/services/cartevo-api/customer";
 import Layout from "@/components/shared/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTitle } from "@/hooks/useTitle";
 import {
+	setCurrentCustomerCards,
 	setCurrentCustomerDetails,
 	setCurrentCustomerTransactions,
 	setCurrentCustomerTransfers,
@@ -13,16 +14,19 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cards from "./components/Tabs/Cards/Cards";
 import Transactions from "./components/Tabs/Transactions/Transactions";
 import UserDetails from "./components/UserDetails";
+import { selectCurrentToken } from "@/redux/slices/auth";
 
-const getOneCustomer = async ({ queryKey }: any) => {
-	const [_key, id] = queryKey;
-	// console.log("getCustomers searchTerm : ", st, queryKey);
+const getCustomer = async ({ queryKey }: any) => {
+	const [_key, token, id] = queryKey;
 
-	const response = await CustomerService.get_one_customer(id);
+	const response = await CustomerService.get_customer({
+		token,
+		customerId: id,
+	});
 	const responseJson = await response.json();
 	if (!response.ok) {
 		throw new Error(responseJson.message || "Failed to get user " + id);
@@ -30,11 +34,13 @@ const getOneCustomer = async ({ queryKey }: any) => {
 	return responseJson.data;
 };
 
-const getOneCustomerTransactions = async ({ queryKey }: any) => {
-	const [_key, id] = queryKey;
-	// console.log("getCustomers searchTerm : ", st, queryKey);
+const getCustomerTransactions = async ({ queryKey }: any) => {
+	const [_key, token, id] = queryKey;
 
-	const response = await CustomerService.get_one_customer_transactions(id);
+	const response = await CustomerService.get_customer_transactions({
+		token,
+		customerId: id,
+	});
 	const responseJson = await response.json();
 	if (!response.ok) {
 		throw new Error(
@@ -44,11 +50,13 @@ const getOneCustomerTransactions = async ({ queryKey }: any) => {
 	return responseJson.data;
 };
 
-const getOneCustomerTransfers = async ({ queryKey }: any) => {
-	const [_key, id] = queryKey;
-	// console.log("getCustomers searchTerm : ", st, queryKey);
+const getCustomerCards = async ({ queryKey }: any) => {
+	const [_key, token, id] = queryKey;
 
-	const response = await CustomerService.get_one_customer_transfers(id);
+	const response = await CustomerService.get_customer_cards({
+		token,
+		customerId: id,
+	});
 	const responseJson = await response.json();
 	if (!response.ok) {
 		throw new Error(
@@ -60,6 +68,7 @@ const getOneCustomerTransfers = async ({ queryKey }: any) => {
 
 export default function ManageUserAccount() {
 	useTitle("Cartevo | Customer", true);
+	const currentToken: any = useSelector(selectCurrentToken);
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const router = useRouter();
@@ -68,8 +77,8 @@ export default function ManageUserAccount() {
 	const [searchTransactions, setSearchTransactions] = useState("");
 
 	const oneUserQueryRes = useQuery({
-		queryKey: ["oneUser", id],
-		queryFn: getOneCustomer,
+		queryKey: ["oneCustomer", currentToken, id],
+		queryFn: getCustomer,
 		onError: (err) => {
 			toast.error("Failed to get user : " + id);
 		},
@@ -80,31 +89,34 @@ export default function ManageUserAccount() {
 	console.log("userQueryRes.data : ", oneUserQueryRes.data);
 	const userData = oneUserQueryRes.data;
 	//------------------------------------------------
-	const oneUserTransactionsQueryRes = useQuery({
-		queryKey: ["oneUserTransactions", id],
-		queryFn: getOneCustomerTransactions,
+	const customerTransactionsQueryRes = useQuery({
+		queryKey: ["oneCustomerTransactions", currentToken, id],
+		queryFn: getCustomerTransactions,
 		onError: (err) => {
 			toast.error("Failed to get user Transactions : " + id);
 		},
 		// enabled: false,
 		// refetchInterval: 50000, // Fetches data every 60 seconds
 	});
-	dispatch(setCurrentCustomerTransactions(oneUserTransactionsQueryRes.data));
-	console.log("userQueryRes.data : ", oneUserTransactionsQueryRes.data);
-	const userTransactionsData = oneUserTransactionsQueryRes.data;
+	dispatch(setCurrentCustomerTransactions(customerTransactionsQueryRes.data));
+	console.log(
+		"customerTransactionsQueryRes.data : ",
+		customerTransactionsQueryRes.data
+	);
+	const customerTransactionsData = customerTransactionsQueryRes.data;
 	//------------------------------------------------
-	const oneUserTransfersQueryRes = useQuery({
-		queryKey: ["oneUserTransfers", id],
-		queryFn: getOneCustomerTransfers,
+	const customerCardsQueryRes = useQuery({
+		queryKey: ["oneCustomerCards", currentToken, id],
+		queryFn: getCustomerCards,
 		onError: (err) => {
-			toast.error("Failed to get user Transfers : " + id);
+			toast.error("Failed to get user Cards : " + id);
 		},
 		// enabled: false,
 		// refetchInterval: 50000, // Fetches data every 60 seconds
 	});
-	dispatch(setCurrentCustomerTransfers(oneUserTransfersQueryRes.data));
-	console.log("userQueryRes.data : ", oneUserTransfersQueryRes.data);
-	const userTransfersData = oneUserTransfersQueryRes.data;
+	dispatch(setCurrentCustomerCards(customerCardsQueryRes.data));
+	console.log("customerCardsQueryRes.data : ", customerCardsQueryRes.data);
+	const customerCardsData = customerCardsQueryRes.data;
 
 	return (
 		<Layout

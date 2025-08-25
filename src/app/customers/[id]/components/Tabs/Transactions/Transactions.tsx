@@ -16,7 +16,10 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoEllipsisHorizontalCircleSharp } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { selectCurrentCustomerTransactions } from "@/redux/slices/customer";
+import {
+	selectCurrentCustomerDetails,
+	selectCurrentCustomerTransactions,
+} from "@/redux/slices/customer";
 import TransactionModal from "./modals/TransactionModal";
 import Modal from "@/components/shared/Modal/Modal";
 import {
@@ -43,11 +46,14 @@ type Props = {
 const Transactions = ({ search, setSearch }: Props) => {
 	const [filterContent, setFilterContent] = useState({});
 
-	const customerDetails: any = useSelector(selectCurrentCustomerTransactions);
+	const customerDetails: any = useSelector(selectCurrentCustomerDetails);
+	const customerTransactions: any = useSelector(
+		selectCurrentCustomerTransactions
+	);
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	const rearrangedTableData = customerDetails?.transactions?.data?.map(
+	const rearrangedTableData = customerTransactions?.map(
 		(item: any, index: any) => {
 			let mode;
 			const rearrangedItem = {
@@ -110,7 +116,7 @@ const Transactions = ({ search, setSearch }: Props) => {
 								modalContent={
 									<TransactionModal
 										setIsOpen={setIsOpen}
-										customer={customerDetails?.customer}
+										customer={customerDetails}
 										item={item}
 									/>
 								}

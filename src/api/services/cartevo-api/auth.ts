@@ -15,7 +15,4 @@ export class AuthService {
 
 	static registerStep2 = (info: any) =>
 		BaseMethods.postFileRequest(authUrls.REGISTER_STEP2, info, false);
-
-	// static current_user = () =>
-	//     BaseMethods.getRequest(userUrls.CURRENT_USER, true);
 }
