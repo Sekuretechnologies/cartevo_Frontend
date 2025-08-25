@@ -86,7 +86,7 @@ export default function Customers() {
 					: item.phone_number,
 				email: item.email,
 				// balance: item.balance_xaf?.toLocaleString("en-EN"),
-				nbCards: item.number_of_cards, //item.numberOfCards,
+				// nbCards: item.number_of_cards, //item.numberOfCards,
 
 				status: item.active ? (
 					<BadgeLabel

@@ -48,7 +48,7 @@ export const headerCustomersData: ITableHeader = {
 	phone: "Telephone",
 	email: "Email",
 	// "balance": "Balance",
-	nbCards: "Nb. Cards",
+	// nbCards: "Nb. Cards",
 	// "kyc": "KYC",
 	status: "Status",
 	// locked: "Bloqué",
