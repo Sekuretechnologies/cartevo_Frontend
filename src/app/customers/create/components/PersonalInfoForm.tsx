@@ -155,13 +155,6 @@ const handlePersonalInfo = async (
 	return responseJson;
 };
 
-// Static array of company roles
-const roles = [
-	{ key: "Administrator", label: "Administrator" },
-	{ key: "Developer", label: "Developer" },
-	{ key: "Manager", label: "Manager" },
-	{ key: "Officer", label: "Officer" },
-];
 const genderData = [
 	{
 		key: "male",
@@ -653,19 +646,19 @@ export default function PersonalInfoForm() {
 												}
 											>
 												<SelectItem
-													key="passport"
+													key="PASSORT"
 													value="passport"
 												>
 													Passport
 												</SelectItem>
 												<SelectItem
-													key="national_id"
+													key="NIN"
 													value="national_id"
 												>
 													National ID
 												</SelectItem>
 												<SelectItem
-													key="driving_license"
+													key="DRIVERS_LICENSE"
 													value="driving_license"
 												>
 													Driving License
@@ -682,7 +675,7 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											National ID Number
+											ID Number
 											<span className="text-red-500">
 												*
 											</span>
