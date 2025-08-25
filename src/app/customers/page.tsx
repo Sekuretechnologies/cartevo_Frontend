@@ -139,8 +139,8 @@ export default function Customers() {
 								btnStyle={"blue"}
 								href={"/customers/create"}
 								icon={<HiPlus />}
-								width={"250px"}
-								height={"40px"}
+								// width={"150px"}
+								height={"33px"}
 							/>
 						}
 					/>

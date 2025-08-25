@@ -62,7 +62,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 									"http"
 								)
 									? userData?.customer?.profile_picture
-									: `https://ui-avatars.com/api/?size=250&name=${`${userData?.customer?.first_name} ${userData?.customer?.last_name}`
+									: `https://ui-avatars.com/api/?size=250&name=${`${userData?.first_name} ${userData?.last_name}`
 											?.toLowerCase()
 											?.replace(
 												/\s+/g,

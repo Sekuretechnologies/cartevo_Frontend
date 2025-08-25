@@ -10,6 +10,7 @@ import {
 } from "@/redux/slices/customer";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import { useState } from "react";
+import { HiPlus } from "react-icons/hi";
 import { useSelector } from "react-redux";
 
 type Props = {
@@ -82,6 +83,16 @@ const Cards = ({ search, setSearch }: Props) => {
 					filterType={"transaction"}
 					filterContent={filterContent}
 					setFilterContent={setFilterContent}
+					btn={
+						<CButton
+							text={"New card"}
+							btnStyle={"blue"}
+							// href={"/customers/create"}
+							icon={<HiPlus />}
+							// width={"150px"}
+							height={"33px"}
+						/>
+					}
 				/>
 			</div>
 		</section>
