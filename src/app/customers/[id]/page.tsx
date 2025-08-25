@@ -139,10 +139,7 @@ export default function ManageUserAccount() {
 				<div className="col-span-9">
 					<div className="px-5 py-4 bg-white rounded-lg shadow-md">
 						<I18nProvider locale="fr-FR">
-							<Tabs
-								defaultValue="Transactions"
-								className="w-full"
-							>
+							<Tabs defaultValue="Cards" className="w-full">
 								<div className="w-fit">
 									<TabsList
 										defaultValue={"Cards"}
