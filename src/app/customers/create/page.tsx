@@ -14,7 +14,15 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
-import PersonalInfoForm from "./components/PersonalInfoForm";
+// import PersonalInfoForm from "./components/PersonalInfoForm";
+
+import dynamic from "next/dynamic";
+const PersonalInfoForm = dynamic(
+	() => import("./components/PersonalInfoForm"),
+	{
+		ssr: false,
+	}
+);
 
 export default function ManageUserAccount() {
 	useTitle("Cartevo | New Customer", true);
