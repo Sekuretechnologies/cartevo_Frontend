@@ -6,6 +6,14 @@ export function getIso2ByKey(key: string, data: any): string | undefined {
 	const item = data.find((item: any) => item.key === key);
 	return item ? item.iso2 : undefined;
 }
+export function getCurrenciesByKey(key: string, data: any): string[] {
+	const item = data.find((item: any) => item.key === key);
+	return item ? item.currencies : [];
+}
+export function getCountryPhonePrefix(value: string[]): string {
+	const prefix: string = value?.[0]?.slice(1) || "";
+	return prefix;
+}
 export function getPhonePrefixByKey(
 	key: string,
 	data: any

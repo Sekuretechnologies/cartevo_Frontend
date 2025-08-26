@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-// import { personalInfoSchema } from "@/validation/FormValidation";
 import CButton from "@/components/shared/CButton";
 import {
 	Form,
@@ -25,11 +24,15 @@ import { AuthService } from "@/api/services/cartevo-api/auth";
 import { setCredentials } from "@/redux/slices/auth";
 import {
 	generateRandomCode,
+	getCountryPhonePrefix,
+	getCurrenciesByKey,
 	getFileExtension,
 	getLabelByKey,
 } from "@/utils/utils";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
+// import { getCountryCallingCode } from "libphonenumber-js";
+import { countries as countryDataList } from "country-data";
 
 // declare global {
 // 	interface Window {
@@ -39,7 +42,7 @@ import enLocale from "i18n-iso-countries/langs/en.json";
 
 const MAX_FILE_SIZE = 1024 * 1024 * 1; // 1MB in bytes
 
-export const personalInfoSchema = z
+export const createAccountSchema = z
 	.object({
 		business_name: z.string().min(3, {
 			message: "Business name must be at least 3 characters long",
@@ -62,7 +65,15 @@ export const personalInfoSchema = z
 			message: "Business type is required",
 		}),
 		business_country: z.string().min(2, { message: "Country is required" }),
-
+		business_country_iso_code: z
+			.string()
+			.min(2, { message: "Country ISO code is required" }),
+		business_country_phone_code: z
+			.string()
+			.min(2, { message: "Country phone code is required" }),
+		business_country_currency: z
+			.string()
+			.min(2, { message: "Country currency is required" }),
 		password: z.string({ message: "Please enter a password" }).min(8, {
 			message: "Password must be at least 8 characters long",
 		}),
@@ -74,15 +85,15 @@ export const personalInfoSchema = z
 	});
 
 const handleCreateAccount = async (
-	data: z.infer<typeof personalInfoSchema>
+	data: z.infer<typeof createAccountSchema>
 ) => {
-	const response = await AuthService.registerStep1(data);
+	const response = await AuthService.createAccount(data);
 	if (!response.ok) {
 		const responseBody = await response.json();
 		if (response.status === 401) {
 			throw new Error(responseBody.message);
 		} else {
-			throw new Error("Error. Couldn't Register Personal Informations.");
+			throw new Error("Error. Couldn't create account.");
 		}
 	}
 	const responseJson = await response.json();
@@ -135,14 +146,22 @@ const businessTypeData = [
 		label: "Other",
 	},
 ];
-// Register English locale for country names
+// 1) Register English locale for country names
 countries.registerLocale(enLocale);
-// Generate list of country codes and names
+// 2) get all 2-letter names
 const countryNames = countries.getNames("en", { select: "official" });
-const countryOptions = Object.entries(countryNames).map(([code, name]) => ({
-	key: code,
-	label: name,
-}));
+interface CountryOption {
+	key: string; // "US"
+	label: string; // "United States of America"
+}
+const countryOptions: CountryOption[] = Object.entries(countryNames).map(
+	([alpha2, label]) => {
+		return {
+			key: alpha2,
+			label,
+		};
+	}
+);
 
 export default function CreateAccountForm() {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
@@ -150,8 +169,8 @@ export default function CreateAccountForm() {
 		useState<boolean>();
 	const router = useRouter();
 	const dispatch = useDispatch();
-	const form = useForm<z.infer<typeof personalInfoSchema>>({
-		resolver: zodResolver(personalInfoSchema),
+	const form = useForm<z.infer<typeof createAccountSchema>>({
+		resolver: zodResolver(createAccountSchema),
 		defaultValues: {
 			business_name: "",
 			first_name: "",
@@ -160,6 +179,9 @@ export default function CreateAccountForm() {
 			phone_number: "",
 			business_type: "",
 			business_country: "",
+			business_country_iso_code: "",
+			business_country_phone_code: "",
+			business_country_currency: "",
 			password: "",
 			confirm_password: "",
 		},
@@ -206,7 +228,8 @@ export default function CreateAccountForm() {
 	});
 
 	const onSubmit = (data: any) => {
-		mutation.mutate(data);
+		console.log("Submit data : ", data);
+		// mutation.mutate(data);
 	};
 	const onError = (err: any) => {
 		console.error("any", err);
@@ -223,30 +246,21 @@ export default function CreateAccountForm() {
 		data: any
 	) => {
 		const value: string = data.target.value;
-		console.log(fieldName, value, getLabelByKey(value, itemList));
-		form.setValue(fieldName, String(getLabelByKey(value, itemList) || ""));
-	};
 
-	// Helper for file preview
-	const handleFileChange = (
-		e: React.ChangeEvent<HTMLInputElement>,
-		setPreview: (url: string | null) => void,
-		fieldOnChange: (value: any) => void
-	) => {
-		const file = e.target.files?.[0];
-		if (file) {
-			fieldOnChange(file);
-			if (file.type.startsWith("image/")) {
-				const reader = new FileReader();
-				reader.onload = (ev) => setPreview(ev.target?.result as string);
-				reader.readAsDataURL(file);
-			} else {
-				setPreview("file");
-			}
-		} else {
-			setPreview(null);
-			// Create an empty File object when no file is selected
-			fieldOnChange(undefined);
+		form.setValue(fieldName, String(getLabelByKey(value, itemList) || ""));
+		if (fieldName === "business_country") {
+			const countryPhoneCode = getCountryPhonePrefix(
+				(countryDataList as any)[value]?.countryCallingCodes || []
+			);
+			const countryCurrency =
+				(countryDataList as any)[value]?.currencies?.[0] || "";
+			// console.log(fieldName, value);
+			// console.log(fieldName, getLabelByKey(value, itemList));
+			// console.log(fieldName, countryCurrency);
+			// console.log(fieldName, countryPhoneCode);
+			form.setValue("business_country_iso_code", value);
+			form.setValue("business_country_phone_code", countryPhoneCode);
+			form.setValue("business_country_currency", countryCurrency);
 		}
 	};
 

@@ -28,8 +28,8 @@ import { selectCurrentToken } from "@/redux/slices/auth";
 
 const CountryFlags: any = CFlags;
 
-const ItemFlagCM = CountryFlags["CM"];
-const ItemFlagUS = CountryFlags["US"];
+const ItemFlag = ({ iso2 }: { iso2: string }) => CountryFlags[iso2];
+// const ItemFlagUS = CountryFlags["US"];
 
 let infoData: TDataList[] = [
 	[
@@ -46,7 +46,7 @@ let infoData: TDataList[] = [
 						<span className="flex gap-2 items-center">
 							<span>XAF</span>
 							<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
-								<ItemFlagCM />
+								<ItemFlag iso2={"CM"} />
 							</span>
 						</span>
 					),
@@ -112,7 +112,7 @@ let infoData: TDataList[] = [
 						<span className="flex gap-2 items-center">
 							<span>USD</span>
 							<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
-								<ItemFlagUS />
+								<ItemFlag iso2={"US"} />
 							</span>
 						</span>
 					),
@@ -169,9 +169,9 @@ let infoData: TDataList[] = [
 infoData[0][0][0].value.text = (
 	<span className="flex gap-2 items-center">
 		<span>XAF</span>
-		{/* <span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
-			<ItemFlagCM />
-		</span> */}
+		<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
+			<ItemFlag iso2={"CM"} />
+		</span>
 	</span>
 );
 infoData[0][0][1].value.text = (
@@ -194,9 +194,9 @@ infoData[0][1][0].value.text = (
 infoData[1][0][0].value.text = (
 	<span className="flex gap-2 items-center">
 		<span>USD</span>
-		{/* <span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
-			<ItemFlagUS />
-		</span> */}
+		<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
+			<ItemFlag iso2={"US"} />
+		</span>
 	</span>
 );
 infoData[1][0][1].value.text = (
@@ -292,6 +292,12 @@ export default function Home() {
 		infoData[0][0][0].value.text = (
 			<span className="flex gap-2 items-center">
 				<span>{companyWalletsQueryRes?.data?.[0]?.currency || ""}</span>
+				<ItemFlag
+					iso2={
+						companyWalletsQueryRes?.data?.[0]?.country_iso_code ||
+						""
+					}
+				/>
 			</span>
 		);
 		infoData[0][0][1].value.text = (
@@ -310,6 +316,12 @@ export default function Home() {
 		infoData[1][0][0].value.text = (
 			<span className="flex gap-2 items-center">
 				<span>{companyWalletsQueryRes?.data?.[1]?.currency || ""}</span>
+				<ItemFlag
+					iso2={
+						companyWalletsQueryRes?.data?.[1]?.country_iso_code ||
+						""
+					}
+				/>
 			</span>
 		);
 		infoData[1][0][1].value.text = (

@@ -10,6 +10,10 @@ export class AuthService {
 	// 	BaseMethods.postRequest(authUrls.RESEND_OTP, {}, true);
 	static verifyOtp = (info: any) =>
 		BaseMethods.postRequest(authUrls.VERIFY_OTP, info, false);
+
+	static createAccount = (info: any) =>
+		BaseMethods.postRequest(authUrls.CREATE_ACCOUNT, info, false);
+
 	static registerStep1 = (info: any) =>
 		BaseMethods.postFileRequest(authUrls.REGISTER_STEP1, info, false);
 

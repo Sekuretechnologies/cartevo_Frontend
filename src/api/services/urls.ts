@@ -8,6 +8,7 @@ export const authUrls = {
 	LOGOUT: `${BASE_URL_AUTH}/logout`,
 	// RESEND_OTP: `${BASE_URL_AUTH}/resend-otp`,
 	VERIFY_OTP: `${BASE_URL_AUTH}/verify-otp`,
+	CREATE_ACCOUNT: `${BASE_URL}/company/register`,
 	REGISTER_STEP1: `${BASE_URL}/company/register/step1`,
 	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
 };
