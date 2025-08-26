@@ -9,8 +9,8 @@ import ProgressBar from "./components/ProgressBar";
 // import CompanyInfoForm from "./components/form/CompanyInfoForm";
 
 import dynamic from "next/dynamic";
-const PersonalInfoForm = dynamic(
-	() => import("./components/form/PersonalInfoForm"),
+const CreateAccountForm = dynamic(
+	() => import("./components/form/CreateAccountForm"),
 	{
 		ssr: false,
 	}
@@ -62,10 +62,13 @@ export default function SignupPage() {
 					<h1 className="font-bold text-4xl text-app-secondary">
 						Sign up
 					</h1>
-					<div className="pt-10">
+					<span className="text-lg text-app-secondary">
+						Innovative Payments for a Digital World.
+					</span>
+					{/* <div className="pt-10">
 						<ProgressBar step={currentStep} total={2} />
 					</div>
-					<span className="text-lg text-app-secondary">{`Step ${currentStep}/2`}</span>
+					<span className="text-lg text-app-secondary">{`Step ${currentStep}/2`}</span> */}
 					<div className="absolute bottom-[100px] left-0 w-full h-[90px]">
 						<img
 							src="/images/white-cartevo-logo-001.svg"
@@ -76,7 +79,17 @@ export default function SignupPage() {
 				</div>
 				<div className="col-span-7 flex justify-center items-center px-[50px]">
 					<div className="w-full max-w-[700px] my-10">
-						{currentStep === 1 && (
+						<CreateAccountForm />
+						<div className="mt-8 text-app-secondary text-sm">
+							Already have an account?{" "}
+							<a
+								href="/login"
+								className="text-app-primary underline hover:text-app-secondary"
+							>
+								Sign in here
+							</a>
+						</div>
+						{/* {currentStep === 1 && (
 							<>
 								<PersonalInfoForm goNextPage={handleNext} />
 								<div className="mt-8 text-app-secondary text-sm">
@@ -90,7 +103,7 @@ export default function SignupPage() {
 								</div>
 							</>
 						)}
-						{currentStep === 2 && <CompanyInfoForm />}
+						{currentStep === 2 && <CompanyInfoForm />} */}
 					</div>
 				</div>
 			</div>

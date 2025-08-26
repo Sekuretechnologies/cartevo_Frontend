@@ -342,9 +342,9 @@ export default function PersonalInfoForm({
 
 					{/* Company Block */}
 					<div className="mb-8">
-						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
+						{/* <h3 className="text-lg font-semibold mb-4 text-app-secondary">
 							Company Information
-						</h3>
+						</h3> */}
 						<FormField
 							control={form.control}
 							name="company_name"
@@ -369,9 +369,9 @@ export default function PersonalInfoForm({
 
 					{/* Personal Block */}
 					<div className="mb-8 space-y-[15px]">
-						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
+						{/* <h3 className="text-lg font-semibold mb-4 text-app-secondary">
 							Personal Informations
-						</h3>
+						</h3> */}
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<FormField
 								control={form.control}
@@ -604,11 +604,6 @@ export default function PersonalInfoForm({
 													)
 												)}
 											</Select>
-											{/* <Input
-												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your nationality"
-												{...field}
-											/> */}
 										</FormControl>
 										<FormMessage className="text-red-400" />
 									</FormItem>
@@ -652,11 +647,6 @@ export default function PersonalInfoForm({
 													)
 												)}
 											</Select>
-											{/* <Input
-												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter country of residence"
-												{...field}
-											/> */}
 										</FormControl>
 										<FormMessage className="text-red-400" />
 									</FormItem>
@@ -666,7 +656,7 @@ export default function PersonalInfoForm({
 					</div>
 
 					{/* Address Block */}
-					<div className="mb-8 space-y-[15px]">
+					{/* <div className="mb-8 space-y-[15px]">
 						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
 							Personal Address Informations
 						</h3>
@@ -749,10 +739,10 @@ export default function PersonalInfoForm({
 								</FormItem>
 							)}
 						/>
-					</div>
+					</div> */}
 
 					{/* ID Document Block */}
-					<div className="mb-8 space-y-[15px]">
+					{/* <div className="mb-8 space-y-[15px]">
 						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
 							Personal ID Document Informations
 						</h3>
@@ -828,7 +818,6 @@ export default function PersonalInfoForm({
 							/>
 						</div>
 
-						{/* File Upload Fields with Preview */}
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<FormField
 								control={form.control}
@@ -853,7 +842,7 @@ export default function PersonalInfoForm({
 													}
 												/>
 											</FormControl>
-											{/* Preview */}
+											
 											{frontPreview &&
 												(frontPreview === "file" ? (
 													<FaFileAlt className="text-3xl text-gray-400" />
@@ -892,7 +881,7 @@ export default function PersonalInfoForm({
 													}
 												/>
 											</FormControl>
-											{/* Preview */}
+											
 											{backPreview &&
 												(backPreview === "file" ? (
 													<FaFileAlt className="text-3xl text-gray-400" />
@@ -933,7 +922,6 @@ export default function PersonalInfoForm({
 												}
 											/>
 										</FormControl>
-										{/* Preview */}
 										{proofPreview &&
 											(proofPreview === "file" ? (
 												<FaFileAlt className="text-3xl text-gray-400" />
@@ -949,7 +937,7 @@ export default function PersonalInfoForm({
 								</FormItem>
 							)}
 						/>
-					</div>
+					</div> */}
 
 					{/* Security Block */}
 					<div className="mb-8 space-y-[15px]">
@@ -1055,7 +1043,7 @@ export default function PersonalInfoForm({
 				{/* <Link href="#" className="text-gray-800 font-semibold text-righttext-md">Forgotten Password?</Link> */}
 				<div className={`mt-[50px]`}>
 					<CButton
-						text={"Save & Continue"}
+						text={"Create account"}
 						btnStyle={"blue"}
 						type={"submit"}
 						width={"250px"}
