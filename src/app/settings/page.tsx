@@ -142,9 +142,9 @@ export default function Settings() {
 			serial: index + 1,
 			fromCurrency: rate.from_currency,
 			toCurrency: rate.to_currency,
-			// rate: rate.rate.toLocaleString("en-EN", {
-			// 	minimumFractionDigits: 2,
-			// }),
+			rate: rate.rate.toLocaleString("en-EN", {
+				minimumFractionDigits: 2,
+			}),
 			// source: rate.source,
 			// status: rate.isActive ? (
 			// 	<BadgeLabel
