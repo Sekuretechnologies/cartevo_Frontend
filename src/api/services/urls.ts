@@ -44,7 +44,7 @@ export const cardsUrls = {
 };
 
 /** SETTINGS ============================================================ */
-export const BASE_URL_SETTINGS = `${BASE_URL}/settings`;
+export const BASE_URL_SETTINGS = `${BASE_URL}/company`;
 export const settingsUrls = {
 	// Exchange Rates
 	GET_EXCHANGE_RATES: `${BASE_URL_SETTINGS}/exchange-rates`,

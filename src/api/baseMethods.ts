@@ -165,7 +165,8 @@ class BaseMethods {
 		url: string,
 		body: any,
 		required_auth: boolean,
-		queryParams?: Record<string, string>
+		queryParams?: Record<string, string>,
+		inputToken?: string
 	): Promise<Response> => {
 		let finalUrl = url;
 		if (queryParams && Object.keys(queryParams).length > 0) {
@@ -174,7 +175,7 @@ class BaseMethods {
 		}
 
 		const head = required_auth
-			? BaseMethods.getHeadersAuth()
+			? BaseMethods.getHeadersAuth(true, inputToken)
 			: BaseMethods.getHeaders();
 
 		const headers: RequestInit = {
@@ -191,7 +192,8 @@ class BaseMethods {
 		url: string,
 		body: any,
 		required_auth: boolean,
-		queryParams?: Record<string, string>
+		queryParams?: Record<string, string>,
+		inputToken?: string
 	): Promise<Response> => {
 		let finalUrl = url;
 		if (queryParams && Object.keys(queryParams).length > 0) {
@@ -200,7 +202,7 @@ class BaseMethods {
 		}
 
 		const head = required_auth
-			? BaseMethods.getHeadersAuth()
+			? BaseMethods.getHeadersAuth(true, inputToken)
 			: BaseMethods.getHeaders();
 
 		const headers: RequestInit = {
@@ -216,10 +218,11 @@ class BaseMethods {
 	static deleteRequest = async (
 		url: string,
 		body: any,
-		required_auth: boolean
+		required_auth: boolean,
+		inputToken?: string
 	): Promise<Response> => {
 		let head = required_auth
-			? BaseMethods.getHeadersAuth()
+			? BaseMethods.getHeadersAuth(true, inputToken)
 			: BaseMethods.getHeaders();
 
 		let headers: RequestInit = {

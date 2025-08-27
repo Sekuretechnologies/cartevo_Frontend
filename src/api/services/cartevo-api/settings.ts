@@ -46,7 +46,8 @@ export class SettingsService {
 			settingsUrls.UPDATE_EXCHANGE_RATE(data.id),
 			data,
 			true,
-			{}
+			{},
+			token
 		);
 	};
 
@@ -60,7 +61,8 @@ export class SettingsService {
 		return BaseMethods.deleteRequest(
 			settingsUrls.DELETE_EXCHANGE_RATE(id),
 			{},
-			true
+			true,
+			token
 		);
 	};
 
@@ -102,7 +104,8 @@ export class SettingsService {
 			settingsUrls.UPDATE_TRANSACTION_FEE(data.id),
 			data,
 			true,
-			{}
+			{},
+			token
 		);
 	};
 
@@ -116,7 +119,8 @@ export class SettingsService {
 		return BaseMethods.deleteRequest(
 			settingsUrls.DELETE_TRANSACTION_FEE(id),
 			{},
-			true
+			true,
+			token
 		);
 	};
 }

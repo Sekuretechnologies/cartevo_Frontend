@@ -37,9 +37,9 @@ export interface CreateExchangeRateRequest {
 	fromCurrency: string;
 	toCurrency: string;
 	rate: number;
-	source: string;
-	description: string;
-	isActive: boolean;
+	source?: string;
+	description?: string;
+	isActive?: boolean;
 }
 
 export interface UpdateExchangeRateRequest
