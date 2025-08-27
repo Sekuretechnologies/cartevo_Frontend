@@ -16,6 +16,10 @@ const URLConfig = {
 		...home(),
 	},
 
+	onboarding: {
+		...onboarding(),
+	},
+
 	//   Comptes utilisateurs
 	users: {
 		...users(),
@@ -56,6 +60,13 @@ export default URLConfig;
 
 function home(prefix: string = "") {
 	const PATH = `${rootUrl}home`;
+	return {
+		root: PATH,
+	};
+}
+
+function onboarding(prefix: string = "") {
+	const PATH = `${rootUrl}onboarding`;
 	return {
 		root: PATH,
 	};

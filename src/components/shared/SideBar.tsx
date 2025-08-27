@@ -53,14 +53,14 @@ const SideBar = (props: Props) => {
 	console.log("window.innerWidth :: ", window.innerWidth);
 
 	const SideBarLinksV2 = [
-		// {
-		// 	title: "Home",
-		// 	slug: "home",
-		// 	canSee: true, // hasPermission(user, "home", "view"),
-		// 	path: urls.home.root,
-		// 	count: null,
-		// 	icon: <Accueil />,
-		// },
+		{
+			title: "Onboarding",
+			slug: "onboarding",
+			canSee: true, // hasPermission(user, "home", "view"),
+			path: urls.onboarding.root,
+			count: null,
+			icon: <Accueil />,
+		},
 		{
 			title: "Wallets",
 			slug: "wallets",
