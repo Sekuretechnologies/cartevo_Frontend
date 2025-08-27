@@ -229,7 +229,7 @@ export default function CreateAccountForm() {
 
 	const onSubmit = (data: any) => {
 		console.log("Submit data : ", data);
-		// mutation.mutate(data);
+		mutation.mutate(data);
 	};
 	const onError = (err: any) => {
 		console.error("any", err);
