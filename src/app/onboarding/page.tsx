@@ -1,0 +1,202 @@
+"use client";
+import { useTitle } from "@/hooks/useTitle";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+import CButton from "@/components/shared/CButton";
+import Layout from "@/components/shared/Layout";
+import Title from "@/components/shared/Title";
+import BadgeLabel from "@/components/shared/BadgeLabel";
+
+import { FaUser, FaBuilding, FaCheck, FaClock } from "react-icons/fa";
+
+const PENDING = "PENDING";
+const COMPLETED = "COMPLETED";
+const IN_PROGRESS = "IN_PROGRESS";
+
+const onboardingSteps = [
+	{
+		name: "Profile Completion",
+		slug: "profile_completion",
+		order: 1,
+		status: PENDING,
+		description: "Complete user profile",
+		icon: <FaUser size={24} />,
+	},
+	{
+		name: "Business Information",
+		slug: "business_info",
+		order: 2,
+		status: PENDING,
+		description: "Complete business details and KYB",
+		icon: <FaBuilding size={24} />,
+	},
+];
+
+export default function OnboardingPage() {
+	useTitle("Cartevo | Onboarding", true);
+
+	const router = useRouter();
+	const [steps, setSteps] = useState(onboardingSteps);
+
+	const getStatusBadge = (status: string) => {
+		switch (status) {
+			case COMPLETED:
+				return (
+					<BadgeLabel
+						className="text-xs"
+						label="Completed"
+						badgeColor="#1F66FF"
+						textColor="#fff"
+					/>
+				);
+			case IN_PROGRESS:
+				return (
+					<BadgeLabel
+						className="text-xs"
+						label="In Progress"
+						badgeColor="#FFAC1C"
+						textColor="#444"
+					/>
+				);
+			case PENDING:
+			default:
+				return (
+					<BadgeLabel
+						className="text-xs"
+						label="Pending"
+						badgeColor="#F85D4B"
+						textColor="#fff"
+					/>
+				);
+		}
+	};
+
+	const getStatusIcon = (status: string) => {
+		switch (status) {
+			case COMPLETED:
+				return <FaCheck className="text-green-500" size={20} />;
+			case IN_PROGRESS:
+				return <FaClock className="text-yellow-500" size={20} />;
+			case PENDING:
+			default:
+				return <FaClock className="text-gray-400" size={20} />;
+		}
+	};
+
+	const handleStepClick = (slug: string) => {
+		router.push(`/onboarding/${slug}`);
+	};
+
+	return (
+		<Layout title={"Onboarding"}>
+			<section className="mt-2">
+				<div className="mb-8">
+					<Title title={"Complete Your Onboarding"} />
+					<p className="text-gray-600 mt-2">
+						Follow these steps to complete your account setup and
+						start using Cartevo.
+					</p>
+				</div>
+
+				{/* Onboarding Steps Grid */}
+				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+					{steps.map((step, index) => (
+						<div
+							key={step.slug}
+							className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
+							onClick={() => handleStepClick(step.slug)}
+						>
+							<div className="flex items-center justify-between mb-4">
+								<div className="flex items-center gap-3">
+									<div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+										{step.icon}
+									</div>
+									<div>
+										<h3 className="font-semibold text-lg text-gray-900">
+											{step.name}
+										</h3>
+										<p className="text-sm text-gray-500">
+											Step {step.order}
+										</p>
+									</div>
+								</div>
+								<div className="flex items-center gap-2">
+									{getStatusIcon(step.status)}
+									{getStatusBadge(step.status)}
+								</div>
+							</div>
+
+							<p className="text-gray-600 mb-4">
+								{step.description}
+							</p>
+
+							<div className="flex justify-between items-center">
+								<div className="flex-1">
+									{/* Progress indicator */}
+									<div className="w-full bg-gray-200 rounded-full h-2">
+										<div
+											className={`h-2 rounded-full transition-all duration-300 ${
+												step.status === COMPLETED
+													? "bg-green-500 w-full"
+													: step.status ===
+													  IN_PROGRESS
+													? "bg-yellow-500 w-1/2"
+													: "bg-gray-300 w-0"
+											}`}
+										></div>
+									</div>
+								</div>
+								<CButton
+									text={
+										step.status === COMPLETED
+											? "Review"
+											: step.status === IN_PROGRESS
+											? "Continue"
+											: "Start"
+									}
+									btnStyle={
+										step.status === COMPLETED
+											? "outlineDark"
+											: "blue"
+									}
+									onClick={() => handleStepClick(step.slug)}
+									width="100px"
+									height="35px"
+								/>
+							</div>
+						</div>
+					))}
+				</div>
+
+				{/* Overall Progress */}
+				<div className="mt-8 bg-white shadow-md rounded-xl p-6">
+					<div className="flex items-center justify-between mb-4">
+						<Title title={"Overall Progress"} />
+						<span className="text-lg font-semibold text-gray-700">
+							{steps.filter((s) => s.status === COMPLETED).length}{" "}
+							/ {steps.length} Completed
+						</span>
+					</div>
+					<div className="w-full bg-gray-200 rounded-full h-3">
+						<div
+							className="bg-blue-500 h-3 rounded-full transition-all duration-500"
+							style={{
+								width: `${
+									(steps.filter((s) => s.status === COMPLETED)
+										.length /
+										steps.length) *
+									100
+								}%`,
+							}}
+						></div>
+					</div>
+					<p className="text-sm text-gray-600 mt-2">
+						Complete all steps to unlock full access to your Cartevo
+						dashboard.
+					</p>
+				</div>
+			</section>
+		</Layout>
+	);
+}

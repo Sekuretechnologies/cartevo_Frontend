@@ -222,8 +222,8 @@ export default function CreateAccountForm() {
 			}
 
 			// goNextPage();
-			router.push("/signup?step=2");
-			// TODO: Navigate to company info form or next step
+			// router.push("/signup?step=2");
+			router.push("/login");
 		},
 	});
 
