@@ -2,6 +2,24 @@ import BaseMethods from "../../baseMethods";
 import { companyUrls } from "../urls";
 
 export class CompanyService {
+	static completeKyb = ({ token, body }: { token: string; body: any }) =>
+		BaseMethods.postFileRequest(
+			companyUrls.COMPLETE_KYB,
+			body,
+			true,
+			{},
+			token
+		);
+
+	static completeKyc = ({ token, body }: { token: string; body: any }) =>
+		BaseMethods.postFileRequest(
+			companyUrls.COMPLETE_KYC,
+			body,
+			true,
+			{},
+			token
+		);
+
 	static get_wallets = ({ token }: { token: string }) => {
 		let query_params: any = {};
 		return BaseMethods.getRequest(
@@ -15,6 +33,16 @@ export class CompanyService {
 		let query_params: any = {};
 		return BaseMethods.getRequest(
 			companyUrls.GET_TRANSACTIONS,
+			true,
+			query_params,
+			token
+		);
+	};
+
+	static get_onboarding_steps = ({ token }: { token: string }) => {
+		let query_params: any = {};
+		return BaseMethods.getRequest(
+			companyUrls.GET_ONBOARDING_STEPS,
 			true,
 			query_params,
 			token

@@ -11,6 +11,8 @@ import PersonalInfoForm from "@/app/(auth)/signup/components/form/PersonalInfoFo
 import CompanyInfoForm from "@/app/(auth)/signup/components/form/CompanyInfoForm";
 
 import { FaArrowLeft, FaUser, FaBuilding } from "react-icons/fa";
+import ProfileCompletionForm from "./form/ProfileCompletionForm";
+import KybCompletionForm from "./form/KybCompletionForm";
 
 const onboardingSteps = {
 	profile_completion: {
@@ -71,9 +73,9 @@ export default function OnboardingStepPage() {
 	const renderStepContent = () => {
 		switch (slug) {
 			case "profile_completion":
-				return <PersonalInfoForm goNextPage={handleNextStep} />;
-			case "business_info":
-				return <CompanyInfoForm />;
+				return <ProfileCompletionForm />;
+			case "kyb_completion":
+				return <KybCompletionForm />;
 			default:
 				return (
 					<div className="text-center py-8">
