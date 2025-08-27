@@ -138,52 +138,55 @@ export default function Settings() {
 
 	// Exchange Rates Table Data
 	const exchangeRatesTableData =
-		exchangeRatesQuery.data?.map((rate: ExchangeRate, index: number) => ({
+		exchangeRatesQuery.data?.map((rate: any, index: number) => ({
 			serial: index + 1,
-			fromCurrency: rate.fromCurrency,
-			toCurrency: rate.toCurrency,
-			rate: rate.rate.toLocaleString("en-EN", {
-				minimumFractionDigits: 2,
-			}),
-			source: rate.source,
-			status: rate.isActive ? (
-				<BadgeLabel
-					className="text-xs"
-					label="Active"
-					badgeColor="#1F66FF"
-					textColor="#444"
-				/>
-			) : (
-				<BadgeLabel
-					className="text-xs"
-					label="Inactive"
-					badgeColor="#F85D4B"
-					textColor="#444"
-				/>
+			fromCurrency: rate.from_currency,
+			toCurrency: rate.to_currency,
+			// rate: rate.rate.toLocaleString("en-EN", {
+			// 	minimumFractionDigits: 2,
+			// }),
+			// source: rate.source,
+			// status: rate.isActive ? (
+			// 	<BadgeLabel
+			// 		className="text-xs"
+			// 		label="Active"
+			// 		badgeColor="#1F66FF"
+			// 		textColor="#444"
+			// 	/>
+			// ) : (
+			// 	<BadgeLabel
+			// 		className="text-xs"
+			// 		label="Inactive"
+			// 		badgeColor="#F85D4B"
+			// 		textColor="#444"
+			// 	/>
+			// ),
+			description: String(rate.description || "")?.replace(
+				"1 USD ",
+				"1 USD = "
 			),
-			description: rate.description,
-			date: getFormattedDateTime(
-				new Date(rate.createdAt || new Date()),
-				"en"
-			),
-			actions: (
-				<div className="flex gap-2">
-					<CButton
-						text="Edit"
-						btnStyle="outlineDark"
-						icon={<HiPencil />}
-						onClick={() => handleEditExchangeRate(rate)}
-						height="30px"
-					/>
-					<CButton
-						text="Delete"
-						btnStyle="red"
-						icon={<HiTrash />}
-						onClick={() => handleDeleteExchangeRate(rate.id!)}
-						height="30px"
-					/>
-				</div>
-			),
+			// date: getFormattedDateTime(
+			// 	new Date(rate.createdAt || new Date()),
+			// 	"en"
+			// ),
+			// actions: (
+			// 	<div className="flex gap-2">
+			// 		<CButton
+			// 			text="Edit"
+			// 			btnStyle="outlineDark"
+			// 			icon={<HiPencil />}
+			// 			onClick={() => handleEditExchangeRate(rate)}
+			// 			height="30px"
+			// 		/>
+			// 		<CButton
+			// 			text="Delete"
+			// 			btnStyle="red"
+			// 			icon={<HiTrash />}
+			// 			onClick={() => handleDeleteExchangeRate(rate.id!)}
+			// 			height="30px"
+			// 		/>
+			// 	</div>
+			// ),
 		})) || [];
 
 	// Transaction Fees Table Data
@@ -191,38 +194,41 @@ export default function Settings() {
 		transactionFeesQuery.data?.map(
 			(fee: TransactionFee, index: number) => ({
 				serial: index + 1,
-				type: fee.transactionType,
-				category: fee.transactionCategory,
-				country: fee.countryIsoCode,
-				currency: fee.currency,
-				feeType: fee.type,
+				// type: fee.transactionType,
+				// category: fee.transactionCategory,
+				// country: fee.countryIsoCode,
+				// currency: fee.currency,
+				// feeType: fee.type,
+				description: fee.description,
 				value:
 					fee.type === "PERCENTAGE"
 						? `${fee.value}%`
-						: fee.value.toLocaleString("en-EN"),
-				description: fee.description,
-				date: getFormattedDateTime(
-					new Date(fee.createdAt || new Date()),
-					"en"
-				),
-				actions: (
-					<div className="flex gap-2">
-						<CButton
-							text="Edit"
-							btnStyle="outlineDark"
-							icon={<HiPencil />}
-							onClick={() => handleEditTransactionFee(fee)}
-							height="30px"
-						/>
-						<CButton
-							text="Delete"
-							btnStyle="red"
-							icon={<HiTrash />}
-							onClick={() => handleDeleteTransactionFee(fee.id!)}
-							height="30px"
-						/>
-					</div>
-				),
+						: `${fee.value.toLocaleString("en-EN")} ${
+								fee.currency
+						  }`,
+
+				// date: getFormattedDateTime(
+				// 	new Date(fee.createdAt || new Date()),
+				// 	"en"
+				// ),
+				// actions: (
+				// 	<div className="flex gap-2">
+				// 		<CButton
+				// 			text="Edit"
+				// 			btnStyle="outlineDark"
+				// 			icon={<HiPencil />}
+				// 			onClick={() => handleEditTransactionFee(fee)}
+				// 			height="30px"
+				// 		/>
+				// 		<CButton
+				// 			text="Delete"
+				// 			btnStyle="red"
+				// 			icon={<HiTrash />}
+				// 			onClick={() => handleDeleteTransactionFee(fee.id!)}
+				// 			height="30px"
+				// 		/>
+				// 	</div>
+				// ),
 			})
 		) || [];
 
@@ -231,24 +237,24 @@ export default function Settings() {
 		fromCurrency: "From",
 		toCurrency: "To",
 		rate: "Rate",
-		source: "Source",
-		status: "Status",
+		// source: "Source",
+		// status: "Status",
 		description: "Description",
-		date: "Created",
-		actions: "Actions",
+		// date: "Created",
+		// actions: "Actions",
 	};
 
 	const transactionFeesHeaderData = {
 		serial: "#",
-		type: "Type",
-		category: "Category",
-		country: "Country",
-		currency: "Currency",
-		feeType: "Fee Type",
-		value: "Value",
+		// type: "Type",
+		// category: "Category",
+		// country: "Country",
+		// currency: "Currency",
+		// feeType: "Fee Type",
 		description: "Description",
-		date: "Created",
-		actions: "Actions",
+		value: "Value",
+		// date: "Created",
+		// actions: "Actions",
 	};
 
 	return (
