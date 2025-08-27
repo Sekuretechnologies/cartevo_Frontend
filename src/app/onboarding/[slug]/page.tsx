@@ -54,7 +54,7 @@ export default function OnboardingStepPage() {
 						Step Not Found
 					</h2>
 					<p className="text-gray-600 mb-6">
-						The onboarding step you're looking for doesn't exist.
+						{`The onboarding step you're looking for doesn't exist.`}
 					</p>
 					<CButton
 						text="Back to Onboarding"
