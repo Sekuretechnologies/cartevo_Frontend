@@ -73,14 +73,15 @@ export default function VerifyOtpForm() {
 			// localStorage.setItem("access_token", token);
 			toast.success("OTP Verified successfully! Redirecting...");
 			dispatch(setCredentials({ token, company, user }));
-			const redirectTo = data.redirect_to;
-			if (redirectTo === "waiting") {
-				router.push("/waiting-kyb");
-			} else if (redirectTo === "step2") {
-				router.push("/signup?step=2");
-			} else {
-				router.push(urls.wallets.root);
-			}
+			router.push(urls.wallets.root);
+			// const redirectTo = data.redirect_to;
+			// if (redirectTo === "waiting") {
+			// 	router.push("/waiting-kyb");
+			// } else if (redirectTo === "step2") {
+			// 	router.push("/signup?step=2");
+			// } else {
+			// 	router.push(urls.wallets.root);
+			// }
 		},
 	});
 

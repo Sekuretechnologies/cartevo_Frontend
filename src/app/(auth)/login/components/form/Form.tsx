@@ -66,8 +66,8 @@ export default function LoginForm() {
 			console.log("Login onSuccess : ", data);
 			toast.success("Login successful! Redirecting...");
 			dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
-			router.push("/verify-otp");
-			// router.push(urls.wallets.root);
+			// router.push("/verify-otp");
+			router.push(urls.wallets.root);
 		},
 	});
 

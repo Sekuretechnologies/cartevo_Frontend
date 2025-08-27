@@ -15,13 +15,6 @@ const CreateAccountForm = dynamic(
 		ssr: false,
 	}
 );
-const CompanyInfoForm = dynamic(
-	() => import("./components/form/CompanyInfoForm"),
-	{
-		ssr: false,
-	}
-);
-
 export default function SignupPage() {
 	useTitle("Cartevo | Signup");
 	const dispatch = useDispatch();
