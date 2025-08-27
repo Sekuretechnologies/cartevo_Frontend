@@ -71,7 +71,7 @@ export default function SignupPage() {
 					</div>
 				</div>
 				<div className="col-span-7 flex justify-center items-center px-[50px]">
-					<div className="w-full max-w-[700px] my-10">
+					<div className="w-full max-w-[700px] h-[700px] my-10">
 						<CreateAccountForm />
 						<div className="mt-8 text-app-secondary text-sm">
 							Already have an account?{" "}
