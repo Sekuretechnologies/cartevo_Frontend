@@ -19,7 +19,7 @@ import { useMutation } from "react-query";
 import { HashLoader, PuffLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { setCurrentUserEmail } from "@/redux/slices/auth";
+import { setCredentials, setCurrentUserEmail } from "@/redux/slices/auth";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
 import urls from "@/config/urls";
@@ -64,8 +64,14 @@ export default function LoginForm() {
 		},
 		onSuccess: (data) => {
 			console.log("Login onSuccess : ", data);
+			const token = data.access_token;
+			const user = data.user;
+			const company = data.company;
+			dispatch(setCredentials({ token, company, user }));
+
 			toast.success("Login successful! Redirecting...");
-			dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
+			// dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
+
 			// router.push("/verify-otp");
 			router.push(urls.wallets.root);
 		},
