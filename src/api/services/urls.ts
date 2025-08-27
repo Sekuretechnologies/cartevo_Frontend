@@ -39,3 +39,31 @@ export const cardsUrls = {
 	CREATE_CARD: `${BASE_URL_CARD}`,
 	UPDATE_CARD: `${BASE_URL_CARD}`,
 };
+
+/** SETTINGS ============================================================ */
+export const BASE_URL_SETTINGS = `${BASE_URL}/settings`;
+export const settingsUrls = {
+	// Exchange Rates
+	GET_EXCHANGE_RATES: `${BASE_URL_SETTINGS}/exchange-rates`,
+	CREATE_EXCHANGE_RATE: `${BASE_URL_SETTINGS}/exchange-rates`,
+	UPDATE_EXCHANGE_RATE: (id: any) =>
+		`${BASE_URL_SETTINGS}/exchange-rates/${id}`,
+	DELETE_EXCHANGE_RATE: (id: any) =>
+		`${BASE_URL_SETTINGS}/exchange-rates/${id}`,
+
+	// Transaction Fees
+	GET_TRANSACTION_FEES: `${BASE_URL_SETTINGS}/transaction-fees`,
+	CREATE_TRANSACTION_FEE: `${BASE_URL_SETTINGS}/transaction-fees`,
+	UPDATE_TRANSACTION_FEE: (id: any) =>
+		`${BASE_URL_SETTINGS}/transaction-fees/${id}`,
+	DELETE_TRANSACTION_FEE: (id: any) =>
+		`${BASE_URL_SETTINGS}/transaction-fees/${id}`,
+};
+
+/** DEVELOPERS ============================================================ */
+export const BASE_URL_DEVELOPERS = `${BASE_URL}/developers`;
+export const developersUrls = {
+	GET_DEVELOPER_SETTINGS: `${BASE_URL_DEVELOPERS}/settings`,
+	UPDATE_DEVELOPER_SETTINGS: `${BASE_URL_DEVELOPERS}/settings`,
+	REGENERATE_CREDENTIALS: `${BASE_URL_DEVELOPERS}/settings/regenerate`,
+};
