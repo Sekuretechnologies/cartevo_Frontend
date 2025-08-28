@@ -257,7 +257,7 @@ export default function Developers() {
 								<CButton
 									text="View Documentation"
 									btnStyle="blue"
-									href="/docs/api"
+									href="https://api.cartevo.co/docs"
 								/>
 							</div>
 						</div>
