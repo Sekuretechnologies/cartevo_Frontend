@@ -96,7 +96,8 @@ export default function Developers() {
 
 					{developerSettingsQueryRes.isLoading ? (
 						<div className="flex justify-center items-center py-20">
-							<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+							<div className={"loadingSpinner"}></div>
+							{/* <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div> */}
 						</div>
 					) : (
 						<div className="space-y-6">
