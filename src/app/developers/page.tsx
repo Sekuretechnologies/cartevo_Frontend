@@ -121,7 +121,7 @@ export default function Developers() {
 								</div>
 								<div className="bg-gray-50 rounded-md p-3 flex justify-between items-center">
 									<code className="text-sm text-gray-700 flex-1 mr-3">
-										{developerSettings.webhookUrl ||
+										{developerSettings.webhook_url ||
 											"Not configured"}
 									</code>
 									<CButton
@@ -130,25 +130,27 @@ export default function Developers() {
 										icon={<HiClipboardCopy />}
 										onClick={() =>
 											copyToClipboard(
-												developerSettings.webhookUrl ||
+												developerSettings.webhook_url ||
 													"",
 												"Webhook URL"
 											)
 										}
-										disabled={!developerSettings.webhookUrl}
+										disabled={
+											!developerSettings.webhook_url
+										}
 									/>
 								</div>
 								<div className="mt-2 flex items-center">
 									<div
 										className={`w-2 h-2 rounded-full mr-2 ${
-											developerSettings.isActive
+											developerSettings.webhook_is_active
 												? "bg-green-500"
 												: "bg-red-500"
 										}`}
 									></div>
 									<span className="text-sm text-gray-600">
 										Status:{" "}
-										{developerSettings.isActive
+										{developerSettings.webhook_is_active
 											? "Active"
 											: "Inactive"}
 									</span>
@@ -187,7 +189,7 @@ export default function Developers() {
 									</label>
 									<div className="bg-gray-50 rounded-md p-3 flex justify-between items-center">
 										<code className="text-sm text-gray-700 flex-1 mr-3">
-											{developerSettings.clientId ||
+											{developerSettings.client_id ||
 												"Not generated"}
 										</code>
 										<CButton
@@ -196,13 +198,13 @@ export default function Developers() {
 											icon={<HiClipboardCopy />}
 											onClick={() =>
 												copyToClipboard(
-													developerSettings.clientId ||
+													developerSettings.client_id ||
 														"",
 													"Client ID"
 												)
 											}
 											disabled={
-												!developerSettings.clientId
+												!developerSettings.client_id
 											}
 										/>
 									</div>
@@ -215,7 +217,7 @@ export default function Developers() {
 									</label>
 									<div className="bg-gray-50 rounded-md p-3 flex justify-between items-center">
 										<code className="text-sm text-gray-700 flex-1 mr-3">
-											{developerSettings.clientKey
+											{developerSettings.client_key
 												? "••••••••••••••••••••••••••••••••"
 												: "Not generated"}
 										</code>
@@ -225,13 +227,13 @@ export default function Developers() {
 											icon={<HiClipboardCopy />}
 											onClick={() =>
 												copyToClipboard(
-													developerSettings.clientKey ||
+													developerSettings.client_key ||
 														"",
 													"Client Key"
 												)
 											}
 											disabled={
-												!developerSettings.clientKey
+												!developerSettings.client_key
 											}
 										/>
 									</div>
@@ -295,14 +297,16 @@ function EditWebhookModal({
 	onSuccess: () => void;
 }) {
 	const currentToken = useSelector(selectCurrentToken);
-	const [webhookUrl, setWebhookUrl] = useState(
-		currentSettings.webhookUrl || ""
+	const [webhook_url, setWebhookUrl] = useState(
+		currentSettings.webhook_url || ""
 	);
-	const [isActive, setIsActive] = useState(currentSettings.isActive || false);
+	const [isActive, setIsActive] = useState(
+		currentSettings.webhook_is_active || false
+	);
 
 	const updateSettingsMutation = useMutation(
 		(data: any) =>
-			DevelopersService.update_developer_settings({
+			DevelopersService.update_webhook({
 				token: currentToken,
 				data,
 			}),
@@ -326,7 +330,7 @@ function EditWebhookModal({
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		updateSettingsMutation.mutate({
-			webhookUrl,
+			webhook_url,
 			isActive,
 		});
 	};
@@ -343,7 +347,7 @@ function EditWebhookModal({
 					</label>
 					<input
 						type="url"
-						value={webhookUrl}
+						value={webhook_url}
 						onChange={(e) => setWebhookUrl(e.target.value)}
 						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 						placeholder="https://your-domain.com/webhook"

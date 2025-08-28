@@ -13,18 +13,19 @@ export class DevelopersService {
 		);
 	};
 
-	static update_developer_settings = ({
+	static update_webhook = ({
 		token,
 		data,
 	}: {
 		token: string;
 		data: UpdateDeveloperSettingsRequest;
 	}) => {
-		return BaseMethods.putRequest(
-			developersUrls.UPDATE_DEVELOPER_SETTINGS,
+		return BaseMethods.patchRequest(
+			developersUrls.UPDATE_WEBHOOK,
 			data,
 			true,
-			{}
+			{},
+			token
 		);
 	};
 

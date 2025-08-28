@@ -24,13 +24,10 @@ export interface TransactionFee {
 }
 
 export interface DeveloperSettings {
-	id?: string;
-	webhookUrl: string;
-	clientId: string;
-	clientKey: string;
-	isActive: boolean;
-	createdAt?: string;
-	updatedAt?: string;
+	webhook_is_active?: boolean;
+	webhook_url?: string;
+	client_id?: string;
+	client_key?: string;
 }
 
 export interface CreateExchangeRateRequest {

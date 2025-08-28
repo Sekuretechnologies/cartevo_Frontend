@@ -64,9 +64,9 @@ export const settingsUrls = {
 };
 
 /** DEVELOPERS ============================================================ */
-export const BASE_URL_DEVELOPERS = `${BASE_URL}/developers`;
+export const BASE_URL_DEVELOPERS = `${BASE_URL}/company`;
 export const developersUrls = {
-	GET_DEVELOPER_SETTINGS: `${BASE_URL_DEVELOPERS}/settings`,
-	UPDATE_DEVELOPER_SETTINGS: `${BASE_URL_DEVELOPERS}/settings`,
-	REGENERATE_CREDENTIALS: `${BASE_URL_DEVELOPERS}/settings/regenerate`,
+	GET_DEVELOPER_SETTINGS: `${BASE_URL_DEVELOPERS}/credentials`,
+	UPDATE_WEBHOOK: `${BASE_URL_DEVELOPERS}/webhook`,
+	REGENERATE_CREDENTIALS: `${BASE_URL_DEVELOPERS}/regenerate-client-key`,
 };
