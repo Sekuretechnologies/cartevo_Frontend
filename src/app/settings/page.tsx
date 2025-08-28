@@ -145,6 +145,7 @@ export default function Settings() {
 			rate: rate.rate.toLocaleString("en-EN", {
 				minimumFractionDigits: 2,
 			}),
+			description: String(rate.description || ""),
 			// source: rate.source,
 			// status: rate.isActive ? (
 			// 	<BadgeLabel
@@ -161,10 +162,7 @@ export default function Settings() {
 			// 		textColor="#444"
 			// 	/>
 			// ),
-			description: String(rate.description || "")?.replace(
-				"1 USD ",
-				"1 USD = "
-			),
+
 			// date: getFormattedDateTime(
 			// 	new Date(rate.createdAt || new Date()),
 			// 	"en"

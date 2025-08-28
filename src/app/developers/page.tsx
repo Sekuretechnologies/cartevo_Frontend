@@ -330,9 +330,15 @@ function EditWebhookModal({
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+
+		console.log("handleSubmit :", {
+			webhook_url,
+			webhook_is_active: isActive,
+		});
+
 		updateSettingsMutation.mutate({
 			webhook_url,
-			isActive,
+			webhook_is_active: isActive,
 		});
 	};
 
