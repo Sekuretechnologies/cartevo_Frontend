@@ -183,7 +183,7 @@ class BaseMethods {
 			headers: head,
 			mode: "cors",
 			cache: "default",
-			body: body, //JSON.stringify(body),
+			body: JSON.stringify(body),
 		};
 		return fetch(finalUrl, headers);
 	};

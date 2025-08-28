@@ -1,6 +1,5 @@
 import BaseMethods from "../../baseMethods";
 import { developersUrls } from "../urls";
-import { UpdateDeveloperSettingsRequest } from "@/types/settings";
 
 export class DevelopersService {
 	static get_developer_settings = ({ token }: { token: string }) => {
@@ -13,18 +12,7 @@ export class DevelopersService {
 		);
 	};
 
-	static update_webhook = ({
-		token,
-		data,
-	}: {
-		token: string;
-		data: UpdateDeveloperSettingsRequest;
-	}) => {
-		// console.log("DevelopersService.update_webhook :", {
-		// 	token,
-		// 	data,
-		// });
-
+	static update_webhook = ({ token, data }: { token: string; data: any }) => {
 		return BaseMethods.putRequest(
 			developersUrls.UPDATE_WEBHOOK,
 			data,

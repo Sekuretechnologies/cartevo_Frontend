@@ -31,6 +31,22 @@ const getDeveloperSettings = async ({ queryKey }: any) => {
 	return responseJson.data;
 };
 
+const handleUpdateWebhook = async (queryData: any) => {
+	const { token, data } = queryData;
+	// console.log("handleTransaction : ", {currentUserId, customerId, label, body});
+	// return {currentUserId, customerId, label, body}
+	const response = await DevelopersService.update_webhook({
+		token,
+		data,
+	});
+	if (!response.ok) {
+		const responseJson = await response.json();
+		throw new Error(responseJson.message || "Failed to update settings");
+	}
+	const responseJson = await response.json();
+	return responseJson;
+};
+
 export default function Developers() {
 	useTitle("Cartevo | Developers", true);
 	const currentToken: any = useSelector(selectCurrentToken);
@@ -307,18 +323,13 @@ function EditWebhookModal({
 
 	const updateSettingsMutation = useMutation(
 		(data: any) =>
-			DevelopersService.update_webhook({
+			handleUpdateWebhook({
 				token: currentToken,
 				data,
 			}),
 		{
-			onSuccess: async (response) => {
-				const responseJson = await response.json();
-				if (!response.ok) {
-					throw new Error(
-						responseJson.message || "Failed to update settings"
-					);
-				}
+			onSuccess: (data) => {
+				console.log("onSuccess : ", data);
 				toast.success("Settings updated successfully!");
 				onSuccess();
 			},
