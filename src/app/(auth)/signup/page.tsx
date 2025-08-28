@@ -3,7 +3,7 @@ import { useTitle } from "@/hooks/useTitle";
 import { selectCurrentStep, setCurrentStep } from "@/redux/slices/signup";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import Footer from "./components/Footer";
+import Footer from "../../../components/shared/Footer/Footer";
 // import PersonalInfoForm from "./components/form/PersonalInfoForm";
 import ProgressBar from "./components/ProgressBar";
 // import CompanyInfoForm from "./components/form/CompanyInfoForm";

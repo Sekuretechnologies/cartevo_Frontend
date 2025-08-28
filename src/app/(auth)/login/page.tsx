@@ -4,8 +4,8 @@
 import { useTitle } from "@/hooks/useTitle";
 import Image from "next/image";
 import LoginForm from "./components/form/Form";
-import NewsLetterForm from "./components/form/NewsLetterForm";
-import Footer from "./components/Footer";
+import NewsLetterForm from "../../../components/shared/Footer/NewsLetterForm";
+import Footer from "@/components/shared/Footer/Footer";
 import Link from "next/link";
 //---------------------------------------
 

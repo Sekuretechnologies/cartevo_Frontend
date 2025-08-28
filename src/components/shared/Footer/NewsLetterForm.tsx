@@ -1,30 +1,26 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { loginSchema } from "@/validation/FormValidation";
-import { FaChevronRight, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
+import { AuthService } from "@/api/services/cartevo-api/auth";
+import CButton from "@/components/shared/CButton";
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
-	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import CButton from "@/components/shared/CButton";
-import { AuthService } from "@/api/services/cartevo-api/auth";
-import { useMutation } from "react-query";
-import { HashLoader } from "react-spinners";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "@/redux/slices/auth";
-import { useRouter } from "next/navigation";
-import classNames from "classnames";
-import urls from "@/config/urls";
 import urlsV2 from "@/config/urls_v2";
+import { setCredentials } from "@/redux/slices/auth";
+import { loginSchema } from "@/validation/FormValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import classNames from "classnames";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useMutation } from "react-query";
+import { useDispatch } from "react-redux";
+import { HashLoader } from "react-spinners";
+import { z } from "zod";
 
 const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 	const response = await AuthService.login(data);
