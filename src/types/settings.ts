@@ -60,8 +60,6 @@ export interface UpdateTransactionFeeRequest
 }
 
 export interface UpdateDeveloperSettingsRequest {
-	webhookUrl?: string;
-	clientId?: string;
-	clientKey?: string;
-	isActive?: boolean;
+	webhook_url?: string;
+	webhook_is_active?: boolean;
 }

@@ -175,17 +175,17 @@ class BaseMethods {
 		}
 
 		const head = required_auth
-			? BaseMethods.getHeadersAuth(true, inputToken)
+			? BaseMethods.getHeadersAuth(false, inputToken)
 			: BaseMethods.getHeaders();
 
-		const headers: RequestInit = {
+		const requestOptions: RequestInit = {
 			method: "PUT",
 			headers: head,
 			mode: "cors",
 			cache: "default",
 			body: JSON.stringify(body),
 		};
-		return fetch(finalUrl, headers);
+		return fetch(finalUrl, requestOptions);
 	};
 
 	static patchRequest = async (
@@ -202,17 +202,17 @@ class BaseMethods {
 		}
 
 		const head = required_auth
-			? BaseMethods.getHeadersAuth(true, inputToken)
+			? BaseMethods.getHeadersAuth(false, inputToken)
 			: BaseMethods.getHeaders();
 
-		const headers: RequestInit = {
+		const requestOptions: RequestInit = {
 			method: "PATCH",
 			headers: head,
 			mode: "cors",
 			cache: "default",
 			body: JSON.stringify(body),
 		};
-		return fetch(finalUrl, headers);
+		return fetch(finalUrl, requestOptions);
 	};
 
 	static deleteRequest = async (
@@ -222,17 +222,17 @@ class BaseMethods {
 		inputToken?: string
 	): Promise<Response> => {
 		let head = required_auth
-			? BaseMethods.getHeadersAuth(true, inputToken)
+			? BaseMethods.getHeadersAuth(false, inputToken)
 			: BaseMethods.getHeaders();
 
-		let headers: RequestInit = {
+		let requestOptions: RequestInit = {
 			method: "DELETE",
 			headers: head,
 			mode: "cors",
 			cache: "default",
 			body: JSON.stringify(body),
 		};
-		return fetch(url, headers);
+		return fetch(url, requestOptions);
 	};
 }
 
