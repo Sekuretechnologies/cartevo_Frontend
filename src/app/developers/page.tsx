@@ -143,7 +143,7 @@ export default function Developers() {
 									</code>
 									<CButton
 										text="Copy"
-										btnStyle="lightGreen"
+										btnStyle="lightBlue"
 										icon={<HiClipboardCopy />}
 										onClick={() =>
 											copyToClipboard(
@@ -188,7 +188,7 @@ export default function Developers() {
 									</div>
 									<CButton
 										text="Regenerate"
-										btnStyle="yellow"
+										btnStyle="outlineDark"
 										icon={<HiRefresh />}
 										onClick={() =>
 											regenerateCredentialsMutation.mutate()
@@ -211,7 +211,7 @@ export default function Developers() {
 										</code>
 										<CButton
 											text="Copy"
-											btnStyle="lightGreen"
+											btnStyle="lightBlue"
 											icon={<HiClipboardCopy />}
 											onClick={() =>
 												copyToClipboard(
@@ -240,7 +240,7 @@ export default function Developers() {
 										</code>
 										<CButton
 											text="Copy"
-											btnStyle="lightGreen"
+											btnStyle="lightBlue"
 											icon={<HiClipboardCopy />}
 											onClick={() =>
 												copyToClipboard(
@@ -274,6 +274,7 @@ export default function Developers() {
 									text="View Documentation"
 									btnStyle="blue"
 									href="https://api.cartevo.co/docs"
+									openInNewTab={true}
 								/>
 							</div>
 						</div>

@@ -11,17 +11,21 @@ export interface ButtonProps
 		| "outlineDark"
 		| "outlineGreen"
 		| "dark"
+		| "darkBlue"
 		| "grey"
 		| "green"
 		| "red"
 		| "yellow"
 		| "lightGreen"
+		| "lightBlue"
 		| "lightYellow"
 		| "white_darkRed";
 	color?: string;
 	height?: string;
 	width?: string;
 	href?: string;
+	target?: "_blank" | "_self" | "_parent" | "_top";
+	openInNewTab?: boolean;
 	px?: string;
 	py?: string;
 	type?: "button" | "submit" | "reset";
@@ -47,6 +51,8 @@ const CButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		icon,
 		iconLeft,
 		href,
+		target,
+		openInNewTab,
 		px,
 		py,
 		hoverBgColor,
@@ -62,11 +68,14 @@ const CButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		...props
 	}) => {
 		const iconColor =
-			btnStyle === "lightGreen" || btnStyle === "outlineGreen"
+			btnStyle === "lightGreen" ||
+			btnStyle === "lightBlue" ||
+			btnStyle === "outlineGreen"
 				? "#1F66FF"
 				: btnStyle === "green" ||
 				  btnStyle === "red" ||
 				  btnStyle === "dark" ||
+				  btnStyle === "darkBlue" ||
 				  btnStyle === "grey" ||
 				  btnStyle === "blue"
 				? "#fff"
@@ -83,6 +92,10 @@ const CButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 			: null;
 		// const iconLeftElement = iconLeft ? React.cloneElement(iconLeft as React.ReactElement<any>, { size: iconSize ?? 15, color: iconColor }) : null;
 
+		// Determine if link should open in new tab
+		const shouldOpenInNewTab = target === "_blank" || openInNewTab === true;
+		const linkTarget = target || (shouldOpenInNewTab ? "_blank" : "_self");
+
 		const btnStyles = {
 			blue: `
 	  border-[#1F66FF] hover:border-[#1F66FF]/80   bg-[#1F66FF] hover:bg-[#1F66FF]/80
@@ -92,8 +105,11 @@ const CButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 			outlineGreen: `border-[#18BC7A]
       bg-transparent hover:bg-[#18BC7A]/20 text-[#18BC7A]`,
 			dark: `
-      border-[#202020] hover:border-[#202020]/80   bg-[#202020] hover:bg-[#202020]/80
-      text-white`,
+			    border-[#202020] hover:border-[#202020]/80   bg-[#202020] hover:bg-[#202020]/80
+			    text-white`,
+			darkBlue: `
+			    border-[#063292] hover:border-[#063292]/80   bg-[#063292] hover:bg-[#063292]/80
+			    text-white`,
 			grey: `
       border-gray-300  bg-gray-300
       text-white`,
@@ -107,9 +123,12 @@ const CButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       border-[#FFDB5A] hover:border-[#FFDB5A]/80   bg-[#FFDB5A] hover:bg-[#FFDB5A]/80
       text-black`,
 			lightGreen: `
-      border-[#18BC7A]/20 hover:border-[#18BC7A]/30   bg-[#18BC7A]/20 hover:bg-[#18BC7A]/30
-      text-[#18BC7A]`,
-			lightYellow: ` 
+			    border-[#18BC7A]/20 hover:border-[#18BC7A]/30   bg-[#18BC7A]/20 hover:bg-[#18BC7A]/30
+			    text-[#18BC7A]`,
+			lightBlue: `
+			    border-[#1F66FF]/20 hover:border-[#1F66FF]/30   bg-[#1F66FF]/20 hover:bg-[#1F66FF]/30
+			    text-[#1F66FF]`,
+			lightYellow: `
     border-[#FFDB5A]/20 hover:border-[#FFDB5A]/30   bg-[#FFDB5A]/20 hover:bg-[#FFDB5A]/30
     text-[#FFDB5A]`,
 			white_darkRed: `border-[#994617]/20 hover:border-[#994617]/50   bg-white
@@ -122,29 +141,61 @@ const CButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		return (
 			<>
 				{href ? (
-					<Link
-						title={toolTip}
-						href={href}
-						className={btnClassZero + " " + btnStyles[btnStyle]}
-						style={{
-							// padding: `${px ?? '0'} ${py ?? '0'}`,
-							whiteSpace: `${textWrap ? "normal" : "nowrap"}`,
-							height: `${height ?? ""}`,
-							width: `${width ?? ""}`,
-						}}
-					>
-						{iconPosition == "end" ? (
-							<>
-								{text}
-								{iconElement}
-							</>
-						) : (
-							<>
-								{iconElement}
-								{text}
-							</>
-						)}
-					</Link>
+					shouldOpenInNewTab ? (
+						// Use regular anchor tag for external links or new tab
+						<a
+							title={toolTip}
+							href={href}
+							target={linkTarget}
+							rel={
+								shouldOpenInNewTab
+									? "noopener noreferrer"
+									: undefined
+							}
+							className={btnClassZero + " " + btnStyles[btnStyle]}
+							style={{
+								whiteSpace: `${textWrap ? "normal" : "nowrap"}`,
+								height: `${height ?? ""}`,
+								width: `${width ?? ""}`,
+							}}
+						>
+							{iconPosition == "end" ? (
+								<>
+									{text}
+									{iconElement}
+								</>
+							) : (
+								<>
+									{iconElement}
+									{text}
+								</>
+							)}
+						</a>
+					) : (
+						// Use Next.js Link for internal navigation
+						<Link
+							title={toolTip}
+							href={href}
+							className={btnClassZero + " " + btnStyles[btnStyle]}
+							style={{
+								whiteSpace: `${textWrap ? "normal" : "nowrap"}`,
+								height: `${height ?? ""}`,
+								width: `${width ?? ""}`,
+							}}
+						>
+							{iconPosition == "end" ? (
+								<>
+									{text}
+									{iconElement}
+								</>
+							) : (
+								<>
+									{iconElement}
+									{text}
+								</>
+							)}
+						</Link>
+					)
 				) : (
 					<>
 						<button

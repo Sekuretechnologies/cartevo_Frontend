@@ -28,8 +28,15 @@ import { selectCurrentToken } from "@/redux/slices/auth";
 
 const CountryFlags: any = CFlags;
 
-const ItemFlag = ({ iso2 }: { iso2: string }) => CountryFlags[iso2];
 // const ItemFlagUS = CountryFlags["US"];
+
+const ItemFlag = ({ iso2 }: { iso2: string }) => {
+	// country-flag-icons exports ISO codes in UPPERCASE
+	const code = iso2.toUpperCase();
+	const FlagIcon = CountryFlags[code];
+	if (!FlagIcon) return null; // guard if unsupported code
+	return <FlagIcon className="h-full w-full object-cover" title={code} />;
+};
 
 let infoData: TDataList[] = [
 	[
@@ -292,12 +299,17 @@ export default function Home() {
 		infoData[0][0][0].value.text = (
 			<span className="flex gap-2 items-center">
 				<span>{companyWalletsQueryRes?.data?.[0]?.currency || ""}</span>
-				<ItemFlag
-					iso2={
-						companyWalletsQueryRes?.data?.[0]?.country_iso_code ||
-						""
-					}
-				/>
+
+				{companyWalletsQueryRes?.data?.[0]?.country_iso_code && (
+					<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
+						<ItemFlag
+							iso2={
+								companyWalletsQueryRes?.data?.[0]
+									?.country_iso_code
+							}
+						/>
+					</span>
+				)}
 			</span>
 		);
 		infoData[0][0][1].value.text = (
@@ -316,12 +328,16 @@ export default function Home() {
 		infoData[1][0][0].value.text = (
 			<span className="flex gap-2 items-center">
 				<span>{companyWalletsQueryRes?.data?.[1]?.currency || ""}</span>
-				<ItemFlag
-					iso2={
-						companyWalletsQueryRes?.data?.[1]?.country_iso_code ||
-						""
-					}
-				/>
+				{companyWalletsQueryRes?.data?.[1]?.country_iso_code && (
+					<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
+						<ItemFlag
+							iso2={
+								companyWalletsQueryRes?.data?.[1]
+									?.country_iso_code
+							}
+						/>
+					</span>
+				)}
 			</span>
 		);
 		infoData[1][0][1].value.text = (
