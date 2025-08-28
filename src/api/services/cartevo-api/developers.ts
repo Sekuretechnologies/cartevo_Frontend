@@ -20,7 +20,7 @@ export class DevelopersService {
 		token: string;
 		data: UpdateDeveloperSettingsRequest;
 	}) => {
-		return BaseMethods.patchRequest(
+		return BaseMethods.putRequest(
 			developersUrls.UPDATE_WEBHOOK,
 			data,
 			true,
