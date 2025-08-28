@@ -20,6 +20,11 @@ export class DevelopersService {
 		token: string;
 		data: UpdateDeveloperSettingsRequest;
 	}) => {
+		console.log("DevelopersService.update_webhook :", {
+			token,
+			data,
+		});
+
 		return BaseMethods.putRequest(
 			developersUrls.UPDATE_WEBHOOK,
 			data,
