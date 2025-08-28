@@ -272,18 +272,18 @@ export default function Settings() {
 						headerData={exchangeRatesHeaderData}
 						tableData={exchangeRatesTableData}
 						isLoading={exchangeRatesQuery.isLoading}
-						btn={
-							<CButton
-								text="Add Exchange Rate"
-								btnStyle="blue"
-								icon={<HiPlus />}
-								onClick={() => {
-									setEditingExchangeRate(null);
-									setIsExchangeRateModalOpen(true);
-								}}
-								height="33px"
-							/>
-						}
+						// btn={
+						// 	<CButton
+						// 		text="Add Exchange Rate"
+						// 		btnStyle="blue"
+						// 		icon={<HiPlus />}
+						// 		onClick={() => {
+						// 			setEditingExchangeRate(null);
+						// 			setIsExchangeRateModalOpen(true);
+						// 		}}
+						// 		height="33px"
+						// 	/>
+						// }
 					/>
 				</div>
 
@@ -302,18 +302,18 @@ export default function Settings() {
 						headerData={transactionFeesHeaderData}
 						tableData={transactionFeesTableData}
 						isLoading={transactionFeesQuery.isLoading}
-						btn={
-							<CButton
-								text="Add Transaction Fee"
-								btnStyle="blue"
-								icon={<HiPlus />}
-								onClick={() => {
-									setEditingTransactionFee(null);
-									setIsTransactionFeeModalOpen(true);
-								}}
-								height="33px"
-							/>
-						}
+						// btn={
+						// 	<CButton
+						// 		text="Add Transaction Fee"
+						// 		btnStyle="blue"
+						// 		icon={<HiPlus />}
+						// 		onClick={() => {
+						// 			setEditingTransactionFee(null);
+						// 			setIsTransactionFeeModalOpen(true);
+						// 		}}
+						// 		height="33px"
+						// 	/>
+						// }
 					/>
 				</div>
 
