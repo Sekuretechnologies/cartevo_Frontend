@@ -9,6 +9,7 @@ import ProgressBar from "./components/ProgressBar";
 // import CompanyInfoForm from "./components/form/CompanyInfoForm";
 
 import dynamic from "next/dynamic";
+import { cartevoIconName } from "@/constants/icons";
 const CreateAccountForm = dynamic(
 	() => import("./components/form/CreateAccountForm"),
 	{
@@ -41,17 +42,18 @@ export default function SignupPage() {
 
 	return (
 		<section className="relative flex flex-col mt-0 w-full">
-			<nav className="absolute z-10 top-0 left-0 w-full h-[80px] px-[150px] flex items-center">
+			<nav className="absolute z-10 top-0 left-0 w-full h-[80px] px-[50px] flex items-center">
 				<div className="max-w-[1250px]">
-					<img
+					{/* <img
 						src="/images/cartevo-logo.svg"
 						alt="cartevo-logo"
 						className=""
-					/>
+					/> */}
+					{cartevoIconName}
 				</div>
 			</nav>
 			<div className="w-full grid grid-cols-12">
-				<div className="relative col-span-5 pl-[150px] pr-[50px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
+				<div className="relative col-span-5 pl-[60px] pr-[50px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
 					<h1 className="font-bold text-4xl text-app-secondary">
 						Sign up
 					</h1>

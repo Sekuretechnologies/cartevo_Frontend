@@ -12,7 +12,7 @@ const VerifyOtpPage = () => {
 	useTitle("Cartevo | Verify OTP");
 	return (
 		<section className="relative flex flex-col h-screen mt-0  w-full">
-			<nav className="fixed z-10 top-0 left-0 w-full h-[80px] px-[150px] flex items-center">
+			<nav className="fixed z-10 top-0 left-0 w-full h-[80px] px-[50px] flex items-center">
 				<div className="max-w-[1250px] ">
 					{/* <img
 						src="/images/cartevo-logo.svg"
@@ -23,7 +23,7 @@ const VerifyOtpPage = () => {
 				</div>
 			</nav>
 			<div className="w-full h-[90vh] grid grid-cols-12">
-				<div className="relative col-span-5 pl-[150px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
+				<div className="relative col-span-5 pl-[60px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
 					<h1 className="font-bold text-4xl text-app-secondary">
 						Verify OTP
 					</h1>

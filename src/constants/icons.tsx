@@ -108,7 +108,7 @@ export const cartevoIcon = (
 
 export const cartevoIconName = (
 	<svg
-		width="200px"
+		width="160px"
 		height="37px"
 		viewBox="0 0 4760 1142"
 		version="1.1"
