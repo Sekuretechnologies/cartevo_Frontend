@@ -179,10 +179,10 @@ export default function Navbar(props: Props) {
 								/>
 								<div className="switchbar block bg-gray-200 w-[120px] h-[33px] rounded-full flex items-center px-2 text-xs">
 									<span className="testMode font-bold text-[18px] text-gray-600">
-										Test
+										Live
 									</span>
 									<span className="proMode font-bold text-[18px] text-gray-600">
-										Live
+										Test
 									</span>
 								</div>
 
