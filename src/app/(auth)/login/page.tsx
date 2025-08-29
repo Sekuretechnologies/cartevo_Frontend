@@ -7,6 +7,7 @@ import LoginForm from "./components/form/Form";
 import NewsLetterForm from "../../../components/shared/Footer/NewsLetterForm";
 import Footer from "@/components/shared/Footer/Footer";
 import Link from "next/link";
+import { cartevoIconName } from "@/constants/icons";
 //---------------------------------------
 
 const LoginPage = () => {
@@ -15,11 +16,12 @@ const LoginPage = () => {
 		<section className="relative flex flex-col h-screen mt-0  w-full">
 			<nav className="absolute z-10 top-0 left-0 w-full h-[80px] px-[150px] flex items-center">
 				<div className="max-w-[1250px] ">
-					<img
+					{/* <img
 						src="/images/cartevo-logo.svg"
 						alt="cartevo-logo"
 						className=""
-					/>
+					/> */}
+					{cartevoIconName}
 				</div>
 			</nav>
 			<div className="w-full h-[90vh] grid grid-cols-12">
