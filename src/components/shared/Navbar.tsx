@@ -1,5 +1,9 @@
 import { AuthService } from "@/api/services/cartevo-api/auth";
-import { logOut, selectCurrentUser } from "@/redux/slices/auth";
+import {
+	logOut,
+	selectCurrentCompany,
+	selectCurrentUser,
+} from "@/redux/slices/auth";
 import {
 	selectCurrentVersion,
 	selectLimitDate,
@@ -45,6 +49,7 @@ export default function Navbar(props: Props) {
 	const classNames = (...classes: string[]): string =>
 		classes.filter(Boolean).join(" ");
 
+	const currentCompany = useSelector(selectCurrentCompany);
 	const currentUser = useSelector(selectCurrentUser);
 	const currentVersion = useSelector(selectCurrentVersion);
 	const currentStartDate = useSelector(selectStartDate);
@@ -162,17 +167,22 @@ export default function Navbar(props: Props) {
 							<div className="relative">
 								<input
 									type="checkbox"
-									defaultChecked={currentVersion == 2}
+									defaultChecked={
+										currentCompany.is_onboarding_completed
+									}
+									disabled={
+										!currentCompany.is_onboarding_completed
+									}
 									onChange={(e) => handleVersion(e)}
 									id="modeToggle"
 									className="sr-only"
 								/>
 								<div className="switchbar block bg-gray-200 w-[120px] h-[33px] rounded-full flex items-center px-2 text-xs">
 									<span className="testMode font-bold text-[18px] text-gray-600">
-										Live
+										Test
 									</span>
 									<span className="proMode font-bold text-[18px] text-gray-600">
-										Sandbox
+										Live
 									</span>
 								</div>
 
