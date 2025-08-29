@@ -22,10 +22,47 @@ class BaseMethods {
 			: localStorage.getItem("sktoken")
 			? localStorage.getItem("sktoken") || ""
 			: "";
-		// TODO: redirect if not logged in
-		// if (token === '') {
-		//     window.location.pathname = `/auth/login/?redirect=${window.location.pathname}`;
-		// }
+		// Check if token is expired and redirect if needed
+		if (token === "") {
+			if (typeof window !== "undefined") {
+				window.sessionStorage.setItem(
+					"previousUrl",
+					window.location.pathname
+				);
+				window.location.href = "/login";
+			}
+			return headers;
+		}
+
+		// Check if JWT token is expired
+		try {
+			const payload = JSON.parse(atob(token.split(".")[1]));
+			const currentTime = Date.now() / 1000;
+
+			if (payload.exp && payload.exp < currentTime) {
+				// Token is expired
+				if (typeof window !== "undefined") {
+					localStorage.removeItem("sktoken");
+					window.sessionStorage.setItem(
+						"previousUrl",
+						window.location.pathname
+					);
+					window.location.href = "/login";
+				}
+				return headers; // Return headers without token
+			}
+		} catch (error) {
+			// Invalid token format, treat as expired
+			if (typeof window !== "undefined") {
+				localStorage.removeItem("sktoken");
+				window.sessionStorage.setItem(
+					"previousUrl",
+					window.location.pathname
+				);
+				window.location.href = "/login";
+			}
+			return headers;
+		}
 		headers.append("Authorization", `Bearer ${token}`);
 		return headers;
 	}

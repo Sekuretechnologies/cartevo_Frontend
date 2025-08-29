@@ -7,6 +7,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import CButton from "@/components/shared/CButton";
 import Layout from "@/components/shared/Layout";
 import Modal from "@/components/shared/Modal/Modal";
+import Checkbox from "@/components/shared/Checkbox";
 
 import { DevelopersService } from "@/api/services/cartevo-api/developers";
 import { selectCurrentToken } from "@/redux/slices/auth";
@@ -373,17 +374,12 @@ function EditWebhookModal({
 					/>
 				</div>
 				<div className="mb-6">
-					<label className="flex items-center">
-						<input
-							type="checkbox"
-							checked={isActive}
-							onChange={(e) => setIsActive(e.target.checked)}
-							className="mr-2"
-						/>
-						<span className="text-sm text-gray-700">
-							Enable webhook notifications
-						</span>
-					</label>
+					<Checkbox
+						id="webhook-active"
+						checked={isActive}
+						onChange={setIsActive}
+						label="Enable webhook notifications"
+					/>
 				</div>
 				<div className="flex gap-3 justify-end">
 					<CButton

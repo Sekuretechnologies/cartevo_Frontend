@@ -75,6 +75,7 @@ export default function SignupPage() {
 				<div className="col-span-7 flex justify-center items-center px-[50px]">
 					<div className="w-full max-w-[700px] h-[700px] my-10">
 						<CreateAccountForm />
+
 						<div className="mt-8 text-app-secondary text-sm">
 							Already have an account?{" "}
 							<a
@@ -84,6 +85,7 @@ export default function SignupPage() {
 								Sign in here
 							</a>
 						</div>
+
 						{/* {currentStep === 1 && (
 							<>
 								<PersonalInfoForm goNextPage={handleNext} />

@@ -4,8 +4,8 @@ import { authUrls } from "../urls";
 export class AuthService {
 	static login = (info: any) =>
 		BaseMethods.postRequest(authUrls.LOGIN, info, false);
-	static logout = (info: any) =>
-		BaseMethods.postRequest(authUrls.LOGOUT, info, true);
+	static logout = (token: string) =>
+		BaseMethods.postRequest(authUrls.LOGOUT, {}, true, undefined, token);
 	// static resendOtp = () =>
 	// 	BaseMethods.postRequest(authUrls.RESEND_OTP, {}, true);
 	static verifyOtp = (info: any) =>

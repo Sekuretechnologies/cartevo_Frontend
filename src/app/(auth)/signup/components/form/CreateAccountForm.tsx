@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import CButton from "@/components/shared/CButton";
+import Checkbox from "@/components/shared/Checkbox";
 import {
 	Form,
 	FormControl,
@@ -167,6 +168,7 @@ export default function CreateAccountForm() {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const [confirmPasswordVisible, setConfirmPasswordVisible] =
 		useState<boolean>();
+	const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const form = useForm<z.infer<typeof createAccountSchema>>({
@@ -228,6 +230,11 @@ export default function CreateAccountForm() {
 	});
 
 	const onSubmit = (data: any) => {
+		if (!acceptTerms) {
+			toast.error("Please accept the terms and conditions to continue");
+			return;
+		}
+
 		console.log("Submit data : ", data);
 		mutation.mutate(data);
 	};
@@ -585,6 +592,42 @@ export default function CreateAccountForm() {
 							)}
 						/>
 					</div>
+
+					{/* Terms and Conditions Checkbox */}
+					<div className="mt-4">
+						<Checkbox
+							id="accept-terms"
+							checked={acceptTerms}
+							onChange={setAcceptTerms}
+							label={
+								<>
+									I hereby consent to the{" "}
+									<a
+										href="/terms-of-use"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-blue-600 hover:text-blue-800 underline"
+									>
+										Terms of Use
+									</a>{" "}
+									and give consent for Cartevo to process my
+									data in line with Cartevo's{" "}
+									<a
+										href="/privacy-policy"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-blue-600 hover:text-blue-800 underline"
+									>
+										Privacy Policy
+									</a>
+									. I also confirm I have the authorisation of
+									the Board of Directors and the Company to
+									create this account and provide their
+									personal data.
+								</>
+							}
+						/>
+					</div>
 				</div>
 
 				{/* <div className="text-right">
@@ -598,6 +641,7 @@ export default function CreateAccountForm() {
 						type={"submit"}
 						width={"250px"}
 						height={"40px"}
+						disabled={!acceptTerms || mutation.isLoading}
 					/>
 				</div>
 				<div

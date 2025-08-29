@@ -73,7 +73,11 @@ export default function LoginForm() {
 			// dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
 
 			// router.push("/verify-otp");
-			router.push(urls.wallets.root);
+			if (!company?.onboarding_is_completed) {
+				router.push(urls.onboarding.root);
+			} else {
+				router.push(urls.wallets.root);
+			}
 		},
 	});
 

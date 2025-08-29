@@ -21,8 +21,8 @@ const authSlice = createSlice({
 		},
 		logOut: (state) => {
 			state.token = null;
-			localStorage.removeItem("sktoken");
-			window.sessionStorage.removeItem("previousUrl");
+			// localStorage.removeItem("sktoken");
+			// window.sessionStorage.removeItem("previousUrl");
 		},
 	},
 });

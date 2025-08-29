@@ -9,8 +9,15 @@ import { useContext, useEffect } from "react";
 import { capitalize } from "@/utils/capitalize";
 import { context } from "@/context/ApplicationContext";
 import { useRouter, usePathname } from "next/navigation";
-import { selectCurrentToken, selectCurrentUser } from "@/redux/slices/auth";
-import { useSelector } from "react-redux";
+import {
+	selectCurrentCompany,
+	selectCurrentToken,
+	selectCurrentUser,
+	logOut,
+} from "@/redux/slices/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { useAuth } from "@/hooks/useAuth";
+import { isTokenExpired } from "@/utils/auth";
 import urls from "@/config/urls";
 import urlsV2 from "@/config/urls_v2";
 import urlsV1V2 from "@/config/urlsv1v2";
@@ -31,8 +38,12 @@ const Layout: React.FC<LayoutProps> = ({
 	const [isExpanded, setIsExpanded] = useState(false);
 	const router = useRouter();
 	const pathname = usePathname();
-	const token = useSelector(selectCurrentToken);
+	const dispatch = useDispatch();
+	// const token = useSelector(selectCurrentToken);
 	const user = useSelector(selectCurrentUser);
+	const company = useSelector(selectCurrentCompany);
+	const { token, isAuthenticated, isChecking } = useAuth();
+
 	// console.log("token : ", token);
 
 	/** //////////////////////////////////////////// */
@@ -42,12 +53,33 @@ const Layout: React.FC<LayoutProps> = ({
 	// 	}
 	// }, [title]);
 
-	// useEffect(() => {
-	// 	if (!token) {
-	// 		window.sessionStorage.setItem("previousUrl", pathname);
-	// 		router.push("/login");
-	// 	}
-	// }, [router]);
+	useEffect(() => {
+		// Don't check auth while still validating
+		if (isChecking) return;
+
+		// Check if user is not authenticated
+		if (!isAuthenticated) {
+			window.sessionStorage.setItem("previousUrl", pathname);
+			router.push("/login");
+			return;
+		}
+
+		// Additional check for stored token expiration (fallback)
+		// const storedToken = localStorage.getItem("sktoken");
+		if (token && isTokenExpired(token)) {
+			dispatch(logOut());
+			window.sessionStorage.setItem("previousUrl", pathname);
+			router.push("/login");
+		}
+	}, [isAuthenticated, isChecking, router, pathname, dispatch]);
+
+	useEffect(() => {
+		if (token && (pathname === "/login" || pathname === "/verify-otp")) {
+			company?.onboarding_is_completed
+				? router.push("/wallets")
+				: router.push("/onboarding");
+		}
+	}, [pathname]);
 
 	// useEffect(() => {
 	// 	// const sktoken = localStorage.getItem('sktoken');
@@ -66,13 +98,13 @@ const Layout: React.FC<LayoutProps> = ({
 	// 		}
 	// 	}
 
-	// 	if (
-	// 		token &&
-	// 		pathname !== "/login" &&
-	// 		(!user?.role || user?.role !== "admin" || !user?.admin_role)
-	// 	) {
-	// 		router.push("/login");
-	// 	}
+	// if (
+	// 	token &&
+	// 	pathname !== "/login" &&
+	// 	(!user?.role || user?.role !== "admin" || !user?.admin_role)
+	// ) {
+	// 	router.push("/login");
+	// }
 
 	// 	if (
 	// 		token &&

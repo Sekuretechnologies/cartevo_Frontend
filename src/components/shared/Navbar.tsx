@@ -2,6 +2,7 @@ import { AuthService } from "@/api/services/cartevo-api/auth";
 import {
 	logOut,
 	selectCurrentCompany,
+	selectCurrentToken,
 	selectCurrentUser,
 } from "@/redux/slices/auth";
 import {
@@ -33,8 +34,8 @@ type Props = {
 
 let scrollPositionY = 0;
 
-const handleLogout = async (email: string) => {
-	const response = await AuthService.logout({ email });
+const handleLogout = async (token: string) => {
+	const response = await AuthService.logout(token);
 	if (!response.ok) {
 		const responseBody = await response.json();
 		throw new Error(responseBody.message);
@@ -49,6 +50,7 @@ export default function Navbar(props: Props) {
 	const classNames = (...classes: string[]): string =>
 		classes.filter(Boolean).join(" ");
 
+	const currentToken = useSelector(selectCurrentToken);
 	const currentCompany = useSelector(selectCurrentCompany);
 	const currentUser = useSelector(selectCurrentUser);
 	const currentVersion = useSelector(selectCurrentVersion);
@@ -61,33 +63,28 @@ export default function Navbar(props: Props) {
 		useState(false);
 
 	const mutation = useMutation({
-		mutationFn: async () => handleLogout(currentUser.email),
-		onError: (err: any) => {
-			if (err.message == "Compte inexistant") {
-				toast.success("A bientot! Redirecting...");
-				dispatch(logOut());
-				router.push("/login");
-			} else {
-				console.error("Logout onError : ", err.message);
-				toast.error(err.message);
-			}
-		},
+		mutationFn: async () => handleLogout(currentToken),
 		onSuccess: (data) => {
 			toast.success("A bientot! Redirecting...");
 			dispatch(logOut());
 			router.push("/login");
 		},
+		onError: (err: any) => {
+			console.error("Logout onError : ", err.message);
+			toast.error(err.message);
+		},
 	});
 
 	const onLogout = () => {
 		console.log("ON_LOGOUT");
-
 		mutation.mutate();
 	};
 
 	const handleOnboardingError = (e: any) => {
 		if (!currentCompany.is_onboarding_completed) {
-			toast.error("You have to complete onboarding to go to Live mode");
+			toast.error(
+				"You have to complete onboarding to be able to access to Live mode"
+			);
 		}
 		// if (e.target.checked) {
 		// 	dispatch(setVersion(2));
