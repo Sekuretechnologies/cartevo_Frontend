@@ -85,6 +85,16 @@ export default function Navbar(props: Props) {
 		mutation.mutate();
 	};
 
+	const handleOnboardingError = (e: any) => {
+		if (!currentCompany.is_onboarding_completed) {
+			toast.error("You have to complete onboarding to go to Live mode");
+		}
+		// if (e.target.checked) {
+		// 	dispatch(setVersion(2));
+		// } else {
+		// 	dispatch(setVersion(1));
+		// }
+	};
 	const handleVersion = (e: any) => {
 		if (e.target.checked) {
 			dispatch(setVersion(2));
@@ -164,7 +174,10 @@ export default function Navbar(props: Props) {
 							htmlFor="modeToggle"
 							className="flex items-center cursor-pointer"
 						>
-							<div className="relative">
+							<div
+								className="relative"
+								onClick={(e) => handleOnboardingError(e)}
+							>
 								<input
 									type="checkbox"
 									defaultChecked={
@@ -173,11 +186,12 @@ export default function Navbar(props: Props) {
 									disabled={
 										!currentCompany.is_onboarding_completed
 									}
-									onChange={(e) => handleVersion(e)}
+									// onClick={(e) => handleVersion(e)}
+									// onChange={(e) => handleVersion(e)}
 									id="modeToggle"
 									className="sr-only"
 								/>
-								<div className="switchbar block bg-gray-200 w-[120px] h-[33px] rounded-full flex items-center px-2 text-xs">
+								<div className="switchbar block bg-gray-200 w-[85px] h-[33px] rounded-full flex items-center px-2 text-xs">
 									<span className="testMode font-bold text-[18px] text-gray-600">
 										Live
 									</span>

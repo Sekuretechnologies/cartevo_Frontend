@@ -22,6 +22,6 @@
 }
 
 #modeToggle:checked ~ .dot {
-	transform: translateX(300%);
+	transform: translateX(180%);
 	background-color: #1f66ff;
 }
