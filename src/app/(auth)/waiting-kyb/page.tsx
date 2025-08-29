@@ -20,7 +20,7 @@ const WaitingKybPage = () => {
 					{cartevoIconName}
 				</div>
 			</nav>
-			<div className="w-full h-[90vh] grid grid-cols-12">
+			<div className="w-full min-h-[70vh] grid grid-cols-12">
 				<div className="relative col-span-12 pl-[150px] pt-[200px] bg-app-lightblue overflow-hidden">
 					<h1 className="font-bold text-5xl text-app-secondary mb-4">
 						Verifying Your Company Informations

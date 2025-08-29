@@ -22,7 +22,7 @@ const VerifyOtpPage = () => {
 					{cartevoIconName}
 				</div>
 			</nav>
-			<div className="w-full h-[90vh] grid grid-cols-12">
+			<div className="w-full min-h-[70vh] grid grid-cols-12">
 				<div className="relative col-span-5 pl-[60px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
 					<h1 className="font-bold text-4xl text-app-secondary">
 						Verify OTP
