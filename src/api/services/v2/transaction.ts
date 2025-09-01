@@ -147,7 +147,7 @@ export class TransactionService {
 		if (includedTypes) query_params.includedTypes = includedTypes;
 		return BaseMethods.getRequest(
 			transactionUrlsV2.GET_ALL_TRANSACTIONS,
-			true,
+			false,
 			query_params
 		);
 	};

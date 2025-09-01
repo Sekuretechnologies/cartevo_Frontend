@@ -88,7 +88,7 @@ export class CustomerService {
 	static get_one_customer = (id: string) => {
 		return BaseMethods.getRequest(
 			customerUrlsV2.GET_ONE_CUSTOMER(id),
-			true
+			false
 		);
 	};
 	static update_one_customer = ({
@@ -159,20 +159,20 @@ export class CustomerService {
 		return BaseMethods.putRequest(
 			customerUrlsV2.UPDATE_ONE_CUSTOMER_PASSWORD(customerId),
 			body,
-			true,
+			false,
 			query_params
 		);
 	};
 	static get_one_customer_transactions = (id: string) => {
 		return BaseMethods.getRequest(
 			customerUrlsV2.GET_ONE_CUSTOMER_TRANSACTIONS(id),
-			true
+			false
 		);
 	};
 	static get_one_customer_transfers = (id: string) => {
 		return BaseMethods.getRequest(
 			customerUrlsV2.GET_ONE_CUSTOMER_TRANSFERS(id),
-			true
+			false
 		);
 	};
 	static get_stats_countries = ({
