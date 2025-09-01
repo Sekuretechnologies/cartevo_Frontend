@@ -180,43 +180,41 @@ const FundXAFModal: React.FC<FundXAFModalProps> = ({
 				)}
 
 				{/* Fee and Amount Display */}
-				{amountNum > 0 && (
-					<div className="bg-gray-50 p-4 rounded-md">
-						<h3 className="text-sm font-medium text-gray-700 mb-3">
-							Transaction Summary
-						</h3>
-						<div className="space-y-2 text-sm">
-							<div className="flex justify-between">
-								<span>Amount to fund:</span>
-								<span className="font-medium">
-									{amountNum.toLocaleString()} XAF
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span>Fee ({fees}%):</span>
-								<span className="font-medium">
-									{feeAmount.toLocaleString()} XAF
-								</span>
-							</div>
-							<div className="flex justify-between border-t pt-2">
-								<span className="font-medium">
-									Total debited:
-								</span>
-								<span className="font-bold text-blue-600">
-									{totalAmount.toLocaleString()} XAF
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="font-medium">
-									Amount received:
-								</span>
-								<span className="font-bold text-green-600">
-									{amountNum.toLocaleString()} XAF
-								</span>
-							</div>
+				{/* {amountNum > 0 && ( */}
+				<div className="bg-gray-50 p-4 rounded-md">
+					<h3 className="text-sm font-medium text-gray-700 mb-3">
+						Transaction Summary
+					</h3>
+					<div className="space-y-2 text-sm">
+						<div className="flex justify-between">
+							<span>Amount to fund:</span>
+							<span className="font-medium">
+								{amountNum.toLocaleString()} XAF
+							</span>
+						</div>
+						<div className="flex justify-between">
+							<span>Fee ({fees}%):</span>
+							<span className="font-medium">
+								{feeAmount.toLocaleString()} XAF
+							</span>
+						</div>
+						<div className="flex justify-between border-t pt-2">
+							<span className="font-medium">Total debited:</span>
+							<span className="font-bold text-blue-600">
+								{totalAmount.toLocaleString()} XAF
+							</span>
+						</div>
+						<div className="flex justify-between">
+							<span className="font-medium">
+								Amount received:
+							</span>
+							<span className="font-bold text-green-600">
+								{amountNum.toLocaleString()} XAF
+							</span>
 						</div>
 					</div>
-				)}
+				</div>
+				{/* )} */}
 			</div>
 
 			<div className="flex gap-3 justify-end mt-6">
