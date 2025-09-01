@@ -2,7 +2,7 @@
 import { useTitle } from "@/hooks/useTitle";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 
 import { TDataList } from "@/components/cards/InfoCard";
 import CButton from "@/components/shared/CButton";
@@ -16,15 +16,19 @@ import { headerUserTransactionDataV2 } from "@/constants/TransactionData";
 import useKeyPressed from "@/hooks/useKeyPressed";
 import { selectSearchTerm } from "@/redux/slices/search";
 import * as CFlags from "country-flag-icons/react/3x2";
-import { FaArrowsRotate } from "react-icons/fa6";
-import { MdOutlineFileDownload } from "react-icons/md";
+import { FaArrowsRotate, FaMoneyBillWave } from "react-icons/fa6";
+import { MdDownload, MdOutlineFileDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryTypeV2 } from "@/utils/graphs";
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import Modal from "@/components/shared/Modal/Modal";
 import TransactionModal from "./manage/[id]/components/Tabs/Transactions/modals/TransactionModal";
+import AddWalletModal from "@/components/cards/AddWalletModal";
+import FundUSDModal from "@/components/cards/FundUSDModal";
+import FundXAFModal from "@/components/cards/FundXAFModal";
 import { selectCurrentToken } from "@/redux/slices/auth";
+import { HiDownload } from "react-icons/hi";
 
 const CountryFlags: any = CFlags;
 
@@ -38,7 +42,12 @@ const ItemFlag = ({ iso2 }: { iso2: string }) => {
 	return <FlagIcon className="h-full w-full object-cover" title={code} />;
 };
 
-let infoData: TDataList[] = [
+// Initial infoData structure - will be updated with real data
+const getInitialInfoData = (
+	setIsFundXAFModalOpen: (open: boolean) => void,
+	setIsFundUSDModalOpen: (open: boolean) => void,
+	walletData?: any[]
+): TDataList[] => [
 	[
 		[
 			{
@@ -65,7 +74,7 @@ let infoData: TDataList[] = [
 			{
 				label: { text: "Available balance", fw: "", color: "#444" },
 				value: {
-					text: "136 000",
+					text: "0",
 					fs: "25px",
 					fw: "bold",
 					color: "#444",
@@ -78,9 +87,8 @@ let infoData: TDataList[] = [
 				value: {
 					text: (
 						<CButton
-							text={"Recharger"}
+							text={"Fund"}
 							btnStyle={"blue"}
-							// href={`/`}
 							icon={<MdOutlineFileDownload size={50} />}
 							width={"100%"}
 							height={"40px"}
@@ -88,21 +96,6 @@ let infoData: TDataList[] = [
 					),
 				},
 			},
-			// {
-			// 	label: { text: "", fw: "", color: "#444" },
-			// 	value: {
-			// 		text: (
-			// 			<CButton
-			// 				text={"Convertir"}
-			// 				btnStyle={"outlineDark"}
-			// 				// href={`/`}
-			// 				icon={<FaArrowsRotate />}
-			// 				width={"100%"}
-			// 				height={"40px"}
-			// 			/>
-			// 		),
-			// 	},
-			// },
 		],
 	],
 	[
@@ -131,7 +124,7 @@ let infoData: TDataList[] = [
 			{
 				label: { text: "Available balance", fw: "", color: "#444" },
 				value: {
-					text: "1460",
+					text: "0",
 					fs: "25px",
 					fw: "bold",
 					color: "#444",
@@ -144,9 +137,8 @@ let infoData: TDataList[] = [
 				value: {
 					text: (
 						<CButton
-							text={"Recharger"}
+							text={"Fund"}
 							btnStyle={"blue"}
-							// href={`/`}
 							icon={<MdOutlineFileDownload size={50} />}
 							width={"100%"}
 							height={"40px"}
@@ -154,74 +146,9 @@ let infoData: TDataList[] = [
 					),
 				},
 			},
-			// {
-			// 	label: { text: "", fw: "", color: "#444" },
-			// 	value: {
-			// 		text: (
-			// 			<CButton
-			// 				text={"Convertir"}
-			// 				btnStyle={"outlineDark"}
-			// 				// href={`/`}
-			// 				icon={<FaArrowsRotate />}
-			// 				width={"100%"}
-			// 				height={"40px"}
-			// 			/>
-			// 		),
-			// 	},
-			// },
 		],
 	],
 ];
-
-infoData[0][0][0].value.text = (
-	<span className="flex gap-2 items-center">
-		<span>XAF</span>
-		<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
-			<ItemFlag iso2={"CM"} />
-		</span>
-	</span>
-);
-infoData[0][0][1].value.text = (
-	<span className="flex gap-2 items-center">
-		<span>0</span>
-		<span className="text-xs">XAF</span>
-	</span>
-);
-infoData[0][1][0].value.text = (
-	<CButton
-		text={"Recharger"}
-		btnStyle={"blue"}
-		// href={`/`}
-		icon={<MdOutlineFileDownload size={50} />}
-		width={"100%"}
-		height={"40px"}
-	/>
-);
-
-infoData[1][0][0].value.text = (
-	<span className="flex gap-2 items-center">
-		<span>USD</span>
-		<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
-			<ItemFlag iso2={"US"} />
-		</span>
-	</span>
-);
-infoData[1][0][1].value.text = (
-	<span className="flex gap-2 items-center">
-		<span>0</span>
-		<span className="text-xs">USD</span>
-	</span>
-);
-infoData[1][1][0].value.text = (
-	<CButton
-		text={"Recharger"}
-		btnStyle={"blue"}
-		// href={`/`}
-		icon={<MdOutlineFileDownload size={50} />}
-		width={"100%"}
-		height={"40px"}
-	/>
-);
 
 const getCompanyWallets = async ({ queryKey }: any) => {
 	const [_key, token] = queryKey;
@@ -257,6 +184,15 @@ export default function Home() {
 	const [statsData, setStatsData] = useState<TDataList[]>();
 
 	const [isOpen, setIsOpen] = useState(false);
+	const [isAddWalletModalOpen, setIsAddWalletModalOpen] = useState(false);
+	const [isFundUSDModalOpen, setIsFundUSDModalOpen] = useState(false);
+	const [isFundXAFModalOpen, setIsFundXAFModalOpen] = useState(false);
+
+	// Initialize infoData
+	let infoData: TDataList[] = getInitialInfoData(
+		setIsFundXAFModalOpen,
+		setIsFundUSDModalOpen
+	);
 
 	const dispatch = useDispatch();
 	const redirectRef: any = useRef();
@@ -287,6 +223,35 @@ export default function Home() {
 		},
 		refetchInterval: 60000, // Fetches data every 30 seconds
 	});
+
+	const createWalletMutation = useMutation(
+		(body: any) =>
+			CompanyService.create_wallet({ token: currentToken, body }),
+		{
+			onSuccess: () => {
+				toast.success("Wallet created successfully!");
+				companyWalletsQueryRes.refetch(); // Refetch wallets after creation
+			},
+			onError: (err) => {
+				toast.error("Failed to create wallet.");
+			},
+		}
+	);
+
+	const fundWalletMutation = useMutation(
+		(body: any) =>
+			CompanyService.fund_wallet({ token: currentToken, body }),
+		{
+			onSuccess: () => {
+				toast.success("Wallet funded successfully!");
+				companyWalletsQueryRes.refetch(); // Refetch wallets after funding
+				companyTransactionsQueryRes.refetch(); // Refetch transactions
+			},
+			onError: (err) => {
+				toast.error("Failed to fund wallet.");
+			},
+		}
+	);
 
 	//------------------------------------------------
 
@@ -325,6 +290,25 @@ export default function Home() {
 			</span>
 		);
 
+		infoData[0][1][0].value.text = (
+			<CButton
+				text={"Fund"}
+				btnStyle={"blue"}
+				onClick={() => {
+					const currency =
+						companyWalletsQueryRes?.data?.[0]?.currency;
+					if (currency === "USD") {
+						setIsFundUSDModalOpen(true);
+					} else if (currency === "XAF") {
+						setIsFundXAFModalOpen(true);
+					}
+				}}
+				icon={<MdDownload size={50} />}
+				width={"100%"}
+				height={"40px"}
+			/>
+		);
+
 		infoData[1][0][0].value.text = (
 			<span className="flex gap-2 items-center">
 				<span>{companyWalletsQueryRes?.data?.[1]?.currency || ""}</span>
@@ -351,6 +335,24 @@ export default function Home() {
 					{companyWalletsQueryRes?.data?.[1]?.currency || ""}
 				</span>
 			</span>
+		);
+		infoData[1][1][0].value.text = (
+			<CButton
+				text={"Fund"}
+				btnStyle={"blue"}
+				onClick={() => {
+					const currency =
+						companyWalletsQueryRes?.data?.[1]?.currency;
+					if (currency === "USD") {
+						setIsFundUSDModalOpen(true);
+					} else if (currency === "XAF") {
+						setIsFundXAFModalOpen(true);
+					}
+				}}
+				icon={<MdDownload size={20} />}
+				width={"100%"}
+				height={"40px"}
+			/>
 		);
 
 		rearrangedTableData = companyTransactionsQueryRes?.data?.map(
@@ -437,8 +439,49 @@ export default function Home() {
 						<div className={"loadingSpinner"}></div>
 					</div>
 				) : (
-					<WalletCardGrid walletData={infoData} />
+					<WalletCardGrid
+						walletData={infoData}
+						onAddWallet={() => setIsAddWalletModalOpen(true)}
+					/>
 				)}
+
+				<Modal
+					name="addWallet"
+					isOpen={isAddWalletModalOpen}
+					setIsOpen={setIsAddWalletModalOpen}
+					modalContent={
+						<AddWalletModal
+							setIsOpen={setIsAddWalletModalOpen}
+							onSubmit={createWalletMutation.mutate}
+						/>
+					}
+				/>
+
+				<Modal
+					name="fundUSD"
+					isOpen={isFundUSDModalOpen}
+					setIsOpen={setIsFundUSDModalOpen}
+					modalContent={
+						<FundUSDModal
+							setIsOpen={setIsFundUSDModalOpen}
+							onSubmit={fundWalletMutation.mutate}
+							wallets={companyWalletsQueryRes?.data || []}
+						/>
+					}
+				/>
+
+				<Modal
+					name="fundXAF"
+					isOpen={isFundXAFModalOpen}
+					setIsOpen={setIsFundXAFModalOpen}
+					modalContent={
+						<FundXAFModal
+							setIsOpen={setIsFundXAFModalOpen}
+							onSubmit={fundWalletMutation.mutate}
+							phoneNumbers={[]} // TODO: Get phone numbers from API
+						/>
+					}
+				/>
 
 				<div className="my-[50px] bg-white  shadow-md rounded-xl p-5">
 					<div className="mb-5">
