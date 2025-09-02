@@ -5,7 +5,7 @@ export class WalletService {
 	static get_wallets = ({ token }: { token: string }) => {
 		let query_params: any = {};
 		return BaseMethods.getRequest(
-			companyUrls.GET_WALLETS,
+			walletUrls.GET_WALLETS,
 			true,
 			query_params,
 			token
@@ -14,7 +14,7 @@ export class WalletService {
 
 	static create_wallet = ({ token, body }: { token: string; body: any }) =>
 		BaseMethods.postRequest(
-			companyUrls.CREATE_WALLET,
+			walletUrls.CREATE_WALLET,
 			body,
 			true,
 			{},

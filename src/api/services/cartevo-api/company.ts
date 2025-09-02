@@ -20,24 +20,15 @@ export class CompanyService {
 			token
 		);
 
-	static get_wallets = ({ token }: { token: string }) => {
-		let query_params: any = {};
-		return BaseMethods.getRequest(
-			companyUrls.GET_WALLETS,
-			true,
-			query_params,
-			token
-		);
-	};
-
-	static create_wallet = ({ token, body }: { token: string; body: any }) =>
-		BaseMethods.postRequest(
-			companyUrls.CREATE_WALLET,
-			body,
-			true,
-			{},
-			token
-		);
+	// static get_wallets = ({ token }: { token: string }) => {
+	// 	let query_params: any = {};
+	// 	return BaseMethods.getRequest(
+	// 		walletUrls.GET_WALLETS,
+	// 		true,
+	// 		query_params,
+	// 		token
+	// 	);
+	// };
 
 	static get_transactions = ({ token }: { token: string }) => {
 		let query_params: any = {};

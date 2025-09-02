@@ -24,7 +24,9 @@ import BadgeLabel from "@/components/shared/BadgeLabel";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import Modal from "@/components/shared/Modal/Modal";
 import TransactionModal from "./manage/[id]/components/Tabs/Transactions/modals/TransactionModal";
-import AddWalletModal from "@/components/cards/AddWalletModal";
+import AddWalletModal, {
+	AddWalletSubmitProps,
+} from "@/components/cards/AddWalletModal";
 import FundUSDModal from "@/components/cards/DepositToUSDWalletModal";
 import FundLocalCurrencyWalletModal from "@/components/cards/FundLocalCurrencyWalletModal";
 import { selectCurrentToken } from "@/redux/slices/auth";
@@ -149,7 +151,7 @@ const getInitialInfoData = (
 const getCompanyWallets = async ({ queryKey }: any) => {
 	const [_key, token] = queryKey;
 	let params: any = {};
-	const response = await CompanyService.get_wallets({ token: token || "" });
+	const response = await WalletService.get_wallets({ token: token || "" });
 	const responseJson = await response.json();
 	if (!response.ok) {
 		throw new Error(responseJson.message || "Failed to get wallets");
@@ -162,6 +164,19 @@ const getCompanyTransactions = async ({ queryKey }: any) => {
 	let params: any = {};
 	const response = await CompanyService.get_transactions({
 		token: token || "",
+	});
+	const responseJson = await response.json();
+	if (!response.ok) {
+		throw new Error(responseJson.message || "Failed to get wallets");
+	}
+	return responseJson.data;
+};
+
+const createWallet = async (token: string, data: AddWalletSubmitProps) => {
+	let params: any = {};
+	const response = await WalletService.create_wallet({
+		token: token,
+		body: data,
 	});
 	const responseJson = await response.json();
 	if (!response.ok) {
@@ -199,28 +214,28 @@ export default function Home() {
 	const searchTerm: string = useSelector(selectSearchTerm);
 
 	// Intersection Observer to load transactions when user scrolls to the section
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting && !loadTransactions) {
-						setLoadTransactions(true);
-					}
-				});
-			},
-			{ threshold: 0.1 } // Trigger when 10% of the element is visible
-		);
+	// useEffect(() => {
+	// 	const observer = new IntersectionObserver(
+	// 		(entries) => {
+	// 			entries.forEach((entry) => {
+	// 				if (entry.isIntersecting && !loadTransactions) {
+	// 					setLoadTransactions(true);
+	// 				}
+	// 			});
+	// 		},
+	// 		{ threshold: 0.1 } // Trigger when 10% of the element is visible
+	// 	);
 
-		if (transactionsSectionRef.current) {
-			observer.observe(transactionsSectionRef.current);
-		}
+	// 	if (transactionsSectionRef.current) {
+	// 		observer.observe(transactionsSectionRef.current);
+	// 	}
 
-		return () => {
-			if (transactionsSectionRef.current) {
-				observer.unobserve(transactionsSectionRef.current);
-			}
-		};
-	}, [loadTransactions]);
+	// 	return () => {
+	// 		if (transactionsSectionRef.current) {
+	// 			observer.unobserve(transactionsSectionRef.current);
+	// 		}
+	// 	};
+	// }, [loadTransactions]);
 
 	//------------------------------------------------
 	// Lazy load transactions - only when user scrolls to transactions section
@@ -230,7 +245,7 @@ export default function Home() {
 		onError: (err) => {
 			toast.error("Failed to get Company Transactions.");
 		},
-		enabled: loadTransactions, // Only load when explicitly requested
+		// enabled: loadTransactions, // Only load when explicitly requested
 		staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
 		cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
 	});
@@ -251,15 +266,14 @@ export default function Home() {
 	});
 
 	const createWalletMutation = useMutation(
-		(body: any) =>
-			CompanyService.create_wallet({ token: currentToken, body }),
+		(data: AddWalletSubmitProps) => createWallet(currentToken, data),
 		{
+			onError: (err) => {
+				toast.error("Failed to create wallet.");
+			},
 			onSuccess: () => {
 				toast.success("Wallet created successfully!");
 				companyWalletsQueryRes.refetch(); // Refetch wallets after creation
-			},
-			onError: (err) => {
-				toast.error("Failed to create wallet.");
 			},
 		}
 	);
@@ -309,89 +323,81 @@ export default function Home() {
 	const { shiftDown, iPressed, ePressed } = useKeyPressed();
 
 	if (companyWalletsQueryRes?.data) {
-		infoData[0][0][0].value.text = (
-			<span className="flex gap-2 items-center">
-				<span>{companyWalletsQueryRes?.data?.[0]?.currency || ""}</span>
+		// Sort wallets to ensure USD is first
+		const sortedWallets = [...companyWalletsQueryRes.data].sort((a, b) => {
+			if (a.currency === "USD") return -1;
+			if (b.currency === "USD") return 1;
+			return 0;
+		});
 
-				{companyWalletsQueryRes?.data?.[0]?.country_iso_code && (
-					<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
-						<ItemFlag
-							iso2={
-								companyWalletsQueryRes?.data?.[0]
-									?.country_iso_code || ""
-							}
-						/>
-					</span>
-				)}
-			</span>
-		);
-		infoData[0][0][1].value.text = (
-			<span className="flex gap-2 items-center">
-				<span>
-					{companyWalletsQueryRes?.data?.[0]?.balance?.toLocaleString(
-						"en-EN"
-					) || 0}
-				</span>
-				<span className="text-xs">
-					{companyWalletsQueryRes?.data?.[0]?.currency || ""}
-				</span>
-			</span>
-		);
-
-		infoData[0][1][0].value.text = (
-			<CButton
-				text={"Fund"}
-				btnStyle={"blue"}
-				onClick={() => {
-					const wallet = companyWalletsQueryRes?.data?.[0];
-					setFundModalData({ isOpen: true, wallet });
-				}}
-				icon={<MdDownload size={50} />}
-				width={"100%"}
-				height={"40px"}
-			/>
-		);
-
-		infoData[1][0][0].value.text = (
-			<span className="flex gap-2 items-center">
-				<span>{companyWalletsQueryRes?.data?.[1]?.currency || ""}</span>
-				{companyWalletsQueryRes?.data?.[1]?.country_iso_code && (
-					<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
-						<ItemFlag
-							iso2={
-								companyWalletsQueryRes?.data?.[1]
-									?.country_iso_code || ""
-							}
-						/>
-					</span>
-				)}
-			</span>
-		);
-		infoData[1][0][1].value.text = (
-			<span className="flex gap-2 items-center">
-				<span>
-					{companyWalletsQueryRes?.data?.[1]?.balance?.toLocaleString(
-						"en-EN"
-					) || 0}
-				</span>
-				<span className="text-xs">
-					{companyWalletsQueryRes?.data?.[1]?.currency || ""}
-				</span>
-			</span>
-		);
-		infoData[1][1][0].value.text = (
-			<CButton
-				text={"Fund"}
-				btnStyle={"blue"}
-				onClick={() => {
-					const wallet = companyWalletsQueryRes?.data?.[1];
-					setFundModalData({ isOpen: true, wallet });
-				}}
-				icon={<MdDownload size={20} />}
-				width={"100%"}
-				height={"40px"}
-			/>
-		);
+		// Dynamically generate infoData based on sorted wallets
+		infoData = sortedWallets.map((wallet) => [
+			[
+				{
+					label: {
+						text: "Wallet",
+						fw: "bold",
+						fs: "20px",
+						color: "#444",
+					},
+					value: {
+						text: (
+							<span className="flex gap-2 items-center">
+								<span>{wallet.currency || ""}</span>
+								{wallet.country_iso_code && (
+									<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
+										<ItemFlag
+											iso2={wallet.country_iso_code}
+										/>
+									</span>
+								)}
+							</span>
+						),
+						fs: "20px",
+						fw: "bold",
+						color: "#444",
+					},
+				},
+				{
+					label: { text: "Available balance", fw: "", color: "#444" },
+					value: {
+						text: (
+							<span className="flex gap-2 items-center">
+								<span>
+									{wallet.balance?.toLocaleString("en-EN") ||
+										0}
+								</span>
+								<span className="text-xs">
+									{wallet.currency || ""}
+								</span>
+							</span>
+						),
+						fs: "25px",
+						fw: "bold",
+						color: "#444",
+					},
+				},
+			],
+			[
+				{
+					label: { text: "", fw: "", color: "#444" },
+					value: {
+						text: (
+							<CButton
+								text={"Fund"}
+								btnStyle={"blue"}
+								onClick={() =>
+									setFundModalData({ isOpen: true, wallet })
+								}
+								icon={<MdDownload size={50} />}
+								width={"100%"}
+								height={"40px"}
+							/>
+						),
+					},
+				},
+			],
+		]);
 
 		if (companyTransactionsQueryRes?.data) {
 			rearrangedTableData = companyTransactionsQueryRes.data.map(
