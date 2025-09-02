@@ -1,6 +1,6 @@
 "use client";
 import { useTitle } from "@/hooks/useTitle";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useMutation } from "react-query";
 
@@ -176,6 +176,7 @@ export default function Home() {
 	const currentToken: any = useSelector(selectCurrentToken);
 
 	const [filterContent, setFilterContent] = useState({});
+	const [loadTransactions, setLoadTransactions] = useState(false);
 
 	const [statsData, setStatsData] = useState<TDataList[]>();
 
@@ -193,21 +194,47 @@ export default function Home() {
 
 	const dispatch = useDispatch<any>();
 	const redirectRef: any = useRef();
+	const transactionsSectionRef = useRef<HTMLDivElement>(null);
 	// dispatch(setSearchTerm(''));
 	const searchTerm: string = useSelector(selectSearchTerm);
 
+	// Intersection Observer to load transactions when user scrolls to the section
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting && !loadTransactions) {
+						setLoadTransactions(true);
+					}
+				});
+			},
+			{ threshold: 0.1 } // Trigger when 10% of the element is visible
+		);
+
+		if (transactionsSectionRef.current) {
+			observer.observe(transactionsSectionRef.current);
+		}
+
+		return () => {
+			if (transactionsSectionRef.current) {
+				observer.unobserve(transactionsSectionRef.current);
+			}
+		};
+	}, [loadTransactions]);
+
 	//------------------------------------------------
+	// Lazy load transactions - only when user scrolls to transactions section
 	const companyTransactionsQueryRes = useQuery({
 		queryKey: ["companyTransactions", currentToken],
 		queryFn: getCompanyTransactions,
 		onError: (err) => {
 			toast.error("Failed to get Company Transactions.");
 		},
-		// enabled: false,
-		// refetchInterval: 50000, // Fetches data every 60 seconds
+		enabled: loadTransactions, // Only load when explicitly requested
+		staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+		cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
 	});
-	// dispatch(setCurrentCustomerTransactions(oneUserTransactionsQueryRes.data));
-	console.log("userQueryRes.data : ", companyTransactionsQueryRes.data);
+
 	const companyTransactionsData = companyTransactionsQueryRes.data;
 
 	//------------------------------------------------
@@ -218,7 +245,9 @@ export default function Home() {
 		onError: (err) => {
 			toast.error("Failed to get wallets.");
 		},
-		refetchInterval: 60000, // Fetches data every 30 seconds
+		refetchInterval: 300000, // Reduced to 5 minutes instead of 1 minute
+		staleTime: 2 * 60 * 1000, // Consider data fresh for 2 minutes
+		cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
 	});
 
 	const createWalletMutation = useMutation(
@@ -364,9 +393,11 @@ export default function Home() {
 			/>
 		);
 
-		rearrangedTableData = companyTransactionsQueryRes?.data?.map(
-			(item: any, index: any) => {
-				const rearrangedItem = {
+		rearrangedTableData = useMemo(() => {
+			if (!companyTransactionsQueryRes?.data) return [];
+
+			return companyTransactionsQueryRes.data.map(
+				(item: any, index: any) => ({
 					serial: index + 1,
 					type: getCategoryTypeV2(item.category, item.type),
 					name: item.merchant?.name,
@@ -413,7 +444,6 @@ export default function Home() {
 							<div className="flex gap-5">
 								<CButton
 									text={"Details"}
-									// href={`?transaction${index + 1}=true`}
 									onClick={() => setIsOpen(index)}
 									btnStyle={"outlineDark"}
 								/>
@@ -425,7 +455,6 @@ export default function Home() {
 									modalContent={
 										<TransactionModal
 											setIsOpen={setIsOpen}
-											// customer={customerDetails?.customer}
 											item={item}
 										/>
 									}
@@ -433,11 +462,9 @@ export default function Home() {
 							</div>
 						</>
 					),
-				};
-				item = rearrangedItem;
-				return item;
-			}
-		);
+				})
+			);
+		}, [companyTransactionsQueryRes?.data, isOpen]);
 	}
 
 	return (
@@ -511,23 +538,40 @@ export default function Home() {
 					}
 				/>
 
-				<div className="my-[50px] bg-white  shadow-md rounded-xl p-5">
+				<div
+					ref={transactionsSectionRef}
+					className="my-[50px] bg-white  shadow-md rounded-xl p-5"
+				>
 					<div className="mb-5">
 						<Title title={"Last transactions"} />
 					</div>
-					<CustomTable
-						headerData={headerUserTransactionDataV2}
-						tableData={rearrangedTableData}
-						// isLoading={
-						// 	oneUserTransactionsQueryRes?.status == "loading"
-						// }
-						// threeButtons
-						filter
-						filterType={"transaction"}
-						filterContent={filterContent}
-						setFilterContent={setFilterContent}
-						// generateExcel={() => mutationExcel.mutate()}
-					/>
+
+					{!loadTransactions ? (
+						<div className="flex flex-col items-center justify-center py-12">
+							<p className="text-gray-500 mb-4">
+								Scroll down to load transactions
+							</p>
+							<div className="animate-bounce">
+								<FaArrowsRotate
+									className="text-gray-400"
+									size={24}
+								/>
+							</div>
+						</div>
+					) : companyTransactionsQueryRes.status === "loading" ? (
+						<div className="flex justify-center py-12">
+							<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+						</div>
+					) : (
+						<CustomTable
+							headerData={headerUserTransactionDataV2}
+							tableData={rearrangedTableData}
+							filter
+							filterType={"transaction"}
+							filterContent={filterContent}
+							setFilterContent={setFilterContent}
+						/>
+					)}
 				</div>
 
 				{/* <div
