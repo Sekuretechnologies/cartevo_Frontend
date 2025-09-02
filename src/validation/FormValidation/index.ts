@@ -247,3 +247,17 @@ export const nairapaymentSchema = z.object({
 	user_country: z.string().optional(),
 	user_city: z.string().optional(),
 });
+
+export const forgotPasswordSchema = z.object({
+	email: z.string().email("Invalid email"),
+});
+
+export const resetPsswordSchema = z
+	.object({
+		password: z.string({ message: "Entrez un mot de passe" }),
+		confirmPassword: z.string(),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: "Les mots de passe ne correspondent pas",
+		path: ["confirmPassword"],
+	});
