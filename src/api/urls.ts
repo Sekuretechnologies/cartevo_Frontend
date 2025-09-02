@@ -22,6 +22,8 @@ export const authUrls = {
 	VERIFY_OTP: `${BASE_URL_AUTH}/verify-otp`,
 	REGISTER_STEP1: `${BASE_URL}/company/register/step1`,
 	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
+	FORGOT_PASSWORD: `${BASE_URL_AUTH}/forgot-password`,
+	RESET_PASSWORD: `${BASE_URL_AUTH}/reset-password`,
 };
 
 /** COMPANY ============================================================ */
