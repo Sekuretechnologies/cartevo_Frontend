@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { selectTransactionFees } from "@/redux/slices_v2/settings";
 
 interface FundLocalCurrencyWalletModalProps {
+	walletId: string;
 	setIsOpen: (isOpen: boolean) => void;
 	onSubmit: (data: FundLocalCurrencyWalletSubmitProps) => void;
 	phoneNumbers?: string[];
@@ -17,6 +18,7 @@ interface FundLocalCurrencyWalletModalProps {
 }
 
 export interface FundLocalCurrencyWalletSubmitProps {
+	walletId: string;
 	amount: number;
 	phone: string;
 	operator: string;
@@ -43,6 +45,7 @@ export interface FundLocalCurrencyWalletSubmitProps {
 const FundLocalCurrencyWalletModal: React.FC<
 	FundLocalCurrencyWalletModalProps
 > = ({
+	walletId,
 	setIsOpen,
 	onSubmit,
 	phoneNumbers = [],
@@ -115,6 +118,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 		}
 
 		onSubmit({
+			walletId,
 			amount: amountNum,
 			phone: phoneNumber,
 			operator: useExistingPhone ? "" : operator,
