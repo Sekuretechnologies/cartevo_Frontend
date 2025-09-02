@@ -70,14 +70,16 @@ export default function LoginForm() {
 			dispatch(setCredentials({ token, company, user }));
 
 			toast.success("Login successful! Redirecting...");
+			//-----------------------------------
 			// dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
-
 			// router.push("/verify-otp");
+			//-----------------------------------
 			if (!company?.onboarding_is_completed) {
 				router.push(urls.onboarding.root);
 			} else {
 				router.push(urls.wallets.root);
 			}
+			//-----------------------------------
 		},
 	});
 

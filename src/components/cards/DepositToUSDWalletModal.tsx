@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CButton from "@/components/shared/CButton";
 import * as CFlags from "country-flag-icons/react/3x2";
-import { ItemFlag } from "@/app/wallets/page";
+import { ItemFlag } from "@/components/shared/ItemFlag";
 import { Select, SelectItem } from "@nextui-org/select";
 import { useSelector } from "react-redux";
 import {

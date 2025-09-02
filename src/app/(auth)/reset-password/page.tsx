@@ -33,15 +33,6 @@ const ResetPassword = () => {
 	const token = searchParams.get("token");
 
 	// Verification de l'existance du token dans l'url
-	if (!token) {
-		return (
-			<div>
-				<p className="text-center text-4xl font-bold mt-96">
-					404 Not found
-				</p>
-			</div>
-		);
-	}
 
 	const form = useForm<z.infer<typeof resetPsswordSchema>>({
 		resolver: zodResolver(resetPsswordSchema),
@@ -81,6 +72,16 @@ const ResetPassword = () => {
 			setLoading(false);
 		}
 	};
+
+	if (!token) {
+		return (
+			<div>
+				<p className="text-center text-4xl font-bold mt-96">
+					404 Not found
+				</p>
+			</div>
+		);
+	}
 
 	return (
 		<section className="relative flex flex-col h-screen mt-0 w-full">
