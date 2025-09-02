@@ -20,7 +20,7 @@ const onboardingSteps = {
 		icon: <FaUser size={24} />,
 		component: "PersonalInfoForm",
 	},
-	business_info: {
+	kyb_completion: {
 		name: "Business Information",
 		description: "Complete your business details and KYB verification",
 		icon: <FaBuilding size={24} />,
