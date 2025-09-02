@@ -364,3 +364,8 @@
 		transform: rotate(360deg);
 	}
 }
+
+.phoneInputCustomClass > div > input:focus {
+	border: 0;
+	outline: none;
+}

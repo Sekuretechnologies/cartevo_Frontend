@@ -1,25 +1,7 @@
 import BaseMethods from "../../baseMethods";
 import { companyUrls, walletUrls } from "../urls";
 
-export class CompanyService {
-	static completeKyb = ({ token, body }: { token: string; body: any }) =>
-		BaseMethods.postFileRequest(
-			companyUrls.COMPLETE_KYB,
-			body,
-			true,
-			{},
-			token
-		);
-
-	static completeKyc = ({ token, body }: { token: string; body: any }) =>
-		BaseMethods.postFileRequest(
-			companyUrls.COMPLETE_KYC,
-			body,
-			true,
-			{},
-			token
-		);
-
+export class WalletService {
 	static get_wallets = ({ token }: { token: string }) => {
 		let query_params: any = {};
 		return BaseMethods.getRequest(
@@ -33,6 +15,24 @@ export class CompanyService {
 	static create_wallet = ({ token, body }: { token: string; body: any }) =>
 		BaseMethods.postRequest(
 			companyUrls.CREATE_WALLET,
+			body,
+			true,
+			{},
+			token
+		);
+
+	static fund_wallet = ({ token, body }: { token: string; body: any }) =>
+		BaseMethods.postRequest(walletUrls.FUND_WALLET, body, true, {}, token);
+
+	static deposit_to_wallet = ({
+		token,
+		body,
+	}: {
+		token: string;
+		body: any;
+	}) =>
+		BaseMethods.postRequest(
+			walletUrls.DEPOSIT_TO_WALLET,
 			body,
 			true,
 			{},

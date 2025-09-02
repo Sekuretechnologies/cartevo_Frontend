@@ -258,13 +258,13 @@ const CardDetails = ({ search, setSearch }: Props) => {
 									return (
 										<div
 											key={label}
-											className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-4 rounded"
+											className="relative flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-4 rounded"
 										>
 											<div>
-												<p className="text-sm text-gray-500 dark:text-gray-400">
+												<p className="text-xs text-gray-500 dark:text-gray-400">
 													{Labels[label]}
 												</p>
-												<p className="font-medium text-gray-800 dark:text-gray-100">
+												<p className="font-medium text-sm text-gray-800 dark:text-gray-100">
 													{label === "cvv"
 														? "***"
 														: label === "created_at"
@@ -279,7 +279,7 @@ const CardDetails = ({ search, setSearch }: Props) => {
 													handleCopy(label, value)
 												}
 												aria-label={`Copy ${label}`}
-												className="focus:outline-none"
+												className="absolute top-[10px] right-[10px] focus:outline-none"
 											>
 												{copied === label ? (
 													<FaCheck className="text-green-500" />

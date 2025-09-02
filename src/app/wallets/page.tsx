@@ -1,6 +1,6 @@
 "use client";
 import { useTitle } from "@/hooks/useTitle";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useMutation } from "react-query";
 
@@ -25,27 +25,39 @@ import { getFormattedDateTime } from "@/utils/DateFormat";
 import Modal from "@/components/shared/Modal/Modal";
 import TransactionModal from "./manage/[id]/components/Tabs/Transactions/modals/TransactionModal";
 import AddWalletModal from "@/components/cards/AddWalletModal";
-import FundUSDModal from "@/components/cards/FundUSDModal";
-import FundXAFModal from "@/components/cards/FundXAFModal";
+import FundUSDModal from "@/components/cards/DepositToUSDWalletModal";
+import FundLocalCurrencyWalletModal from "@/components/cards/FundLocalCurrencyWalletModal";
 import { selectCurrentToken } from "@/redux/slices/auth";
+import {
+	fetchExchangeRates,
+	fetchTransactionFees,
+	selectExchangeRates,
+	selectTransactionFees,
+} from "@/redux/slices_v2/settings";
 import { HiDownload } from "react-icons/hi";
+import { WalletService } from "@/api/services/cartevo-api/wallets";
+import DepositToUSDWalletModal from "@/components/cards/DepositToUSDWalletModal";
 
 const CountryFlags: any = CFlags;
 
 // const ItemFlagUS = CountryFlags["US"];
 
-const ItemFlag = ({ iso2 }: { iso2: string }) => {
+export const ItemFlag = ({ iso2, size }: { iso2: string; size?: number }) => {
 	// country-flag-icons exports ISO codes in UPPERCASE
 	const code = iso2.toUpperCase();
 	const FlagIcon = CountryFlags[code];
 	if (!FlagIcon) return null; // guard if unsupported code
-	return <FlagIcon className="h-full w-full object-cover" title={code} />;
+	return (
+		<FlagIcon
+			className={`h-full ${size ? `w-${size}` : "w-full"} object-cover`}
+			title={code}
+		/>
+	);
 };
 
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
-	setIsFundXAFModalOpen: (open: boolean) => void,
-	setIsFundUSDModalOpen: (open: boolean) => void,
+	openFundModal: (wallet: any) => void,
 	walletData?: any[]
 ): TDataList[] => [
 	[
@@ -185,16 +197,17 @@ export default function Home() {
 
 	const [isOpen, setIsOpen] = useState(false);
 	const [isAddWalletModalOpen, setIsAddWalletModalOpen] = useState(false);
-	const [isFundUSDModalOpen, setIsFundUSDModalOpen] = useState(false);
-	const [isFundXAFModalOpen, setIsFundXAFModalOpen] = useState(false);
+	const [fundModalData, setFundModalData] = useState<{
+		isOpen: boolean;
+		wallet: any;
+	}>({ isOpen: false, wallet: null });
 
 	// Initialize infoData
-	let infoData: TDataList[] = getInitialInfoData(
-		setIsFundXAFModalOpen,
-		setIsFundUSDModalOpen
+	let infoData: TDataList[] = getInitialInfoData((wallet: any) =>
+		setFundModalData({ isOpen: true, wallet })
 	);
 
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<any>();
 	const redirectRef: any = useRef();
 	// dispatch(setSearchTerm(''));
 	const searchTerm: string = useSelector(selectSearchTerm);
@@ -239,8 +252,7 @@ export default function Home() {
 	);
 
 	const fundWalletMutation = useMutation(
-		(body: any) =>
-			CompanyService.fund_wallet({ token: currentToken, body }),
+		(body: any) => WalletService.fund_wallet({ token: currentToken, body }),
 		{
 			onSuccess: () => {
 				toast.success("Wallet funded successfully!");
@@ -252,6 +264,29 @@ export default function Home() {
 			},
 		}
 	);
+
+	const depositToWalletMutation = useMutation(
+		(body: any) =>
+			WalletService.deposit_to_wallet({ token: currentToken, body }),
+		{
+			onSuccess: () => {
+				toast.success("Wallet funded successfully!");
+				companyWalletsQueryRes.refetch(); // Refetch wallets after funding
+				companyTransactionsQueryRes.refetch(); // Refetch transactions
+			},
+			onError: (err) => {
+				toast.error("Failed to fund wallet.");
+			},
+		}
+	);
+
+	// Fetch exchange rates and transaction fees on component mount
+	useEffect(() => {
+		if (currentToken) {
+			dispatch(fetchExchangeRates(currentToken));
+			dispatch(fetchTransactionFees(currentToken));
+		}
+	}, [currentToken, dispatch]);
 
 	//------------------------------------------------
 
@@ -295,13 +330,8 @@ export default function Home() {
 				text={"Fund"}
 				btnStyle={"blue"}
 				onClick={() => {
-					const currency =
-						companyWalletsQueryRes?.data?.[0]?.currency;
-					if (currency === "USD") {
-						setIsFundUSDModalOpen(true);
-					} else if (currency === "XAF") {
-						setIsFundXAFModalOpen(true);
-					}
+					const wallet = companyWalletsQueryRes?.data?.[0];
+					setFundModalData({ isOpen: true, wallet });
 				}}
 				icon={<MdDownload size={50} />}
 				width={"100%"}
@@ -341,13 +371,8 @@ export default function Home() {
 				text={"Fund"}
 				btnStyle={"blue"}
 				onClick={() => {
-					const currency =
-						companyWalletsQueryRes?.data?.[1]?.currency;
-					if (currency === "USD") {
-						setIsFundUSDModalOpen(true);
-					} else if (currency === "XAF") {
-						setIsFundXAFModalOpen(true);
-					}
+					const wallet = companyWalletsQueryRes?.data?.[1];
+					setFundModalData({ isOpen: true, wallet });
 				}}
 				icon={<MdDownload size={20} />}
 				width={"100%"}
@@ -453,33 +478,52 @@ export default function Home() {
 						<AddWalletModal
 							setIsOpen={setIsAddWalletModalOpen}
 							onSubmit={createWalletMutation.mutate}
+							existingWallets={companyWalletsQueryRes?.data || []}
 						/>
 					}
 				/>
 
 				<Modal
-					name="fundUSD"
-					isOpen={isFundUSDModalOpen}
-					setIsOpen={setIsFundUSDModalOpen}
-					modalContent={
-						<FundUSDModal
-							setIsOpen={setIsFundUSDModalOpen}
-							onSubmit={fundWalletMutation.mutate}
-							wallets={companyWalletsQueryRes?.data || []}
-						/>
+					name="fundWallet"
+					isOpen={fundModalData.isOpen}
+					setIsOpen={() =>
+						setFundModalData({ isOpen: false, wallet: null })
 					}
-				/>
-
-				<Modal
-					name="fundXAF"
-					isOpen={isFundXAFModalOpen}
-					setIsOpen={setIsFundXAFModalOpen}
 					modalContent={
-						<FundXAFModal
-							setIsOpen={setIsFundXAFModalOpen}
-							onSubmit={fundWalletMutation.mutate}
-							phoneNumbers={[]} // TODO: Get phone numbers from API
-						/>
+						fundModalData.wallet?.currency === "USD" ? (
+							<DepositToUSDWalletModal
+								setIsOpen={() =>
+									setFundModalData({
+										isOpen: false,
+										wallet: null,
+									})
+								}
+								onSubmit={depositToWalletMutation.mutate}
+								wallets={companyWalletsQueryRes?.data || []}
+							/>
+						) : (
+							<FundLocalCurrencyWalletModal
+								setIsOpen={() =>
+									setFundModalData({
+										isOpen: false,
+										wallet: null,
+									})
+								}
+								onSubmit={fundWalletMutation.mutate}
+								phoneNumbers={[]} // TODO: Get phone numbers from API
+								currency={
+									fundModalData.wallet?.currency || "XAF"
+								}
+								countryIsoCode={
+									fundModalData.wallet?.country_iso_code ||
+									"CM"
+								}
+								countryPhoneCode={
+									fundModalData.wallet?.country_phone_code ||
+									"+237"
+								}
+							/>
+						)
 					}
 				/>
 

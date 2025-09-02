@@ -6,9 +6,11 @@ import {
 	selectCurrentUser,
 } from "@/redux/slices/auth";
 import {
+	selectCurrentMode,
 	selectCurrentVersion,
 	selectLimitDate,
 	selectStartDate,
+	setMode,
 	setVersion,
 } from "@/redux/slices_v2/settings";
 import Link from "next/link";
@@ -25,6 +27,7 @@ import CustomDropdown2 from "./CustomDropdown2";
 import SearchUserInput from "./search/UserSearchInput";
 import "./style-navbar.css";
 import cstyle from "./styles/navbar-style.module.scss";
+import { Switch } from "../ui/switch";
 type Props = {
 	title: string | undefined;
 	backLink?: string;
@@ -53,12 +56,11 @@ export default function Navbar(props: Props) {
 	const currentToken = useSelector(selectCurrentToken);
 	const currentCompany = useSelector(selectCurrentCompany);
 	const currentUser = useSelector(selectCurrentUser);
-	const currentVersion = useSelector(selectCurrentVersion);
+	const currentMode = useSelector(selectCurrentMode);
 	const currentStartDate = useSelector(selectStartDate);
 	const currentLimitDate = useSelector(selectLimitDate);
 
-	const [isChangeLimitDateModalFormOpen, setIsChangeLimitDateModalFormOpen] =
-		useState(false);
+	const [envMode, setEnvMode] = useState(currentMode);
 	const [isChangeStartDateModalFormOpen, setIsChangeStartDateModalFormOpen] =
 		useState(false);
 
@@ -92,11 +94,27 @@ export default function Navbar(props: Props) {
 		// 	dispatch(setVersion(1));
 		// }
 	};
-	const handleVersion = (e: any) => {
-		if (e.target.checked) {
-			dispatch(setVersion(2));
+	// const handleMode = (e: any) => {
+	// 	console.log("e :: ", e);
+
+	// 	if (e.target.checked) {
+	// 		setEnvMode("Sandbox");
+	// 		dispatch(setMode("Sandbox"));
+	// 	} else {
+	// 		setEnvMode("Live");
+	// 		dispatch(setMode("Live"));
+	// 	}
+	// };
+
+	const handleMode = (checked: any) => {
+		console.log("checked :: ", checked);
+
+		if (checked) {
+			setEnvMode("Live");
+			dispatch(setMode("Live"));
 		} else {
-			dispatch(setVersion(1));
+			setEnvMode("Sandbox");
+			dispatch(setMode("Sandbox"));
 		}
 	};
 
@@ -167,7 +185,29 @@ export default function Navbar(props: Props) {
 							/>
 						</div>
 
-						<label
+						<div
+							className="flex gap-2"
+							onClick={(e) => handleOnboardingError(e)}
+						>
+							<span className="text-[15px] w-[55px] text-center text-gray-600">
+								{envMode}
+							</span>
+
+							<Switch
+								defaultChecked={
+									currentCompany.is_onboarding_completed
+								}
+								disabled={
+									!currentCompany.is_onboarding_completed
+								}
+								// onChange={(e) => handleMode(e)}
+								// checked={field.value}
+								onCheckedChange={(value) => handleMode(value)}
+								className="data-[state=checked]:bg-app-primary"
+							/>
+						</div>
+
+						{/* <label
 							htmlFor="modeToggle"
 							className="flex items-center cursor-pointer"
 						>
@@ -204,7 +244,7 @@ export default function Navbar(props: Props) {
 									<span className="w-[14px] h-[14px] rounded-[5px] border border-solid border-4 border-white"></span>
 								</div>
 							</div>
-						</label>
+						</label> */}
 
 						<div className="ml-10 text-sm">
 							{currentUser?.last_name?.split(" ")[0] || "WAKAM"}
@@ -263,20 +303,20 @@ export default function Navbar(props: Props) {
 										{currentUser?.email}
 									</span>
 								</div>,
-								<div
-									key={"4"}
-									className="flex justify-center w-full px-3 gap-2 py-3"
-								>
-									<CButton
-										text={"Status check"}
-										btnStyle={"outlineDark"}
-										href={"/retrait-gb"}
-										icon={<MdCheck size={40} />}
-									/>
-								</div>,
+								// <div
+								// 	key={"4"}
+								// 	className="flex justify-center w-full px-3 gap-2 py-3"
+								// >
+								// 	<CButton
+								// 		text={"Status check"}
+								// 		btnStyle={"outlineDark"}
+								// 		href={"/retrait-gb"}
+								// 		icon={<MdCheck size={40} />}
+								// 	/>
+								// </div>,
 								<div
 									key={"6"}
-									className="flex justify-center w-full px-3 gap-2"
+									className="flex justify-center w-full px-3 gap-2 my-3"
 								>
 									<CButton
 										text={"Deconnexion"}

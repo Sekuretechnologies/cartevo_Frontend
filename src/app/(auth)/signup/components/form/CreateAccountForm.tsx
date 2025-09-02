@@ -34,6 +34,8 @@ import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 // import { getCountryCallingCode } from "libphonenumber-js";
 import { countries as countryDataList } from "country-data";
+import { countryCurrencies } from "@/constants/countryCurrenciesData";
+import { ItemFlag } from "@/app/wallets/page";
 
 // declare global {
 // 	interface Window {
@@ -252,22 +254,39 @@ export default function CreateAccountForm() {
 		itemList: any[],
 		data: any
 	) => {
-		const value: string = data.target.value;
+		const value: string = data.target?.value || data;
 
-		form.setValue(fieldName, String(getLabelByKey(value, itemList) || ""));
 		if (fieldName === "business_country") {
-			const countryPhoneCode = getCountryPhonePrefix(
-				(countryDataList as any)[value]?.countryCallingCodes || []
+			// Find the selected country data
+			const selectedCountry = itemList.find(
+				(country: any) => country.iso2 === value
 			);
-			const countryCurrency =
-				(countryDataList as any)[value]?.currencies?.[0] || "";
-			// console.log(fieldName, value);
-			// console.log(fieldName, getLabelByKey(value, itemList));
-			// console.log(fieldName, countryCurrency);
-			// console.log(fieldName, countryPhoneCode);
-			form.setValue("business_country_iso_code", value);
-			form.setValue("business_country_phone_code", countryPhoneCode);
-			form.setValue("business_country_currency", countryCurrency);
+
+			if (selectedCountry) {
+				form.setValue(fieldName, selectedCountry.country);
+				form.setValue(
+					"business_country_iso_code",
+					selectedCountry.iso2
+				);
+
+				// Get phone code from country-data library
+				const countryPhoneCode = getCountryPhonePrefix(
+					(countryDataList as any)[selectedCountry.iso2]
+						?.countryCallingCodes || []
+				);
+				const countryCurrency = selectedCountry.currency;
+
+				form.setValue(
+					"business_country_phone_code",
+					countryPhoneCode || "+237"
+				);
+				form.setValue("business_country_currency", countryCurrency);
+			}
+		} else {
+			form.setValue(
+				fieldName,
+				String(getLabelByKey(value, itemList) || "")
+			);
 		}
 	};
 
@@ -460,9 +479,12 @@ export default function CreateAccountForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Business country
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
-											<Select
+											{/* <Select
 												{...field}
 												placeholder="Select business country"
 												style={{
@@ -490,6 +512,83 @@ export default function CreateAccountForm() {
 														</SelectItem>
 													)
 												)}
+											</Select> */}
+											<Select
+												{...field}
+												placeholder="Select business country"
+												style={{
+													width: "100%",
+												}}
+												className={`bg-app-lightgray text-gray-900 font-normal`}
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onSelectionChange={(keys) => {
+													const value =
+														keys.currentKey as string;
+													handleFieldChange(
+														"business_country",
+														countryCurrencies[0],
+														{ target: { value } }
+													);
+												}}
+												renderValue={(items) => {
+													return items.map((item) => {
+														const key =
+															item.key as string;
+														const countryData =
+															countryCurrencies[0]?.find(
+																(
+																	country: any
+																) =>
+																	country.iso2 ===
+																	key
+															);
+														return (
+															<div
+																className="flex items-center gap-2"
+																key={key}
+															>
+																<ItemFlag
+																	iso2={
+																		countryData?.iso2 ||
+																		key
+																	}
+																	size={3}
+																/>
+																<span>
+																	{`${countryData?.country} (${countryData?.iso2}) - ${countryData?.currency}`}
+																</span>
+															</div>
+														);
+													});
+												}}
+											>
+												{countryCurrencies[0]
+													?.sort((a: any, b: any) =>
+														a.country.localeCompare(
+															b.country
+														)
+													)
+													.map((country: any) => (
+														<SelectItem
+															key={country.iso2}
+															value={country.iso2}
+														>
+															<div className="flex items-center gap-2">
+																<ItemFlag
+																	iso2={
+																		country.iso2 ||
+																		""
+																	}
+																	size={3}
+																/>
+																<span>
+																	{`${country.country} (${country.iso2}) - ${country.currency}`}
+																</span>
+															</div>
+														</SelectItem>
+													))}
 											</Select>
 										</FormControl>
 										<FormMessage className="text-red-400" />
@@ -508,6 +607,7 @@ export default function CreateAccountForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md font-[500] tracking-tight">
 										Password
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl className="relative">
 										<div>
@@ -553,6 +653,7 @@ export default function CreateAccountForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md font-[500] tracking-tight">
 										Confirm Password
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl className="relative">
 										<div>

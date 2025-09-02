@@ -12,14 +12,27 @@ interface ExchangeRate {
 
 interface TransactionFee {
 	id: string;
-	transaction_category: string;
 	transaction_type: string;
-	type: string;
-	value: number;
+	fee_type: string;
+	fee_value: number;
 	currency: string;
 	created_at: string;
 	updated_at: string;
 }
+
+interface SettingsState {
+	exchangeRates: ExchangeRate[];
+	transactionFees: TransactionFee[];
+	loading: boolean;
+	error: string | null;
+}
+
+const initialState: SettingsState = {
+	exchangeRates: [],
+	transactionFees: [],
+	loading: false,
+	error: null,
+};
 
 // Async thunks
 export const fetchExchangeRates = createAsyncThunk(
@@ -64,41 +77,8 @@ export const fetchTransactionFees = createAsyncThunk(
 
 const settingsSlice = createSlice({
 	name: "settings",
-	initialState: {
-		version: 2,
-		mode: "Sandbox",
-		startDate: "2024-03-01",
-		limitDate: "",
-		exchangeRates: [] as ExchangeRate[],
-		transactionFees: [] as TransactionFee[],
-		loading: false,
-		error: null as string | null,
-	},
+	initialState,
 	reducers: {
-		setMode: (state, action) => {
-			console.log("STATE VERSION :: ", action.payload);
-			state.mode = action.payload;
-		},
-		setVersion: (state, action) => {
-			console.log("STATE VERSION :: ", action.payload);
-			state.version = action.payload;
-		},
-		setStartDate: (state, action) => {
-			const day = new Date("2024-03-01");
-			const selectedDate = new Date(action.payload);
-			if (selectedDate != day) {
-				const startDate = action.payload;
-				state.startDate = startDate;
-			}
-		},
-		setLimitDate: (state, action) => {
-			const today = new Date();
-			const selectedDate = new Date(action.payload);
-			if (selectedDate != today) {
-				const limitDate = action.payload;
-				state.limitDate = limitDate;
-			}
-		},
 		clearError: (state) => {
 			state.error = null;
 		},
@@ -113,7 +93,6 @@ const settingsSlice = createSlice({
 			.addCase(
 				fetchExchangeRates.fulfilled,
 				(state, action: PayloadAction<ExchangeRate[]>) => {
-					console.log("exchangeRates :: ", action.payload);
 					state.loading = false;
 					state.exchangeRates = action.payload;
 				}
@@ -130,7 +109,6 @@ const settingsSlice = createSlice({
 			.addCase(
 				fetchTransactionFees.fulfilled,
 				(state, action: PayloadAction<TransactionFee[]>) => {
-					console.log("transactionFees :: ", action.payload);
 					state.loading = false;
 					state.transactionFees = action.payload;
 				}
@@ -142,17 +120,5 @@ const settingsSlice = createSlice({
 	},
 });
 
-export const { setMode, setVersion, setStartDate, setLimitDate, clearError } =
-	settingsSlice.actions;
-
+export const { clearError } = settingsSlice.actions;
 export default settingsSlice.reducer;
-
-export const selectCurrentMode = (state: any) => state.settings.mode;
-export const selectCurrentVersion = (state: any) => state.settings.version;
-export const selectStartDate = (state: any) => state.settings.startDate;
-export const selectLimitDate = (state: any) => state.settings.limitDate;
-export const selectExchangeRates = (state: any) => state.settings.exchangeRates;
-export const selectTransactionFees = (state: any) =>
-	state.settings.transactionFees;
-export const selectSettingsLoading = (state: any) => state.settings.loading;
-export const selectSettingsError = (state: any) => state.settings.error;

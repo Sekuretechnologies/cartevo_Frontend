@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import InfoCard from "./InfoCard";
 import cstyle from "./styles/style.module.scss";
 import WalletCard from "./walletCard";
-import FundUSDModal from "./FundUSDModal";
-import FundXAFModal from "./FundXAFModal";
+import FundUSDModal from "./DepositToUSDWalletModal";
+import FundLocalCurrencyWalletModal from "./FundLocalCurrencyWalletModal";
 import Modal from "@/components/shared/Modal/Modal";
 
 type TText = {
