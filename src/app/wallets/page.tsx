@@ -544,32 +544,15 @@ export default function Home() {
 						<Title title={"Last transactions"} />
 					</div>
 
-					{!loadTransactions ? (
-						<div className="flex flex-col items-center justify-center py-12">
-							<p className="text-gray-500 mb-4">
-								Scroll down to load transactions
-							</p>
-							<div className="animate-bounce">
-								<FaArrowsRotate
-									className="text-gray-400"
-									size={24}
-								/>
-							</div>
-						</div>
-					) : companyTransactionsQueryRes.status === "loading" ? (
-						<div className="flex justify-center py-12">
-							<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-						</div>
-					) : (
-						<CustomTable
-							headerData={headerUserTransactionDataV2}
-							tableData={rearrangedTableData}
-							filter
-							filterType={"transaction"}
-							filterContent={filterContent}
-							setFilterContent={setFilterContent}
-						/>
-					)}
+					<CustomTable
+						headerData={headerUserTransactionDataV2}
+						tableData={rearrangedTableData}
+						filter
+						filterType={"transaction"}
+						filterContent={filterContent}
+						isLoading={companyTransactionsQueryRes.isLoading}
+						setFilterContent={setFilterContent}
+					/>
 				</div>
 
 				{/* <div
