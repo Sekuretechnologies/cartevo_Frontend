@@ -8,21 +8,36 @@ import { selectTransactionFees } from "@/redux/slices_v2/settings";
 
 interface FundLocalCurrencyWalletModalProps {
 	setIsOpen: (isOpen: boolean) => void;
-	onSubmit: (data: {
-		amount: number;
-		phoneNumber: string;
-		operator?: string;
-		feeAmount: number;
-		totalAmount: number;
-		currency: string;
-		countryIsoCode: string;
-		countryPhoneCode: string;
-	}) => void;
+	onSubmit: (data: FundLocalCurrencyWalletSubmitProps) => void;
 	phoneNumbers?: string[];
 	currency: string;
 	countryIsoCode: string;
 	countryPhoneCode: string;
 }
+
+export interface FundLocalCurrencyWalletSubmitProps {
+	amount: number;
+	phone: string;
+	operator: string;
+	// feeAmount: number;
+	// totalAmount: number;
+	currency: string;
+	// countryIsoCode: string;
+	// countryPhoneCode: string;
+}
+
+// export interface IWalletFunding {
+//   walletId: string;
+// //   amount: number;
+// //   currency: string;
+//   provider: string;
+// //   operator: string;
+//   phone?: string;
+// //   email?: string;
+// //   orderId?: string;
+//   companyId: string;
+//   customerId: string;
+// }
 
 const FundLocalCurrencyWalletModal: React.FC<
 	FundLocalCurrencyWalletModalProps
@@ -47,10 +62,15 @@ const FundLocalCurrencyWalletModal: React.FC<
 	const transactionFees = useSelector(selectTransactionFees);
 
 	// Find the appropriate transaction fee for local currency funding
+	// const feeData = transactionFees.find(
+	// 	(fee: any) =>
+	// 		fee.transaction_category === "TOPUP" &&
+	// 		fee.transaction_type === "WALLET"
+	// );
 	const feeData = transactionFees.find(
 		(fee: any) =>
-			fee.transaction_category === "TOPUP" &&
-			fee.transaction_type === "WALLET"
+			fee.transaction_category === "WALLET" &&
+			fee.transaction_type === "FUND"
 	);
 
 	const fees = feeData?.value || 1.5; // Fallback to 1.5% if not found
@@ -94,13 +114,13 @@ const FundLocalCurrencyWalletModal: React.FC<
 
 		onSubmit({
 			amount: amountNum,
-			phoneNumber,
-			operator: useExistingPhone ? undefined : operator,
-			feeAmount,
-			totalAmount,
+			phone: phoneNumber,
+			operator: useExistingPhone ? "" : operator,
 			currency,
-			countryIsoCode,
-			countryPhoneCode,
+			// feeAmount,
+			// totalAmount,
+			// countryIsoCode,
+			// countryPhoneCode,
 		});
 		setIsOpen(false);
 	};

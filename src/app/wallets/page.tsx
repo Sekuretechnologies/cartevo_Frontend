@@ -27,8 +27,12 @@ import TransactionModal from "./manage/[id]/components/Tabs/Transactions/modals/
 import AddWalletModal, {
 	AddWalletSubmitProps,
 } from "@/components/cards/AddWalletModal";
-import FundUSDModal from "@/components/cards/DepositToUSDWalletModal";
-import FundLocalCurrencyWalletModal from "@/components/cards/FundLocalCurrencyWalletModal";
+import FundUSDModal, {
+	DespoitToWalletSubmitProps,
+} from "@/components/cards/DepositToUSDWalletModal";
+import FundLocalCurrencyWalletModal, {
+	FundLocalCurrencyWalletSubmitProps,
+} from "@/components/cards/FundLocalCurrencyWalletModal";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import {
 	fetchExchangeRates,
@@ -185,6 +189,38 @@ const createWallet = async (token: string, data: AddWalletSubmitProps) => {
 	return responseJson.data;
 };
 
+const fundWallet = async (
+	token: string,
+	data: FundLocalCurrencyWalletSubmitProps
+) => {
+	let params: any = {};
+	const response = await WalletService.fund_wallet({
+		token: token,
+		body: data,
+	});
+	const responseJson = await response.json();
+	if (!response.ok) {
+		throw new Error(responseJson.message || "Failed to fund wallet");
+	}
+	return responseJson.data;
+};
+
+const depositToWallet = async (
+	token: string,
+	data: DespoitToWalletSubmitProps
+) => {
+	let params: any = {};
+	const response = await WalletService.deposit_to_wallet({
+		token: token,
+		body: data,
+	});
+	const responseJson = await response.json();
+	if (!response.ok) {
+		throw new Error(responseJson.message || "Failed to deposit to wallet");
+	}
+	return responseJson.data;
+};
+
 export default function Home() {
 	useTitle("Cartevo | wallets", true);
 
@@ -279,7 +315,8 @@ export default function Home() {
 	);
 
 	const fundWalletMutation = useMutation(
-		(body: any) => WalletService.fund_wallet({ token: currentToken, body }),
+		(data: FundLocalCurrencyWalletSubmitProps) =>
+			fundWallet(currentToken, data),
 		{
 			onSuccess: () => {
 				toast.success("Wallet funded successfully!");
@@ -293,8 +330,8 @@ export default function Home() {
 	);
 
 	const depositToWalletMutation = useMutation(
-		(body: any) =>
-			WalletService.deposit_to_wallet({ token: currentToken, body }),
+		(data: DespoitToWalletSubmitProps) =>
+			depositToWallet(currentToken, data),
 		{
 			onSuccess: () => {
 				toast.success("Wallet funded successfully!");
@@ -384,12 +421,22 @@ export default function Home() {
 					value: {
 						text: (
 							<CButton
-								text={"Fund"}
+								text={
+									wallet.currency === "USD"
+										? "Deposit"
+										: "Fund"
+								}
 								btnStyle={"blue"}
 								onClick={() =>
 									setFundModalData({ isOpen: true, wallet })
 								}
-								icon={<MdDownload size={50} />}
+								icon={
+									wallet.currency === "USD" ? (
+										<HiDownload size={50} />
+									) : (
+										<MdDownload size={50} />
+									)
+								}
 								width={"100%"}
 								height={"40px"}
 							/>
