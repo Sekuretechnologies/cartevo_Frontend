@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CButton from "@/components/shared/CButton";
-import { ItemFlag } from "@/app/wallets/page";
+import { ItemFlag } from "@/components/shared/ItemFlag";
 import { Select, SelectItem } from "@nextui-org/select";
 import { countryCurrencies } from "@/constants/countryCurrenciesData";
 

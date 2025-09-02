@@ -37,23 +37,7 @@ import {
 import { HiDownload } from "react-icons/hi";
 import { WalletService } from "@/api/services/cartevo-api/wallets";
 import DepositToUSDWalletModal from "@/components/cards/DepositToUSDWalletModal";
-
-const CountryFlags: any = CFlags;
-
-// const ItemFlagUS = CountryFlags["US"];
-
-export const ItemFlag = ({ iso2, size }: { iso2: string; size?: number }) => {
-	// country-flag-icons exports ISO codes in UPPERCASE
-	const code = iso2.toUpperCase();
-	const FlagIcon = CountryFlags[code];
-	if (!FlagIcon) return null; // guard if unsupported code
-	return (
-		<FlagIcon
-			className={`h-full ${size ? `w-${size}` : "w-full"} object-cover`}
-			title={code}
-		/>
-	);
-};
+import { ItemFlag } from "@/components/shared/ItemFlag";
 
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
@@ -305,7 +289,7 @@ export default function Home() {
 						<ItemFlag
 							iso2={
 								companyWalletsQueryRes?.data?.[0]
-									?.country_iso_code
+									?.country_iso_code || ""
 							}
 						/>
 					</span>
@@ -347,7 +331,7 @@ export default function Home() {
 						<ItemFlag
 							iso2={
 								companyWalletsQueryRes?.data?.[1]
-									?.country_iso_code
+									?.country_iso_code || ""
 							}
 						/>
 					</span>

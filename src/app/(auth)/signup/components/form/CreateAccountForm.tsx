@@ -35,7 +35,7 @@ import enLocale from "i18n-iso-countries/langs/en.json";
 // import { getCountryCallingCode } from "libphonenumber-js";
 import { countries as countryDataList } from "country-data";
 import { countryCurrencies } from "@/constants/countryCurrenciesData";
-import { ItemFlag } from "@/app/wallets/page";
+import { ItemFlag } from "@/components/shared/ItemFlag";
 
 // declare global {
 // 	interface Window {
