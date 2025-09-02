@@ -60,7 +60,7 @@ export default function Navbar(props: Props) {
 	const currentStartDate = useSelector(selectStartDate);
 	const currentLimitDate = useSelector(selectLimitDate);
 
-	const [envMode, setEnvMode] = useState(currentMode);
+	const [envMode, setEnvMode] = useState(currentMode || "Sandbox");
 	const [isChangeStartDateModalFormOpen, setIsChangeStartDateModalFormOpen] =
 		useState(false);
 
@@ -247,7 +247,7 @@ export default function Navbar(props: Props) {
 						</label> */}
 
 						<div className="ml-10 text-sm">
-							{currentUser?.last_name?.split(" ")[0] || "WAKAM"}
+							{currentUser?.last_name?.split(" ")[0] || ""}
 						</div>
 
 						<CustomDropdown2
