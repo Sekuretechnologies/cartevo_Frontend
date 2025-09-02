@@ -43,15 +43,7 @@ const LoginPage = () => {
 				<div className="col-span-7 flex justify-center items-center px-[50px]">
 					<div className="w-full max-w-[400px]">
 						<LoginForm />
-						<div className="mt-6 text-app-secondary text-sm text-end">
-							{"Forget password?"}{" "}
-							<a
-								href="/forgot-password"
-								className="text-app-primary underline hover:text-app-secondary"
-							>
-								Click here
-							</a>
-						</div>
+
 						<div className="mt-6 text-app-secondary text-sm">
 							{`Don't have an account?`}{" "}
 							<a

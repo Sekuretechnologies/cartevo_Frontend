@@ -260,6 +260,8 @@ export default function Settings() {
 			<section className="mt-2 space-y-8">
 				{/* Exchange Rates Section */}
 				<div className="bg-white shadow-md rounded-xl p-5">
+					{/* <p>hello</p>
+						<CButton text="Invite friend" btnStyle="blue" /> */}
 					<div className="mb-4">
 						<h2 className="text-xl font-semibold text-gray-800">
 							Exchange Rates
