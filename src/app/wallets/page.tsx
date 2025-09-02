@@ -393,10 +393,8 @@ export default function Home() {
 			/>
 		);
 
-		rearrangedTableData = useMemo(() => {
-			if (!companyTransactionsQueryRes?.data) return [];
-
-			return companyTransactionsQueryRes.data.map(
+		if (companyTransactionsQueryRes?.data) {
+			rearrangedTableData = companyTransactionsQueryRes.data.map(
 				(item: any, index: any) => ({
 					serial: index + 1,
 					type: getCategoryTypeV2(item.category, item.type),
@@ -464,7 +462,7 @@ export default function Home() {
 					),
 				})
 			);
-		}, [companyTransactionsQueryRes?.data, isOpen]);
+		}
 	}
 
 	return (
