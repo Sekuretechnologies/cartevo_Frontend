@@ -7,8 +7,7 @@ import Layout from "@/components/shared/Layout";
 import Title from "@/components/shared/Title";
 import CButton from "@/components/shared/CButton";
 
-import PersonalInfoForm from "@/app/(auth)/signup/components/form/PersonalInfoForm";
-import CompanyInfoForm from "@/app/(auth)/signup/components/form/CompanyInfoForm";
+// Removed imports for deleted components
 
 import { FaArrowLeft, FaUser, FaBuilding } from "react-icons/fa";
 import ProfileCompletionForm from "./form/ProfileCompletionForm";
@@ -21,7 +20,7 @@ const onboardingSteps = {
 		icon: <FaUser size={24} />,
 		component: "PersonalInfoForm",
 	},
-	business_info: {
+	kyb_completion: {
 		name: "Business Information",
 		description: "Complete your business details and KYB verification",
 		icon: <FaBuilding size={24} />,
