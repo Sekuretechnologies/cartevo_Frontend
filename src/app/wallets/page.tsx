@@ -573,6 +573,9 @@ export default function Home() {
 								}
 								onSubmit={fundWalletMutation.mutate}
 								phoneNumbers={[]} // TODO: Get phone numbers from API
+								operators={
+									fundModalData.wallet?.operators || []
+								}
 								currency={
 									fundModalData.wallet?.currency || "XAF"
 								}

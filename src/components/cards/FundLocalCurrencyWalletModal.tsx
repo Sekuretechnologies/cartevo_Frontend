@@ -13,6 +13,7 @@ interface FundLocalCurrencyWalletModalProps {
 	currency: string;
 	countryIsoCode: string;
 	countryPhoneCode: string;
+	operators: { operator_code: string; operator_name: string }[];
 }
 
 export interface FundLocalCurrencyWalletSubmitProps {
@@ -45,6 +46,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 	setIsOpen,
 	onSubmit,
 	phoneNumbers = [],
+	operators,
 	currency,
 	countryIsoCode,
 	countryPhoneCode,
@@ -80,17 +82,17 @@ const FundLocalCurrencyWalletModal: React.FC<
 	const totalAmount = amountNum + feeAmount;
 	const hasPhoneNumbers = phoneNumbers.length > 0;
 
-	const operators = [
-		{
-			code: "MTN",
-			name: `MTN ${countryIsoCode === "CM" ? "Cameroon" : "Mobile"}`,
-		},
-		{
-			code: "ORANGE",
-			name: `Orange ${countryIsoCode === "CM" ? "Cameroon" : "Mobile"}`,
-		},
-		{ code: "NEXTTEL", name: "Nexttel" },
-	];
+	// const operators = [
+	// 	{
+	// 		code: "MTN",
+	// 		name: `MTN ${countryIsoCode === "CM" ? "Cameroon" : "Mobile"}`,
+	// 	},
+	// 	{
+	// 		code: "ORANGE",
+	// 		name: `Orange ${countryIsoCode === "CM" ? "Cameroon" : "Mobile"}`,
+	// 	},
+	// 	{ code: "NEXTTEL", name: "Nexttel" },
+	// ];
 
 	const handleSubmit = () => {
 		if (!amountNum || amountNum <= 0) {
@@ -243,9 +245,12 @@ const FundLocalCurrencyWalletModal: React.FC<
 								}}
 								className="w-full"
 							>
-								{operators.map((op) => (
-									<SelectItem key={op.code} value={op.code}>
-										{op.name}
+								{operators.map((op: any) => (
+									<SelectItem
+										key={op.operator_code}
+										value={op.operator_code}
+									>
+										{op.operator_name}
 									</SelectItem>
 								))}
 							</Select>
