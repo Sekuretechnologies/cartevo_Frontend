@@ -19,6 +19,7 @@ import { useTitle } from "react-use";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { PuffLoader } from "react-spinners";
+import CButton from "@/components/shared/CButton";
 
 const ForgotPassword = () => {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -100,22 +101,23 @@ const ForgotPassword = () => {
 										</FormItem>
 									)}
 								/>
-								<button
-									type="submit"
-									className="mt-4 bg-app-primary text-white w-full py-2 rounded hover:bg-app-secondary"
-								>
-									Send Reset Link
-								</button>
+								<div className="mt-[30px]">
+									<CButton
+										text="Send Reset Link"
+										btnStyle="blue"
+										type="submit"
+									/>
+								</div>
 							</form>
 						</FormProvider>
 
 						<div className="mt-6 text-app-secondary text-sm">
-							{`Don't have an account?`}{" "}
+							{`I remenber`},{" "}
 							<a
 								href="/signup"
 								className="text-app-primary underline hover:text-app-secondary"
 							>
-								Sign up here
+								Back To Login
 							</a>
 						</div>
 					</div>

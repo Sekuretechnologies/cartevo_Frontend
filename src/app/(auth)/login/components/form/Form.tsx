@@ -154,6 +154,16 @@ export default function LoginForm() {
 					/>
 				</div>
 
+				<div className="mt-6 text-app-secondary text-sm ">
+					{"Forget password?"}{" "}
+					<a
+						href="/forgot-password"
+						className="text-app-primary underline hover:text-app-secondary"
+					>
+						Click here
+					</a>
+				</div>
+
 				{/* <div className="text-right">
           <a href="#" className="inline-block w-[272px] text-md font-[400]">Mot de passe oublié ?</a>
         </div> */}
