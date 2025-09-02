@@ -33,7 +33,7 @@ import FundUSDModal, {
 import FundLocalCurrencyWalletModal, {
 	FundLocalCurrencyWalletSubmitProps,
 } from "@/components/cards/FundLocalCurrencyWalletModal";
-import { selectCurrentToken } from "@/redux/slices/auth";
+import { selectCurrentToken, selectCurrentUser } from "@/redux/slices/auth";
 import {
 	fetchExchangeRates,
 	fetchTransactionFees,
@@ -225,6 +225,7 @@ export default function Home() {
 	useTitle("Cartevo | wallets", true);
 
 	const currentToken: any = useSelector(selectCurrentToken);
+	const currentUser: any = useSelector(selectCurrentUser);
 
 	const [filterContent, setFilterContent] = useState({});
 	const [loadTransactions, setLoadTransactions] = useState(false);
@@ -573,6 +574,7 @@ export default function Home() {
 								}
 								onSubmit={fundWalletMutation.mutate}
 								phoneNumbers={[]} // TODO: Get phone numbers from API
+								userId={currentUser.id}
 								walletId={fundModalData.wallet?.id}
 								operators={
 									fundModalData.wallet?.operators || []
