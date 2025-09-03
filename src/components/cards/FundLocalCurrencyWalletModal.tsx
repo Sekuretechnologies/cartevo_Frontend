@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CButton from "@/components/shared/CButton";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { Select, SelectItem } from "@nextui-org/select";
 import { useSelector } from "react-redux";
 import { selectTransactionFees } from "@/redux/slices_v2/settings";
-
+import classNames from "classnames";
+import { PuffLoader } from "react-spinners";
+import { countries as countryDataList } from "country-data";
+import { getCountryPhonePrefix } from "@/utils/utils";
 interface FundLocalCurrencyWalletModalProps {
 	userId: string;
 	walletId: string;
 	setIsOpen: (isOpen: boolean) => void;
+	isLoading: boolean;
+	isSuccess: boolean;
+	isError: boolean;
 	onSubmit: (data: FundLocalCurrencyWalletSubmitProps) => void;
 	phoneNumbers?: string[];
 	currency: string;
 	countryIsoCode: string;
-	countryPhoneCode: string;
+	// countryPhoneCode: string;
 	operators: { operator_code: string; operator_name: string }[];
 }
 
@@ -38,21 +44,27 @@ const FundLocalCurrencyWalletModal: React.FC<
 	walletId,
 	setIsOpen,
 	onSubmit,
+	isLoading,
+	isSuccess,
+	isError,
 	phoneNumbers = [],
 	operators,
 	currency,
 	countryIsoCode,
-	countryPhoneCode,
+	// countryPhoneCode,
 }) => {
 	const [amount, setAmount] = useState("100");
 	const [selectedPhoneNumber, setSelectedPhoneNumber] = useState("");
 	const [newPhoneNumber, setNewPhoneNumber] = useState("");
-	const [operator, setOperator] = useState("MTN");
+	const [operator, setOperator] = useState("");
 	const [useExistingPhone, setUseExistingPhone] = useState(
 		phoneNumbers.length > 0
 	);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+	const countryPhoneCode = getCountryPhonePrefix(
+		(countryDataList as any)[countryIsoCode]?.countryCallingCodes || []
+	);
 	// Get transaction fees from Redux store
 	const transactionFees = useSelector(selectTransactionFees);
 
@@ -94,33 +106,64 @@ const FundLocalCurrencyWalletModal: React.FC<
 		}
 
 		const phoneNumber = useExistingPhone
-			? selectedPhoneNumber
+			? selectedPhoneNumber.split("-")[1]
 			: newPhoneNumber;
+
+		const phoneOperator = useExistingPhone
+			? selectedPhoneNumber.split("-")[0]
+			: operator;
 
 		if (!phoneNumber) {
 			setErrorMessage("Please select or enter a phone number");
 			return;
 		}
 
+		// if (!operator) {
+		// 	setErrorMessage("Please select an operator");
+		// 	return;
+		// }
+
 		if (!useExistingPhone && !operator) {
 			setErrorMessage("Please select an operator");
 			return;
 		}
 
-		onSubmit({
+		console.log({
+			countryPhoneCode,
 			userId,
 			walletId,
 			amount: amountNum,
-			phone: phoneNumber,
-			operator: useExistingPhone ? "" : operator,
+			phone: String(phoneNumber)
+				?.replace(`+`, "")
+				?.replace(`${countryPhoneCode}`, ""),
+			operator: phoneOperator,
 			currency,
 			// feeAmount,
 			// totalAmount,
 			// countryIsoCode,
 			// countryPhoneCode,
 		});
-		setIsOpen(false);
+
+		onSubmit({
+			userId,
+			walletId,
+			amount: amountNum,
+			phone: String(phoneNumber)
+				?.replace(`+`, "")
+				?.replace(`${countryPhoneCode}`, ""),
+			operator: phoneOperator,
+			currency,
+			// feeAmount,
+			// totalAmount,
+			// countryIsoCode,
+			// countryPhoneCode,
+		});
+		// if (isSuccess || isError) setIsOpen(false);
 	};
+
+	useEffect(() => {
+		if (isSuccess || isError) setIsOpen(false);
+	}, [isSuccess, isError]);
 
 	return (
 		<div className="bg-white rounded-lg p-6 w-[400px]">
@@ -140,7 +183,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 						placeholder={`Enter amount in ${currency}`}
 						min="100"
-						step="100"
+						step="50"
 					/>
 					<p className="flex text-xs text-gray-900 mt-2">
 						<span>Fee ({fees}%) : </span>
@@ -151,7 +194,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 				</div>
 
 				{/* Phone Number Selection */}
-				{hasPhoneNumbers && (
+				{hasPhoneNumbers && phoneNumbers.length < 3 && (
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
 							Use existing phone number?
@@ -186,18 +229,19 @@ const FundLocalCurrencyWalletModal: React.FC<
 						</label>
 						<Select
 							placeholder="Select a phone number"
-							selectedKeys={
-								selectedPhoneNumber ? [selectedPhoneNumber] : []
-							}
+							selectedKeys={[selectedPhoneNumber]}
 							onSelectionChange={(keys) => {
 								const value = keys.currentKey as string;
 								setSelectedPhoneNumber(value);
 							}}
 							className="w-full"
 						>
-							{phoneNumbers.map((phone) => (
-								<SelectItem key={phone} value={phone}>
-									{phone}
+							{phoneNumbers.map((item: any) => (
+								<SelectItem
+									key={`${item.operator}-${item.phone_number}`}
+									value={`${item.operator}-${item.phone_number}`}
+								>
+									{item.phone_number}
 								</SelectItem>
 							))}
 						</Select>
@@ -291,6 +335,23 @@ const FundLocalCurrencyWalletModal: React.FC<
 					disabled={amountNum < 100}
 				/>
 			</div>
+
+			{isLoading && (
+				<div
+					className={classNames(
+						"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-0 left-0 h-full w-full flex items-center justify-center",
+						{
+							"!opacity-100 !visible z-[1000]": isLoading,
+						}
+					)}
+				>
+					<PuffLoader
+						className="shrink-0"
+						size={50}
+						color="#1F66FF"
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
