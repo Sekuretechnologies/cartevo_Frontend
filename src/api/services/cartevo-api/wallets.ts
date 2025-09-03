@@ -42,7 +42,7 @@ export class WalletService {
 	static get_transactions = ({ token }: { token: string }) => {
 		let query_params: any = {};
 		return BaseMethods.getRequest(
-			companyUrls.GET_TRANSACTIONS,
+			walletUrls.GET_TRANSACTIONS,
 			true,
 			query_params,
 			token

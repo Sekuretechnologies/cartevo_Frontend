@@ -278,7 +278,7 @@ export default function CreateAccountForm() {
 
 				form.setValue(
 					"business_country_phone_code",
-					countryPhoneCode || "+237"
+					countryPhoneCode || "237"
 				);
 				form.setValue("business_country_currency", countryCurrency);
 			}

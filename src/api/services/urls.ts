@@ -72,9 +72,11 @@ export const developersUrls = {
 
 /** WALLETS ============================================================ */
 export const BASE_URL_WALLET = `${BASE_URL}/wallets`;
+export const BASE_URL_WALLET_TRANSACTIONS = `${BASE_URL}/wallet/transactions`;
 export const walletUrls = {
 	GET_WALLETS: `${BASE_URL_WALLET}`,
 	CREATE_WALLET: `${BASE_URL_WALLET}`,
 	FUND_WALLET: `${BASE_URL_WALLET}/fund`,
 	DEPOSIT_TO_WALLET: `${BASE_URL_WALLET}/deposit`,
+	GET_TRANSACTIONS: `${BASE_URL_WALLET_TRANSACTIONS}`,
 };

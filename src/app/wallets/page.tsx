@@ -12,7 +12,10 @@ import Title from "@/components/shared/Title";
 
 import { CompanyService } from "@/api/services/cartevo-api/company";
 import WalletCardGrid from "@/components/cards/WalletCardGrid";
-import { headerUserTransactionDataV2 } from "@/constants/TransactionData";
+import {
+	headerUserTransactionDataV2,
+	headerWalletTransactionData,
+} from "@/constants/TransactionData";
 import useKeyPressed from "@/hooks/useKeyPressed";
 import { selectSearchTerm } from "@/redux/slices/search";
 import * as CFlags from "country-flag-icons/react/3x2";
@@ -166,7 +169,7 @@ const getCompanyWallets = async ({ queryKey }: any) => {
 const getCompanyTransactions = async ({ queryKey }: any) => {
 	const [_key, token] = queryKey;
 	let params: any = {};
-	const response = await CompanyService.get_transactions({
+	const response = await WalletService.get_transactions({
 		token: token || "",
 	});
 	const responseJson = await response.json();
@@ -283,8 +286,8 @@ export default function Home() {
 			toast.error("Failed to get Company Transactions.");
 		},
 		// enabled: loadTransactions, // Only load when explicitly requested
-		staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
-		cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
+		// staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+		// cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
 	});
 
 	const companyTransactionsData = companyTransactionsQueryRes.data;
@@ -297,9 +300,9 @@ export default function Home() {
 		onError: (err) => {
 			toast.error("Failed to get wallets.");
 		},
-		refetchInterval: 300000, // Reduced to 5 minutes instead of 1 minute
-		staleTime: 2 * 60 * 1000, // Consider data fresh for 2 minutes
-		cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
+		// refetchInterval: 300000, // Reduced to 5 minutes instead of 1 minute
+		// staleTime: 2 * 60 * 1000, // Consider data fresh for 2 minutes
+		// cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
 	});
 
 	const createWalletMutation = useMutation(
@@ -320,7 +323,7 @@ export default function Home() {
 			fundWallet(currentToken, data),
 		{
 			onSuccess: () => {
-				toast.success("Wallet funded successfully!");
+				toast.success("Wallet funding initiated !");
 				companyWalletsQueryRes.refetch(); // Refetch wallets after funding
 				companyTransactionsQueryRes.refetch(); // Refetch transactions
 			},
@@ -335,7 +338,7 @@ export default function Home() {
 			depositToWallet(currentToken, data),
 		{
 			onSuccess: () => {
-				toast.success("Wallet funded successfully!");
+				toast.success("Wallet deposit done successfully!");
 				companyWalletsQueryRes.refetch(); // Refetch wallets after funding
 				companyTransactionsQueryRes.refetch(); // Refetch transactions
 			},
@@ -428,9 +431,14 @@ export default function Home() {
 										: "Fund"
 								}
 								btnStyle={"blue"}
-								onClick={() =>
-									setFundModalData({ isOpen: true, wallet })
-								}
+								onClick={() => {
+									if (wallet.currency === "USD") {
+										depositToWalletMutation.reset();
+									} else {
+										fundWalletMutation.reset();
+									}
+									setFundModalData({ isOpen: true, wallet });
+								}}
 								icon={
 									wallet.currency === "USD" ? (
 										<HiDownload size={50} />
@@ -448,15 +456,25 @@ export default function Home() {
 		]);
 
 		if (companyTransactionsQueryRes?.data) {
-			rearrangedTableData = companyTransactionsQueryRes.data.map(
+			// Sort transactions by created_at descending (most recent first)
+			const sortedTransactions = [
+				...companyTransactionsQueryRes.data,
+			].sort(
+				(a: any, b: any) =>
+					new Date(b.created_at).getTime() -
+					new Date(a.created_at).getTime()
+			);
+
+			rearrangedTableData = sortedTransactions.map(
 				(item: any, index: any) => ({
 					serial: index + 1,
 					type: getCategoryTypeV2(item.category, item.type),
-					name: item.merchant?.name,
-					country: item.country,
-					phone: item.phone_number,
+					// name: item.merchant?.name,
+					wallet: `${item.wallet?.country_iso_code} - ${item.wallet?.currency}`,
+					phone: `${item.phone_number}`,
 					idTrx: item.id,
-					amount: item.amount_xaf?.toLocaleString("en-EN") ?? 0,
+					currency: item.currency,
+					amount: item.amount?.toLocaleString("en-EN") ?? 0,
 					status:
 						item.status == "SUCCESS" ? (
 							<BadgeLabel
@@ -494,7 +512,7 @@ export default function Home() {
 					actions: (
 						<>
 							<div className="flex gap-5">
-								<CButton
+								{/* <CButton
 									text={"Details"}
 									onClick={() => setIsOpen(index)}
 									btnStyle={"outlineDark"}
@@ -510,7 +528,7 @@ export default function Home() {
 											item={item}
 										/>
 									}
-								/>
+								/> */}
 							</div>
 						</>
 					),
@@ -573,7 +591,12 @@ export default function Home() {
 									})
 								}
 								onSubmit={fundWalletMutation.mutate}
-								phoneNumbers={[]} // TODO: Get phone numbers from API
+								isLoading={fundWalletMutation.isLoading}
+								isSuccess={fundWalletMutation.isSuccess}
+								isError={fundWalletMutation.isError}
+								phoneNumbers={
+									fundModalData.wallet?.phoneNumbers || []
+								} // TODO: Get phone numbers from API
 								userId={currentUser.id}
 								walletId={fundModalData.wallet?.id}
 								operators={
@@ -586,10 +609,10 @@ export default function Home() {
 									fundModalData.wallet?.country_iso_code ||
 									"CM"
 								}
-								countryPhoneCode={
-									fundModalData.wallet?.country_phone_code ||
-									"+237"
-								}
+								// countryPhoneCode={
+								// 	fundModalData.wallet?.country_phone_code ||
+								// 	"237"
+								// }
 							/>
 						)
 					}
@@ -604,7 +627,7 @@ export default function Home() {
 					</div>
 
 					<CustomTable
-						headerData={headerUserTransactionDataV2}
+						headerData={headerWalletTransactionData}
 						tableData={rearrangedTableData}
 						filter
 						filterType={"transaction"}
