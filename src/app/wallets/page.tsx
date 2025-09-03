@@ -212,6 +212,8 @@ const depositToWallet = async (
 	token: string,
 	data: DespoitToWalletSubmitProps
 ) => {
+	console.log("depositToWallet : data :", data);
+
 	let params: any = {};
 	const response = await WalletService.deposit_to_wallet({
 		token: token,

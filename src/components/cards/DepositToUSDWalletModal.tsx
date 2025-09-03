@@ -172,7 +172,7 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 				amount: amountNum,
 			},
 			exchangeRate: {
-				rate: exchangeRate,
+				rate: Number(exchangeRate || 1),
 				fromCurrency: exchangeRateData.from_currency,
 				toCurrency: exchangeRateData.to_currency,
 			},
@@ -326,7 +326,7 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 					onClick={() => setIsOpen(false)}
 				/>
 				<CButton
-					text="Fund Wallet"
+					text="Deposit"
 					btnStyle="blue"
 					onClick={handleSubmit}
 					disabled={!!errorMessage}
