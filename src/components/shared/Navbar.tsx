@@ -83,7 +83,7 @@ export default function Navbar(props: Props) {
 	};
 
 	const handleOnboardingError = (e: any) => {
-		if (!currentCompany.is_onboarding_completed) {
+		if (!currentCompany?.is_onboarding_completed) {
 			toast.error(
 				"You have to complete onboarding to be able to access to Live mode"
 			);
@@ -195,10 +195,10 @@ export default function Navbar(props: Props) {
 
 							<Switch
 								defaultChecked={
-									currentCompany.is_onboarding_completed
+									currentCompany?.is_onboarding_completed
 								}
 								disabled={
-									!currentCompany.is_onboarding_completed
+									!currentCompany?.is_onboarding_completed
 								}
 								// onChange={(e) => handleMode(e)}
 								// checked={field.value}
@@ -218,10 +218,10 @@ export default function Navbar(props: Props) {
 								<input
 									type="checkbox"
 									defaultChecked={
-										currentCompany.is_onboarding_completed
+										currentCompany?.is_onboarding_completed
 									}
 									disabled={
-										!currentCompany.is_onboarding_completed
+										!currentCompany?.is_onboarding_completed
 									}
 									// onClick={(e) => handleVersion(e)}
 									// onChange={(e) => handleVersion(e)}
