@@ -580,6 +580,9 @@ export default function Home() {
 									})
 								}
 								onSubmit={depositToWalletMutation.mutate}
+								isLoading={depositToWalletMutation.isLoading}
+								isSuccess={depositToWalletMutation.isSuccess}
+								isError={depositToWalletMutation.isError}
 								wallets={companyWalletsQueryRes?.data || []}
 							/>
 						) : (
