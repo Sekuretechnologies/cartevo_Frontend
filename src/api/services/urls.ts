@@ -16,8 +16,6 @@ export const authUrls = {
 /** COMPANY ============================================================ */
 export const BASE_URL_COMPANY = `${BASE_URL}/company`;
 export const companyUrls = {
-	GET_WALLETS: `${BASE_URL_COMPANY}/wallets`,
-	CREATE_WALLET: `${BASE_URL_COMPANY}/wallets`,
 	GET_TRANSACTIONS: `${BASE_URL_COMPANY}/transactions`,
 	GET_ONBOARDING_STEPS: `${BASE_URL_COMPANY}/onboarding-steps`,
 	COMPLETE_KYB: `${BASE_URL_COMPANY}/onboarding/kyb`,
@@ -73,8 +71,12 @@ export const developersUrls = {
 };
 
 /** WALLETS ============================================================ */
-export const BASE_URL_WALLET = `${BASE_URL}/wallet`;
+export const BASE_URL_WALLET = `${BASE_URL}/wallets`;
+export const BASE_URL_WALLET_TRANSACTIONS = `${BASE_URL}/wallet/transactions`;
 export const walletUrls = {
+	GET_WALLETS: `${BASE_URL_WALLET}`,
+	CREATE_WALLET: `${BASE_URL_WALLET}`,
 	FUND_WALLET: `${BASE_URL_WALLET}/fund`,
 	DEPOSIT_TO_WALLET: `${BASE_URL_WALLET}/deposit`,
+	GET_TRANSACTIONS: `${BASE_URL_WALLET_TRANSACTIONS}`,
 };
