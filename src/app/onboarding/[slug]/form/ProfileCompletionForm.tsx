@@ -22,7 +22,12 @@ import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
 import { AuthService } from "@/api/services/cartevo-api/auth";
-import { selectCurrentToken, setCredentials } from "@/redux/slices/auth";
+import {
+	selectCurrentCompany,
+	selectCurrentToken,
+	setCredentials,
+	setCurrentCompany,
+} from "@/redux/slices/auth";
 import {
 	generateRandomCode,
 	getFileExtension,
@@ -225,6 +230,7 @@ const countryOptions = Object.entries(countryNames).map(([code, name]) => ({
 
 export default function ProfileCompletionForm() {
 	const currentToken: any = useSelector(selectCurrentToken);
+	const currentCompany: any = useSelector(selectCurrentCompany);
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const [confirmPasswordVisible, setConfirmPasswordVisible] =
 		useState<boolean>();
@@ -268,6 +274,17 @@ export default function ProfileCompletionForm() {
 			toast.success(
 				"Personal information saved! Proceeding to next step..."
 			);
+			if (data.onboarding_is_completed) {
+				dispatch(
+					setCurrentCompany({
+						company: {
+							...currentCompany,
+							onboarding_is_completed:
+								data.onboarding_is_completed,
+						},
+					})
+				);
+			}
 			router.push("/onboarding");
 		},
 	});

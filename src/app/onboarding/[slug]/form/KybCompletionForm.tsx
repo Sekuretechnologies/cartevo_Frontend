@@ -25,6 +25,7 @@ import {
 	selectCurrentCompany,
 	selectCurrentToken,
 	selectCurrentUser,
+	setCurrentCompany,
 } from "@/redux/slices/auth";
 import {
 	generateRandomCode,
@@ -235,6 +236,17 @@ export default function KybCompletionForm() {
 		onSuccess: (data) => {
 			console.log("Company info submitted successfully:", data);
 			toast.success("Company information saved! Registration completed.");
+			if (data.onboarding_is_completed) {
+				dispatch(
+					setCurrentCompany({
+						company: {
+							...currentCompany,
+							onboarding_is_completed:
+								data.onboarding_is_completed,
+						},
+					})
+				);
+			}
 			router.push("/onboarding");
 		},
 	});
