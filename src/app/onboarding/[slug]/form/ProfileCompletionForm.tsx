@@ -296,7 +296,14 @@ export default function ProfileCompletionForm() {
 	) => {
 		const value: string = data.target.value;
 		console.log(fieldName, value, getLabelByKey(value, itemList));
-		form.setValue(fieldName, String(getLabelByKey(value, itemList) || ""));
+		if (fieldName === "id_document_type") {
+			form.setValue(fieldName, value);
+		} else {
+			form.setValue(
+				fieldName,
+				String(getLabelByKey(value, itemList) || "")
+			);
+		}
 	};
 
 	// Helper for file preview
