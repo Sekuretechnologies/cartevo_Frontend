@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectItem } from "@nextui-org/select";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
@@ -278,6 +278,20 @@ export default function ProfileCompletionForm() {
 	const onError = (err: any) => {
 		console.error("any", err);
 	};
+
+	// Prevent body scroll when loading overlay is visible
+	useEffect(() => {
+		if (mutation.isLoading) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "unset";
+		}
+
+		// Cleanup function to restore scroll when component unmounts
+		return () => {
+			document.body.style.overflow = "unset";
+		};
+	}, [mutation.isLoading]);
 
 	// const handleRoleChange = (data: any) => {
 	// 	const value: string = data.target.value;

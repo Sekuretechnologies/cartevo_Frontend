@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
@@ -246,6 +246,20 @@ export default function KybCompletionForm() {
 	const onError = (err: any) => {
 		console.error("Form validation error:", err);
 	};
+
+	// Prevent body scroll when loading overlay is visible
+	useEffect(() => {
+		if (mutation.isLoading) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "unset";
+		}
+
+		// Cleanup function to restore scroll when component unmounts
+		return () => {
+			document.body.style.overflow = "unset";
+		};
+	}, [mutation.isLoading]);
 
 	// State for file previews
 	const [incorpPreview, setIncorpPreview] = useState<string | null>(null);
