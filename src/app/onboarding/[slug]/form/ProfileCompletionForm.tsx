@@ -200,6 +200,20 @@ const genderData = [
 		label: "Other",
 	},
 ];
+const documentTypeData = [
+	{
+		key: "NIN",
+		label: "National ID",
+	},
+	{
+		key: "PASSPORT",
+		label: "Passport",
+	},
+	{
+		key: "DRIVERS_LICENSE",
+		label: "Drivers License",
+	},
+];
 // Register English locale for country names
 countries.registerLocale(enLocale);
 // Generate list of country codes and names
@@ -272,6 +286,7 @@ export default function ProfileCompletionForm() {
 	// };
 	const handleFieldChange = (
 		fieldName:
+			| "id_document_type"
 			| "role_in_company"
 			| "gender"
 			| "nationality"
@@ -654,39 +669,32 @@ export default function ProfileCompletionForm() {
 										<FormControl>
 											<Select
 												{...field}
-												placeholder="Select ID Type"
+												placeholder="Select Gender"
 												style={{
 													width: "100%",
-													// background: "#F4EFE3",
 												}}
 												className={`bg-app-lightgray text-gray-900 font-normal`}
-												onChange={(value) =>
-													field.onChange(value)
-												}
-												selectedKeys={
-													field.value
-														? [field.value]
-														: []
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onChange={(data) =>
+													handleFieldChange(
+														"id_document_type",
+														documentTypeData,
+														data
+													)
 												}
 											>
-												<SelectItem
-													key="passport"
-													value="passport"
-												>
-													Passport
-												</SelectItem>
-												<SelectItem
-													key="national_id"
-													value="national_id"
-												>
-													National ID
-												</SelectItem>
-												<SelectItem
-													key="driving_license"
-													value="driving_license"
-												>
-													Driving License
-												</SelectItem>
+												{documentTypeData.map(
+													(item, idx) => (
+														<SelectItem
+															key={item.key}
+															value={item.key}
+														>
+															{item.label}
+														</SelectItem>
+													)
+												)}
 											</Select>
 										</FormControl>
 										<FormMessage className="text-red-400" />
