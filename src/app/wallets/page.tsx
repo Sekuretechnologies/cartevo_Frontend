@@ -477,7 +477,7 @@ export default function Home() {
 					type: getCategoryTypeV2(item.category, item.type),
 					// name: item.merchant?.name,
 					wallet: `${item.wallet?.country_iso_code} - ${item.wallet?.currency}`,
-					phone: `${item.phone_number}`,
+					phone: item.phone_number && `${item.phone_number}`,
 					idTrx: item.id,
 					currency: item.currency,
 					amount: item.amount?.toLocaleString("en-EN") ?? 0,
