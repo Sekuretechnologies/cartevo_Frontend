@@ -192,7 +192,7 @@ export default function OnboardingPage() {
 								</p>
 
 								<div className="flex justify-between items-center">
-									<div className="flex-1">
+									<div className="flex-1 pr-3">
 										{/* Progress indicator */}
 										<div className="w-full bg-gray-200 rounded-full h-2">
 											<div
@@ -207,25 +207,30 @@ export default function OnboardingPage() {
 											></div>
 										</div>
 									</div>
-									<CButton
-										text={
-											step.status === COMPLETED
-												? "Review"
-												: step.status === IN_PROGRESS
-												? "Continue"
-												: "Start"
-										}
-										btnStyle={
-											step.status === COMPLETED
-												? "outlineDark"
-												: "blue"
-										}
-										onClick={() =>
-											handleStepClick(step.slug)
-										}
-										width="100px"
-										height="35px"
-									/>
+									{step.status !== COMPLETED ? (
+										<CButton
+											text={
+												step.status === COMPLETED
+													? "Review"
+													: step.status ===
+													  IN_PROGRESS
+													? "Continue"
+													: "Start"
+											}
+											btnStyle={
+												step.status === COMPLETED
+													? "outlineDark"
+													: "blue"
+											}
+											onClick={() =>
+												handleStepClick(step.slug)
+											}
+											width="100px"
+											height="35px"
+										/>
+									) : (
+										<></>
+									)}
 								</div>
 							</div>
 						))}
