@@ -68,9 +68,9 @@ export const completeKybSchema = z.object({
 	}),
 	business_website: z
 		.string()
-		.url({ message: "Please enter a valid URL" })
-		.optional()
-		.or(z.literal("")),
+		// .url({ message: "Please enter a valid URL" })
+		.optional(),
+	// .or(z.literal("")),
 	business_description: z.string().min(10, {
 		message: "Description must be at least 10 characters long",
 	}),
@@ -369,6 +369,9 @@ export default function KybCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Tax ID Number
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -391,7 +394,7 @@ export default function KybCompletionForm() {
 										</FormLabel>
 										<FormControl>
 											<Input
-												type="url"
+												type="text"
 												className="px-6 w-full bg-app-lightgray"
 												placeholder="https://www.example.com"
 												{...field}
@@ -431,6 +434,7 @@ export default function KybCompletionForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
 										Source of Funds
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<Select
@@ -480,6 +484,9 @@ export default function KybCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Incorporation Certificate
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -519,6 +526,9 @@ export default function KybCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Share Holding Document
+											{/* <span className="text-red-500">
+												*
+											</span> */}
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -559,6 +569,7 @@ export default function KybCompletionForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
 										Business Proof of Address
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<div className="flex items-center gap-4">
 										<FormControl>

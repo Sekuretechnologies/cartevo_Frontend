@@ -505,6 +505,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Nationality
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Select
@@ -548,6 +551,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Country of Residence
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Select
@@ -600,6 +606,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											State/Province
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -619,6 +628,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											City
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -638,6 +650,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Postal Code
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -659,6 +674,7 @@ export default function ProfileCompletionForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
 										Street Address
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input
@@ -686,6 +702,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											ID Document Type
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Select
@@ -729,6 +748,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											ID Number
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -751,6 +773,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											ID Document (Front)
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -790,6 +815,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											ID Document (Back)
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -831,6 +859,7 @@ export default function ProfileCompletionForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
 										Proof of Address
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<div className="flex items-center gap-4">
 										<FormControl>
