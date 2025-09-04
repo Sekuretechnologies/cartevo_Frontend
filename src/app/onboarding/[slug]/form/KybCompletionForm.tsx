@@ -240,7 +240,7 @@ export default function KybCompletionForm() {
 	});
 
 	const onSubmit = (data: any) => {
-		const bizData = { ...data, company_id: currentCompany.id };
+		const bizData = { ...data };
 		mutation.mutate(bizData);
 	};
 	const onError = (err: any) => {
