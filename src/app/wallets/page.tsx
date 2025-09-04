@@ -366,11 +366,15 @@ export default function Home() {
 	const { shiftDown, iPressed, ePressed } = useKeyPressed();
 
 	if (companyWalletsQueryRes?.data) {
-		// Sort wallets to ensure USD is first
+		// Sort wallets to ensure USD is first, then remaining wallets from oldest to most recent
 		const sortedWallets = [...companyWalletsQueryRes.data].sort((a, b) => {
 			if (a.currency === "USD") return -1;
 			if (b.currency === "USD") return 1;
-			return 0;
+			// Sort remaining wallets by created_at (oldest first)
+			return (
+				new Date(a.created_at).getTime() -
+				new Date(b.created_at).getTime()
+			);
 		});
 
 		// Dynamically generate infoData based on sorted wallets
