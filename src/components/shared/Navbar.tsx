@@ -67,7 +67,7 @@ export default function Navbar(props: Props) {
 	const mutation = useMutation({
 		mutationFn: async () => handleLogout(currentToken),
 		onSuccess: (data) => {
-			toast.success("A bientot! Redirecting...");
+			toast.success("Bye. See you soon!");
 			dispatch(logOut());
 			router.push("/login");
 		},
@@ -158,7 +158,7 @@ export default function Navbar(props: Props) {
 					)}
 
 					<h1 className="font-semibold text-xl md:text-2xl pl-1 py-0">
-						{title}
+						{currentCompany.name} | {title}
 					</h1>
 				</div>
 				<div className="flex justify-between items-center gap-3">

@@ -64,21 +64,24 @@ export default function LoginForm() {
 		},
 		onSuccess: (data) => {
 			console.log("Login onSuccess : ", data);
-			// const token = data.access_token;
-			// const user = data.user;
-			// const company = data.company;
-			// dispatch(setCredentials({ token, company, user }));
-
-			toast.success("Login successful! Redirecting...");
-			//-----------------------------------
-			dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
-			router.push("/verify-otp");
-			//-----------------------------------
-			// if (!company?.onboarding_is_completed) {
-			// 	router.push(urls.onboarding.root);
-			// } else {
-			// 	router.push(urls.wallets.root);
-			// }
+			if (data.access_token) {
+				const token = data.access_token;
+				const user = data.user;
+				const company = data.company;
+				dispatch(setCredentials({ token, company, user }));
+				toast.success("Login successful! Redirecting...");
+				if (!company?.onboarding_is_completed) {
+					router.push(urls.onboarding.root);
+				} else {
+					router.push(urls.wallets.root);
+				}
+			} else {
+				dispatch(
+					setCurrentUserEmail({ email: form.getValues("email") })
+				);
+				toast.success("Login successful! Redirecting...");
+				router.push("/verify-otp");
+			}
 			//-----------------------------------
 		},
 	});
