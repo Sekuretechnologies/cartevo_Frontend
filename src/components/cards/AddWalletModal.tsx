@@ -3,25 +3,47 @@ import CButton from "@/components/shared/CButton";
 import { ItemFlag } from "@/components/shared/ItemFlag";
 import { Select, SelectItem } from "@nextui-org/select";
 import { countryCurrencies } from "@/constants/countryCurrenciesData";
-
+import { getCountryPhonePrefix } from "@/utils/utils";
+import { countries as countryDataList } from "country-data";
 interface AddWalletModalProps {
 	setIsOpen: (isOpen: boolean) => void;
-	onSubmit: (data: { currency: string; country_iso_code: string }) => void;
+	onSubmit: (data: AddWalletSubmitProps) => void;
 	existingWallets?: any[];
 }
 
+export interface AddWalletSubmitProps {
+	currency: string;
+	country: string;
+	country_iso_code: string;
+	country_phone_code: string;
+}
 const AddWalletModal: React.FC<AddWalletModalProps> = ({
 	setIsOpen,
 	onSubmit,
 	existingWallets = [],
 }) => {
-	const [selectedCurrency, setSelectedCurrency] = useState("XAF");
-	const [selectedCountry, setSelectedCountry] = useState("CM");
+	const [selectedCurrency, setSelectedCurrency] = useState("");
+	const [selectedCountry, setSelectedCountry] = useState("");
 
 	const handleSubmit = () => {
+		const iso2 = selectedCountry;
+		const countryPhoneCode = getCountryPhonePrefix(
+			(countryDataList as any)[iso2]?.countryCallingCodes || []
+		);
+		const countryName = (countryDataList as any)[iso2]?.name;
+
+		// console.log({
+		// 	currency: selectedCurrency,
+		// 	country: countryName,
+		// 	country_iso_code: selectedCountry,
+		// 	country_phone_code: countryPhoneCode,
+		// });
+
 		onSubmit({
 			currency: selectedCurrency,
+			country: countryName,
 			country_iso_code: selectedCountry,
+			country_phone_code: countryPhoneCode,
 		});
 		setIsOpen(false);
 	};

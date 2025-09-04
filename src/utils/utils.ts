@@ -14,6 +14,7 @@ export function getCountryPhonePrefix(value: string[]): string {
 	const prefix: string = value?.[0]?.slice(1) || "";
 	return prefix;
 }
+
 export function getPhonePrefixByKey(
 	key: string,
 	data: any

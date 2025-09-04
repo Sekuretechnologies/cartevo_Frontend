@@ -11,31 +11,33 @@ import {
 
 const CountryFlags: any = CFlags;
 
-interface DepositToUSDWalletModalProps {
+interface DepositToWalletModalProps {
 	setIsOpen: (isOpen: boolean) => void;
-	onSubmit: (data: {
-		sourceWallet: {
-			id: string;
-			currency: string;
-			amount: number;
-			feeAmount: number;
-			totalAmount: number;
-		};
-		destinationallet: {
-			id: string;
-			currency: string;
-			amount: number;
-		};
-		exchangeRate: {
-			rate: number;
-			fromCurrency: string;
-			toCurrency: string;
-		};
-	}) => void;
+	onSubmit: (data: DespoitToWalletSubmitProps) => void;
 	wallets: any[];
 }
 
-const DepositToUSDWalletModal: React.FC<DepositToUSDWalletModalProps> = ({
+export interface DespoitToWalletSubmitProps {
+	sourceWallet: {
+		id: string;
+		currency: string;
+		amount: number;
+		feeAmount: number;
+		totalAmount: number;
+	};
+	destinationallet: {
+		id: string;
+		currency: string;
+		amount: number;
+	};
+	exchangeRate: {
+		rate: number;
+		fromCurrency: string;
+		toCurrency: string;
+	};
+}
+
+const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 	setIsOpen,
 	onSubmit,
 	wallets,
@@ -323,4 +325,4 @@ const DepositToUSDWalletModal: React.FC<DepositToUSDWalletModalProps> = ({
 	);
 };
 
-export default DepositToUSDWalletModal;
+export default DepositToWalletModal;
