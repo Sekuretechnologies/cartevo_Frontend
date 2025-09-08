@@ -63,3 +63,8 @@ export interface UpdateDeveloperSettingsRequest {
 	webhook_url?: string;
 	webhook_is_active?: boolean;
 }
+
+export interface AddTeamMember {
+	email: string;
+	role: "admin" | "user";
+}

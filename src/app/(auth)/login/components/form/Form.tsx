@@ -68,17 +68,18 @@ export default function LoginForm() {
 			const user = data.user;
 			const company = data.company;
 			dispatch(setCredentials({ token, company, user }));
+			dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
 
 			toast.success("Login successful! Redirecting...");
 			//-----------------------------------
 			// dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
-			// router.push("/verify-otp");
+			router.push("/verify-otp");
 			//-----------------------------------
-			if (!company?.onboarding_is_completed) {
-				router.push(urls.onboarding.root);
-			} else {
-				router.push(urls.wallets.root);
-			}
+			// if (!company?.onboarding_is_completed) {
+			// 	router.push(urls.onboarding.root);
+			// } else {
+			// 	router.push(urls.wallets.root);
+			// }
 			//-----------------------------------
 		},
 	});

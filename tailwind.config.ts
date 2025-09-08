@@ -21,7 +21,12 @@ const config: Config = {
 					secondary: "#063292",
 					lightgray: "#F3F3F3",
 					lightblue: "#EBF7FF",
+					customBlack: "#222222",
 				},
+			},
+			fontFamily: {
+				poppins: ['"Poppins"', "sans-serif"],
+				syne: ["Syne", "sans-serif"],
 			},
 		},
 	},

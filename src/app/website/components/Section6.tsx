@@ -1,0 +1,74 @@
+import React from "react";
+
+const Section6 = () => {
+	return (
+		<section className="relative">
+			<div
+				className="customContainer h-[650px] md:h-[559px] -mt-2 "
+				style={{
+					backgroundImage: "url('/website/home/noise.png')",
+					backgroundSize: "cover",
+					backgroundPosition: "center",
+					backgroundRepeat: "no-repeat",
+				}}
+			>
+				<div
+					className=" absolute bottom-0 left-0 w-full h-[150px] md:h-[200px]"
+					style={{
+						backgroundImage: "url('/website/home/Ellipse.png')",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+						backgroundRepeat: "no-repeat",
+					}}
+				>
+					{/* <img
+						src="/website/home/Ellipse.png"
+						alt=""
+						className="absolute bottom-0"
+					/> */}
+					<div className="relative ">
+						<div className="relative top-0 sm:top-10 lg:top-20 w-full ">
+							<img
+								src="website/home/afrik.png"
+								alt=""
+								className="absolute left-1/2 -translate-x-1/2 -top-5 md:-top-16 lg:-top-28 md:w-[90%] lg:w-[70%]"
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div className="flex flex-col items-center font-poppins text-white pt-12 gap-4 text-center">
+					<h3 className="w-[250px] h-[35px] border-1 border-white text-[13px] font-semibold font-poppins flex items-center justify-center rounded-full">
+						For Developers & Businesses
+					</h3>
+					<h1 className="text-[50px] font-semibold text-center leading-[45px]">
+						Start building with{" "}
+						<span className="text-[#00CFD9] ">Cartevo</span>
+					</h1>
+					<p className="text-[14px] max-w-[800px]">
+						Whether you are automating your business finances,
+						providing payment, banking or card issuance services to
+						your customers, Blusalt APIs give you the embedded
+						toolkit to build, adapt and thrive
+					</p>
+					<div className="flex flex-col gap-2  md:flex-row">
+						<a
+							href="#"
+							className="w-[263px] h-[54px] flex justify-center items-center rounded-[20px] text-[#0D5053] text-[13px] font-semibold bg-[#00CFD9]"
+						>
+							Commencer Maintenant
+						</a>
+						<a
+							href="#"
+							className="w-[263px] h-[54px] flex justify-center  items-center rounded-[20px] text-[#0D5053] text-[13px] font-semibold bg-white"
+						>
+							Contacter le support
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+	);
+};
+
+export default Section6;

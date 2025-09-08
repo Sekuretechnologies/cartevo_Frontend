@@ -261,3 +261,17 @@ export const resetPsswordSchema = z
 		message: "Les mots de passe ne correspondent pas",
 		path: ["confirmPassword"],
 	});
+
+export const contactSchema = z.object({
+	country_code: z.string(),
+	whatsapp: z.string(),
+	email: z.string().email("Adresse email invalide"),
+	subject: z.string().min(3, "Objet trop court"),
+	message: z.string().min(5, "Message trop court"),
+});
+
+export const teamMemberSchema = z.object({
+	email: z.string().email("Invalid email"),
+	role: z.enum(["admin", "user"]),
+	// ownerUserId: z.string(),
+});

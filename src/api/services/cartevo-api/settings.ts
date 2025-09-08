@@ -1,3 +1,4 @@
+import { userManagementUrls, userUrls } from "@/api/urls";
 import BaseMethods from "../../baseMethods";
 import { settingsUrls } from "../urls";
 import {
@@ -5,6 +6,7 @@ import {
 	UpdateExchangeRateRequest,
 	CreateTransactionFeeRequest,
 	UpdateTransactionFeeRequest,
+	AddTeamMember,
 } from "@/types/settings";
 
 export class SettingsService {
@@ -120,6 +122,23 @@ export class SettingsService {
 			settingsUrls.DELETE_TRANSACTION_FEE(id),
 			{},
 			true,
+			token
+		);
+	};
+
+	// Team member
+	static add_team_member = ({
+		token,
+		data,
+	}: {
+		token: string;
+		data: AddTeamMember;
+	}) => {
+		return BaseMethods.postRequest(
+			userManagementUrls.CREATE_USER,
+			data,
+			true,
+			{},
 			token
 		);
 	};

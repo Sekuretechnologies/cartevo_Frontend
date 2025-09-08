@@ -9,7 +9,7 @@ import Layout from "@/components/shared/Layout";
 import Modal from "@/components/shared/Modal/Modal";
 import CustomTable from "@/components/shared/CustomTable";
 import BadgeLabel from "@/components/shared/BadgeLabel";
-
+import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { SettingsService } from "@/api/services/cartevo-api/settings";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { useSelector } from "react-redux";
@@ -23,6 +23,11 @@ import {
 	UpdateTransactionFeeRequest,
 } from "@/types/settings";
 import { getFormattedDateTime } from "@/utils/DateFormat";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Cards from "../customers/[id]/components/Tabs/Cards/Cards";
+import TeamMember from "./components/Team-members/teamMember";
+import ExchangeRateComponents from "./components/exchange-rates/exchangeRate";
+import TransactionFees from "./components/transaction-fees/transactionFees";
 
 const getExchangeRates = async ({ queryKey }: any) => {
 	const [_key, token] = queryKey;
@@ -258,66 +263,137 @@ export default function Settings() {
 	return (
 		<Layout title={"Settings"}>
 			<section className="mt-2 space-y-8">
-				{/* Exchange Rates Section */}
-				<div className="bg-white shadow-md rounded-xl p-5">
-					{/* <p>hello</p>
-						<CButton text="Invite friend" btnStyle="blue" /> */}
-					<div className="mb-4">
-						<h2 className="text-xl font-semibold text-gray-800">
-							Exchange Rates
-						</h2>
-						<p className="text-gray-600 text-sm mt-1">
-							Manage currency exchange rates for your platform
-						</p>
-					</div>
-					<CustomTable
-						headerData={exchangeRatesHeaderData}
-						tableData={exchangeRatesTableData}
-						isLoading={exchangeRatesQuery.isLoading}
-						// btn={
-						// 	<CButton
-						// 		text="Add Exchange Rate"
-						// 		btnStyle="blue"
-						// 		icon={<HiPlus />}
-						// 		onClick={() => {
-						// 			setEditingExchangeRate(null);
-						// 			setIsExchangeRateModalOpen(true);
-						// 		}}
-						// 		height="33px"
-						// 	/>
-						// }
-					/>
+				<div className="bg-white shadow-md rounded-xl py-5">
+					<Tabs defaultValue="teamMembers" className="w-full">
+						<div className="w-fit">
+							<TabsList
+								defaultValue={"teamMembers"}
+								className="TabsList grid grid-cols-2 md:flex mb-[120px] md:mb-0"
+							>
+								<TabsTrigger
+									className="TabsTrigger"
+									value="teamMembers"
+								>
+									<span className="px-10 py-4 border-1 rounded-full">
+										Team Members
+									</span>
+								</TabsTrigger>
+
+								<TabsTrigger
+									className="TabsTrigger"
+									value="exchangeRates"
+								>
+									<span className="px-10 py-4 border-1 rounded-full">
+										Exchange Rates
+									</span>
+								</TabsTrigger>
+
+								<TabsTrigger
+									className="TabsTrigger"
+									value="transactionFees"
+								>
+									<span className="px-10 py-4 border-1 rounded-full">
+										Transaction Fees
+									</span>
+								</TabsTrigger>
+							</TabsList>
+						</div>
+						<div>
+							<TabsContent value="teamMembers">
+								<TeamMember />
+							</TabsContent>
+							<TabsContent value="exchangeRates">
+								<ExchangeRateComponents />
+							</TabsContent>
+							<TabsContent value="transactionFees">
+								<TransactionFees />
+							</TabsContent>
+						</div>
+					</Tabs>
 				</div>
+				{/* 
+				<div className=" flex gap-8  ">
+					<button
+						className="border-1 border-black rounded-full px-4 py-2"
+						onClick={showTeamMembers}
+					>
+						Team members
+					</button>
+					<button
+						onClick={showExchangesRates}
+						className="border-2 px-4 py-2 rounded-full text-black/60 border-black/30"
+					>
+						Exchange Rates
+					</button>
+					<button
+						onClick={showTransactionFees}
+						className="border-2 px-4 py-2 rounded-full text-black/60 border-black/30"
+					>
+						Transaction Fees
+					</button>
+				</div> */}
+				{/* Exchange Rates Section */}
+				{/* {exchangeRatesactive && (
+					<div className="bg-white shadow-md rounded-xl p-5">
+						<div className="mb-4">
+							<h2 className="text-xl font-semibold text-gray-800">
+								Exchange Rates
+							</h2>
+							<p className="text-gray-600 text-sm mt-1">
+								Manage currency exchange rates for your platform
+							</p>
+						</div>
+						<CustomTable
+							headerData={exchangeRatesHeaderData}
+							tableData={exchangeRatesTableData}
+							isLoading={exchangeRatesQuery.isLoading}
+							// btn={
+							// 	<CButton
+							// 		text="Add Exchange Rate"
+							// 		btnStyle="blue"
+							// 		icon={<HiPlus />}
+							// 		onClick={() => {
+							// 			setEditingExchangeRate(null);
+							// 			setIsExchangeRateModalOpen(true);
+							// 		}}
+							// 		height="33px"
+							// 	/>
+							// }
+						/>
+					</div>
+				)} */}
 
 				{/* Transaction Fees Section */}
-				<div className="bg-white shadow-md rounded-xl p-5">
-					<div className="mb-4">
-						<h2 className="text-xl font-semibold text-gray-800">
-							Transaction Fees
-						</h2>
-						<p className="text-gray-600 text-sm mt-1">
-							Configure transaction fees for different payment
-							types and countries
-						</p>
+				{/* {transactionFeesActive && (
+					<div className="bg-white shadow-md rounded-xl p-5">
+						<div className="mb-4">
+							<h2 className="text-xl font-semibold text-gray-800">
+								Transaction Fees
+							</h2>
+							<p className="text-gray-600 text-sm mt-1">
+								Configure transaction fees for different payment
+								types and countries
+							</p>
+						</div>
+						<CustomTable
+							headerData={transactionFeesHeaderData}
+							tableData={transactionFeesTableData}
+							isLoading={transactionFeesQuery.isLoading}
+							// btn={
+							// 	<CButton
+							// 		text="Add Transaction Fee"
+							// 		btnStyle="blue"
+							// 		icon={<HiPlus />}
+							// 		onClick={() => {
+							// 			setEditingTransactionFee(null);
+							// 			setIsTransactionFeeModalOpen(true);
+							// 		}}
+							// 		height="33px"
+							// 	/>
+							// }
+						/>
 					</div>
-					<CustomTable
-						headerData={transactionFeesHeaderData}
-						tableData={transactionFeesTableData}
-						isLoading={transactionFeesQuery.isLoading}
-						// btn={
-						// 	<CButton
-						// 		text="Add Transaction Fee"
-						// 		btnStyle="blue"
-						// 		icon={<HiPlus />}
-						// 		onClick={() => {
-						// 			setEditingTransactionFee(null);
-						// 			setIsTransactionFeeModalOpen(true);
-						// 		}}
-						// 		height="33px"
-						// 	/>
-						// }
-					/>
-				</div>
+				)} */}
 
 				{/* Exchange Rate Modal */}
 				<Modal
