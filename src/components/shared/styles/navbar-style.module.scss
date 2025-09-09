@@ -1,18 +1,16 @@
-
 .navbar-container {
-    position: relative;
-    width: 100%;
-    height: 80px;
-    background: 'white';
+	position: relative;
+	width: 100%;
+	height: 80px;
+	background: white;
 
-    @media only screen and (max-width: 860px) {
-        height: 90px;
-    }
-    
+	@media only screen and (max-width: 860px) {
+		height: 90px;
+	}
 }
 
 @media (max-width: 720px) {
-    .navbar-subcontainer {
-      width: 100% !important;
-    }
+	.navbar-subcontainer {
+		width: 100% !important;
+	}
 }

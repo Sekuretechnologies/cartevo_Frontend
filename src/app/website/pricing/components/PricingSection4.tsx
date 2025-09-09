@@ -25,8 +25,10 @@ const PricingSection4 = () => {
 					/>
 					<div className="px-10 flex flex-col text-center gap-4 items-center justify-center w-full h-full font-poppins absolute left-1/2  top-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
 						<h1 className="text-[42px] font-semibold lg:w-2/3 xl:w-1/2 leading-10">
-							Besoin d'une{" "}
-							<span className="text-[#00CFD9]">tarification</span>{" "}
+							{"Besoin d'une "}
+							<span className="text-[#00CFD9]">
+								tarification
+							</span>{" "}
 							sur mesure ?​
 						</h1>
 						<p className="text-[14px] lg:w-2/3">

@@ -7,11 +7,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const nextConfig = {
-	webpack: (config) => {
+	webpack: (config, { dev, isServer }) => {
 		config.resolve.alias = {
 			...config.resolve.alias,
 			"@": path.resolve(__dirname, "./"),
 		};
+
+		// Completely disable CSS minification for production builds
+		if (!dev && !isServer) {
+			config.optimization = {
+				...config.optimization,
+				minimize: false,
+			};
+		}
 
 		return config;
 	},
