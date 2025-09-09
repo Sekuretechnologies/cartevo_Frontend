@@ -15,14 +15,19 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectItem } from "@nextui-org/select";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
 import { AuthService } from "@/api/services/cartevo-api/auth";
-import { selectCurrentToken, setCredentials } from "@/redux/slices/auth";
+import {
+	selectCurrentCompany,
+	selectCurrentToken,
+	setCredentials,
+	setCurrentCompany,
+} from "@/redux/slices/auth";
 import {
 	generateRandomCode,
 	getFileExtension,
@@ -200,6 +205,20 @@ const genderData = [
 		label: "Other",
 	},
 ];
+const documentTypeData = [
+	{
+		key: "NIN",
+		label: "National ID",
+	},
+	{
+		key: "PASSPORT",
+		label: "Passport",
+	},
+	{
+		key: "DRIVERS_LICENSE",
+		label: "Drivers License",
+	},
+];
 // Register English locale for country names
 countries.registerLocale(enLocale);
 // Generate list of country codes and names
@@ -211,6 +230,7 @@ const countryOptions = Object.entries(countryNames).map(([code, name]) => ({
 
 export default function ProfileCompletionForm() {
 	const currentToken: any = useSelector(selectCurrentToken);
+	const currentCompany: any = useSelector(selectCurrentCompany);
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const [confirmPasswordVisible, setConfirmPasswordVisible] =
 		useState<boolean>();
@@ -254,6 +274,17 @@ export default function ProfileCompletionForm() {
 			toast.success(
 				"Personal information saved! Proceeding to next step..."
 			);
+			if (data.onboarding_is_completed) {
+				dispatch(
+					setCurrentCompany({
+						company: {
+							...currentCompany,
+							onboarding_is_completed:
+								data.onboarding_is_completed,
+						},
+					})
+				);
+			}
 			router.push("/onboarding");
 		},
 	});
@@ -265,6 +296,20 @@ export default function ProfileCompletionForm() {
 		console.error("any", err);
 	};
 
+	// Prevent body scroll when loading overlay is visible
+	useEffect(() => {
+		if (mutation.isLoading) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "unset";
+		}
+
+		// Cleanup function to restore scroll when component unmounts
+		return () => {
+			document.body.style.overflow = "unset";
+		};
+	}, [mutation.isLoading]);
+
 	// const handleRoleChange = (data: any) => {
 	// 	const value: string = data.target.value;
 	// 	console.log("role", value, getLabelByKey(value, roles));
@@ -272,6 +317,7 @@ export default function ProfileCompletionForm() {
 	// };
 	const handleFieldChange = (
 		fieldName:
+			| "id_document_type"
 			| "role_in_company"
 			| "gender"
 			| "nationality"
@@ -281,7 +327,14 @@ export default function ProfileCompletionForm() {
 	) => {
 		const value: string = data.target.value;
 		console.log(fieldName, value, getLabelByKey(value, itemList));
-		form.setValue(fieldName, String(getLabelByKey(value, itemList) || ""));
+		if (fieldName === "id_document_type") {
+			form.setValue(fieldName, value);
+		} else {
+			form.setValue(
+				fieldName,
+				String(getLabelByKey(value, itemList) || "")
+			);
+		}
 	};
 
 	// Helper for file preview
@@ -469,6 +522,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Nationality
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Select
@@ -512,6 +568,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Country of Residence
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Select
@@ -564,6 +623,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											State/Province
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -583,6 +645,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											City
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -602,6 +667,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Postal Code
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -623,6 +691,7 @@ export default function ProfileCompletionForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
 										Street Address
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input
@@ -650,43 +719,39 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											ID Document Type
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Select
 												{...field}
-												placeholder="Select ID Type"
+												placeholder="Select Gender"
 												style={{
 													width: "100%",
-													// background: "#F4EFE3",
 												}}
 												className={`bg-app-lightgray text-gray-900 font-normal`}
-												onChange={(value) =>
-													field.onChange(value)
-												}
-												selectedKeys={
-													field.value
-														? [field.value]
-														: []
+												defaultSelectedKeys={[
+													field.value ?? "",
+												]}
+												onChange={(data) =>
+													handleFieldChange(
+														"id_document_type",
+														documentTypeData,
+														data
+													)
 												}
 											>
-												<SelectItem
-													key="passport"
-													value="passport"
-												>
-													Passport
-												</SelectItem>
-												<SelectItem
-													key="national_id"
-													value="national_id"
-												>
-													National ID
-												</SelectItem>
-												<SelectItem
-													key="driving_license"
-													value="driving_license"
-												>
-													Driving License
-												</SelectItem>
+												{documentTypeData.map(
+													(item, idx) => (
+														<SelectItem
+															key={item.key}
+															value={item.key}
+														>
+															{item.label}
+														</SelectItem>
+													)
+												)}
 											</Select>
 										</FormControl>
 										<FormMessage className="text-red-400" />
@@ -700,6 +765,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											ID Number
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -722,6 +790,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											ID Document (Front)
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -761,6 +832,9 @@ export default function ProfileCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											ID Document (Back)
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -802,6 +876,7 @@ export default function ProfileCompletionForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
 										Proof of Address
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<div className="flex items-center gap-4">
 										<FormControl>

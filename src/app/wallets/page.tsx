@@ -212,6 +212,8 @@ const depositToWallet = async (
 	token: string,
 	data: DespoitToWalletSubmitProps
 ) => {
+	console.log("depositToWallet : data :", data);
+
 	let params: any = {};
 	const response = await WalletService.deposit_to_wallet({
 		token: token,
@@ -364,11 +366,15 @@ export default function Home() {
 	const { shiftDown, iPressed, ePressed } = useKeyPressed();
 
 	if (companyWalletsQueryRes?.data) {
-		// Sort wallets to ensure USD is first
+		// Sort wallets to ensure USD is first, then remaining wallets from oldest to most recent
 		const sortedWallets = [...companyWalletsQueryRes.data].sort((a, b) => {
 			if (a.currency === "USD") return -1;
 			if (b.currency === "USD") return 1;
-			return 0;
+			// Sort remaining wallets by created_at (oldest first)
+			return (
+				new Date(a.created_at).getTime() -
+				new Date(b.created_at).getTime()
+			);
 		});
 
 		// Dynamically generate infoData based on sorted wallets
@@ -471,7 +477,7 @@ export default function Home() {
 					type: getCategoryTypeV2(item.category, item.type),
 					// name: item.merchant?.name,
 					wallet: `${item.wallet?.country_iso_code} - ${item.wallet?.currency}`,
-					phone: `${item.phone_number}`,
+					phone: item.phone_number && `${item.phone_number}`,
 					idTrx: item.id,
 					currency: item.currency,
 					amount: item.amount?.toLocaleString("en-EN") ?? 0,
@@ -580,6 +586,9 @@ export default function Home() {
 									})
 								}
 								onSubmit={depositToWalletMutation.mutate}
+								isLoading={depositToWalletMutation.isLoading}
+								isSuccess={depositToWalletMutation.isSuccess}
+								isError={depositToWalletMutation.isError}
 								wallets={companyWalletsQueryRes?.data || []}
 							/>
 						) : (

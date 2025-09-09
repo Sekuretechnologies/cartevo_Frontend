@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
@@ -25,6 +25,7 @@ import {
 	selectCurrentCompany,
 	selectCurrentToken,
 	selectCurrentUser,
+	setCurrentCompany,
 } from "@/redux/slices/auth";
 import {
 	generateRandomCode,
@@ -68,9 +69,9 @@ export const completeKybSchema = z.object({
 	}),
 	business_website: z
 		.string()
-		.url({ message: "Please enter a valid URL" })
-		.optional()
-		.or(z.literal("")),
+		// .url({ message: "Please enter a valid URL" })
+		.optional(),
+	// .or(z.literal("")),
 	business_description: z.string().min(10, {
 		message: "Description must be at least 10 characters long",
 	}),
@@ -235,17 +236,42 @@ export default function KybCompletionForm() {
 		onSuccess: (data) => {
 			console.log("Company info submitted successfully:", data);
 			toast.success("Company information saved! Registration completed.");
+			if (data.onboarding_is_completed) {
+				dispatch(
+					setCurrentCompany({
+						company: {
+							...currentCompany,
+							onboarding_is_completed:
+								data.onboarding_is_completed,
+						},
+					})
+				);
+			}
 			router.push("/onboarding");
 		},
 	});
 
 	const onSubmit = (data: any) => {
-		const bizData = { ...data, company_id: currentCompany.id };
+		const bizData = { ...data };
 		mutation.mutate(bizData);
 	};
 	const onError = (err: any) => {
 		console.error("Form validation error:", err);
 	};
+
+	// Prevent body scroll when loading overlay is visible
+	useEffect(() => {
+		if (mutation.isLoading) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "unset";
+		}
+
+		// Cleanup function to restore scroll when component unmounts
+		return () => {
+			document.body.style.overflow = "unset";
+		};
+	}, [mutation.isLoading]);
 
 	// State for file previews
 	const [incorpPreview, setIncorpPreview] = useState<string | null>(null);
@@ -355,6 +381,9 @@ export default function KybCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Tax ID Number
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
@@ -377,7 +406,7 @@ export default function KybCompletionForm() {
 										</FormLabel>
 										<FormControl>
 											<Input
-												type="url"
+												type="text"
 												className="px-6 w-full bg-app-lightgray"
 												placeholder="https://www.example.com"
 												{...field}
@@ -417,6 +446,7 @@ export default function KybCompletionForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
 										Source of Funds
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<Select
@@ -466,6 +496,9 @@ export default function KybCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Incorporation Certificate
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -505,6 +538,9 @@ export default function KybCompletionForm() {
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
 											Share Holding Document
+											{/* <span className="text-red-500">
+												*
+											</span> */}
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -545,6 +581,7 @@ export default function KybCompletionForm() {
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
 										Business Proof of Address
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<div className="flex items-center gap-4">
 										<FormControl>

@@ -263,7 +263,7 @@ export default function CreateAccountForm() {
 			);
 
 			if (selectedCountry) {
-				form.setValue(fieldName, selectedCountry.country);
+				form.setValue(fieldName, selectedCountry.name);
 				form.setValue(
 					"business_country_iso_code",
 					selectedCountry.iso2
