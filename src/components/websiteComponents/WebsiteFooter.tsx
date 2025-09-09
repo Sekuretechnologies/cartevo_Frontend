@@ -5,13 +5,13 @@ const WebsiteFooter = () => {
 		<footer className=" py-12">
 			<div className="customContainer">
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-4  border-b-1 pb-8 mb-8 border-[#CBCBCB]">
-					<div>
+					<div className="flex flex-col justify-between items-start">
 						<img src="/website/logos/logo_full.png" alt="logo" />
-						<p className="uppercase max-w-64  font-syne font-bold">
+						<p className="uppercase max-w-64  font-syne font-bold text-[12px]">
 							Nous redéfinissons le paiement en ligne en Afrique
 						</p>
 					</div>
-					<ul className="flex flex-col gap-2 font-semibold">
+					<ul className="flex flex-col gap-2 font-semibold text-[12px] font-poppins">
 						<li>
 							<a href="#">Politique de confidentialité</a>
 						</li>
@@ -23,33 +23,43 @@ const WebsiteFooter = () => {
 						</li>
 					</ul>
 
-					<ul className="*:flex  *:gap-4 flex flex-col gap-4 font-semibold">
+					<ul className="*:flex  *:gap-4 flex flex-col gap-4 lg:gap-0 lg:justify-between font-semibold font-poppins text-[12px]">
 						<li>
-							<img src="/website/logos/phone.png" alt="" />
+							<div>
+								<img src="/website/logos/phone.png" alt="" />
+							</div>
 							<span>+44 55 88 77 99</span>
 						</li>
 						<li>
-							<img src="/website/logos/mail.png" alt="" />
+							<div>
+								<img src="/website/logos/mail.png" alt="" />
+							</div>
 							<span>hello@saypay.ai</span>
 						</li>
 						<li>
-							<img src="/website/logos/loc.png" alt="" />
+							<div>
+								<img
+									src="/website/logos/loc.png"
+									alt=""
+									className=""
+								/>
+							</div>
 							<span>123 Scheduler St, Tech City, USA</span>
 						</li>
 					</ul>
 
-					<ul className="flex gap-2 items-center">
+					<ul className="flex gap-2 items-end">
 						<li>
 							<a href="#">
 								<img src="/website/logos/facebook.png" alt="" />
 							</a>
 						</li>
-                        <li>
+						<li>
 							<a href="#">
 								<img src="/website/logos/x.png" alt="" />
 							</a>
 						</li>
-                        <li>
+						<li>
 							<a href="#">
 								<img src="/website/logos/in.png" alt="" />
 							</a>

@@ -8,6 +8,7 @@ import {
 	UpdateTransactionFeeRequest,
 	AddTeamMember,
 } from "@/types/settings";
+import { string } from "zod";
 
 export class SettingsService {
 	// Exchange Rates
@@ -139,6 +140,31 @@ export class SettingsService {
 			data,
 			true,
 			{},
+			token
+		);
+	};
+
+	static get_team_members = ({ token }: { token: string }) => {
+		let query_params: any = {};
+		return BaseMethods.getRequest(
+			userManagementUrls.GET_TEAM_MEMBERS,
+			true,
+			query_params,
+			token
+		);
+	};
+
+	static delete_team_member = ({
+		id,
+		token,
+	}: {
+		id: string;
+		token: string;
+	}) => {
+		return BaseMethods.deleteRequest(
+				userManagementUrls.DELETE_TEAM_MEMBER(id),
+			{},
+			true,
 			token
 		);
 	};

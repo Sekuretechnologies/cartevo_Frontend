@@ -21,10 +21,10 @@ const Section5 = () => {
 							</p>
 						</div>
 
-						<div className="mt-4 grid grid-cols-1 gap-12 md:grid-cols-2 ">
+						<div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 ">
 							<div className="flex items-start gap-4">
 								<div>
-									<p className="w-6 h-6  bg-primary  flex justify-center items-center  rounded-full">
+									<p className="w-6 h-6  bg-[#1F66FF]  flex justify-center items-center  rounded-full">
 										<ChevronRight
 											color="#ffffff"
 											size={20}
@@ -48,7 +48,7 @@ const Section5 = () => {
 
 							<div className="flex items-start gap-4">
 								<div>
-									<p className="w-6 h-6  bg-primary  flex justify-center items-center  rounded-full">
+									<p className="w-6 h-6  bg-[#1F66FF]  flex justify-center items-center  rounded-full">
 										<ChevronRight
 											color="#ffffff"
 											size={20}
@@ -72,7 +72,7 @@ const Section5 = () => {
 
 							<div className="flex items-start gap-4">
 								<div>
-									<p className="w-6 h-6  bg-primary  flex justify-center items-center  rounded-full">
+									<p className="w-6 h-6  bg-[#1F66FF]  flex justify-center items-center  rounded-full">
 										<ChevronRight
 											color="#ffffff"
 											size={20}
@@ -96,7 +96,7 @@ const Section5 = () => {
 
 							<div className="flex items-start gap-4">
 								<div>
-									<p className="w-6 h-6  bg-primary  flex justify-center items-center  rounded-full">
+									<p className="w-6 h-6  bg-[#1F66FF]  flex justify-center items-center  rounded-full">
 										<ChevronRight
 											color="#ffffff"
 											size={20}
@@ -119,21 +119,21 @@ const Section5 = () => {
 							</div>
 						</div>
 					</div>
-					<button className="text-white cursor-pointer mt-4 flex items-center justify-between pl-16 pr-5 bg-[#222222] w-[251px] h-[59px] rounded-[20px] ">
+					<button className="text-white lg:mb-20 cursor-pointer mt-4 flex items-center justify-between pl-16 pr-5 bg-[#222222] w-[251px] h-[59px] rounded-[20px] ">
 						Commencer <ChevronRight />
 					</button>
 				</div>
 
-				<div className="relative  lg:w-[2500px]  flex justify-center  items-end">
+				<div className="relative md:w-[800px]  lg:w-[2800px]  flex justify-center  items-end">
 					<img
 						src="/website/home/girl.png"
 						alt=" image"
-						className="w-full object-contain mx-auto"
+						className="w-full object-contain "
 					/>
 					<img
 						src="/website/home/section5-2.png"
 						alt=""
-						className="absolute top-0 right-0"
+						className="absolute top-10 right-10"
 					/>
 				</div>
 			</div>

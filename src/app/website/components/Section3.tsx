@@ -39,7 +39,7 @@ const Section3 = () => {
 					<div className="flex flex-col gap-2 md:flex-row mt-4">
 						<a
 							href="#"
-							className="bg-primary hover:bg-[#2a6eff] text-[13px] font-[600] w-[238px] h-[49px] rounded-[10px] flex justify-center items-center"
+							className="bg-[#1F66FF] hover:bg-[#2a6eff] text-[13px] font-[600] w-[238px] h-[49px] rounded-[10px] flex justify-center items-center"
 						>
 							Commencer
 						</a>

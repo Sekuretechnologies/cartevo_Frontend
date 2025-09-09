@@ -45,7 +45,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 				<button
 					type="button"
 					onClick={() => setIsOpen(!isOpen)}
-					className="flex items-center gap-2 px-3 py-3 border-2 border-[#E6E6E6] rounded-[7px] "
+					className="flex items-center gap-2 px-3 py-3 border-1 border-[#E6E6E6] rounded-[7px] "
 				>
 					<img
 						src={selectedCountry.flag}

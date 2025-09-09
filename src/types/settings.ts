@@ -66,5 +66,15 @@ export interface UpdateDeveloperSettingsRequest {
 
 export interface AddTeamMember {
 	email: string;
-	role: "admin" | "user";
+	role: string;
+}
+
+export interface TeamMemberSettingsRequest {
+	id: string;
+	full_name: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	role: string;
+	status: string;
 }

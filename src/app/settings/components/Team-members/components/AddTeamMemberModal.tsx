@@ -1,18 +1,28 @@
-import Layout from "@/components/shared/Layout";
-import { useTitle } from "@/hooks/useTitle";
 import React from "react";
 import TeamMemberForm from "./TeamMemberForm";
+import { X } from "lucide-react";
 
-const AddTeamMemberModal = () => {
-	// useTitle("cartevo | New Team Member", true);
-	// useTitle("Cartevo | New Customer", true);
+type ModalProps = {
+	onClose: () => void;
+};
+
+const AddTeamMemberModal = ({ onClose }: ModalProps) => {
 	return (
-		<div className="w-full left-0 top-0 absolute h-screen  bg-black/20 backdrop-blur-sm flex justify-center items-center">
-			<div className="flex flex-col px-8 py-8 bg-white rounded-lg w-[600px]">
-				<h1 className="mb-8 text-xl font-semibold">
-					Add new team member
-				</h1>
-				<TeamMemberForm />
+		<div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex justify-center items-center z-50">
+			<div className="relative flex flex-col px-8 py-8 bg-white rounded-lg w-[600px]">
+				<div className="flex justify-between items-center mb-8">
+					<h1 className=" text-xl font-semibold">
+						Add new team member
+					</h1>
+					<button
+						className="text-gray-500 hover:text-black duration-300"
+						onClick={() => onClose()}
+					>
+						<X size={24} />
+					</button>
+				</div>
+
+				<TeamMemberForm onClose={onClose} />
 			</div>
 		</div>
 	);

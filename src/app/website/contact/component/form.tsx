@@ -70,14 +70,14 @@ const ContactForm = () => {
 
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit, onError)}>
-					<div>
+					<div className="flex flex-col gap-4">
 						<FormField
 							control={form.control}
 							name="whatsapp"
 							rules={{ required: "whatsapp number is required" }}
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel className="text-gray-900 font-poppins text-md tracking-tight">
+									<FormLabel className="text-[#101010] font-poppins text-[12px] ">
 										Entrez votre Numéro Whatsapp
 									</FormLabel>
 									<div className="flex gap-4 items-center ">
@@ -98,7 +98,7 @@ const ContactForm = () => {
 												type="text"
 												id="whatsappNumber"
 												placeholder="ex: 688778894"
-												className="px-6 font-poppins border-2 focus:outline-primary text-[14px] py-3 rounded-[7px] w-full"
+												className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] w-full"
 												required
 											/>
 										</FormControl>
@@ -113,7 +113,7 @@ const ContactForm = () => {
 							name="email"
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
-									<FormLabel className="text-gray-900 font-poppins text-md tracking-tight">
+									<FormLabel className="text-[#101010] font-poppins text-[12px] ">
 										Entrez votre adresse mail
 									</FormLabel>
 									<FormControl>
@@ -122,7 +122,7 @@ const ContactForm = () => {
 											type="text"
 											id="email"
 											placeholder="prenom@gmail.com"
-											className="px-6 font-poppins border-2 focus:outline-primary text-[14px] py-3 rounded-[7px] "
+											className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>
 									<FormMessage />
@@ -135,7 +135,7 @@ const ContactForm = () => {
 							name="subject"
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
-									<FormLabel className="text-gray-900 font-poppins text-md tracking-tight">
+									<FormLabel className="text-[#101010] font-poppins text-[12px] ">
 										Objet du mail
 									</FormLabel>
 									<FormControl>
@@ -144,7 +144,7 @@ const ContactForm = () => {
 											type="text"
 											id="subject"
 											placeholder="Titre du message ici "
-											className="px-6 font-poppins border-2 focus:outline-primary text-[14px] py-3 rounded-[7px] "
+											className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>
 									<FormMessage />
@@ -157,16 +157,15 @@ const ContactForm = () => {
 							name="message"
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
-									<FormLabel className="text-gray-900 font-poppins text-md tracking-tight">
+									<FormLabel className="text-[#101010] font-poppins text-[12px] ">
 										Laissez un message
 									</FormLabel>
 									<FormControl>
-										<input
+										<textarea
 											{...field}
-											type="text"
 											id="subject"
 											placeholder="Titre du message ici "
-											className="px-6 font-poppins border-2 focus:outline-primary text-[14px] py-3 rounded-[7px] "
+											className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>
 									<FormMessage />

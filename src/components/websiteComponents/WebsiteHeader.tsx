@@ -59,7 +59,7 @@ const WebsiteHeader = () => {
 	return (
 		<div className="text-black-custom font-poppins absolute z-50 w-full">
 			<div className="customContainer flex items-center gap-1 justify-between">
-				<div className="flex items-center gap-40">
+				<div className="flex items-center gap-20">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 
 					{/**Navigation desktop */}

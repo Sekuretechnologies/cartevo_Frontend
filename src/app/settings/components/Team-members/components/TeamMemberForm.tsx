@@ -20,12 +20,19 @@ import { useSelector } from "react-redux";
 import { z } from "zod";
 import CButton from "@/components/shared/CButton";
 import toast from "react-hot-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PuffLoader } from "react-spinners";
+import classNames from "classnames";
+
+type TeamMemberFormProps = {
+	onClose: () => void;
+};
 
 const handleMemberInfo = async (
 	token: string,
 	data: z.infer<typeof teamMemberSchema>
 ) => {
-	console.log('donnees', data)
+	console.log("donnees", data);
 	const response = await SettingsService.add_team_member({
 		token: token,
 		data,
@@ -36,7 +43,7 @@ const handleMemberInfo = async (
 		if (response.status === 401) {
 			throw new Error(responseBody.message);
 		} else {
-			throw new Error("Error, couldn't not add new team member");
+			throw new Error(responseBody.message);
 		}
 	}
 	const responseJson = await response.json();
@@ -54,14 +61,15 @@ const userRoles = [
 	},
 ];
 
-const TeamMemberForm = () => {
+const TeamMemberForm = ({ onClose }: TeamMemberFormProps) => {
 	const currentToken: any = useSelector(selectCurrentToken);
 	const currentUser = useSelector(selectCurrentUser);
 	// const userId =
 	const form = useForm<z.infer<typeof teamMemberSchema>>({
+		resolver: zodResolver(teamMemberSchema),
 		defaultValues: {
 			email: "",
-			role: "user",
+			role: "",
 			// ownerUserId: currentUser.id,
 		},
 	});
@@ -75,6 +83,7 @@ const TeamMemberForm = () => {
 		},
 		onSuccess: (data: any) => {
 			toast.success("New team member added successfully");
+			onClose()
 		},
 	});
 
@@ -93,7 +102,7 @@ const TeamMemberForm = () => {
 						control={form.control}
 						name="email"
 						render={({ field }) => (
-							<FormItem>
+							<FormItem className="mb-2">
 								<FormLabel className="text-gray-900 text-md tracking-tight">
 									Email Adress
 									<span className="text-red-500">*</span>
@@ -126,17 +135,15 @@ const TeamMemberForm = () => {
 										style={{
 											width: "100%",
 										}}
-										className={`bg-app-lightgray text-gray-900 font-normal`}
-										defaultSelectedKeys={[field.value]}
-										// onChange={(data) =>
-										// 	handleFieldChange(
-										// 		"country",
-										// 		countryOptions,
-										// 		data
-										// 	)
-										// }
+										className="bg-app-lightgray text-gray-900 font-normal"
+										defaultSelectedKeys={[
+											field.value ?? "",
+										]}
+										selectedKeys={
+											field.value ? [field.value] : []
+										}
 									>
-										{userRoles.map((item, idx) => (
+										{userRoles.map((item) => (
 											<SelectItem
 												key={item.key}
 												value={item.key}
@@ -146,7 +153,7 @@ const TeamMemberForm = () => {
 										))}
 									</Select>
 								</FormControl>
-								<FormMessage className="text-red-400" />
+								<FormMessage className="text-red-400 " />
 							</FormItem>
 						)}
 					/>
@@ -158,6 +165,22 @@ const TeamMemberForm = () => {
 							type="submit"
 						/>
 					</div>
+				</div>
+
+				<div
+					className={classNames(
+						"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-1/2 -translate-y-1/2 -translate-x-1/2 -trasnlate left-1/2 h-screen w-screen flex items-center justify-center",
+						{
+							"!opacity-100 !visible z-[1000]":
+								mutation.isLoading,
+						}
+					)}
+				>
+					<PuffLoader
+						className="shrink-0"
+						size={50}
+						color="#1F66FF"
+					/>
 				</div>
 			</form>
 		</Form>

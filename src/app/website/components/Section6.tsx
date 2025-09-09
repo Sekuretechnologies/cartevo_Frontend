@@ -4,7 +4,7 @@ const Section6 = () => {
 	return (
 		<section className="relative">
 			<div
-				className="customContainer h-[650px] md:h-[559px] -mt-2 "
+				className="customContainer h-[750px] md:h-[630px] -mt-2 "
 				style={{
 					backgroundImage: "url('/website/home/noise.png')",
 					backgroundSize: "cover",
@@ -12,6 +12,17 @@ const Section6 = () => {
 					backgroundRepeat: "no-repeat",
 				}}
 			>
+				<div
+					className="h-full w-full pt-24"
+					style={{
+						backgroundImage: "url('/website/home/grid.png')",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+						backgroundRepeat: "no-repeat",
+					}}
+				>
+					<img src="/website/home/carres.png" alt="" />
+				</div>
 				<div
 					className=" absolute bottom-0 left-0 w-full h-[150px] md:h-[200px]"
 					style={{
@@ -37,7 +48,7 @@ const Section6 = () => {
 					</div>
 				</div>
 
-				<div className="flex flex-col items-center font-poppins text-white pt-12 gap-4 text-center">
+				<div className="flex flex-col items-center font-poppins text-white pt-12 gap-4 text-center absolute z-30 top-0 left-1/2 -translate-x-1/2">
 					<h3 className="w-[250px] h-[35px] border-1 border-white text-[13px] font-semibold font-poppins flex items-center justify-center rounded-full">
 						For Developers & Businesses
 					</h3>

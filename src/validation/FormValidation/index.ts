@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { string, z } from "zod";
 
 // declare global {
 // 	interface Window {
@@ -272,6 +272,13 @@ export const contactSchema = z.object({
 
 export const teamMemberSchema = z.object({
 	email: z.string().email("Invalid email"),
-	role: z.enum(["admin", "user"]),
+	role: z.string().min(2, { message: "role is required" }),
 	// ownerUserId: z.string(),
+});
+
+export const registerUserSchema = z.object({
+	email: z.string().email("invalid email"),
+	invitation_code: z.string(),
+	full_name: z.string(),
+	password: z.string().min(8).max(32),
 });

@@ -293,4 +293,6 @@ export const operationUrls = {
 export const BASE_URL_USER_MANAGEMENT = `${BASE_URL}/users`;
 export const userManagementUrls = {
 	CREATE_USER: `${BASE_URL_USER_MANAGEMENT}`,
+	GET_TEAM_MEMBERS: `${BASE_URL_USER_MANAGEMENT}`,
+	DELETE_TEAM_MEMBER: (id: string) => `${BASE_URL_USER_MANAGEMENT}/${id}`,
 };
