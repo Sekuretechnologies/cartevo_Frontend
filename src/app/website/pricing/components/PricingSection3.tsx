@@ -1,0 +1,57 @@
+import { ChevronRight } from "lucide-react";
+import React from "react";
+
+const PricingSection3 = () => {
+	return (
+		<section className="pb-12 ">
+			<div className="customContainer py-24 flex flex-col lg:flex-row items-center lg:justify-center gap-16 lg:gap-24 w-full max-w-[1600px] mx-auto ">
+				<div className="flex flex-col items-center lg:items-start  max-w-[500px] font-poppins">
+					<h1 className="text-4xl font-bold text-center lg:text-start leading-10 mb-4">
+						Une tarification claire sans coûts cachés
+					</h1>
+					<p className="text-black-text text-center lg:text-start mb-4 text-[13px]">
+						Pas de frais minimum ou de frais cachés. Avec AfribaPay
+						vous ne payez que les transactions réussies
+					</p>
+
+					<div className="flex flex-col  gap-4">
+						<div className="flex gap-4">
+							<div className="w-6 h-6 aspect-square bg-primary flex justify-center items-center rounded-full">
+								<ChevronRight color="#ffffff" size={20} />
+							</div>
+							<p className="font-semibold">
+								Acceptez des paiements en ligne dans plus de 20
+								pays et 10 devises
+							</p>
+						</div>
+
+						<div className="flex items-center gap-4 font-semibold">
+							<div className="w-6 h-6 aspect-square bg-primary flex justify-center items-center rounded-full">
+								<ChevronRight color="#ffffff" size={20} />
+							</div>
+							<p>
+								Effectuez les demandes de reversement à votre
+								propre rythme, selon vos préférences
+							</p>
+						</div>
+
+						<div className="flex flex-col items-center sm:flex-row">
+							<img src="/website/pricing/logo1.png" alt="" />
+							<img src="/website/pricing/logo2.png" alt="" />
+						</div>
+					</div>
+				</div>
+
+				<div className="px-4 sm:px-8 md:px-28 mt-12 lg:px-0 lg:w-[517px] h-[280px] sm:h-[320px] md:h-[357px] rounded-[32px] bg-[#DBEEF3] relative overflow-visible flex justify-center items-end">
+					<img
+						src="/website/pricing/men.png"
+						alt=""
+						className=" w-[450px] "
+					/>
+				</div>
+			</div>
+		</section>
+	);
+};
+
+export default PricingSection3;

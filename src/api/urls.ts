@@ -289,3 +289,10 @@ export const BASE_URL_OPERATIONS = `${API_V2_BASE_URL}/operations`;
 export const operationUrls = {
 	BALANCE_OPERATIONS: `${BASE_URL_OPERATIONS}`,
 };
+
+export const BASE_URL_USER_MANAGEMENT = `${BASE_URL}/users`;
+export const userManagementUrls = {
+	CREATE_USER: `${BASE_URL_USER_MANAGEMENT}`,
+	GET_TEAM_MEMBERS: `${BASE_URL_USER_MANAGEMENT}`,
+	DELETE_TEAM_MEMBER: (id: string) => `${BASE_URL_USER_MANAGEMENT}/${id}`,
+};

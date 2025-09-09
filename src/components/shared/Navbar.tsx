@@ -15,7 +15,7 @@ import {
 } from "@/redux/slices_v2/settings";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaArrowLeft, FaUser } from "react-icons/fa";
 import { MdCheck, MdLogout } from "react-icons/md";
@@ -63,6 +63,10 @@ export default function Navbar(props: Props) {
 	const [envMode, setEnvMode] = useState(currentMode || "Sandbox");
 	const [isChangeStartDateModalFormOpen, setIsChangeStartDateModalFormOpen] =
 		useState(false);
+
+	useEffect(() => {
+		console.log("currentUser", currentUser);
+	}, []);
 
 	const mutation = useMutation({
 		mutationFn: async () => handleLogout(currentToken),

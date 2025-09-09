@@ -60,6 +60,8 @@ export const settingsUrls = {
 		`${BASE_URL_SETTINGS}/transaction-fees/${id}`,
 	DELETE_TRANSACTION_FEE: (id: any) =>
 		`${BASE_URL_SETTINGS}/transaction-fees/${id}`,
+	CREATE_TEAM_MEMBER: `${BASE_URL_SETTINGS}/`,
+	GET_TEAM_MEMBERS: `${BASE_URL_SETTINGS}`
 };
 
 /** DEVELOPERS ============================================================ */

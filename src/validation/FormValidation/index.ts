@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { string, z } from "zod";
 
 // declare global {
 // 	interface Window {
@@ -261,3 +261,24 @@ export const resetPsswordSchema = z
 		message: "Les mots de passe ne correspondent pas",
 		path: ["confirmPassword"],
 	});
+
+export const contactSchema = z.object({
+	country_code: z.string(),
+	whatsapp: z.string(),
+	email: z.string().email("Adresse email invalide"),
+	subject: z.string().min(3, "Objet trop court"),
+	message: z.string().min(5, "Message trop court"),
+});
+
+export const teamMemberSchema = z.object({
+	email: z.string().email("Invalid email"),
+	role: z.string().min(2, { message: "role is required" }),
+	// ownerUserId: z.string(),
+});
+
+export const registerUserSchema = z.object({
+	email: z.string().email("invalid email"),
+	invitation_code: z.string(),
+	full_name: z.string(),
+	password: z.string().min(8).max(32),
+});

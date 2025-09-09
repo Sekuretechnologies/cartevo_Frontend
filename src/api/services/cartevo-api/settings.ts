@@ -1,3 +1,4 @@
+import { userManagementUrls, userUrls } from "@/api/urls";
 import BaseMethods from "../../baseMethods";
 import { settingsUrls } from "../urls";
 import {
@@ -5,7 +6,9 @@ import {
 	UpdateExchangeRateRequest,
 	CreateTransactionFeeRequest,
 	UpdateTransactionFeeRequest,
+	AddTeamMember,
 } from "@/types/settings";
+import { string } from "zod";
 
 export class SettingsService {
 	// Exchange Rates
@@ -118,6 +121,48 @@ export class SettingsService {
 	}) => {
 		return BaseMethods.deleteRequest(
 			settingsUrls.DELETE_TRANSACTION_FEE(id),
+			{},
+			true,
+			token
+		);
+	};
+
+	// Team member
+	static add_team_member = ({
+		token,
+		data,
+	}: {
+		token: string;
+		data: AddTeamMember;
+	}) => {
+		return BaseMethods.postRequest(
+			userManagementUrls.CREATE_USER,
+			data,
+			true,
+			{},
+			token
+		);
+	};
+
+	static get_team_members = ({ token }: { token: string }) => {
+		let query_params: any = {};
+		return BaseMethods.getRequest(
+			userManagementUrls.GET_TEAM_MEMBERS,
+			true,
+			query_params,
+			token
+		);
+	};
+
+	static delete_team_member = ({
+		id,
+		token,
+	}: {
+		id: string;
+		token: string;
+	}) => {
+		return BaseMethods.deleteRequest(
+				userManagementUrls.DELETE_TEAM_MEMBER(id),
 			{},
 			true,
 			token

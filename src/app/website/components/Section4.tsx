@@ -1,0 +1,74 @@
+import React from "react";
+
+const Section4 = () => {
+	return (
+		<section className="py-12 text-[#222222]">
+			<div className="customContainer  ">
+				<div className="flex flex-col items-center gap-4 text-center font-poppins">
+					<h1 className="text-[40px] font-bold leading-10 text-center max-w-[800px]">
+						Building the Future of Financial Services
+					</h1>
+					<p className="max-w-[900px] mb-8 text-[12px]">
+						Provide unparalled accuracy that proactively prevents
+						fraudulent behaviour. Blupipe makes it easier to prevent
+						fraud, streamline . Blusalt APIs allow seamless
+						integration into your services, providing what you need
+						to build.
+					</p>
+				</div>
+				<div className="grid grid-cols-1  gap-4 md:grid-cols-2 lg:grid-cols-3 font-poppins">
+					<div className="bg-[#E7F7FF] p-12 rounded-[30px]">
+						<img
+							src="/website/home/1.png"
+							alt=""
+							className="mb-10"
+						/>
+						<h2 className="mb-4 text-[24px] font-semibold">
+							Fintechs
+						</h2>
+						<p className="text-[#222222] text-[12px]">
+							Boostez vos services avec des paiements rapides,
+							wallets multi-devises et cartes virtuelles. Nous
+							apportons la fiabilité et la scalabilité nécessaires
+							pour soutenir vos ambitions financières modernes.
+						</p>
+					</div>
+
+					<div className="bg-[#E7F7FF] p-12 rounded-[30px]">
+						<img
+							src="/website/home/2.png"
+							alt=""
+							className="mb-10"
+						/>
+						<h2 className="mb-4 text-[24px] font-semibold">
+							Entreprises Globales
+						</h2>
+						<p className="text-[#5F5F5F] text-[12px]">
+							Connectez vos opérations globales avec des paiements
+							fluides, une collecte internationale simplifiée et
+							des outils multi-devises. Restez compétitif et
+							optimisez vos flux financiers sans frontières.
+						</p>
+					</div>
+
+					<div className="bg-[#E7F7FF] p-12 rounded-[30px]">
+						<img
+							src="/website/home/3.png"
+							alt=""
+							className="mb-10"
+						/>
+						<h2 className="mb-4 text-[24px] font-semibold">PMEs</h2>
+						<p className="text-[#5F5F5F] text-[12px]">
+							Accédez à des paiements internationaux, des wallets
+							polyvalents et des outils sécurisés. Concentrez-vous
+							sur la croissance de votre entreprise pendant que
+							nous simplifions vos transactions.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	);
+};
+
+export default Section4;
