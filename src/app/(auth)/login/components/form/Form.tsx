@@ -64,6 +64,7 @@ export default function LoginForm() {
 		},
 		onSuccess: (data) => {
 			console.log("Login onSuccess : ", data);
+
 			const token = data.access_token;
 			const user = data.user;
 			const company = data.company;
@@ -80,6 +81,7 @@ export default function LoginForm() {
 			// } else {
 			// 	router.push(urls.wallets.root);
 			// }
+
 			//-----------------------------------
 		},
 	});

@@ -15,6 +15,10 @@ const authSlice = createSlice({
 			state.company = company;
 			state.user = user;
 		},
+		setCurrentCompany: (state, action) => {
+			const { company } = action.payload;
+			state.company = company;
+		},
 		setCurrentUserEmail: (state, action) => {
 			const { email } = action.payload;
 			state.user_email = email;
@@ -27,8 +31,12 @@ const authSlice = createSlice({
 	},
 });
 
-export const { setCredentials, setCurrentUserEmail, logOut } =
-	authSlice.actions;
+export const {
+	setCredentials,
+	setCurrentCompany,
+	setCurrentUserEmail,
+	logOut,
+} = authSlice.actions;
 
 export default authSlice.reducer;
 

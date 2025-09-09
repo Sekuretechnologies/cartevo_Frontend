@@ -8,6 +8,8 @@ import {
 	selectExchangeRates,
 	selectTransactionFees,
 } from "@/redux/slices_v2/settings";
+import classNames from "classnames";
+import { PuffLoader } from "react-spinners";
 
 const CountryFlags: any = CFlags;
 
@@ -15,6 +17,9 @@ interface DepositToWalletModalProps {
 	setIsOpen: (isOpen: boolean) => void;
 	onSubmit: (data: DespoitToWalletSubmitProps) => void;
 	wallets: any[];
+	isLoading: boolean;
+	isSuccess: boolean;
+	isError: boolean;
 }
 
 export interface DespoitToWalletSubmitProps {
@@ -25,7 +30,7 @@ export interface DespoitToWalletSubmitProps {
 		feeAmount: number;
 		totalAmount: number;
 	};
-	destinationallet: {
+	destinationWallet: {
 		id: string;
 		currency: string;
 		amount: number;
@@ -41,6 +46,9 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 	setIsOpen,
 	onSubmit,
 	wallets,
+	isLoading,
+	isSuccess,
+	isError,
 }) => {
 	const [amount, setAmount] = useState("1");
 
@@ -158,20 +166,23 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 				feeAmount: feeAmount,
 				totalAmount: totalAmount,
 			},
-			destinationallet: {
+			destinationWallet: {
 				id: destinationWallet?.id || "",
 				currency: destinationWallet?.currency,
 				amount: amountNum,
 			},
 			exchangeRate: {
-				rate: exchangeRate,
+				rate: Number(exchangeRate || 1),
 				fromCurrency: exchangeRateData.from_currency,
 				toCurrency: exchangeRateData.to_currency,
 			},
 		});
-		setIsOpen(false);
+		// setIsOpen(false);
 	};
 
+	useEffect(() => {
+		if (isSuccess || isError) setIsOpen(false);
+	}, [isSuccess, isError]);
 	return (
 		<div className="bg-white rounded-lg p-6 w-[400px]">
 			<h2 className="text-xl font-bold mb-4">Fund USD Wallet</h2>
@@ -315,12 +326,29 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 					onClick={() => setIsOpen(false)}
 				/>
 				<CButton
-					text="Fund Wallet"
+					text="Deposit"
 					btnStyle="blue"
 					onClick={handleSubmit}
 					disabled={!!errorMessage}
 				/>
 			</div>
+
+			{isLoading && (
+				<div
+					className={classNames(
+						"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-0 left-0 h-full w-full flex items-center justify-center",
+						{
+							"!opacity-100 !visible z-[1000]": isLoading,
+						}
+					)}
+				>
+					<PuffLoader
+						className="shrink-0"
+						size={50}
+						color="#1F66FF"
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
