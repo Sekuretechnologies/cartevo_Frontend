@@ -268,6 +268,10 @@ export const contactSchema = z.object({
 	email: z.string().email("Adresse email invalide"),
 	subject: z.string().min(3, "Objet trop court"),
 	message: z.string().min(5, "Message trop court"),
+	name: z.string(),
+	entrepriseName: z.string(),
+	activity: z.string(),
+	service: z.string(),
 });
 
 export const teamMemberSchema = z.object({

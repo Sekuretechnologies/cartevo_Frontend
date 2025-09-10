@@ -96,11 +96,11 @@ export default function LoginForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit, onError)}
-				className="pl-10 pr-[150px] "
+				className="pl-10 pr-[90px] 2xl:pr-[150px] "
 			>
 				<div className="w-full  font-poppins">
 					<div>
-						<h1 className="text-[30px] font-poppins font-bold">
+						<h1 className="text-[30px] font-poppins tracking-tight font-bold">
 							Connectez-vous
 						</h1>
 						<p className="text-[12px] mb-8">
@@ -172,13 +172,13 @@ export default function LoginForm() {
 				<div className="mt-2 text-app-secondary text-sm flex justify-end">
 					<a
 						href="/forgot-password"
-						className="text-app-primary u text-[12px] font-bold hover:text-app-secondary"
+						className="text-app-primary text-[12px] font-bold hover:text-app-secondary"
 					>
 						Mot de passe oublié ?
 					</a>
 				</div>
 
-				<div className={`mt-[50px] flex gap-4 items-center`}>
+				<div className={`mt-[45px] flex gap-4 items-center`}>
 					{/* <CButton
 						text={"Continue"}
 						btnStyle={"blue"}
@@ -197,10 +197,10 @@ export default function LoginForm() {
 					</button>
 
 					<a
-						className="bg-[#F3F3F3] text-black text-[12px] font-bold flex  items-center justify-center w-[325px] h-[52px] rounded-[18px]"
+						className="bg-[#F3F3F3] text-black text-[12px] font-bold flex gap-1 items-center justify-center w-[325px] h-[52px] rounded-[18px]"
 						href="/signup"
 					>
-						Pas encore de compte ?{" "}
+						<span> Pas encore de compte ?</span>{" "}
 						<span className="text-primary">Inscrivez vous</span>
 					</a>
 				</div>

@@ -44,47 +44,42 @@ export default function SignupPage() {
 
 	return (
 		<section className="relative flex flex-col mt-0 w-full">
-			<nav className="absolute z-10 top-0 left-[140px] w-full h-[80px] px-[50px] flex items-center">
-				<div className="max-w-[1250px]">
-					{/* <img
-						src="/images/cartevo-logo.svg"
-						alt="cartevo-logo"
-						className=""
-					/> */}
-					{cartevoIconName}
-				</div>
+			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] flex items-center">
+				<a href="/website">
+					<img src="/website/logos/logo_full.png" alt="logo" />
+				</a>
 			</nav>
-			<div className="w-full pl-48 pr-40 h-screen grid grid-cols-2 font-poppins ">
-				<div className=" font-poppins h-screen pr-28  flex flex-col gap-4 items-center pt-44 text-center lg:text-left ">
-					<div
-						style={{
-							backgroundImage:
-								"url('/website/home/heroBackground.png')",
-							backgroundSize: "cover",
-							backgroundPosition: "center",
-							backgroundRepeat: "no-repeat",
-						}}
-						className="w-1/2 hidden lg:block h-screen rounded-br-[50px] absolute top-0 left-0 bg-primary/10"
-					></div>
-					<h1 className="font-bold text-[35px] leading-10 ">
-						Faciliter des{" "}
-						<span className="text-primary">paiements simples</span>{" "}
-						et accessibles depuis l’Afrique
+			<div className="w-full  grid grid-cols-2 font-poppins ">
+				<div
+					style={{
+						backgroundImage:
+							"url('/website/home/heroBackground.png')",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+						backgroundRepeat: "no-repeat",
+					}}
+					className="font-poppins bg-primary/10 rounded-br-[50px] h-full pr-28 pl-[150px]  flex flex-col pt-32 gap-4 items-center  text-center lg:text-left"
+				>
+					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight">
+						Gérez, encaissez et développez avec une suite complète
+						pour <span className="text-primary">simplifier</span>{" "}
+						vos finances
 					</h1>
-					<div className="flex items-center  text-left gap-4">
-						<div className="  w-24 h-24">
-							<img src="/website/contact/chevron.png" alt="" />
-						</div>
+					<div className="flex items-center justify-start  text-left gap-4">
+						<img src="/website/contact/chevron.png" alt="chevron" />
+
 						<div>
-							<h2 className="text-[17px] leading-5 mb-2 font-semibold">
+							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
+								Émission de cartes{" "}
 								<span className="text-primary">
-									Collectez de l’argent{" "}
+									Bancaires virtuelles
 								</span>
-								à travers les pays d’Afrique
 							</h2>
-							<p className="text-[11px]">
-								SayPay est une solution de paiement intelligente
-								pilotée par un assistant virtuel nommé
+							<p className="text-[11px] max-w-[380px]">
+								Créez et distribuez instantanément des cartes
+								bancaires virtuelles pour vos clients ou vos
+								équipes, avec un contrôle total sur les plafonds
+								et la sécurité.
 							</p>
 						</div>
 					</div>
@@ -92,23 +87,23 @@ export default function SignupPage() {
 					<div className="flex items-center  text-left gap-4">
 						<img src="/website/contact/chevron.png" alt="" />
 						<div>
-							<h2 className="text-[17px] leading-5 mb-2 font-semibold">
-								Emettez vos propres
+							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
+								Collecte de paiements
 								<span className="text-primary">
 									{" "}
-									Cartes bancaires{" "}
+									multi-pays{" "}
 								</span>
-								Virtuelles
 							</h2>
-							<p className="text-[11px]">
-								SayPay est une solution de paiement intelligente
-								pilotée par un assistant virtuel nommé
+							<p className="text-[11px] max-w-[380px]">
+								Encaissez des paiements via mobile money, cartes
+								bancaires et solutions locales dans 14 pays
+								africains, le tout depuis une API unique.
 							</p>
 						</div>
 					</div>
 				</div>
 				<div className=" flex justify-center items-center px-[50px]">
-					<div className="w-full max-w-[700px] h-[700px] my-10">
+					<div className="w-full max-w-[700px] mt-32 ">
 						<CreateAccountForm />
 
 						<div className="mt-8 text-app-secondary text-sm">

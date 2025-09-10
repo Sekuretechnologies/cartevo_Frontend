@@ -15,9 +15,9 @@ const LoginPage = () => {
 	useTitle("Cartevo | Login");
 	return (
 		<section className="relative flex flex-col mt-0 ">
-			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] px-[50px] flex items-center">
-				<a className=" " href="/website">
-					{cartevoIconName}
+			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] flex items-center">
+				<a href="/website">
+					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>
 			<div className="w-full  grid grid-cols-2 font-poppins ">
@@ -29,26 +29,28 @@ const LoginPage = () => {
 						backgroundPosition: "center",
 						backgroundRepeat: "no-repeat",
 					}}
-					className=" font-poppins  bg-primary/10 border-br h-screen pr-28 pl-[150px]  flex flex-col justify-start gap-4 items-center pt-44 text-center lg:text-left "
+					className="font-poppins bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  flex flex-col justify-center gap-4 items-center  text-center lg:text-left"
 				>
-					<h1 className="font-bold text-[35px] leading-10 ">
-						Faciliter des{" "}
-						<span className="text-primary">paiements simples</span>{" "}
-						et accessibles depuis l’Afrique
+					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight">
+						Gérez, encaissez et développez avec une suite complète
+						pour <span className="text-primary">simplifier</span>{" "}
+						vos finances
 					</h1>
 					<div className="flex items-center justify-start  text-left gap-4">
 						<img src="/website/contact/chevron.png" alt="chevron" />
 
 						<div>
-							<h2 className="text-[17px] leading-5 mb-2 font-semibold">
+							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
+								Émission de cartes{" "}
 								<span className="text-primary">
-									Collectez de l’argent{" "}
+									Bancaires virtuelles
 								</span>
-								à travers les pays d’Afrique
 							</h2>
-							<p className="text-[11px]">
-								SayPay est une solution de paiement intelligente
-								pilotée par un assistant virtuel nommé
+							<p className="text-[11px] max-w-[380px]">
+								Créez et distribuez instantanément des cartes
+								bancaires virtuelles pour vos clients ou vos
+								équipes, avec un contrôle total sur les plafonds
+								et la sécurité.
 							</p>
 						</div>
 					</div>
@@ -56,23 +58,40 @@ const LoginPage = () => {
 					<div className="flex items-center  text-left gap-4">
 						<img src="/website/contact/chevron.png" alt="" />
 						<div>
-							<h2 className="text-[17px] leading-5 mb-2 font-semibold">
-								Emettez vos propres
+							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
+								Collecte de paiements
 								<span className="text-primary">
 									{" "}
-									Cartes bancaires{" "}
+									multi-pays{" "}
 								</span>
-								Virtuelles
 							</h2>
-							<p className="text-[11px]">
-								SayPay est une solution de paiement intelligente
-								pilotée par un assistant virtuel nommé
+							<p className="text-[11px] max-w-[380px]">
+								Encaissez des paiements via mobile money, cartes
+								bancaires et solutions locales dans 14 pays
+								africains, le tout depuis une API unique.
+							</p>
+						</div>
+					</div>
+
+					<div className="flex items-center  text-left gap-4">
+						<img src="/website/contact/chevron.png" alt="" />
+						<div>
+							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
+								<span className="text-primary">
+									Tableau de bord{" "}
+								</span>
+								en temps réel
+							</h2>
+							<p className="text-[11px] max-w-[380px]">
+								Suivez vos transactions, configurez vos règles
+								de paiement et contrôlez vos flux financiers
+								grâce à un espace intuitif et sécurisé.
 							</p>
 						</div>
 					</div>
 				</div>
 
-				<div className=" flex justify-center  px-[50px] pt-44">
+				<div className=" flex justify-center   items-center">
 					<div className="w-full  ">
 						<LoginForm />
 					</div>
