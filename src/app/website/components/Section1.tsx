@@ -2,7 +2,7 @@ import React from "react";
 import { FlipWords } from "@/components/ui/shadcn-io/flip-words";
 
 const Section1 = () => {
-	const words = ["Fintechs", "PME", "marketplaces "];
+	const words = ["Fintechs", "PMEs"];
 	return (
 		<section className="">
 			<div
@@ -29,7 +29,7 @@ const Section1 = () => {
 									className="text-[#1F66FF]"
 								/>
 							</span>
-							en Afrique.
+							
 						</h1>
 						<p className="text-[12px] mb-4">
 							Cartevo est la plateforme fintech intégrée, pensée

@@ -293,7 +293,7 @@ export default function CreateAccountForm() {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
-				<div className="space-y-[20px]  w-full">
+				<div className="space-y-[20px] w-full">
 					<div>
 						<h1 className="text-[30px] font-bold ">Sign up</h1>
 					</div>

@@ -53,7 +53,7 @@ const Section6 = () => {
 						For Developers & Businesses
 					</h3>
 					<h1 className="text-[50px] font-semibold text-center leading-[45px]">
-						Commencez à construire avec
+						Commencez à construire avec{" "}
 						<span className="text-[#00CFD9] ">Cartevo</span>
 					</h1>
 					<p className="text-[14px] max-w-[800px]">

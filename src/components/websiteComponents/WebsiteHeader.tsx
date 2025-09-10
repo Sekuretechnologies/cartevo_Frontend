@@ -83,7 +83,7 @@ const WebsiteHeader = () => {
 
 							<li className="flex items-center">
 								<a
-									href="/website/contact"
+									href="/contact"
 									className="navItem font-poppins "
 								>
 									Contacter
@@ -167,7 +167,7 @@ const WebsiteHeader = () => {
 							</li>
 
 							<li className="flex items-center">
-								<a href="/website/contact" className="navItem">
+								<a href="/contact" className="navItem">
 									Contacter
 								</a>
 								<ChevronRight size={18} color="#1f66ff" />

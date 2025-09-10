@@ -4,8 +4,8 @@ const WebsiteFooter = () => {
 	return (
 		<footer className=" py-12">
 			<div className="customContainer">
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-4  border-b-1 pb-8 mb-8 border-[#CBCBCB]">
-					<div className="flex flex-col justify-between items-start">
+				<div className="grid grid-cols-1  sm:grid-cols-2 gap-8 lg:grid-cols-4  border-b-1 pb-8 mb-8 border-[#CBCBCB]">
+					<div className="flex flex-col justify-between  items-start">
 						<img
 							src="/website/logos/logo_full.png"
 							alt="logo"
@@ -34,13 +34,13 @@ const WebsiteFooter = () => {
 							</div>
 							<span>+44 55 88 77 99</span>
 						</li>
-						<li>
+						<li className="lg:mt-1">
 							<div>
 								<img src="/website/logos/mail.png" alt="" />
 							</div>
 							<span>contact@cartevo.co</span>
 						</li>
-						<li>
+						<li className="lg:mt-1">
 							<div>
 								<img
 									src="/website/logos/loc.png"
