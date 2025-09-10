@@ -7,11 +7,13 @@ const PricingSection1 = () => {
 			<div className="customContainer  flex flex-col lg:flex-row items-center lg:justify-center gap-8 lg:gap-24 w-full max-w-[1600px] mx-auto ">
 				<div className="flex flex-col items-center lg:items-start  max-w-[500px] font-poppins">
 					<h1 className="text-4xl font-bold text-center lg:text-start leading-10 mb-4">
-						Une tarification claire sans coûts cachés
+						Tarification transparente
 					</h1>
 					<p className="text-black-text text-center lg:text-start mb-4 text-[13px]">
-						Pas de frais minimum ou de frais cachés. Avec AfribaPay
-						vous ne payez que les transactions réussies
+						Aucun frais caché, vous ne payez que pour ce que vous
+						utilisez. Nos prix sont conçus pour s’adapter à vos
+						besoins, que vous soyez une startup ou une grande
+						entreprise.
 					</p>
 
 					<div className="flex flex-col  gap-4">
@@ -19,14 +21,23 @@ const PricingSection1 = () => {
 							<p className="w-6 h-6 bg-primary flex justify-center items-center rounded-full">
 								<ChevronRight color="#ffffff" size={20} />
 							</p>
-							<p className="font-semibold">Aucun coût mensuel</p>
+							<p className="font-semibold">
+								Paiements clairs et sans surprise
+							</p>
 						</div>
 
 						<div className="flex items-center gap-4 font-semibold ">
 							<p className="w-6 h-6 bg-primary flex justify-center items-center rounded-full">
 								<ChevronRight color="#ffffff" size={20} />
 							</p>
-							<p>Aucuns frais de configuration</p>
+							<p>Facturation à l’usage</p>
+						</div>
+
+						<div className="flex items-center gap-4 font-semibold ">
+							<p className="w-6 h-6 bg-primary flex justify-center items-center rounded-full">
+								<ChevronRight color="#ffffff" size={20} />
+							</p>
+							<p>Aucune charge d’installation</p>
 						</div>
 					</div>
 				</div>

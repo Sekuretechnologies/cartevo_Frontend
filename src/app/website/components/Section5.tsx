@@ -12,12 +12,12 @@ const Section5 = () => {
 								Payment as a service
 							</p>
 							<h1 className="text-[40px] font-bold leading-10 mb-6 text-center lg:text-left  leading-12 ">
-								Choisissez la simplicité qui d’dapte à vous
+								Choisissez la simplicité qui s’adapte à vous
 							</h1>
 							<p className="text-center text-[12px] text-[#222222] lg:text-left lg:w-[80%] mb-6">
-								african woman, , looking professional, headwrap,
-								phone in hands, white empty background, big
-								smile,, dark skirt, colors blue, green, golden
+								Une solution de paiements flexible et sécurisée,
+								conçue pour s’adapter aux besoins uniques de
+								votre entreprise.
 							</p>
 						</div>
 
@@ -36,12 +36,15 @@ const Section5 = () => {
 										Integrate
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
-										Boostez vos services avec des paiements
-										rapides, wallets multi-devises et cartes
-										virtuelles. Nous apportons la fiabilité
-										et la scalabilité nécessaires pour
-										soutenir vos ambitions financières
-										modernes.
+										Intégrez notre API en toute simplicité
+										dans vos systèmes existants grâce à une
+										documentation claire, un support dédié
+										et des outils conçus pour les
+										développeurs. Lancez rapidement vos
+										propres services financiers, sans
+										contraintes techniques, et
+										concentrez-vous sur l’innovation et la
+										valeur ajoutée pour vos clients.
 									</p>
 								</div>
 							</div>
@@ -60,12 +63,15 @@ const Section5 = () => {
 										Digital Trust
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
-										Boostez vos services avec des paiements
-										rapides, wallets multi-devises et cartes
-										virtuelles. Nous apportons la fiabilité
-										et la scalabilité nécessaires pour
-										soutenir vos ambitions financières
-										modernes.
+										Offrez à vos clients une confiance
+										digitale inégaléegrâce à une sécurité de
+										niveau bancaire, une conformité stricte
+										aux réglementations internationales et
+										une transparence totale dans vos
+										opérations. Chaque transaction est
+										protégée et chaque donnée est sécurisée
+										pour renforcer la crédibilité de vos
+										services financiers.
 									</p>
 								</div>
 							</div>
@@ -84,12 +90,15 @@ const Section5 = () => {
 										Scalable
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
-										Boostez vos services avec des paiements
-										rapides, wallets multi-devises et cartes
-										virtuelles. Nous apportons la fiabilité
-										et la scalabilité nécessaires pour
-										soutenir vos ambitions financières
-										modernes.
+										Développez vos activités sans limites
+										avec une infrastructure robuste et
+										évolutive, capable d’accompagner aussi
+										bien les premiers pas d’une startup que
+										l’expansion internationale d’une grande
+										entreprise. Notre technologie s’adapteà
+										vos besoins et supporte des volumes
+										élevés de transactions, pour une
+										croissance fluide et durable.
 									</p>
 								</div>
 							</div>
@@ -108,12 +117,15 @@ const Section5 = () => {
 										Automate
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
-										Boostez vos services avec des paiements
-										rapides, wallets multi-devises et cartes
-										virtuelles. Nous apportons la fiabilité
-										et la scalabilité nécessaires pour
-										soutenir vos ambitions financières
-										modernes.
+										Automatisez vos processus financiers, de
+										la gestion des paiements aux contrôles
+										de conformité, pour gagner en rapidité
+										et en fiabilité. Réduisez les erreurs
+										humaines, améliorez l’efficacité
+										opérationnelle et offrez à vos clients
+										une expérience plus fluide et moderne,
+										tout en libérant du temps pour vos
+										équipes.
 									</p>
 								</div>
 							</div>

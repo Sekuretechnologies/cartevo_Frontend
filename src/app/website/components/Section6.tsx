@@ -53,24 +53,24 @@ const Section6 = () => {
 						For Developers & Businesses
 					</h3>
 					<h1 className="text-[50px] font-semibold text-center leading-[45px]">
-						Start building with{" "}
+						Commencez à construire avec
 						<span className="text-[#00CFD9] ">Cartevo</span>
 					</h1>
 					<p className="text-[14px] max-w-[800px]">
-						Whether you are automating your business finances,
-						providing payment, banking or card issuance services to
-						your customers, Blusalt APIs give you the embedded
-						toolkit to build, adapt and thrive
+						Que vous automatisiez vos finances ou offriez des
+						services de paiement, bancaires ou de cartes, nos APIs
+						vous donnent les outils pour construire, évoluer et
+						réussir.
 					</p>
 					<div className="flex flex-col gap-2  md:flex-row">
 						<a
-							href="#"
+							href="/login"
 							className="w-[263px] h-[54px] flex justify-center items-center rounded-[20px] text-[#0D5053] text-[13px] font-semibold bg-[#00CFD9]"
 						>
 							Commencer Maintenant
 						</a>
 						<a
-							href="#"
+							href="/website/contact"
 							className="w-[263px] h-[54px] flex justify-center  items-center rounded-[20px] text-[#0D5053] text-[13px] font-semibold bg-white"
 						>
 							Contacter le support

@@ -62,9 +62,10 @@ const ContactForm = () => {
 					Contactez le service client
 				</h1>
 				<p className="text-[12px]">
-					révolutionnons les paiements en offrant une expérience
-					fluide, rapide et sécurisée, connectant les individus et les
-					entreprises
+					Un projet ? Une question ? Partagez-les avec nous via le
+					formulaire, et notre équipe commerciale vous recontactera
+					rapidement pour vous accompagner dans ce que vous souhaitez
+					lancer.
 				</p>
 			</div>
 
@@ -121,7 +122,7 @@ const ContactForm = () => {
 											{...field}
 											type="text"
 											id="email"
-											placeholder="prenom@gmail.com"
+											placeholder="contact@votreentreprise.com"
 											className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>
@@ -164,7 +165,7 @@ const ContactForm = () => {
 										<textarea
 											{...field}
 											id="subject"
-											placeholder="Titre du message ici "
+											placeholder="votre message ici "
 											className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>

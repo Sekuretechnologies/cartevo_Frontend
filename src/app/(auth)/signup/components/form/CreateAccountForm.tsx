@@ -293,7 +293,10 @@ export default function CreateAccountForm() {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
-				<div className="space-y-[20px] w-full">
+				<div className="space-y-[20px]  w-full">
+					<div>
+						<h1 className="text-[30px] font-bold ">Sign up</h1>
+					</div>
 					{/* Company Block */}
 					<div className="mb-8">
 						<FormField
@@ -301,7 +304,7 @@ export default function CreateAccountForm() {
 							name="business_name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel className="text-gray-900 text-md tracking-tight">
+									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 										Business Name{" "}
 										<span className="text-red-500">*</span>
 									</FormLabel>
@@ -329,7 +332,7 @@ export default function CreateAccountForm() {
 								name="first_name"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-gray-900 text-md tracking-tight">
+										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 											First Name{" "}
 											<span className="text-red-500">
 												*
@@ -354,7 +357,7 @@ export default function CreateAccountForm() {
 								name="last_name"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-gray-900 text-md tracking-tight">
+										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 											Last Name{" "}
 											<span className="text-red-500">
 												*
@@ -382,7 +385,7 @@ export default function CreateAccountForm() {
 								name="business_email"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-gray-900 text-md tracking-tight">
+										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 											Business email{" "}
 											<span className="text-red-500">
 												*
@@ -405,7 +408,7 @@ export default function CreateAccountForm() {
 								name="phone_number"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-gray-900 text-md tracking-tight">
+										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 											Phone Number{" "}
 											<span className="text-red-500">
 												*
@@ -431,7 +434,7 @@ export default function CreateAccountForm() {
 								name="business_type"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-gray-900 text-md tracking-tight">
+										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 											Business type{" "}
 											<span className="text-red-500">
 												*
@@ -477,7 +480,7 @@ export default function CreateAccountForm() {
 								name="business_country"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="text-gray-900 text-md tracking-tight">
+										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 											Business country
 											<span className="text-red-500">
 												*
@@ -605,7 +608,7 @@ export default function CreateAccountForm() {
 							name="password"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel className="text-gray-900 text-md font-[500] tracking-tight">
+									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 										Password
 										<span className="text-red-500">*</span>
 									</FormLabel>
@@ -651,7 +654,7 @@ export default function CreateAccountForm() {
 							name="confirm_password"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel className="text-gray-900 text-md font-[500] tracking-tight">
+									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
 										Confirm Password
 										<span className="text-red-500">*</span>
 									</FormLabel>
@@ -695,8 +698,9 @@ export default function CreateAccountForm() {
 					</div>
 
 					{/* Terms and Conditions Checkbox */}
-					<div className="mt-4">
+					<div className="mt-4 text-[12px]">
 						<Checkbox
+							className=""
 							id="accept-terms"
 							checked={acceptTerms}
 							onChange={setAcceptTerms}

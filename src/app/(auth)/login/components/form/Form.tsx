@@ -25,6 +25,7 @@ import classNames from "classnames";
 import urls from "@/config/urls";
 import urlsV2 from "@/config/urls_v2";
 import { useState } from "react";
+import { ChevronRight } from "lucide-react";
 
 const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 	const response = await AuthService.login(data);
@@ -64,7 +65,6 @@ export default function LoginForm() {
 		},
 		onSuccess: (data) => {
 			console.log("Login onSuccess : ", data);
-
 			const token = data.access_token;
 			const user = data.user;
 			const company = data.company;
@@ -81,7 +81,6 @@ export default function LoginForm() {
 			// } else {
 			// 	router.push(urls.wallets.root);
 			// }
-
 			//-----------------------------------
 		},
 	});
@@ -95,15 +94,26 @@ export default function LoginForm() {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
-				<div className="space-y-[20px] w-full">
+			<form
+				onSubmit={form.handleSubmit(onSubmit, onError)}
+				className="pl-10 pr-[150px] "
+			>
+				<div className="w-full  font-poppins">
+					<div>
+						<h1 className="text-[30px] font-poppins font-bold">
+							Connectez-vous
+						</h1>
+						<p className="text-[12px] mb-8">
+							Envoie 120 k à Myriam et David chaque 28.
+						</p>
+					</div>
 					<FormField
 						control={form.control}
 						name="email"
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel className="text-gray-900 text-md tracking-tight">
-									Email
+							<FormItem className="mb-4">
+								<FormLabel className=" text-[12px] font-semibold tracking-tight">
+									Adresse Mail
 								</FormLabel>
 								<FormControl>
 									<Input
@@ -120,7 +130,7 @@ export default function LoginForm() {
 						name="password"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel className="text-gray-900 text-md font-[500] tracking-tight">
+								<FormLabel className="text-[12px] font-semibold tracking-tight">
 									Password
 								</FormLabel>
 								<FormControl className="relative">
@@ -159,22 +169,17 @@ export default function LoginForm() {
 					/>
 				</div>
 
-				<div className="mt-6 text-app-secondary text-sm ">
-					{"Forget password?"}{" "}
+				<div className="mt-2 text-app-secondary text-sm flex justify-end">
 					<a
 						href="/forgot-password"
-						className="text-app-primary underline hover:text-app-secondary"
+						className="text-app-primary u text-[12px] font-bold hover:text-app-secondary"
 					>
-						Click here
+						Mot de passe oublié ?
 					</a>
 				</div>
 
-				{/* <div className="text-right">
-          <a href="#" className="inline-block w-[272px] text-md font-[400]">Mot de passe oublié ?</a>
-        </div> */}
-				{/* <Link href="#" className="text-gray-800 font-semibold text-righttext-md">Forgotten Password?</Link> */}
-				<div className={`mt-[50px]`}>
-					<CButton
+				<div className={`mt-[50px] flex gap-4 items-center`}>
+					{/* <CButton
 						text={"Continue"}
 						btnStyle={"blue"}
 						type={"submit"}
@@ -182,7 +187,22 @@ export default function LoginForm() {
 						// icon={<FaChevronRight />}
 						width={"200px"}
 						height={"40px"}
-					/>
+					/> */}
+
+					<button
+						type="submit"
+						className="bg-primary flex gap-8 text-white text-[12px] font-bold pl-[70px] items-center w-[215px] h-[52px] rounded-[18px]"
+					>
+						Continue <ChevronRight />
+					</button>
+
+					<a
+						className="bg-[#F3F3F3] text-black text-[12px] font-bold flex  items-center justify-center w-[325px] h-[52px] rounded-[18px]"
+						href="/signup"
+					>
+						Pas encore de compte ?{" "}
+						<span className="text-primary">Inscrivez vous</span>
+					</a>
 				</div>
 				<div
 					className={classNames(

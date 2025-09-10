@@ -8,55 +8,77 @@ import NewsLetterForm from "../../../components/shared/Footer/NewsLetterForm";
 import Footer from "@/components/shared/Footer/Footer";
 import Link from "next/link";
 import { cartevoIconName } from "@/constants/icons";
+import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
 //---------------------------------------
 
 const LoginPage = () => {
 	useTitle("Cartevo | Login");
 	return (
-		<section className="relative flex flex-col h-screen mt-0  w-full">
-			<nav className="absolute z-10 top-0 left-0 w-full h-[80px] px-[50px] flex items-center">
-				<div className=" ">
-					{/* <img
-						src="/images/cartevo-logo.svg"
-						alt="cartevo-logo"
-						className=""
-					/> */}
+		<section className="relative flex flex-col mt-0 ">
+			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] px-[50px] flex items-center">
+				<a className=" " href="/website">
 					{cartevoIconName}
-				</div>
+				</a>
 			</nav>
-			<div className="w-full min-h-[70vh] grid grid-cols-12">
-				<div className="relative col-span-5 pl-[60px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
-					<div className="absolute bottom-[100px] left-0 w-full h-[90px]">
-						<img
-							src="/images/white-cartevo-logo-001.svg"
-							alt="white-cartevo-logo"
-							className=""
-						/>
-					</div>
-					<h1 className="font-bold text-4xl text-app-secondary">
-						Sign in
+			<div className="w-full  grid grid-cols-2 font-poppins ">
+				<div
+					style={{
+						backgroundImage:
+							"url('/website/home/heroBackground.png')",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+						backgroundRepeat: "no-repeat",
+					}}
+					className=" font-poppins  bg-primary/10 border-br h-screen pr-28 pl-[150px]  flex flex-col justify-start gap-4 items-center pt-44 text-center lg:text-left "
+				>
+					<h1 className="font-bold text-[35px] leading-10 ">
+						Faciliter des{" "}
+						<span className="text-primary">paiements simples</span>{" "}
+						et accessibles depuis l’Afrique
 					</h1>
-					<span className="text-lg text-app-secondary">
-						Innovative Payments for a Digital World.
-					</span>
-				</div>
-				<div className="col-span-7 flex justify-center items-center px-[50px]">
-					<div className="w-full max-w-[400px]">
-						<LoginForm />
+					<div className="flex items-center justify-start  text-left gap-4">
+						<img src="/website/contact/chevron.png" alt="chevron" />
 
-						<div className="mt-6 text-app-secondary text-sm">
-							{`Don't have an account?`}{" "}
-							<a
-								href="/signup"
-								className="text-app-primary underline hover:text-app-secondary"
-							>
-								Sign up here
-							</a>
+						<div>
+							<h2 className="text-[17px] leading-5 mb-2 font-semibold">
+								<span className="text-primary">
+									Collectez de l’argent{" "}
+								</span>
+								à travers les pays d’Afrique
+							</h2>
+							<p className="text-[11px]">
+								SayPay est une solution de paiement intelligente
+								pilotée par un assistant virtuel nommé
+							</p>
+						</div>
+					</div>
+
+					<div className="flex items-center  text-left gap-4">
+						<img src="/website/contact/chevron.png" alt="" />
+						<div>
+							<h2 className="text-[17px] leading-5 mb-2 font-semibold">
+								Emettez vos propres
+								<span className="text-primary">
+									{" "}
+									Cartes bancaires{" "}
+								</span>
+								Virtuelles
+							</h2>
+							<p className="text-[11px]">
+								SayPay est une solution de paiement intelligente
+								pilotée par un assistant virtuel nommé
+							</p>
 						</div>
 					</div>
 				</div>
+
+				<div className=" flex justify-center  px-[50px] pt-44">
+					<div className="w-full  ">
+						<LoginForm />
+					</div>
+				</div>
 			</div>
-			<Footer />
+			<WebsiteFooter />
 		</section>
 	);
 };
