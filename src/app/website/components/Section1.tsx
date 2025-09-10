@@ -2,7 +2,7 @@ import React from "react";
 import { FlipWords } from "@/components/ui/shadcn-io/flip-words";
 
 const Section1 = () => {
-	const words = ["Fintechs", "PMEs", "Entreprises"];
+	const words = ["Fintechs", "PME", "marketplaces "];
 	return (
 		<section className="">
 			<div
@@ -18,8 +18,8 @@ const Section1 = () => {
 				<div className=" flex flex-col lg:flex-row  pt-40">
 					<div className="text-center lg:text-start font-poppins lg:w-[45%]">
 						<h1 className="text-[42px] font-[700] leading-[45px] mb-4">
-							Faciliter des paiements simples et accessibles pour
-							les{" "}
+							Émission de cartes virtuelles par API et paiements
+							intégrés pour
 							<span className="text-primary">
 								<FlipWords
 									words={words}
@@ -29,21 +29,29 @@ const Section1 = () => {
 									className="text-[#1F66FF]"
 								/>
 							</span>
+							en Afrique.
 						</h1>
 						<p className="text-[12px] mb-4">
-							Révolutionnons les paiements en offrant une
-							expérience fluide, rapide et sécurisée, connectant
-							les individus et les entreprises à travers le monde
-							sans frontières.
+							Cartevo est la plateforme fintech intégrée, pensée
+							pour les entreprises en Afrique : émettez des cartes
+							virtuelles pour vos clients et collectez des
+							paiements dans 14 pays via une API REST simple à
+							intégrer.
 						</p>
 
 						<div className=" flex flex-col md:flex-row gap-2 md:justify-center lg:justify-start items-center">
-							<button className="bg-[#1F66FF] w-[175px] font-semibold text-[13px] text-white h-[49px] rounded-[10px]">
+							<a
+								href="/login"
+								className="bg-[#1F66FF] hover:bg-[#00CFD9] hover:text-black  flex justify-center items-center w-[175px] font-semibold text-[13px] text-white h-[49px] rounded-[10px]"
+							>
 								Commencer
-							</button>
-							<button className="bg-[#323232] w-[175px] font-semibold text-[13px] text-white h-[49px] rounded-[10px]">
+							</a>
+							<a
+								href="/website/contact"
+								className="bg-[#323232] w-[175px] font-semibold text-[13px] text-white h-[49px] flex justify-center items-center rounded-[10px]"
+							>
 								Contacter le support
-							</button>
+							</a>
 						</div>
 					</div>
 

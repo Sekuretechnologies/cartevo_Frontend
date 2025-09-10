@@ -60,7 +60,9 @@ const WebsiteHeader = () => {
 		<div className="text-black-custom font-poppins absolute z-50 w-full">
 			<div className="customContainer flex items-center gap-1 justify-between">
 				<div className="flex items-center gap-20">
-					<img src="/website/logos/logo_full.png" alt="logo" />
+					<a href="/website">
+						<img src="/website/logos/logo_full.png" alt="logo" />
+					</a>
 
 					{/**Navigation desktop */}
 					<nav className="hidden lg:block font-poppins">
@@ -94,17 +96,20 @@ const WebsiteHeader = () => {
 
 				<div className="flex items-center gap-4 font-poppins">
 					<div className="hidden lg:block">
-						<button className="h-[38px] w-[134px] hover:bg-[#00CFD9] duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]">
+						<a
+							href="/login"
+							className="h-[38px] w-[134px] hover:bg-[#00CFD9] hover:text-black duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]"
+						>
 							Commencer
-						</button>
+						</a>
 					</div>
 
 					{/* Sélecteur de langue Desktop */}
 					<div
-						className="flex -mt-1  w-[75px] h-[40px] rounded-md justify-center relative border-[1px] border-green-dark gap-x-1 items-center cursor-pointer px-1"
+						className="flex -mt-1  w-[75px] h-[40px] rounded-md justify-center relative  gap-x-1 items-center cursor-pointer px-1"
 						onClick={() => setIsLangOpen(!isLangOpen)}
 					>
-						<div className="mt-1 flex items-center border-2 font-poppins border-black px-5 justify-center py-[6px] rounded-lg">
+						<div className="mt-1 flex items-center gap-1 border-2 font-poppins border-black px-5 justify-center py-[6px] rounded-lg">
 							<img src="/website/logos/union.png" alt="globle" />
 							<span className="flex items-center mt-1/2">
 								<span className="text-[var(--green-dark)] font-medium font-satoshi text-sm">

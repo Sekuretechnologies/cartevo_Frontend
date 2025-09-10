@@ -7,11 +7,13 @@ const PricingSection3 = () => {
 			<div className="customContainer py-24 flex flex-col lg:flex-row items-center lg:justify-center gap-16 lg:gap-24 w-full max-w-[1600px] mx-auto ">
 				<div className="flex flex-col items-center lg:items-start  max-w-[500px] font-poppins">
 					<h1 className="text-4xl font-bold text-center lg:text-start leading-10 mb-4">
-						Une tarification claire sans coûts cachés
+						Support dédié aux développeurs
 					</h1>
 					<p className="text-black-text text-center lg:text-start mb-4 text-[13px]">
-						Pas de frais minimum ou de frais cachés. Avec AfribaPay
-						vous ne payez que les transactions réussies
+						Un accompagnement technique de bout en bout pour une
+						intégration rapide et fluide de nos API. Nos équipes
+						vous aident à déployer et optimiser vos services
+						financiers.
 					</p>
 
 					<div className="flex flex-col  gap-4">
@@ -20,8 +22,7 @@ const PricingSection3 = () => {
 								<ChevronRight color="#ffffff" size={20} />
 							</div>
 							<p className="font-semibold">
-								Acceptez des paiements en ligne dans plus de 20
-								pays et 10 devises
+								Documentation claire et complète
 							</p>
 						</div>
 
@@ -29,10 +30,14 @@ const PricingSection3 = () => {
 							<div className="w-6 h-6 aspect-square bg-primary flex justify-center items-center rounded-full">
 								<ChevronRight color="#ffffff" size={20} />
 							</div>
-							<p>
-								Effectuez les demandes de reversement à votre
-								propre rythme, selon vos préférences
-							</p>
+							<p>Sandbox pour vos tests</p>
+						</div>
+
+						<div className="flex items-center gap-4 font-semibold">
+							<div className="w-6 h-6 aspect-square bg-primary flex justify-center items-center rounded-full">
+								<ChevronRight color="#ffffff" size={20} />
+							</div>
+							<p>Assistance technique réactive</p>
 						</div>
 
 						<div className="flex flex-col items-center sm:flex-row">

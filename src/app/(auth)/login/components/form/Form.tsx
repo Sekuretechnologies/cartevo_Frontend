@@ -96,9 +96,9 @@ export default function LoginForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit, onError)}
-				className="pl-10"
+				className="pl-10 pr-[150px] "
 			>
-				<div className="w-full  -mt-52 font-poppins">
+				<div className="w-full  font-poppins">
 					<div>
 						<h1 className="text-[30px] font-poppins font-bold">
 							Connectez-vous

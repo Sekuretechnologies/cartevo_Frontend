@@ -14,31 +14,31 @@ import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
 const LoginPage = () => {
 	useTitle("Cartevo | Login");
 	return (
-		<section className="relative flex flex-col h-screen mt-0 ">
+		<section className="relative flex flex-col mt-0 ">
 			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] px-[50px] flex items-center">
-				<div className=" ">{cartevoIconName}</div>
+				<a className=" " href="/website">
+					{cartevoIconName}
+				</a>
 			</nav>
-			<div className="w-full pl-48 pr-40 h-screen grid grid-cols-2 font-poppins ">
-				<div className=" font-poppins h-screen pr-28  flex flex-col gap-4 items-center pt-44 text-center lg:text-left ">
-					<div
-						style={{
-							backgroundImage:
-								"url('/website/home/heroBackground.png')",
-							backgroundSize: "cover",
-							backgroundPosition: "center",
-							backgroundRepeat: "no-repeat",
-						}}
-						className="w-1/2 hidden lg:block h-screen rounded-br-[50px] absolute top-0 left-0 bg-primary/10"
-					></div>
+			<div className="w-full  grid grid-cols-2 font-poppins ">
+				<div
+					style={{
+						backgroundImage:
+							"url('/website/home/heroBackground.png')",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+						backgroundRepeat: "no-repeat",
+					}}
+					className=" font-poppins  bg-primary/10 border-br h-screen pr-28 pl-[150px]  flex flex-col justify-start gap-4 items-center pt-44 text-center lg:text-left "
+				>
 					<h1 className="font-bold text-[35px] leading-10 ">
 						Faciliter des{" "}
 						<span className="text-primary">paiements simples</span>{" "}
 						et accessibles depuis l’Afrique
 					</h1>
-					<div className="flex items-center  text-left gap-4">
-						<div className="  w-24 h-24">
-							<img src="/website/contact/chevron.png" alt="" />
-						</div>
+					<div className="flex items-center justify-start  text-left gap-4">
+						<img src="/website/contact/chevron.png" alt="chevron" />
+
 						<div>
 							<h2 className="text-[17px] leading-5 mb-2 font-semibold">
 								<span className="text-primary">
@@ -72,19 +72,9 @@ const LoginPage = () => {
 					</div>
 				</div>
 
-				<div className=" flex justify-center items-center px-[50px]">
-					<div className="w-full ">
+				<div className=" flex justify-center  px-[50px] pt-44">
+					<div className="w-full  ">
 						<LoginForm />
-
-						{/* <div className="mt-6 text-app-secondary text-sm">
-							{`Don't have an account?`}{" "}
-							<a
-								href="/signup"
-								className="text-app-primary underline hover:text-app-secondary"
-							>
-								Sign up here
-							</a>
-						</div> */}
 					</div>
 				</div>
 			</div>

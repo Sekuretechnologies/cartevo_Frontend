@@ -6,9 +6,13 @@ const WebsiteFooter = () => {
 			<div className="customContainer">
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-4  border-b-1 pb-8 mb-8 border-[#CBCBCB]">
 					<div className="flex flex-col justify-between items-start">
-						<img src="/website/logos/logo_full.png" alt="logo" className="-ml-[6px]"/>
+						<img
+							src="/website/logos/logo_full.png"
+							alt="logo"
+							className="-ml-[6px]"
+						/>
 						<p className="uppercase max-w-64  font-syne font-bold text-[12px]">
-							Nous redéfinissons le paiement en ligne en Afrique
+							Innovez sans attendre, encaissez sans limite.
 						</p>
 					</div>
 					<ul className="flex flex-col gap-2 font-semibold text-[12px] font-poppins">
@@ -34,7 +38,7 @@ const WebsiteFooter = () => {
 							<div>
 								<img src="/website/logos/mail.png" alt="" />
 							</div>
-							<span>hello@saypay.ai</span>
+							<span>contact@cartevo.co</span>
 						</li>
 						<li>
 							<div>
@@ -44,7 +48,9 @@ const WebsiteFooter = () => {
 									className=""
 								/>
 							</div>
-							<span>123 Scheduler St, Tech City, USA</span>
+							<span>
+								71-75 Shelton Street, London, United Kingdom
+							</span>
 						</li>
 					</ul>
 
@@ -67,16 +73,22 @@ const WebsiteFooter = () => {
 					</ul>
 				</div>
 				<p className="text-[12px] text-black-text">
-					SayPay LLC est une société immatriculée en Angleterre et au
-					Pays de Galles sous le numéro 15512483 et dont le siège
-					social est situé au Monomark House 27 Old Gloucester Street
-					LONDON - WC1N 3AX United Kingdom (GB) et au Cameroun sur le
-					N•RCCM/autorisation : CM-DLA-01-2024-B12-00558. Sekure
-					Technologies Limited est une société de technologie
-					financière , pas une banque. Les services bancaires et de
-					transferts via notre application ou site web sont fournis
-					par nos banques partenaires dûment agréées dans leurs
-					juridictions respectives .
+					© 2025 Cartevo. Tous droits réservés.
+				</p>
+				<p className="text-[12px] text-black-text">
+					Cartevo est une plateforme fintech innovante spécialisée
+					dans l’émission de cartes bancaires virtuelles et la
+					collecte de paiements via API dans 14 pays africains. Nous
+					offrons ces services en partenariat avec des opérateurs de
+					paiement, des agrégateurs et des banques dûment agréés et
+					conformes dans leurs juridictions respectives, afin de
+					garantir la sécurité, la conformité et la fiabilité de nos
+					solutions. Tous les contenus de ce site, y compris les
+					textes, visuels, logos et éléments graphiques, sont protégés
+					par les lois sur la propriété intellectuelle. Toute
+					reproduction, diffusion ou utilisation non autorisée, totale
+					ou partielle, est strictement interdite sans autorisation
+					préalable.
 				</p>
 			</div>
 		</footer>

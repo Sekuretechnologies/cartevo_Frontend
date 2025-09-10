@@ -37,7 +37,7 @@ const PricingSection4 = () => {
 
 						<div className="text-[#222222] text-[13px] font-semibold flex flex-col gap-2 sm:flex-row items-center">
 							<a
-								href="#"
+								href="/login"
 								className="w-[234px] h-[54px] rounded-[20px] flex justify-center items-center bg-[#00CFD9]"
 							>
 								Commencer{" "}

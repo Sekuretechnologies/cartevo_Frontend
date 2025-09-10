@@ -6,14 +6,12 @@ const Section4 = () => {
 			<div className="customContainer  ">
 				<div className="flex flex-col items-center gap-4 text-center font-poppins">
 					<h1 className="text-[40px] font-bold leading-10 text-center max-w-[800px]">
-						Building the Future of Financial Services
+						Construire l’avenir des services financiers
 					</h1>
-					<p className="max-w-[900px] mb-8 text-[12px]">
-						Provide unparalled accuracy that proactively prevents
-						fraudulent behaviour. Blupipe makes it easier to prevent
-						fraud, streamline . Blusalt APIs allow seamless
-						integration into your services, providing what you need
-						to build.
+					<p className="max-w-[750px] mb-8 text-[12px]">
+						Nous offrons aux entreprises les outils pour créer des
+						services financiers modernes, accessibles et sécurisés,
+						adaptés aux besoins du marché africain.
 					</p>
 				</div>
 				<div className="grid grid-cols-1  gap-4 md:grid-cols-2 lg:grid-cols-3 font-poppins">
