@@ -719,7 +719,7 @@ export default function CreateAccountForm() {
 										rel="noopener noreferrer"
 										className="text-blue-600 hover:text-blue-800 underline"
 									>
-										Conditions d'utilisation
+										{`Conditions d'utilisation`}
 									</a>
 									{` et donne mon consentement pour que Cartevo traite mes
 									données conformément à la `}
