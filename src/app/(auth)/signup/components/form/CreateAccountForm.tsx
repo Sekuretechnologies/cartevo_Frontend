@@ -712,29 +712,29 @@ export default function CreateAccountForm() {
 							onChange={setAcceptTerms}
 							label={
 								<>
-									{"I hereby consent to the "}
+									{"Je consens par la présente aux "}
 									<a
 										href="/terms-of-use"
 										target="_blank"
 										rel="noopener noreferrer"
 										className="text-blue-600 hover:text-blue-800 underline"
 									>
-										Terms of Use
+										Conditions d'utilisation
 									</a>
-									{` and give consent for Cartevo to process my
-									data in line with Cartevo's `}
+									{` et donne mon consentement pour que Cartevo traite mes
+									données conformément à la `}
 									<a
 										href="/privacy-policy"
 										target="_blank"
 										rel="noopener noreferrer"
 										className="text-blue-600 hover:text-blue-800 underline"
 									>
-										Privacy Policy
+										Politique de confidentialité
 									</a>
-									{`. I also confirm I have the authorisation of
-									the Board of Directors and the Company to
-									create this account and provide their
-									personal data.`}
+									{` de Cartevo. Je confirme également que j'ai l'autorisation du
+									Conseil d'administration et de la Société pour
+									créer ce compte et fournir leurs
+									données personnelles.`}
 								</>
 							}
 						/>

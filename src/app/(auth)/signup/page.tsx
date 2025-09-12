@@ -124,6 +124,15 @@ export default function SignupPage() {
 						<CreateAccountForm />
 
 						<div className="mt-4 text-app-secondary text-sm text-right text-[13px]">
+							Vous avez déjà un compte ?{" "}
+							<a
+								href="/login"
+								className="text-app-primary underline hover:text-app-secondary"
+							>
+								Se connecter
+							</a>
+						</div>
+						{/* <div className="mt-4 text-app-secondary text-sm text-right text-[13px]">
 							Already have an account?{" "}
 							<a
 								href="/login"
@@ -131,7 +140,7 @@ export default function SignupPage() {
 							>
 								Sign in here
 							</a>
-						</div>
+						</div> */}
 
 						{/* {currentStep === 1 && (
 							<>

@@ -48,7 +48,7 @@ const PricingSection3 = () => {
 								width={100}
 								height={50}
 								loading="lazy"
-								className="w-auto h-auto"
+								// className="w-auto h-auto"
 							/>
 							<Image
 								src="/website/pricing/logo2.png"
@@ -56,7 +56,7 @@ const PricingSection3 = () => {
 								width={100}
 								height={50}
 								loading="lazy"
-								className="w-auto h-auto"
+								// className="w-auto h-auto"
 							/>
 						</div>
 					</div>

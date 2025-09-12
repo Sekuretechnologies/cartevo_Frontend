@@ -34,7 +34,7 @@ const Section5 = () => {
 								</div>
 								<div className="-mt-2">
 									<h2 className="text-[24px] font-semibold ">
-										Integrate
+										Integration simplifiée
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
 										Intégrez notre API en toute simplicité
@@ -61,7 +61,7 @@ const Section5 = () => {
 								</div>
 								<div className="-mt-2">
 									<h2 className="text-[24px] font-semibold ">
-										Digital Trust
+										Fiabilité optimale
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
 										Offrez à vos clients une confiance
@@ -115,7 +115,7 @@ const Section5 = () => {
 								</div>
 								<div className="-mt-2">
 									<h2 className="text-[24px] font-semibold ">
-										Automate
+										Processus automatisés
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
 										Automatisez vos processus financiers, de

@@ -28,7 +28,8 @@ const PricingSection4 = () => {
 						width={200}
 						height={200}
 						loading="lazy"
-						className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-auto h-auto"
+						className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+						// w-auto h-auto
 					/>
 					<div className="px-10 flex flex-col text-center gap-4 items-center justify-center w-full h-full font-poppins absolute left-1/2  top-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
 						<h1 className="text-[42px] font-semibold lg:w-2/3 xl:w-1/2 leading-10">
