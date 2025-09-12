@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { allCountries } from "country-telephone-data";
 
-// On crée notre type
 type Country = {
 	name: string;
 	dialCode: string;
 	flag: string;
 };
 
-// On mappe tous les pays vers notre format
 const countries: Country[] = allCountries.map((c) => ({
 	name: c.name,
 	dialCode: `+${c.dialCode}`,
-	flag: `https://flagcdn.com/${c.iso2.toLowerCase()}.svg`, // drapeaux depuis flagcdn
+	flag: `https://flagcdn.com/${c.iso2.toLowerCase()}.svg`,
 }));
 
 interface PhoneInputProps {
@@ -28,6 +26,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 		countries[0]
 	);
 	const [isOpen, setIsOpen] = useState(false);
+	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const handleSelect = (country: Country) => {
 		setSelectedCountry(country);
@@ -36,8 +35,25 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 		onChange(numberWithoutCode, country.dialCode);
 	};
 
+	// Fermer le dropdown si clic à l'extérieur
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target as Node)
+			) {
+				setIsOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
 	return (
-		<div className="relative w-fit">
+		<div className="relative w-fit" ref={dropdownRef}>
 			{/* Sélecteur pays */}
 			<button
 				type="button"

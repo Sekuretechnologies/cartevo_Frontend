@@ -5,7 +5,7 @@ const Section4 = () => {
 		<section className="py-12 text-[#222222]">
 			<div className="customContainer  ">
 				<div className="flex flex-col items-center gap-4 text-center font-poppins">
-					<h1 className="text-[40px] font-bold leading-10 text-center max-w-[800px]">
+					<h1 className="text-[40px] font-bold leading-10 text-center max-w-[800px] tracking-tight">
 						Construire l’avenir des services financiers
 					</h1>
 					<p className="max-w-[750px] mb-8 text-[12px]">

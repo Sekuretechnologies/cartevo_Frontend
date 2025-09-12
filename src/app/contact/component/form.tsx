@@ -90,7 +90,7 @@ const ContactForm = () => {
 
 	return (
 		<div>
-			<div className="font-poppins mb-8">
+			<div className="font-poppins mb-8 text-center lg:text-start">
 				<h1 className="text-[35px] font-bold leading-10">
 					Contactez le service client
 				</h1>
@@ -105,7 +105,7 @@ const ContactForm = () => {
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit, onError)}>
 					<div className="flex flex-col gap-4">
-						<div className=" flex items-center gap-4 w-full ">
+						<div className=" flex flex-col md:flex-row items-center gap-4 w-full ">
 							<FormField
 								control={form.control}
 								name="name"
@@ -123,7 +123,7 @@ const ContactForm = () => {
 												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 											/>
 										</FormControl>
-										<FormMessage className="text-red-400" />
+										<FormMessage className="text-red-400 font-poppins" />
 									</FormItem>
 								)}
 							/>
@@ -145,12 +145,12 @@ const ContactForm = () => {
 												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 											/>
 										</FormControl>
-										<FormMessage />
+										<FormMessage className="text-red-400 font-poppins" />
 									</FormItem>
 								)}
 							/>
 						</div>
-						<div className="flex items-center gap-4">
+						<div className="flex flex-col md:flex-row items-center gap-4">
 							<FormField
 								control={form.control}
 								name="whatsapp"
@@ -188,7 +188,7 @@ const ContactForm = () => {
 												/>
 											</FormControl>
 										</div>
-										<FormMessage />
+										<FormMessage className="text-red-400 font-poppins" />
 									</FormItem>
 								)}
 							/>
@@ -210,7 +210,7 @@ const ContactForm = () => {
 												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 											/>
 										</FormControl>
-										<FormMessage />
+										<FormMessage className="text-red-400 font-poppins" />
 									</FormItem>
 								)}
 							/>
@@ -248,7 +248,7 @@ const ContactForm = () => {
 											))}
 										</Select>
 									</FormControl>
-									<FormMessage />
+								<FormMessage className="text-red-400 font-poppins" />
 								</FormItem>
 							)}
 						/>
@@ -263,7 +263,7 @@ const ContactForm = () => {
 										Sélectionnez le service souhaité
 									</FormLabel>
 									<FormControl>
-										<div className="flex gap-6">
+										<div className="flex sm:flex-row flex-col gap-6">
 											{/* Option 1 */}
 											<label
 												className={`flex items-center gap-3 px-4 py-4 rounded-full cursor-pointer transition border 
@@ -357,7 +357,7 @@ const ContactForm = () => {
 											</label>
 										</div>
 									</FormControl>
-									<FormMessage />
+									<FormMessage className="text-red-400 font-poppins" />
 								</FormItem>
 							)}
 						/>
@@ -378,7 +378,7 @@ const ContactForm = () => {
 											className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>
-									<FormMessage />
+									<FormMessage className="text-red-400 font-poppins" />
 								</FormItem>
 							)}
 						/>
@@ -398,7 +398,7 @@ const ContactForm = () => {
 											className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>
-									<FormMessage />
+									<FormMessage className="text-red-400 font-poppins" />
 								</FormItem>
 							)}
 						/>

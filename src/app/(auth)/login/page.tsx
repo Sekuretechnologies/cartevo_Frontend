@@ -15,12 +15,12 @@ const LoginPage = () => {
 	useTitle("Cartevo | Login");
 	return (
 		<section className="relative flex flex-col mt-0 ">
-			<nav className="absolute z-10 top-0 left-0 lg:left-[150px]  h-[80px] flex items-center">
+			<nav className="absolute z-10 top-0 left-0 lg:left-[150px] md:left-[120px]  h-[80px] flex items-center">
 				<a href="/website">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>
-			<div className="w-full  grid grid-cols-2 font-poppins  ">
+			<div className="w-full  grid grid-cols-1  lg:grid-cols-2 font-poppins ">
 				<div
 					style={{
 						backgroundImage:
@@ -29,7 +29,7 @@ const LoginPage = () => {
 						backgroundPosition: "center",
 						backgroundRepeat: "no-repeat",
 					}}
-					className="font-poppins hidden bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px] flex-col justify-center gap-4 items-center  text-center lg:text-left"
+					className="font-poppins hidden   bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4 items-center  text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[30px] leading-8 max-w-[500px] tracking-tight">
 						Créez une expérience{" "}

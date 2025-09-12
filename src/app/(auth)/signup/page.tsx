@@ -44,12 +44,12 @@ export default function SignupPage() {
 
 	return (
 		<section className="relative flex flex-col mt-0 w-full">
-			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] flex items-center">
+			<nav className="absolute z-10 top-0 left-0 lg:left-[150px] md:left-[120px]  h-[80px] flex items-center">
 				<a href="/website">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>
-			<div className="w-full  grid grid-cols-2 font-poppins ">
+			<div className="w-full  grid grid-cols-1  lg:grid-cols-2 font-poppins ">
 				<div
 					style={{
 						backgroundImage:
@@ -58,12 +58,12 @@ export default function SignupPage() {
 						backgroundPosition: "center",
 						backgroundRepeat: "no-repeat",
 					}}
-					className="font-poppins bg-primary/10 rounded-br-[50px] h-full pr-28 pl-[150px]  flex flex-col pt-32 gap-4 items-center  text-center lg:text-left"
+					className="font-poppins hidden   bg-primary/10 rounded-br-[50px] h-[850px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4 items-center  text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[30px] leading-8 max-w-[500px] tracking-tight">
 						Créez une expérience{" "}
 						<span className="text-primary">exceptionnelle</span>{" "}
-						pour vos clients grâce à une fintech mondiale intégrée
+						pour vos clients grâce à une fintech mondiale intégrée{" "}
 					</h1>
 					<div className="flex items-center justify-start  text-left gap-4">
 						<img src="/website/contact/chevron.png" alt="chevron" />
@@ -119,11 +119,11 @@ export default function SignupPage() {
 						</div>
 					</div>
 				</div>
-				<div className=" flex justify-center items-center px-[50px]">
+				<div className=" flex justify-center items-center px-3 lg:px-[50px]">
 					<div className="w-full max-w-[700px] mt-20 ">
 						<CreateAccountForm />
 
-						<div className="mt-4 text-app-secondary text-sm">
+						<div className="mt-4 text-app-secondary text-sm text-right text-[13px]">
 							Already have an account?{" "}
 							<a
 								href="/login"

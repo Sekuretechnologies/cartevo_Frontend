@@ -28,7 +28,7 @@ const Contact = () => {
 		setMenuOpen(!menuOpen);
 	};
 	return (
-		<section className="py-20">
+		<section className="py-10 lg:py-20">
 			<div className="text-black-custom font-poppins absolute z-50 top-5 w-full">
 				<div className="customContainer flex items-center gap-1 justify-between">
 					<div className="flex items-center gap-20 text-white">

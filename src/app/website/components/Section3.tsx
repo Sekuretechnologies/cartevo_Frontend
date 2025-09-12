@@ -23,7 +23,7 @@ const Section3 = () => {
 					<h3 className="w-[250px] h-[35px] border-1 border-white text-[13px] font-semibold flex items-center justify-center rounded-full">
 						For Developers & Businesses
 					</h3>
-					<h1 className="text-[43px] font-semibold text-center max-w-[900px] leading-10">
+					<h1 className="text-[43px] font-semibold text-center max-w-[900px] leading-10 tracking-tight">
 						Intégrez nos API et développez, vos propres solutions de{" "}
 						<span className="text-[#5BC9E5]">
 							paiement et produits financiers
