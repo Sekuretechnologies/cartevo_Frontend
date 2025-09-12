@@ -53,8 +53,11 @@ const WebsiteHeader = () => {
 									Accueil
 								</a>
 							</li>
-							<li>
-								<a href="/website/pricing" className="navItem ">
+							<li className="h-[30px]">
+								<a
+									href="/pricing"
+									className="navItem font-poppins text-lg hover:text-app-primary"
+								>
 									Tarifs
 								</a>
 							</li>

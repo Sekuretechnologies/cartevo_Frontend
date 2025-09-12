@@ -45,7 +45,7 @@ export default function SignupPage() {
 	return (
 		<section className="relative flex flex-col mt-0 w-full">
 			<nav className="absolute z-10 top-0 left-0 lg:left-[150px] md:left-[120px]  h-[80px] flex items-center">
-				<a href="/website">
+				<a href="/">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>

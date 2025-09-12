@@ -14,7 +14,7 @@ const VerifyOtpPage = () => {
 	return (
 		<section className="relative flex flex-col h-screen mt-0  w-full">
 			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] flex items-center">
-				<a href="/website">
+				<a href="/">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>
