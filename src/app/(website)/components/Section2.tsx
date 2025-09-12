@@ -1,5 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import React from "react";
+import Image from "next/image";
 
 const Section2 = () => {
 	return (
@@ -24,7 +25,14 @@ const Section2 = () => {
 					<div className="flex flex-col">
 						{/* Images */}
 						<div className="w-full h-[243px] bg-[#DBEDF3] rounded-[15px] mb-8 flex items-end justify-center">
-							<img src="/website/home/mobile.png" alt="cards" />
+							<Image
+								src="/website/home/mobile.png"
+								alt="Mobile payment illustration showing payment collection across African countries"
+								width={300}
+								height={200}
+								loading="lazy"
+								className="w-auto h-auto"
+							/>
 						</div>
 
 						{/* Texte + bouton */}
@@ -65,7 +73,14 @@ const Section2 = () => {
 					<div className="flex flex-col">
 						{/* Images */}
 						<div className="w-full h-[243px] bg-[#DBEDF3] rounded-[15px] mb-8 flex items-end justify-center">
-							<img src="/website/home/card.png" alt="cards" />
+							<Image
+								src="/website/home/card.png"
+								alt="Virtual card illustration showing card issuance and management features"
+								width={300}
+								height={200}
+								loading="lazy"
+								className="w-auto h-auto"
+							/>
 						</div>
 
 						{/* Texte + bouton */}

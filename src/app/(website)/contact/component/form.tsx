@@ -377,6 +377,7 @@ const ContactForm = () => {
 										<textarea
 											{...field}
 											id="subject"
+											rows={7}
 											placeholder="votre message ici "
 											className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>

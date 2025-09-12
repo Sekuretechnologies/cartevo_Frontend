@@ -3,10 +3,12 @@
 import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { ItemFlag } from "../shared/ItemFlag";
+import CustomDropdown2 from "../shared/CustomDropdown2";
 
 const languages = [
-	{ code: "fr", name: "Français" },
-	{ code: "en", name: "English" },
+	{ iso2: "FR", code: "FR", name: "Français" },
+	{ iso2: "GB", code: "EN", name: "English" },
 ];
 const WebsiteHeader = () => {
 	// 	  const locale = useLocale();
@@ -66,17 +68,20 @@ const WebsiteHeader = () => {
 
 					{/**Navigation desktop */}
 					<nav className="hidden lg:block font-poppins">
-						<ul className="flex items-center gap-8">
+						<ul className="flex items-center gap-8 mt-2">
 							<li>
 								<a
-									href="/website"
-									className="navItem font-poppins"
+									href="/"
+									className="navItem font-poppins text-md hover:text-app-primary"
 								>
 									home
 								</a>
 							</li>
 							<li>
-								<a href="/website/pricing" className="navItem ">
+								<a
+									href="/pricing"
+									className="navItem font-poppins text-md hover:text-app-primary"
+								>
 									Pricing
 								</a>
 							</li>
@@ -84,7 +89,7 @@ const WebsiteHeader = () => {
 							<li className="flex items-center">
 								<a
 									href="/contact"
-									className="navItem font-poppins "
+									className="navItem font-poppins text-md hover:text-app-primary"
 								>
 									Contacter
 								</a>
@@ -94,7 +99,7 @@ const WebsiteHeader = () => {
 					</nav>
 				</div>
 
-				<div className="flex items-center gap-4 font-poppins">
+				<div className="flex items-center gap-0 font-poppins">
 					<div className="hidden lg:block">
 						<a
 							href="/login"
@@ -105,42 +110,52 @@ const WebsiteHeader = () => {
 					</div>
 
 					{/* Sélecteur de langue Desktop */}
-					<div
-						className="flex -mt-1  w-[75px] h-[40px] rounded-md justify-center relative  gap-x-1 items-center cursor-pointer px-1"
-						onClick={() => setIsLangOpen(!isLangOpen)}
-					>
-						<div className="mt-1 flex items-center gap-1 border-2 font-poppins border-black px-5 justify-center py-[6px] rounded-lg">
-							<img src="/website/logos/union.png" alt="globle" />
-							<span className="flex items-center mt-1/2">
-								<span className="text-[var(--green-dark)] font-medium font-satoshi text-sm">
-									{currentLanguage.code.toUpperCase()}
-								</span>
-								<ChevronDown
-									className={`h-5 w-5 ml-1 -mt-1 text-[var(--green-dark)] transition-transform duration-200 ${
-										isLangOpen ? "rotate-180" : ""
-									}`}
+					<CustomDropdown2
+						btnChild={
+							<div className="mt-1 flex items-center gap-1 border-1 font-poppins border-black px-5 justify-center py-[8px] rounded-lg">
+								<ItemFlag
+									iso2={currentLanguage?.iso2 || "US"}
+									size={3}
 								/>
-							</span>
-						</div>
-
-						{isLangOpen && (
-							<div className="absolute top-full right-0 mt-3.5 w-40 h-20 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50 flex flex-col justify-center overflow-hidden">
+								<span className="flex items-center mt-1/2">
+									<span className="text-[var(--green-dark)] font-medium font-satoshi text-sm">
+										{currentLanguage.code.toUpperCase()}
+									</span>
+									<ChevronDown
+										className={`h-5 w-5 ml-1 -mt-1 text-[var(--green-dark)] transition-transform duration-200 ${
+											isLangOpen ? "rotate-180" : ""
+										}`}
+									/>
+								</span>
+							</div>
+						}
+						cstyle={""}
+						iconSize={20}
+						items={[
+							<div
+								key="1"
+								className="flex flex-col justify-center w-full"
+							>
 								{languages.map((lang) => (
 									<button
 										key={lang.code}
 										onClick={() =>
 											handleLanguageChange(lang.code)
 										}
-										className={`flex-1 hover:bg-gray-200 justify-center w-full px-4 py-2 text-left hover:bg-green-secondary text-green-black  transition-all flex items-center space-x-3 duration-200 `}
+										className={`hover:bg-gray-200  w-full px-2 py-1 text-left hover:bg-green-secondary text-green-black  transition-all flex items-center space-x-3 duration-200 `}
 									>
+										<ItemFlag
+											iso2={lang?.iso2 || "US"}
+											size={3}
+										/>
 										<span className="font-medium font-satoshi text-sm">
 											{lang.name}
 										</span>
 									</button>
 								))}
-							</div>
-						)}
-					</div>
+							</div>,
+						]}
+					/>
 
 					{/**button de navigation */}
 					<button className="lg:hidden" onClick={toggleMenu}>

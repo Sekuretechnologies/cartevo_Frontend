@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { FlipWords } from "@/components/ui/shadcn-io/flip-words";
 
 const Section1 = () => {
@@ -29,7 +30,6 @@ const Section1 = () => {
 									className="text-[#1F66FF]"
 								/>
 							</span>
-							
 						</h1>
 						<p className="text-[12px] mb-4">
 							Cartevo est la plateforme fintech intégrée, pensée
@@ -56,7 +56,14 @@ const Section1 = () => {
 					</div>
 
 					<div className=" lg:absolute lg:bottom-0 lg:-right-0  lg:flex lg:justify-end  lg:px-0 lg:w-[60%] ">
-						<img src="website/home/hero.png" alt="hero" />
+						<Image
+							src="/website/home/hero.png"
+							alt="Cartevo hero illustration showing fintech solutions"
+							width={800}
+							height={600}
+							priority
+							className="w-full h-auto"
+						/>
 					</div>
 				</div>
 			</div>

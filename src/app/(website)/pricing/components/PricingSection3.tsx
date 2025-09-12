@@ -1,5 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import React from "react";
+import Image from "next/image";
 
 const PricingSection3 = () => {
 	return (
@@ -41,17 +42,34 @@ const PricingSection3 = () => {
 						</div>
 
 						<div className="flex flex-col items-center sm:flex-row">
-							<img src="/website/pricing/logo1.png" alt="" />
-							<img src="/website/pricing/logo2.png" alt="" />
+							<Image
+								src="/website/pricing/logo1.png"
+								alt="Technology partner logo 1"
+								width={100}
+								height={50}
+								loading="lazy"
+								className="w-auto h-auto"
+							/>
+							<Image
+								src="/website/pricing/logo2.png"
+								alt="Technology partner logo 2"
+								width={100}
+								height={50}
+								loading="lazy"
+								className="w-auto h-auto"
+							/>
 						</div>
 					</div>
 				</div>
 
 				<div className="px-4 sm:px-8 md:px-28 mt-12 lg:px-0 lg:w-[517px] h-[280px] sm:h-[320px] md:h-[357px] rounded-[32px] bg-[#DBEEF3] relative overflow-visible flex justify-center items-end">
-					<img
+					<Image
 						src="/website/pricing/men.png"
-						alt=""
-						className=" w-[450px] "
+						alt="Developer support illustration showing technical assistance and collaboration"
+						width={450}
+						height={320}
+						loading="lazy"
+						className="w-[450px] h-auto"
 					/>
 				</div>
 			</div>

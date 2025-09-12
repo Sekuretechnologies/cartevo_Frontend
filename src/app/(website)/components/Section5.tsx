@@ -1,5 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import React from "react";
+import Image from "next/image";
 
 const Section5 = () => {
 	return (
@@ -137,15 +138,21 @@ const Section5 = () => {
 				</div>
 
 				<div className="relative md:w-[800px]  lg:w-[2800px]  flex justify-center  items-end">
-					<img
+					<Image
 						src="/website/home/girl.png"
-						alt=" image"
-						className="w-full object-contain "
+						alt="Woman using fintech services illustration showing digital payment solutions"
+						width={800}
+						height={600}
+						loading="lazy"
+						className="w-full object-contain h-auto"
 					/>
-					<img
+					<Image
 						src="/website/home/section5-2.png"
-						alt=""
-						className="absolute top-10 right-10"
+						alt="Additional fintech interface elements and tools illustration"
+						width={200}
+						height={150}
+						loading="lazy"
+						className="absolute top-10 right-10 w-auto h-auto"
 					/>
 				</div>
 			</div>

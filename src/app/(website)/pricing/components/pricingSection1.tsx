@@ -1,5 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import React from "react";
+import Image from "next/image";
 
 const PricingSection1 = () => {
 	return (
@@ -43,10 +44,13 @@ const PricingSection1 = () => {
 				</div>
 
 				<div className="px-20 md:px-28  overflow-hidden rounded-[32px] bg-[#DBEEF3] flex items-start">
-					<img
+					<Image
 						src="/website/pricing/hero.png"
-						alt=""
-						className="object-contain mx-auto h-full"
+						alt="Transparent pricing illustration showing clear payment structure"
+						width={400}
+						height={300}
+						loading="lazy"
+						className="object-contain mx-auto h-full w-auto"
 					/>
 				</div>
 			</div>

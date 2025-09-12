@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const Section6 = () => {
 	return (
@@ -21,7 +22,14 @@ const Section6 = () => {
 						backgroundRepeat: "no-repeat",
 					}}
 				>
-					<img src="/website/home/carres.png" alt="" />
+					<Image
+						src="/website/home/carres.png"
+						alt="Geometric design elements representing fintech architecture"
+						width={400}
+						height={300}
+						loading="lazy"
+						className="w-full h-auto"
+					/>
 				</div>
 				<div
 					className=" absolute bottom-0 left-0 w-full h-[150px] md:h-[200px]"
@@ -39,10 +47,13 @@ const Section6 = () => {
 					/> */}
 					<div className="relative ">
 						<div className="relative top-0 sm:top-10 lg:top-20 w-full ">
-							<img
-								src="website/home/afrik.png"
-								alt=""
-								className="absolute left-1/2 -translate-x-1/2 -top-5 md:-top-16 lg:-top-28 md:w-[90%] lg:w-[70%]"
+							<Image
+								src="/website/home/afrik.png"
+								alt="Africa map illustration showing Cartevo's coverage across the continent"
+								width={600}
+								height={400}
+								loading="lazy"
+								className="absolute left-1/2 -translate-x-1/2 -top-5 md:-top-16 lg:-top-28 md:w-[90%] lg:w-[70%] h-auto"
 							/>
 						</div>
 					</div>

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const PricingSection4 = () => {
 	return (
@@ -13,15 +14,21 @@ const PricingSection4 = () => {
 					}}
 					className="h-[450px] sm:h-[400px] w-full rounded-[44px] relative"
 				>
-					<img
+					<Image
 						src="/website/pricing/grille.png"
-						alt="grid"
-						className="absolute left-0 top-0"
+						alt="Decorative grid pattern background"
+						width={400}
+						height={400}
+						loading="lazy"
+						className="absolute left-0 top-0 w-auto h-auto"
 					/>
-					<img
+					<Image
 						src="/website/pricing/carree.png"
-						alt="grid"
-						className="absolute left-1/2  top-1/2 -translate-x-1/2 -translate-y-1/2"
+						alt="Decorative geometric pattern overlay"
+						width={200}
+						height={200}
+						loading="lazy"
+						className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-auto h-auto"
 					/>
 					<div className="px-10 flex flex-col text-center gap-4 items-center justify-center w-full h-full font-poppins absolute left-1/2  top-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
 						<h1 className="text-[42px] font-semibold lg:w-2/3 xl:w-1/2 leading-10">
