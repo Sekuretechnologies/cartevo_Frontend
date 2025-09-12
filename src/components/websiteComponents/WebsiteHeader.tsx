@@ -17,30 +17,6 @@ const WebsiteHeader = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
 
-	// Vérifier que tous les éléments d'ancrage existent
-	useEffect(() => {
-		const checkAnchors = () => {
-			const anchors = [
-				"home",
-				"features",
-				"how-it-works",
-				"testimonials",
-				"faq",
-				"contact",
-			];
-			anchors.forEach((anchor) => {
-				const element = document.getElementById(anchor);
-				console.log(
-					`Anchor "${anchor}":`,
-					element ? "Found" : "Not found"
-				);
-			});
-		};
-
-		// Vérifier après un délai pour s'assurer que la page est chargée
-		setTimeout(checkAnchors, 1000);
-	}, []);
-
 	//   const currentLanguage =
 	//     languages.find((lang) => lang.code === locale) || languages[0];
 
@@ -72,12 +48,12 @@ const WebsiteHeader = () => {
 									href="/website"
 									className="navItem font-poppins"
 								>
-									home
+									Accueil
 								</a>
 							</li>
 							<li>
 								<a href="/website/pricing" className="navItem ">
-									Pricing
+									Tarifs
 								</a>
 							</li>
 
@@ -157,12 +133,12 @@ const WebsiteHeader = () => {
 						<ul className=" flex flex-col gap-4 font-poppins text-lg">
 							<li>
 								<a href="/website" className="navItem ">
-									home
+									Acceuil
 								</a>
 							</li>
 							<li>
 								<a href="/website/pricing" className="navItem">
-									Pricing
+									Tarifs
 								</a>
 							</li>
 

@@ -60,10 +60,10 @@ export default function SignupPage() {
 					}}
 					className="font-poppins bg-primary/10 rounded-br-[50px] h-full pr-28 pl-[150px]  flex flex-col pt-32 gap-4 items-center  text-center lg:text-left"
 				>
-					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight">
-						Gérez, encaissez et développez avec une suite complète
-						pour <span className="text-primary">simplifier</span>{" "}
-						vos finances
+					<h1 className="font-bold text-[30px] leading-8 max-w-[500px] tracking-tight">
+						Créez une expérience{" "}
+						<span className="text-primary">exceptionnelle</span>{" "}
+						pour vos clients grâce à une fintech mondiale intégrée
 					</h1>
 					<div className="flex items-center justify-start  text-left gap-4">
 						<img src="/website/contact/chevron.png" alt="chevron" />
@@ -101,12 +101,29 @@ export default function SignupPage() {
 							</p>
 						</div>
 					</div>
+
+					<div className="flex items-center  text-left gap-4">
+						<img src="/website/contact/chevron.png" alt="" />
+						<div>
+							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
+								<span className="text-primary">
+									Tableau de bord{" "}
+								</span>
+								en temps réel
+							</h2>
+							<p className="text-[11px] max-w-[380px]">
+								Suivez vos transactions, configurez vos règles
+								de paiement et contrôlez vos flux financiers
+								grâce à un espace intuitif et sécurisé.
+							</p>
+						</div>
+					</div>
 				</div>
 				<div className=" flex justify-center items-center px-[50px]">
-					<div className="w-full max-w-[700px] mt-32 ">
+					<div className="w-full max-w-[700px] mt-20 ">
 						<CreateAccountForm />
 
-						<div className="mt-8 text-app-secondary text-sm">
+						<div className="mt-4 text-app-secondary text-sm">
 							Already have an account?{" "}
 							<a
 								href="/login"

@@ -1,23 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
-import cm from "@/assets/flags/cm.svg";
 import { ChevronDown } from "lucide-react";
+import { allCountries } from "country-telephone-data";
 
+// On crée notre type
 type Country = {
 	name: string;
 	dialCode: string;
 	flag: string;
 };
 
-const countries: Country[] = [
-	{ name: "Côte d’Ivoire", dialCode: "+225", flag: "/flags/ci.svg" },
-	{ name: "Cameroun", dialCode: "+237", flag: "/flags/cm.svg" },
-	{ name: "Gabon", dialCode: "+241", flag: "/flags/gb.svg" },
-	{ name: "Nigéria", dialCode: "+234", flag: "/flags/ng.svg" },
-	// { name: "Ghana", dialCode: "+233", flag: "🇬🇭" },
-	// ajouter d’autres pays si nécessaire
-];
+// On mappe tous les pays vers notre format
+const countries: Country[] = allCountries.map((c) => ({
+	name: c.name,
+	dialCode: `+${c.dialCode}`,
+	flag: `https://flagcdn.com/${c.iso2.toLowerCase()}.svg`, // drapeaux depuis flagcdn
+}));
 
 interface PhoneInputProps {
 	value?: string;
@@ -33,33 +32,28 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 	const handleSelect = (country: Country) => {
 		setSelectedCountry(country);
 		setIsOpen(false);
-		// Met à jour uniquement le numéro existant avec le nouveau code
 		const numberWithoutCode = value.replace(/^\+\d+/, "");
 		onChange(numberWithoutCode, country.dialCode);
 	};
 
 	return (
 		<div className="relative w-fit">
-			<div>
-				{/* Sélecteur pays */}
-				<button
-					type="button"
-					onClick={() => setIsOpen(!isOpen)}
-					className="flex items-center gap-2 px-3 py-3 border-1 border-[#E6E6E6] rounded-[7px] "
-				>
-					<img
-						src={selectedCountry.flag}
-						alt={selectedCountry.dialCode}
-						className="w-6 h-6"
-					/>
-
-					<span className="text-sm text-gray-700 font-poppins">
-						{selectedCountry.dialCode}
-					</span>
-
-					<ChevronDown />
-				</button>
-			</div>
+			{/* Sélecteur pays */}
+			<button
+				type="button"
+				onClick={() => setIsOpen(!isOpen)}
+				className="flex items-center gap-2 px-3 py-3 border border-[#E6E6E6] rounded-[7px]"
+			>
+				<img
+					src={selectedCountry.flag}
+					alt={selectedCountry.dialCode}
+					className="w-6 h-6"
+				/>
+				<span className="text-sm text-gray-700 font-poppins">
+					{selectedCountry.dialCode}
+				</span>
+				<ChevronDown />
+			</button>
 
 			{/* Dropdown pays */}
 			{isOpen && (
@@ -76,7 +70,6 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 								alt={country.name}
 								className="w-6 h-6"
 							/>
-
 							<span className="text-sm text-gray-700 font-poppins">
 								{country.name}
 							</span>

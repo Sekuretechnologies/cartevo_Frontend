@@ -23,6 +23,9 @@ const WebsiteFooter = () => {
 							<a href="#">Termes et conditions</a>
 						</li>
 						<li>
+							<a href="#">Api documentation</a>
+						</li>
+						<li>
 							<a href="#">Contactez-nous</a>
 						</li>
 					</ul>

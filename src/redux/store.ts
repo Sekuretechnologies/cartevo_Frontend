@@ -24,6 +24,7 @@ import chinpayRedux from "./slices_v2/chinpay";
 import nairapayRedux from "./slices_v2/nairapay";
 import settingsRedux from "./slices_v2/settings";
 import customerticketRedux from "./slices_v2/customerticket";
+import companyReducer from "./slices/companySlice";
 
 const createNoopStorage = () => {
 	return {
@@ -75,6 +76,7 @@ const rootReducer = combineReducers({
 	chinpay: chinpayRedux,
 	nairapay: nairapayRedux,
 	customerticket: customerticketRedux,
+	company: companyReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -97,6 +99,9 @@ export const store = configureStore({
 });
 
 export let persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 // export function useStores(initialState) {
 //   const store = initializeStore(initialState);

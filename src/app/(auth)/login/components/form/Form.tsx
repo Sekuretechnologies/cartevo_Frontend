@@ -19,13 +19,18 @@ import { useMutation } from "react-query";
 import { HashLoader, PuffLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { setCredentials, setCurrentUserEmail } from "@/redux/slices/auth";
+import {
+	setCredentials,
+	setCurrentPassword,
+	setCurrentUserEmail,
+} from "@/redux/slices/auth";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
 import urls from "@/config/urls";
 import urlsV2 from "@/config/urls_v2";
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { setCompagnies } from "@/redux/slices/companySlice";
 
 const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 	const response = await AuthService.login(data);
@@ -74,7 +79,17 @@ export default function LoginForm() {
 			toast.success("Login successful! Redirecting...");
 			//-----------------------------------
 			// dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
-			router.push("/verify-otp");
+
+			if (!data.requires_otp) {
+				dispatch(
+					setCurrentPassword({ password: form.getValues("password") })
+				);
+				dispatch(setCompagnies(data.companies)); // -->> suavegarde dans le resuc store
+				router.push("/select-company");
+			} else {
+				router.push("/verify-otp");
+			}
+
 			//-----------------------------------
 			// if (!company?.onboarding_is_completed) {
 			// 	router.push(urls.onboarding.root);
@@ -96,7 +111,7 @@ export default function LoginForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit, onError)}
-				className="pl-10 pr-[90px] 2xl:pr-[150px] "
+				className="pl-10 lg:pr-[90px] 2xl:pr-[150px] "
 			>
 				<div className="w-full  font-poppins">
 					<div>
@@ -104,7 +119,7 @@ export default function LoginForm() {
 							Connectez-vous
 						</h1>
 						<p className="text-[12px] mb-8">
-							Envoie 120 k à Myriam et David chaque 28.
+							Bon retour ! Veuillez saisir vos informations.
 						</p>
 					</div>
 					<FormField
@@ -118,6 +133,7 @@ export default function LoginForm() {
 								<FormControl>
 									<Input
 										className="px-6 w-full bg-app-lightgray"
+										placeholder="Entrez votre adresse e-mail"
 										{...field}
 									/>
 								</FormControl>
@@ -143,6 +159,7 @@ export default function LoginForm() {
 											}`}
 											className="px-6 w-full bg-app-lightgray"
 											{...field}
+											placeholder="Entrez votre mot de passe"
 										/>
 										<div className="absolute text-gray-500 cursor-pointer right-[10px] top-[12px]">
 											{passwordVisible ? (
@@ -178,17 +195,9 @@ export default function LoginForm() {
 					</a>
 				</div>
 
-				<div className={`mt-[45px] flex gap-4 items-center`}>
-					{/* <CButton
-						text={"Continue"}
-						btnStyle={"blue"}
-						type={"submit"}
-						// href={`/`}
-						// icon={<FaChevronRight />}
-						width={"200px"}
-						height={"40px"}
-					/> */}
-
+				<div
+					className={`mt-[45px] flex flex-col md:flex-row gap-4 items-center`}
+				>
 					<button
 						type="submit"
 						className="bg-primary flex gap-8 text-white text-[12px] font-bold pl-[70px] items-center w-[215px] h-[52px] rounded-[18px]"
@@ -219,7 +228,6 @@ export default function LoginForm() {
 						color="#1F66FF"
 					/>
 				</div>
-				{/* <Button type="submit" className="w-[272px] mt-[10vh] bg-[#18BC7A] hover:bg-[#FFDB5A] hover:text-[#18BC7A] rounded-full">Connexion</Button> */}
 			</form>
 		</Form>
 	);

@@ -7,6 +7,7 @@ const authSlice = createSlice({
 		company: null,
 		user: null,
 		user_email: null,
+		user_password: null,
 	},
 	reducers: {
 		setCredentials: (state, action) => {
@@ -23,6 +24,10 @@ const authSlice = createSlice({
 			const { email } = action.payload;
 			state.user_email = email;
 		},
+		setCurrentPassword: (state, action) => {
+			const { password } = action.payload;
+			state.user_password = password;
+		},
 		logOut: (state) => {
 			state.token = null;
 			// localStorage.removeItem("sktoken");
@@ -35,6 +40,7 @@ export const {
 	setCredentials,
 	setCurrentCompany,
 	setCurrentUserEmail,
+	setCurrentPassword,
 	logOut,
 } = authSlice.actions;
 
@@ -46,3 +52,4 @@ export const selectCurrentUserEmail = (state: any) => state.auth.user_email;
 export const selectCurrentToken = (state: any) => state.auth.token;
 export const selectCurrentGetSekureApiToken = (state: any) =>
 	state.auth.getSekureApiToken;
+export const selectCurrentPassword = (state: any) => state.auth.user_password;
