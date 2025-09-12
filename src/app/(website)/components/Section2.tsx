@@ -31,7 +31,7 @@ const Section2 = () => {
 								width={300}
 								height={200}
 								loading="lazy"
-								className="w-auto h-auto"
+								// className="w-auto h-auto"
 							/>
 						</div>
 
@@ -79,7 +79,7 @@ const Section2 = () => {
 								width={300}
 								height={200}
 								loading="lazy"
-								className="w-auto h-auto"
+								// className="w-auto h-auto"
 							/>
 						</div>
 

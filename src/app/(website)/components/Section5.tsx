@@ -152,7 +152,8 @@ const Section5 = () => {
 						width={200}
 						height={150}
 						loading="lazy"
-						className="absolute top-10 right-10 w-auto h-auto"
+						className="absolute top-10 right-10"
+						// w-auto h-auto
 					/>
 				</div>
 			</div>

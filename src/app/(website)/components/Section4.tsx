@@ -23,7 +23,8 @@ const Section4 = () => {
 							width={200}
 							height={150}
 							loading="lazy"
-							className="mb-10 w-auto h-auto"
+							className="mb-10 "
+							//w-auto h-auto
 						/>
 						<h2 className="mb-4 text-[24px] font-semibold">
 							Fintechs
@@ -43,7 +44,8 @@ const Section4 = () => {
 							width={200}
 							height={150}
 							loading="lazy"
-							className="mb-10 w-auto h-auto"
+							className="mb-10"
+							// w-auto h-auto
 						/>
 						<h2 className="mb-4 text-[24px] font-semibold">
 							Entreprises Globales
@@ -63,7 +65,8 @@ const Section4 = () => {
 							width={200}
 							height={150}
 							loading="lazy"
-							className="mb-10 w-auto h-auto"
+							className="mb-10"
+							// w-auto h-auto
 						/>
 						<h2 className="mb-4 text-[24px] font-semibold">PMEs</h2>
 						<p className="text-[#5F5F5F] text-[12px]">
