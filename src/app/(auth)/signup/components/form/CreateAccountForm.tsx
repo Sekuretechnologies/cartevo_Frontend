@@ -295,23 +295,29 @@ export default function CreateAccountForm() {
 			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
 				<div className="space-y-[20px] w-full">
 					<div>
-						<h1 className="text-[30px] font-bold ">Sign up</h1>
+						<h1 className="text-[30px] tracking-tight font-bold ">
+							Créer un compte
+						</h1>
+						<p className="text-[12px] mb-8">
+							Commencez Aujourd’hui, Offrez des services
+							financiers à vos clients dès demain .
+						</p>
 					</div>
 					{/* Company Block */}
-					<div className="mb-8">
+					<div className="">
 						<FormField
 							control={form.control}
 							name="business_name"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-										Business Name{" "}
+										Nom de l’entreprise{" "}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input
 											className="px-6 w-full bg-app-lightgray"
-											placeholder="Enter your business name"
+											placeholder="Enter le nom de l’entreprise"
 											{...field}
 										/>
 									</FormControl>
@@ -322,7 +328,7 @@ export default function CreateAccountForm() {
 					</div>
 
 					{/* Personal Block */}
-					<div className="mb-8 space-y-[15px]">
+					<div className="mb-8 space-y-[10px]">
 						{/* <h3 className="text-lg font-semibold mb-4 text-app-secondary">
 							Personal Informations
 						</h3> */}
@@ -333,7 +339,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											First Name{" "}
+											Prénom{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -344,7 +350,7 @@ export default function CreateAccountForm() {
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your first name"
+												placeholder="Entrez votre prénom"
 												{...field}
 											/>
 										</FormControl>
@@ -358,7 +364,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Last Name{" "}
+											Nom de famille{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -369,7 +375,7 @@ export default function CreateAccountForm() {
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your last name"
+												placeholder="Entrez votre nom"
 												{...field}
 											/>
 										</FormControl>
@@ -386,7 +392,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Business email{" "}
+											E-mail professionnel{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -395,7 +401,7 @@ export default function CreateAccountForm() {
 											<Input
 												type="email"
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your business email"
+												placeholder="Entrez votre e-mail professionnel"
 												{...field}
 											/>
 										</FormControl>
@@ -409,7 +415,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Phone Number{" "}
+											Numéro de téléphone{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -418,7 +424,7 @@ export default function CreateAccountForm() {
 											<Input
 												type="tel"
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your phone number"
+												placeholder="Entrez votre numéro de téléphone"
 												{...field}
 											/>
 										</FormControl>
@@ -435,7 +441,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Business type{" "}
+											Type d’entreprise{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -443,11 +449,11 @@ export default function CreateAccountForm() {
 										<FormControl>
 											<Select
 												{...field}
-												placeholder="Select business type"
+												placeholder="Sélectionnez le type d’entreprise"
 												style={{
 													width: "100%",
 												}}
-												className={`bg-app-lightgray text-gray-900 font-normal`}
+												className={`bg-app-lightgray text-gray-900 font-normal text-[12px]  placeholder:text-[12px] placeholder:text-[#bbbbbb]`}
 												defaultSelectedKeys={[
 													field.value ?? "",
 												]}
@@ -481,7 +487,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Business country
+											Pays de l’entreprise
 											<span className="text-red-500">
 												*
 											</span>
@@ -518,7 +524,7 @@ export default function CreateAccountForm() {
 											</Select> */}
 											<Select
 												{...field}
-												placeholder="Select business country"
+												placeholder="Sélectionnez le pays de l’entreprise"
 												style={{
 													width: "100%",
 												}}
@@ -602,14 +608,14 @@ export default function CreateAccountForm() {
 					</div>
 
 					{/* Security Block */}
-					<div className="mb-8 space-y-[15px]">
+					<div className="mb-8 space-y-[10px]">
 						<FormField
 							control={form.control}
 							name="password"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-										Password
+										Mot de passe
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl className="relative">
@@ -621,7 +627,7 @@ export default function CreateAccountForm() {
 														: "password"
 												}`}
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Create a secure password"
+												placeholder="Créez un mot de passe sécurisé"
 												{...field}
 											/>
 											<div className="absolute text-gray-500 cursor-pointer right-[10px] top-[12px]">
@@ -655,7 +661,7 @@ export default function CreateAccountForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-										Confirm Password
+										Confirmer le mot de passe
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl className="relative">
@@ -667,7 +673,7 @@ export default function CreateAccountForm() {
 														: "password"
 												}
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Re-enter your password"
+												placeholder="Confirmez votre mot de passe"
 												{...field}
 											/>
 											<div className="absolute text-gray-500 cursor-pointer right-[10px] top-[12px]">
@@ -739,7 +745,7 @@ export default function CreateAccountForm() {
           <a href="#" className="inline-block w-[272px] text-md font-[400]">Mot de passe oublié ?</a>
         </div> */}
 				{/* <Link href="#" className="text-gray-800 font-semibold text-righttext-md">Forgotten Password?</Link> */}
-				<div className={`mt-[50px]`}>
+				<div className="mt-8">
 					<CButton
 						text={"Create account"}
 						btnStyle={"blue"}

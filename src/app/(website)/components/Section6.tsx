@@ -63,7 +63,7 @@ const Section6 = () => {
 					<h3 className="w-[250px] h-[35px] border-1 border-white text-[13px] font-semibold font-poppins flex items-center justify-center rounded-full">
 						For Developers & Businesses
 					</h3>
-					<h1 className="text-[50px] font-semibold text-center leading-[45px]">
+					<h1 className="text-[50px] tracking-tight font-semibold text-center leading-[45px]">
 						Commencez à construire avec{" "}
 						<span className="text-[#00CFD9] ">Cartevo</span>
 					</h1>

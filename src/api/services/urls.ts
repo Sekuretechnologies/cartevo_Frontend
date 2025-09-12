@@ -11,6 +11,7 @@ export const authUrls = {
 	CREATE_ACCOUNT: `${BASE_URL}/company/register`,
 	REGISTER_STEP1: `${BASE_URL}/company/register/step1`,
 	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
+	LOGIN_WITH_COMPANY: `${BASE_URL_AUTH}/login-with-company`
 };
 
 /** COMPANY ============================================================ */

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import cm from "@/assets/flags/cm.svg";
+import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+import { allCountries } from "country-telephone-data";
 
 type Country = {
 	name: string;
@@ -10,14 +10,11 @@ type Country = {
 	flag: string;
 };
 
-const countries: Country[] = [
-	{ name: "Côte d’Ivoire", dialCode: "+225", flag: "/flags/ci.svg" },
-	{ name: "Cameroun", dialCode: "+237", flag: "/flags/cm.svg" },
-	{ name: "Gabon", dialCode: "+241", flag: "/flags/gb.svg" },
-	{ name: "Nigéria", dialCode: "+234", flag: "/flags/ng.svg" },
-	// { name: "Ghana", dialCode: "+233", flag: "🇬🇭" },
-	// ajouter d’autres pays si nécessaire
-];
+const countries: Country[] = allCountries.map((c) => ({
+	name: c.name,
+	dialCode: `+${c.dialCode}`,
+	flag: `https://flagcdn.com/${c.iso2.toLowerCase()}.svg`,
+}));
 
 interface PhoneInputProps {
 	value?: string;
@@ -29,37 +26,50 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 		countries[0]
 	);
 	const [isOpen, setIsOpen] = useState(false);
+	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const handleSelect = (country: Country) => {
 		setSelectedCountry(country);
 		setIsOpen(false);
-		// Met à jour uniquement le numéro existant avec le nouveau code
 		const numberWithoutCode = value.replace(/^\+\d+/, "");
 		onChange(numberWithoutCode, country.dialCode);
 	};
 
+	// Fermer le dropdown si clic à l'extérieur
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target as Node)
+			) {
+				setIsOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
 	return (
-		<div className="relative w-fit">
-			<div>
-				{/* Sélecteur pays */}
-				<button
-					type="button"
-					onClick={() => setIsOpen(!isOpen)}
-					className="flex items-center gap-2 px-3 py-3 border-1 border-[#E6E6E6] rounded-[7px] "
-				>
-					<img
-						src={selectedCountry.flag}
-						alt={selectedCountry.dialCode}
-						className="w-6 h-6"
-					/>
-
-					<span className="text-sm text-gray-700 font-poppins">
-						{selectedCountry.dialCode}
-					</span>
-
-					<ChevronDown />
-				</button>
-			</div>
+		<div className="relative w-fit" ref={dropdownRef}>
+			{/* Sélecteur pays */}
+			<button
+				type="button"
+				onClick={() => setIsOpen(!isOpen)}
+				className="flex items-center gap-2 px-3 py-3 border border-[#E6E6E6] rounded-[7px]"
+			>
+				<img
+					src={selectedCountry.flag}
+					alt={selectedCountry.dialCode}
+					className="w-6 h-6"
+				/>
+				<span className="text-sm text-gray-700 font-poppins">
+					{selectedCountry.dialCode}
+				</span>
+				<ChevronDown />
+			</button>
 
 			{/* Dropdown pays */}
 			{isOpen && (
@@ -76,7 +86,6 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 								alt={country.name}
 								className="w-6 h-6"
 							/>
-
 							<span className="text-sm text-gray-700 font-poppins">
 								{country.name}
 							</span>

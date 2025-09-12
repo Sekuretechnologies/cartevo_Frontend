@@ -10,9 +10,9 @@ const Section5 = () => {
 					<div>
 						<div>
 							<p className=" border-1 border-[#222222] mb-4 font-semibold text-[13px] px-8 py-2 w-fit rounded-full hover:bg-[#222222] duration-300 hover:text-white">
-								Payment as a service
+								Pourquoi nous choisir ?
 							</p>
-							<h1 className="text-[40px] font-bold leading-10 mb-6 text-center lg:text-left  leading-12 ">
+							<h1 className="text-[40px] tracking-tight font-bold leading-10 mb-6 text-center lg:text-left  leading-12 ">
 								Choisissez la simplicité qui s’adapte à vous
 							</h1>
 							<p className="text-center text-[12px] text-[#222222] lg:text-left lg:w-[80%] mb-6">
@@ -132,7 +132,7 @@ const Section5 = () => {
 							</div>
 						</div>
 					</div>
-					<button className="text-white lg:mb-20 cursor-pointer mt-4 flex items-center justify-between pl-16 pr-5 bg-[#222222] w-[251px] h-[59px] rounded-[20px] ">
+					<button className="text-white text-[13px] font-semibold lg:mb-20 cursor-pointer mt-4 flex items-center justify-between pl-16 pr-5 bg-[#222222] w-[251px] h-[59px] rounded-[20px] ">
 						Commencer <ChevronRight />
 					</button>
 				</div>

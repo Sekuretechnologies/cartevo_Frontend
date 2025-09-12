@@ -263,15 +263,17 @@ export const resetPsswordSchema = z
 	});
 
 export const contactSchema = z.object({
-	country_code: z.string(),
-	whatsapp: z.string(),
-	email: z.string().email("Adresse email invalide"),
-	subject: z.string().min(3, "Objet trop court"),
-	message: z.string().min(5, "Message trop court"),
-	name: z.string(),
-	entrepriseName: z.string(),
-	activity: z.string(),
-	service: z.string(),
+	country_code: z.string().min(1, "Le code pays est obligatoire"),
+	whatsapp: z.string().min(1, "Le numéro WhatsApp est obligatoire"),
+	email: z.string().email("Adresse e-mail invalide"),
+	subject: z.string().min(3, "L’objet doit contenir au moins 3 caractères"),
+	message: z
+		.string()
+		.min(5, "Le message doit contenir au moins 5 caractères"),
+	name: z.string().min(1, "Le nom est obligatoire"),
+	entrepriseName: z.string().min(1, "Le nom de l’entreprise est obligatoire"),
+	activity: z.string().min(1, "L’activité est obligatoire"),
+	service: z.string().min(1, "Le service est obligatoire"),
 });
 
 export const teamMemberSchema = z.object({
@@ -281,8 +283,21 @@ export const teamMemberSchema = z.object({
 });
 
 export const registerUserSchema = z.object({
-	email: z.string().email("invalid email"),
-	invitation_code: z.string(),
-	full_name: z.string(),
-	password: z.string().min(8).max(32),
+	email: z.string().email("Invalid email"),
+	invitation_code: z.string().min(1, "Invitation code is required"),
+	full_name: z.string().min(1, "Full name is required"),
+	password: z
+		.string()
+		.min(8, "Password must be at least 8 characters")
+		.max(32, "Password must be at most 32 characters")
+		.regex(
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+			"Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
+		),
+});
+
+export const LoginWithCompany = z.object({
+	email: z.string(),
+	company_id: z.string().min(1, "Veuillez sélectionner une entreprise"),
+	password: z.string().min(1, "Le mot de passe est requis"),
 });

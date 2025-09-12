@@ -18,7 +18,7 @@ const Section1 = () => {
 				{/* <div className="w-full h-full bg-primary/5 top-0 left-0 z-20 absolute "></div> */}
 				<div className=" flex flex-col lg:flex-row  pt-40">
 					<div className="text-center lg:text-start font-poppins lg:w-[45%]">
-						<h1 className="text-[42px] font-[700] leading-[45px] mb-4">
+						<h1 className="text-[42px] font-[700] leading-[45px] mb-4 tracking-tight">
 							Émission de cartes virtuelles par API et paiements
 							intégrés pour
 							<span className="text-primary">

@@ -10,7 +10,7 @@ const Section2 = () => {
               text-[#222222]"
 			>
 				<div className="mb-8 lg:mb-12 font-poppins ">
-					<h1 className=" text-[40px] font-[700] leading-10 text-center lg:text-left mb-4">
+					<h1 className=" text-[40px] font-[700] leading-10 text-center lg:text-left mb-4 tracking-tight">
 						Des services complets fournis
 					</h1>
 					<p className="text-[12px] text-center lg:text-left lg:w-[650px] font-[300] ">
@@ -37,7 +37,7 @@ const Section2 = () => {
 
 						{/* Texte + bouton */}
 						<div className="flex flex-col items-center flex-1 text-center md:text-left md:items-start">
-							<p className="border border-[#222222] px-8 py-2 w-fit rounded-full hover:bg-[#222222] duration-300 hover:text-white mb-4">
+							<p className="border text-[13px] border-[#222222] px-8 py-2 w-fit rounded-full hover:bg-[#222222] duration-300 hover:text-white mb-4">
 								Payment as a service
 							</p>
 							<h2 className="text-[30px] font-[700] leading-8 mb-4">
@@ -61,7 +61,7 @@ const Section2 = () => {
 							<div className="mt-auto">
 								<a
 									href="/login"
-									className="text-white bg-[#252421] px-8 py-3 w-fit flex gap-2 items-center rounded-full"
+									className="text-white text-[13px] font-semibold bg-[#252421] px-8 py-3 w-fit flex gap-2 items-center rounded-full"
 								>
 									Commencer <ChevronRight />
 								</a>
@@ -85,7 +85,7 @@ const Section2 = () => {
 
 						{/* Texte + bouton */}
 						<div className="flex flex-col flex-1 text-center md:text-left md:items-start">
-							<p className="border px-8 py-2 w-fit rounded-full hover:bg-[#222222] border-[#222222] duration-300 hover:text-white mb-4">
+							<p className="border px-8 text-[13px] py-2 w-fit rounded-full hover:bg-[#222222] border-[#222222] duration-300 hover:text-white mb-4">
 								Card as a service
 							</p>
 							<h2 className="text-[30px] font-[700] leading-8 mb-4">
@@ -112,7 +112,7 @@ const Section2 = () => {
 							<div className="mt-auto">
 								<a
 									href="/login"
-									className="text-white bg-[#252421] px-8 w-fit py-3 flex gap-2 items-center rounded-full"
+									className="text-white text-[13px] font-semibold bg-[#252421] px-8 w-fit py-3 flex gap-2 items-center rounded-full"
 								>
 									Commencer <ChevronRight />
 								</a>
