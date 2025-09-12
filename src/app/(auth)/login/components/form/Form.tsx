@@ -111,9 +111,9 @@ export default function LoginForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit, onError)}
-				className="pl-10 lg:pr-[90px] 2xl:pr-[150px] "
+				className="px-3 lg:pl-10 lg:pr-[90px] 2xl:pr-[150px] lg:w-full max-w-[700px] mx-auto lg:mx-0"
 			>
-				<div className="w-full  font-poppins">
+				<div className="w-full pt-20 lg:pt-0 font-poppins">
 					<div>
 						<h1 className="text-[30px] font-poppins tracking-tight font-bold">
 							Connectez-vous
@@ -126,7 +126,7 @@ export default function LoginForm() {
 						control={form.control}
 						name="email"
 						render={({ field }) => (
-							<FormItem className="mb-4">
+							<FormItem className="mb-2">
 								<FormLabel className=" text-[12px] font-semibold tracking-tight">
 									Adresse Mail
 								</FormLabel>

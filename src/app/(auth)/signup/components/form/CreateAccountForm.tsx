@@ -295,7 +295,7 @@ export default function CreateAccountForm() {
 			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
 				<div className="space-y-[20px] w-full">
 					<div>
-						<h1 className="text-[30px] font-bold ">
+						<h1 className="text-[30px] tracking-tight font-bold ">
 							Créer un compte
 						</h1>
 						<p className="text-[12px] mb-8">
@@ -304,7 +304,7 @@ export default function CreateAccountForm() {
 						</p>
 					</div>
 					{/* Company Block */}
-					<div className="mb-8">
+					<div className="">
 						<FormField
 							control={form.control}
 							name="business_name"
@@ -328,7 +328,7 @@ export default function CreateAccountForm() {
 					</div>
 
 					{/* Personal Block */}
-					<div className="mb-8 space-y-[15px]">
+					<div className="mb-8 space-y-[10px]">
 						{/* <h3 className="text-lg font-semibold mb-4 text-app-secondary">
 							Personal Informations
 						</h3> */}
@@ -453,7 +453,7 @@ export default function CreateAccountForm() {
 												style={{
 													width: "100%",
 												}}
-												className={`bg-app-lightgray text-gray-900 font-normal`}
+												className={`bg-app-lightgray text-gray-900 font-normal text-[12px]  placeholder:text-[12px] placeholder:text-[#bbbbbb]`}
 												defaultSelectedKeys={[
 													field.value ?? "",
 												]}
@@ -608,7 +608,7 @@ export default function CreateAccountForm() {
 					</div>
 
 					{/* Security Block */}
-					<div className="mb-8 space-y-[15px]">
+					<div className="mb-8 space-y-[10px]">
 						<FormField
 							control={form.control}
 							name="password"
@@ -745,7 +745,7 @@ export default function CreateAccountForm() {
           <a href="#" className="inline-block w-[272px] text-md font-[400]">Mot de passe oublié ?</a>
         </div> */}
 				{/* <Link href="#" className="text-gray-800 font-semibold text-righttext-md">Forgotten Password?</Link> */}
-				<div className='mt-8'>
+				<div className="mt-8">
 					<CButton
 						text={"Create account"}
 						btnStyle={"blue"}
