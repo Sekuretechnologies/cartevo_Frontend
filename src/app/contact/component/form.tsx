@@ -62,15 +62,32 @@ const ContactForm = () => {
 	};
 
 	const activities = [
+		{ key: "E-commerce", label: "E-commerce" },
+		{ key: "Marketplaces", label: "Marketplaces" },
+		{ key: "Telecommunications", label: "Télécommunications" },
+		{ key: "BanquesCommerciales", label: "Banques commerciales" },
+		{ key: "MicroFinances", label: "Micro-finances" },
+		{ key: "Fintechs", label: "Fintechs" },
+		{ key: "TransportUrbain", label: "Transport urbain" },
+		{ key: "Logistique", label: "Logistique" },
+		{ key: "StartupsTechnologiques", label: "Startups technologiques" },
+		{ key: "Freelance", label: "Freelance" },
+		{ key: "AgencesDigitales", label: "Agences digitales" },
+		{ key: "Assurance", label: "Assurance" },
+		{ key: "ONGInternationales", label: "ONG internationales" },
+		{ key: "InstitutionsPubliques", label: "Institutions publiques" },
+		{ key: "IndustrieImportExport", label: "Industrie import-export" },
 		{
-			key: "E-Commerce",
-			label: "e-commerce",
+			key: "DivertissementStreaming",
+			label: "Divertissement et streaming",
 		},
-		{
-			key: "Finance",
-			label: "finance",
-		},
+		{ key: "TourismeVoyages", label: "Tourisme et voyages" },
+		{ key: "Immobilier", label: "Immobilier" },
+		{ key: "Energie", label: "Énergie" },
+		{ key: "Agriculture", label: "Agriculture" },
+		{ key: "Autres", label: "Autres" },
 	];
+
 	return (
 		<div>
 			<div className="font-poppins mb-8">
@@ -102,11 +119,11 @@ const ContactForm = () => {
 												{...field}
 												type="text"
 												id="name"
-												placeholder="your name"
+												placeholder="Votre nom"
 												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 											/>
 										</FormControl>
-										<FormMessage />
+										<FormMessage className="text-red-400" />
 									</FormItem>
 								)}
 							/>
@@ -124,7 +141,7 @@ const ContactForm = () => {
 												{...field}
 												type="text"
 												id="email"
-												placeholder="entreprise name"
+												placeholder="Nom de l’entreprise"
 												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 											/>
 										</FormControl>
@@ -335,7 +352,7 @@ const ContactForm = () => {
 													)}
 												</span>
 												<span className="text-[14px] font-poppins">
-													Collecte d’argent
+													Collecte de paiements
 												</span>
 											</label>
 										</div>
@@ -387,7 +404,7 @@ const ContactForm = () => {
 						/>
 						<button
 							type="submit"
-							className="bg-primary font-poppins  text-white text-[13px] font-semibold h-[52px] w-[215px] mt-8  flex justify-between px-10 items-center rounded-[18px]"
+							className="bg-primary font-poppins  text-white text-[13px] font-semibold h-[52px] w-[215px] mt-4  flex justify-between px-10 items-center rounded-[18px]"
 						>
 							<span>Commencer</span> <ChevronRight />
 						</button>

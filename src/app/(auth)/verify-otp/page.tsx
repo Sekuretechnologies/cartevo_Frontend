@@ -5,46 +5,45 @@ import { useTitle } from "@/hooks/useTitle";
 import Image from "next/image";
 import VerifyOTPForm from "./components/form/Form";
 import Footer from "@/components/shared/Footer/Footer";
-import { cartevoIconName } from "@/constants/icons";
+import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
+
 //---------------------------------------
 
 const VerifyOtpPage = () => {
 	useTitle("Cartevo | Verify OTP");
 	return (
 		<section className="relative flex flex-col h-screen mt-0  w-full">
-			<nav className="fixed z-10 top-0 left-0 w-full h-[80px] px-[50px] flex items-center">
-				<div className="max-w-[1250px] ">
-					{/* <img
-						src="/images/cartevo-logo.svg"
-						alt="cartevo-logo"
-						className=""
-					/> */}
-					{cartevoIconName}
-				</div>
+			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] flex items-center">
+				<a href="/website">
+					<img src="/website/logos/logo_full.png" alt="logo" />
+				</a>
 			</nav>
-			<div className="w-full min-h-[70vh] grid grid-cols-12">
-				<div className="relative col-span-5 pl-[60px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
-					<h1 className="font-bold text-4xl text-app-secondary">
+			<div className="w-full  grid grid-cols-2 font-poppins ">
+				<div
+					style={{
+						backgroundImage:
+							"url('/website/home/heroBackground.png')",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+						backgroundRepeat: "no-repeat",
+					}}
+					className="font-poppins bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  flex flex-col justify-center gap-4   text-center lg:text-left"
+				>
+					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight text-app-secondary">
 						Verify OTP
 					</h1>
-					<span className="text-lg text-app-secondary">
-						Innovative Payments for a Digital World.
-					</span>
-					<div className="absolute bottom-[100px] left-0 w-full h-[90px]">
-						<img
-							src="/images/white-cartevo-logo-001.svg"
-							alt="white-cartevo-logo"
-							className=""
-						/>
-					</div>
+					<p className="text-app-secondary">
+						Innovative Payments for a Digital World
+					</p>
 				</div>
-				<div className="col-span-7 flex justify-center items-center px-[50px]">
+				<div className=" flex justify-center items-center px-[50px]">
 					<div className="w-full max-w-[400px]">
 						<VerifyOTPForm />
 					</div>
 				</div>
 			</div>
-			<Footer />
+			{/* <Footer /> */}
+			<WebsiteFooter />
 		</section>
 	);
 };

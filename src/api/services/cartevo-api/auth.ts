@@ -1,3 +1,4 @@
+import { userManagementUrls } from "@/api/urls";
 import BaseMethods from "../../baseMethods";
 import { authUrls } from "../urls";
 
@@ -19,4 +20,8 @@ export class AuthService {
 
 	static registerStep2 = (info: any) =>
 		BaseMethods.postFileRequest(authUrls.REGISTER_STEP2, info, false);
+	static registerUser = (info: any) =>
+		BaseMethods.postRequest(userManagementUrls.REGISTER_USER, info, false);
+	static loginWithCOmpany = (info: any) =>
+		BaseMethods.postRequest(authUrls.LOGIN_WITH_COMPANY, info, false);
 }

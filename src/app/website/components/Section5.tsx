@@ -9,7 +9,7 @@ const Section5 = () => {
 					<div>
 						<div>
 							<p className=" border-1 border-[#222222] mb-4 font-semibold text-[13px] px-8 py-2 w-fit rounded-full hover:bg-[#222222] duration-300 hover:text-white">
-								Payment as a service
+								Pourquoi nous choisir ?
 							</p>
 							<h1 className="text-[40px] font-bold leading-10 mb-6 text-center lg:text-left  leading-12 ">
 								Choisissez la simplicité qui s’adapte à vous
