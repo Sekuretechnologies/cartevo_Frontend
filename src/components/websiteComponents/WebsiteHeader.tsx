@@ -62,34 +62,34 @@ const WebsiteHeader = () => {
 		<div className="text-black-custom font-poppins absolute z-50 w-full">
 			<div className="customContainer flex items-center gap-1 justify-between">
 				<div className="flex items-center gap-20">
-					<a href="/website">
+					<a href="/">
 						<img src="/website/logos/logo_full.png" alt="logo" />
 					</a>
 
 					{/**Navigation desktop */}
 					<nav className="hidden lg:block font-poppins">
 						<ul className="flex items-center gap-8 mt-2">
-							<li>
+							<li className="h-[30px]">
 								<a
 									href="/"
-									className="navItem font-poppins text-md hover:text-app-primary"
+									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
-									home
+									Home
 								</a>
 							</li>
-							<li>
+							<li className="h-[30px]">
 								<a
 									href="/pricing"
-									className="navItem font-poppins text-md hover:text-app-primary"
+									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
 									Pricing
 								</a>
 							</li>
 
-							<li className="flex items-center">
+							<li className="flex items-center h-[30px]">
 								<a
 									href="/contact"
-									className="navItem font-poppins text-md hover:text-app-primary"
+									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
 									Contacter
 								</a>
@@ -112,7 +112,7 @@ const WebsiteHeader = () => {
 					{/* Sélecteur de langue Desktop */}
 					<CustomDropdown2
 						btnChild={
-							<div className="mt-1 flex items-center gap-1 border-1 font-poppins border-black px-5 justify-center py-[8px] rounded-lg">
+							<div className="flex items-center gap-1 border-1 font-poppins border-black px-5 justify-center py-[8px] rounded-lg">
 								<ItemFlag
 									iso2={currentLanguage?.iso2 || "US"}
 									size={3}
