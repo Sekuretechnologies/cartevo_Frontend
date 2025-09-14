@@ -31,11 +31,17 @@ export class CustomerService {
 	static get_customer_cards = ({
 		token,
 		customerId,
+		page = 1,
+		limit = 20,
 	}: {
 		token: string;
 		customerId: string;
+		page?: number;
+		limit?: number;
 	}) => {
 		let query_params: any = {};
+		if (page) query_params.page = page;
+		if (limit) query_params.limit = limit;
 		return BaseMethods.getRequest(
 			customersUrls.GET_CUSTOMER_CARDS(customerId),
 			true,
@@ -47,11 +53,17 @@ export class CustomerService {
 	static get_customer_transactions = ({
 		token,
 		customerId,
+		page = 1,
+		limit = 20,
 	}: {
 		token: string;
 		customerId: string;
+		page?: number;
+		limit?: number;
 	}) => {
 		let query_params: any = {};
+		if (page) query_params.page = page;
+		if (limit) query_params.limit = limit;
 		return BaseMethods.getRequest(
 			customersUrls.GET_CUSTOMER_TRANSACTIONS(customerId),
 			true,

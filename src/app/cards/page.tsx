@@ -20,8 +20,7 @@ import * as CFlags from "country-flag-icons/react/3x2";
 import { FaArrowsRotate } from "react-icons/fa6";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { TransactionService } from "@/api/services/v2/transaction";
-import { headerUserTransactionDataV2 } from "@/constants/TransactionData";
+import { CardService } from "@/api/services/cartevo-api/card";
 import { headerCardData } from "@/constants/CardData";
 
 const CountryFlags: any = CFlags;
@@ -29,18 +28,28 @@ const CountryFlags: any = CFlags;
 const ItemFlagCM = CountryFlags["CM"];
 const ItemFlagUS = CountryFlags["US"];
 
-const getAllTrx = async ({ queryKey }: any) => {
+const getAllCards = async ({ queryKey }: any) => {
 	const [_key, filter, st] = queryKey;
+	const token = localStorage.getItem("sktoken");
+
+	if (!token) {
+		throw new Error("No authentication token found");
+	}
+
 	let params: any = {};
 	if (st) params.searchTerm = st;
-	if (filter?.status) params.status = filter?.status;
-	params.category = "card";
-	params.type = "purchase";
+	if (filter?.status) params.status = filter.status;
 
-	const response = await TransactionService.get_all_trxs(params);
+	const response = await CardService.get_cards({
+		token,
+		page: 1,
+		limit: 20,
+		status: params.status,
+	});
+
 	const responseJson = await response.json();
 	if (!response.ok) {
-		throw new Error(responseJson.message || "Failed to get users");
+		throw new Error(responseJson.message || "Failed to get cards");
 	}
 	return responseJson.data;
 };
@@ -56,60 +65,62 @@ export default function Home() {
 	// dispatch(setSearchTerm(''));
 	const searchTerm: string = useSelector(selectSearchTerm);
 
-	const allTrxQueryRes = useQuery({
-		queryKey: ["allTrx", {}, searchTrx],
-		queryFn: getAllTrx,
+	const allCardsQueryRes = useQuery({
+		queryKey: ["allCards", filterContent, searchTrx],
+		queryFn: getAllCards,
 		onError: (err) => {
-			toast.error("Failed to get Trx.");
-			console.log("Failed to get Trx : ", err);
+			toast.error("Failed to get cards.");
+			console.log("Failed to get cards : ", err);
 		},
 		// enabled: false,
 		refetchInterval: 30000, // Fetches data every 30 seconds
 	});
-	// dispatch(setTrxAll(allTrxQueryRes.data));
-	console.log("allTrxQueryRes.data : ", allTrxQueryRes.data);
+	// dispatch(setTrxAll(allCardsQueryRes.data));
+	console.log("allCardsQueryRes.data : ", allCardsQueryRes.data);
 
 	let rearrangedTableData: any[] = [];
 
 	/** ------------------------------------------------- */
 
-	rearrangedTableData = allTrxQueryRes?.data?.map((item: any, index: any) => {
-		const rearrangedItem = {
-			serial: index + 1,
-			type: item.card_details.brand,
-			number: `${item.card_details.masked_number}`,
-			name: item.card_details.name,
-			// phone: item.phone_number,
-			balance: item.card_details.balance_usd,
-			status:
-				item.card_details.status === "ACTIVE" ? (
-					<BadgeLabel
-						className={`text-xs`}
-						label={"Active"}
-						badgeColor={"#1F66FF"}
-						textColor={"#444"}
+	rearrangedTableData = allCardsQueryRes?.data?.map(
+		(item: any, index: any) => {
+			const rearrangedItem = {
+				serial: index + 1,
+				type: item.brand,
+				number: `${item.masked_number}`,
+				name: item.name,
+				// phone: item.phone_number,
+				balance: item.balance_usd,
+				status:
+					item.status === "ACTIVE" ? (
+						<BadgeLabel
+							className={`text-xs`}
+							label={"Active"}
+							badgeColor={"#1F66FF"}
+							textColor={"#444"}
+						/>
+					) : (
+						<BadgeLabel
+							className={`text-xs`}
+							label={"Inactive"}
+							badgeColor={"#F85D4B"}
+							textColor={"#444"}
+						/>
+					), //<ActiveYesNo isActive={item.active} />,
+				date: getFormattedDateTime(item.created_at, "en"), //item.date,
+				actions: (
+					<CButton
+						text={"Details"}
+						href={`${urls.cards.root}/${item.id}`}
+						btnStyle={"outlineDark"}
+						// icon={<FourDots />}
 					/>
-				) : (
-					<BadgeLabel
-						className={`text-xs`}
-						label={"Inactive"}
-						badgeColor={"#F85D4B"}
-						textColor={"#444"}
-					/>
-				), //<ActiveYesNo isActive={item.active} />,
-			date: getFormattedDateTime(item.created_at, "en"), //item.date,
-			actions: (
-				<CButton
-					text={"Details"}
-					href={`${urls.cards.root}/${item.user_id}`}
-					btnStyle={"outlineDark"}
-					// icon={<FourDots />}
-				/>
-			),
-		};
-		item = rearrangedItem;
-		return item;
-	});
+				),
+			};
+			item = rearrangedItem;
+			return item;
+		}
+	);
 
 	return (
 		<Layout title={"Cards"}>
@@ -121,10 +132,10 @@ export default function Home() {
 					<CustomTable
 						headerData={headerCardData}
 						tableData={rearrangedTableData}
-						isLoading={allTrxQueryRes?.status == "loading"}
+						isLoading={allCardsQueryRes?.status == "loading"}
 						// threeButtons
 						filter
-						filterType={"transaction"}
+						filterType={"card"}
 						filterContent={filterContent}
 						setFilterContent={setFilterContent}
 						// generateExcel={() => mutationExcel.mutate()}

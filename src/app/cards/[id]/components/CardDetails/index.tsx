@@ -21,6 +21,8 @@ import {
 } from "react-icons/fa";
 import { SiVisa, SiMastercard } from "react-icons/si";
 import { isObject } from "@/utils/utils";
+import { CardService } from "@/api/services/cartevo-api/card";
+import toast from "react-hot-toast";
 
 type Props = {
 	search?: string;
@@ -168,6 +170,96 @@ const CardDetails = ({ search, setSearch }: Props) => {
 		created_at: "Issuing Date",
 		balance_usd: "Balance",
 	};
+
+	const handleFundCard = async (cardId: string) => {
+		if (!cardId) return;
+		const token = localStorage.getItem("sktoken");
+		if (!token) {
+			toast.error("Authentication required");
+			return;
+		}
+
+		try {
+			// For now, show a prompt for amount. In a real app, you'd have a modal
+			const amount = prompt("Enter amount to fund:");
+			if (!amount) return;
+
+			await CardService.fund_card({
+				token,
+				cardId,
+				data: {
+					amount: parseFloat(amount),
+					customer_id: "customer_id_here",
+				}, // You'd get customer_id from context
+			});
+			toast.success("Card funded successfully");
+		} catch (error) {
+			toast.error("Failed to fund card");
+			console.error(error);
+		}
+	};
+
+	const handleWithdrawCard = async (cardId: string) => {
+		if (!cardId) return;
+		const token = localStorage.getItem("sktoken");
+		if (!token) {
+			toast.error("Authentication required");
+			return;
+		}
+
+		try {
+			const amount = prompt("Enter amount to withdraw:");
+			if (!amount) return;
+
+			await CardService.withdraw_card({
+				token,
+				cardId,
+				data: {
+					amount: parseFloat(amount),
+					customer_id: "customer_id_here",
+				},
+			});
+			toast.success("Withdrawal successful");
+		} catch (error) {
+			toast.error("Failed to withdraw from card");
+			console.error(error);
+		}
+	};
+
+	const handleFreezeCard = async (cardId: string) => {
+		if (!cardId) return;
+		const token = localStorage.getItem("sktoken");
+		if (!token) {
+			toast.error("Authentication required");
+			return;
+		}
+
+		try {
+			await CardService.freeze_card({ token, cardId });
+			toast.success("Card frozen successfully");
+		} catch (error) {
+			toast.error("Failed to freeze card");
+			console.error(error);
+		}
+	};
+
+	const handleUnfreezeCard = async (cardId: string) => {
+		if (!cardId) return;
+		const token = localStorage.getItem("sktoken");
+		if (!token) {
+			toast.error("Authentication required");
+			return;
+		}
+
+		try {
+			await CardService.unfreeze_card({ token, cardId });
+			toast.success("Card unfrozen successfully");
+		} catch (error) {
+			toast.error("Failed to unfreeze card");
+			console.error(error);
+		}
+	};
+
 	return (
 		<section className="">
 			<div>
@@ -224,18 +316,33 @@ const CardDetails = ({ search, setSearch }: Props) => {
 
 				{/* Actions */}
 				<div className="grid grid-cols-2 gap-4 mt-4">
-					<button className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition">
-						{/* <FaSyncAlt className="" /> */}
+					<button
+						onClick={() => handleFundCard(cardDetails?.id)}
+						className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
+					>
 						<FaDownload className="" />
 						Fund
 					</button>
-					<button className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition">
+					<button
+						onClick={() => handleWithdrawCard(cardDetails?.id)}
+						className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
+					>
 						<FaUpload className="" />
 						Withdraw
 					</button>
-					<button className="flex-1 flex gap-2 items-center justify-center bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition">
+					<button
+						onClick={() => handleFreezeCard(cardDetails?.id)}
+						className="flex-1 flex gap-2 items-center justify-center bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition"
+					>
 						<FaLock className="" />
-						Deactivate
+						Freeze
+					</button>
+					<button
+						onClick={() => handleUnfreezeCard(cardDetails?.id)}
+						className="flex-1 flex gap-2 items-center justify-center bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition"
+					>
+						<FaLock className="" />
+						Unfreeze
 					</button>
 				</div>
 

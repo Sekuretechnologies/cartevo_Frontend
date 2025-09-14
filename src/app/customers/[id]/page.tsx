@@ -35,11 +35,13 @@ const getCustomer = async ({ queryKey }: any) => {
 };
 
 const getCustomerTransactions = async ({ queryKey }: any) => {
-	const [_key, token, id] = queryKey;
+	const [_key, token, id, page = 1, limit = 20] = queryKey;
 
 	const response = await CustomerService.get_customer_transactions({
 		token,
 		customerId: id,
+		page,
+		limit,
 	});
 	const responseJson = await response.json();
 	if (!response.ok) {
@@ -51,16 +53,18 @@ const getCustomerTransactions = async ({ queryKey }: any) => {
 };
 
 const getCustomerCards = async ({ queryKey }: any) => {
-	const [_key, token, id] = queryKey;
+	const [_key, token, id, page = 1, limit = 20] = queryKey;
 
 	const response = await CustomerService.get_customer_cards({
 		token,
 		customerId: id,
+		page,
+		limit,
 	});
 	const responseJson = await response.json();
 	if (!response.ok) {
 		throw new Error(
-			responseJson.message || "Failed to get user transfers" + id
+			responseJson.message || "Failed to get user cards" + id
 		);
 	}
 	return responseJson.data;

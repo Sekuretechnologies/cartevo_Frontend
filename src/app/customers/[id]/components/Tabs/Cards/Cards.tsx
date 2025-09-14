@@ -2,6 +2,7 @@
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
+import Modal from "@/components/shared/Modal/Modal";
 import urls from "@/config/urls";
 import { headerCardData } from "@/constants/CardData";
 import {
@@ -12,6 +13,8 @@ import { getFormattedDateTime } from "@/utils/DateFormat";
 import { useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import CardDetailsModal from "./modals/CardDetailsModal";
+import AddCardModal from "./modals/AddCardModal";
 
 type Props = {
 	search?: string;
@@ -23,7 +26,7 @@ const Cards = ({ search, setSearch }: Props) => {
 
 	const customerCards: any = useSelector(selectCurrentCustomerCards);
 
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState<boolean | string | number>(false);
 
 	const rearrangedTableData = customerCards?.map((item: any, index: any) => {
 		let mode;
@@ -52,12 +55,28 @@ const Cards = ({ search, setSearch }: Props) => {
 				), //<ActiveYesNo isActive={item.active} />,
 			date: getFormattedDateTime(item.created_at, "en"), //item.date,
 			actions: (
-				<CButton
-					text={"Details"}
-					href={`${urls.cards.root}/${item.user_id}`}
-					btnStyle={"outlineDark"}
-					// icon={<FourDots />}
-				/>
+				<>
+					<div className="flex gap-5">
+						<CButton
+							text={"Details"}
+							onClick={() => setIsOpen(index)}
+							btnStyle={"outlineDark"}
+							// icon={<FourDots />}
+						/>
+						<Modal
+							index={`${index}`}
+							name={"cardDetails"}
+							isOpen={isOpen === index}
+							setIsOpen={setIsOpen}
+							modalContent={
+								<CardDetailsModal
+									setIsOpen={setIsOpen}
+									item={item}
+								/>
+							}
+						/>
+					</div>
+				</>
 			),
 		};
 
@@ -85,14 +104,23 @@ const Cards = ({ search, setSearch }: Props) => {
 					setFilterContent={setFilterContent}
 					btn={
 						<CButton
-							text={"New card"}
+							text={"+ Add card"}
 							btnStyle={"blue"}
-							// href={"/customers/create"}
+							onClick={() => setIsOpen("addCard")}
 							icon={<HiPlus />}
 							// width={"150px"}
 							height={"33px"}
 						/>
 					}
+				/>
+
+				{/* Add Card Modal */}
+				<Modal
+					index={"addCard"}
+					name={"addCard"}
+					isOpen={isOpen === "addCard"}
+					setIsOpen={setIsOpen}
+					modalContent={<AddCardModal setIsOpen={setIsOpen} />}
 				/>
 			</div>
 		</section>

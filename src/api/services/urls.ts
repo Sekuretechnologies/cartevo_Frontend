@@ -11,7 +11,7 @@ export const authUrls = {
 	CREATE_ACCOUNT: `${BASE_URL}/company/register`,
 	REGISTER_STEP1: `${BASE_URL}/company/register/step1`,
 	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
-	LOGIN_WITH_COMPANY: `${BASE_URL_AUTH}/login-with-company`
+	LOGIN_WITH_COMPANY: `${BASE_URL_AUTH}/login-with-company`,
 };
 
 /** COMPANY ============================================================ */
@@ -41,6 +41,14 @@ export const cardsUrls = {
 	GET_CARDS: `${BASE_URL_CARD}`,
 	CREATE_CARD: `${BASE_URL_CARD}`,
 	UPDATE_CARD: `${BASE_URL_CARD}`,
+	GET_ONE_CARD: (id: any) => `${BASE_URL_CARD}/${id}`,
+	GET_CARD_BALANCE: (id: any) => `${BASE_URL_CARD}/${id}/balance`,
+	GET_CARD_TRANSACTIONS: (id: any) => `${BASE_URL_CARD}/${id}/transactions`,
+	FUND_CARD: (id: any) => `${BASE_URL_CARD}/${id}/fund`,
+	WITHDRAW_CARD: (id: any) => `${BASE_URL_CARD}/${id}/withdraw`,
+	FREEZE_CARD: (id: any) => `${BASE_URL_CARD}/${id}/freeze`,
+	UNFREEZE_CARD: (id: any) => `${BASE_URL_CARD}/${id}/unfreeze`,
+	TERMINATE_CARD: (id: any) => `${BASE_URL_CARD}/${id}`,
 };
 
 /** SETTINGS ============================================================ */
@@ -62,7 +70,7 @@ export const settingsUrls = {
 	DELETE_TRANSACTION_FEE: (id: any) =>
 		`${BASE_URL_SETTINGS}/transaction-fees/${id}`,
 	CREATE_TEAM_MEMBER: `${BASE_URL_SETTINGS}/`,
-	GET_TEAM_MEMBERS: `${BASE_URL_SETTINGS}`
+	GET_TEAM_MEMBERS: `${BASE_URL_SETTINGS}`,
 };
 
 /** DEVELOPERS ============================================================ */
