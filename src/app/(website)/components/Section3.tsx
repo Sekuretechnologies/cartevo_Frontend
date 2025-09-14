@@ -13,7 +13,7 @@ const Section3 = () => {
 					backgroundRepeat: "no-repeat",
 				}}
 			>
-				<div className="absolute left-1/2 -translate-x-1/2 w-full flex justify-center bottom-10 z-10">
+				{/* <div className="absolute left-1/2 -translate-x-1/2 w-full flex justify-center bottom-10 z-10">
 					<Image
 						src="/website/home/group.png"
 						alt="Group of people collaborating on fintech solutions"
@@ -22,7 +22,7 @@ const Section3 = () => {
 						loading="lazy"
 						className="w-[80%] h-auto"
 					/>
-				</div>
+				</div> */}
 				<div className="flex absolute top-10 left-1/2 w-full   -translate-x-1/2 flex-col items-center gap-4 z-50 ">
 					<h3 className="w-[250px] h-[35px] border-1 border-white text-[13px] font-semibold flex items-center justify-center rounded-full">
 						For Developers & Businesses
@@ -58,7 +58,7 @@ const Section3 = () => {
 
 				<div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex justify-center">
 					<Image
-						src="/website/home/section3.png"
+						src="/website/home/section3-img.svg"
 						alt="API integration and development tools illustration"
 						width={800}
 						height={400}

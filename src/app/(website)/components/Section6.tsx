@@ -7,7 +7,7 @@ const Section6 = () => {
 			<div
 				className="customContainer h-[750px] md:h-[630px] -mt-2 "
 				style={{
-					backgroundImage: "url('/website/home/noise.png')",
+					backgroundImage: "url('/website/home/africa-bg.svg')",
 					backgroundSize: "cover",
 					backgroundPosition: "center",
 					backgroundRepeat: "no-repeat",
@@ -15,30 +15,30 @@ const Section6 = () => {
 			>
 				<div
 					className="h-full w-full pt-24"
-					style={{
-						backgroundImage: "url('/website/home/grid.png')",
-						backgroundSize: "cover",
-						backgroundPosition: "center",
-						backgroundRepeat: "no-repeat",
-					}}
+					// style={{
+					// 	backgroundImage: "url('/website/home/grid.png')",
+					// 	backgroundSize: "cover",
+					// 	backgroundPosition: "center",
+					// 	backgroundRepeat: "no-repeat",
+					// }}
 				>
-					<Image
+					{/* <Image
 						src="/website/home/carres.png"
 						alt="Geometric design elements representing fintech architecture"
 						width={400}
 						height={300}
 						loading="lazy"
 						className="w-full h-auto"
-					/>
+					/> */}
 				</div>
 				<div
 					className=" absolute bottom-0 left-0 w-full h-[150px] md:h-[200px]"
-					style={{
-						backgroundImage: "url('/website/home/Ellipse.png')",
-						backgroundSize: "cover",
-						backgroundPosition: "center",
-						backgroundRepeat: "no-repeat",
-					}}
+					// style={{
+					// 	backgroundImage: "url('/website/home/Ellipse.png')",
+					// 	backgroundSize: "cover",
+					// 	backgroundPosition: "center",
+					// 	backgroundRepeat: "no-repeat",
+					// }}
 				>
 					{/* <img
 						src="/website/home/Ellipse.png"
@@ -47,14 +47,14 @@ const Section6 = () => {
 					/> */}
 					<div className="relative ">
 						<div className="relative top-0 sm:top-10 lg:top-20 w-full ">
-							<Image
+							{/* <Image
 								src="/website/home/afrik.png"
 								alt="Africa map illustration showing Cartevo's coverage across the continent"
 								width={600}
 								height={400}
 								loading="lazy"
 								className="absolute left-1/2 -translate-x-1/2 -top-5 md:-top-16 lg:-top-28 md:w-[90%] lg:w-[70%] h-auto"
-							/>
+							/> */}
 						</div>
 					</div>
 				</div>

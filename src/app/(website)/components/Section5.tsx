@@ -137,16 +137,24 @@ const Section5 = () => {
 					</button>
 				</div>
 
-				<div className="relative md:w-[800px]  lg:w-[2800px]  flex justify-center  items-end">
+				<div
+					className="relative md:w-[800px]  lg:w-[2800px]  flex justify-center  items-end "
+					// style={{
+					// 	backgroundImage: "url('/website/home/girl2.png')",
+					// 	backgroundSize: "auto 88%",
+					// 	backgroundPosition: "50% 110%",
+					// 	backgroundRepeat: "no-repeat",
+					// }}
+				>
 					<Image
-						src="/website/home/girl.png"
+						src="/website/home/girl2.png"
 						alt="Woman using fintech services illustration showing digital payment solutions"
-						width={800}
-						height={600}
+						width={1300}
+						height={1000}
 						loading="lazy"
-						className="w-full object-contain h-auto"
+						className="absolute bottom-[-5px] w-full object-contain h-auto"
 					/>
-					<Image
+					{/* <Image
 						src="/website/home/section5-2.png"
 						alt="Additional fintech interface elements and tools illustration"
 						width={200}
@@ -154,7 +162,7 @@ const Section5 = () => {
 						loading="lazy"
 						className="absolute top-10 right-10"
 						// w-auto h-auto
-					/>
+					/> */}
 				</div>
 			</div>
 		</section>

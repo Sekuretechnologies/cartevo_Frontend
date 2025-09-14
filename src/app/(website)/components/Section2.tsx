@@ -28,8 +28,8 @@ const Section2 = () => {
 							<Image
 								src="/website/home/mobile.png"
 								alt="Mobile payment illustration showing payment collection across African countries"
-								width={300}
-								height={200}
+								width={490}
+								height={390}
 								loading="lazy"
 								// className="w-auto h-auto"
 							/>

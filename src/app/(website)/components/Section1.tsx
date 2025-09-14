@@ -17,7 +17,25 @@ const Section1 = () => {
 			>
 				{/* <div className="w-full h-full bg-primary/5 top-0 left-0 z-20 absolute "></div> */}
 				<div className=" flex flex-col lg:flex-row  pt-40">
-					<div className="text-center lg:text-start font-poppins lg:w-[45%]">
+					<div
+						className=" lg:absolute lg:bottom-0 lg:-right-0  lg:flex lg:justify-end  lg:px-0 lg:w-[65%] h-full  overflow-y-hidden"
+						style={{
+							backgroundImage: "url('/website/home/hero.png')",
+							backgroundSize: "100% 80%",
+							backgroundPosition: "0% 100%",
+							backgroundRepeat: "no-repeat",
+						}}
+					>
+						{/* <Image
+							src="/website/home/hero.png"
+							alt="Cartevo hero illustration showing fintech solutions"
+							width={800}
+							height={600}
+							priority
+							className="w-full h-auto"
+						/> */}
+					</div>
+					<div className="z-10 text-center lg:text-start font-poppins lg:w-[45%]">
 						<h1 className="text-[42px] font-[700] leading-[45px] mb-4 tracking-tight">
 							Émission de cartes virtuelles par API et paiements
 							intégrés pour
@@ -53,17 +71,6 @@ const Section1 = () => {
 								Contacter le support
 							</a>
 						</div>
-					</div>
-
-					<div className=" lg:absolute lg:bottom-0 lg:-right-0  lg:flex lg:justify-end  lg:px-0 lg:w-[60%] ">
-						<Image
-							src="/website/home/hero.png"
-							alt="Cartevo hero illustration showing fintech solutions"
-							width={800}
-							height={600}
-							priority
-							className="w-full h-auto"
-						/>
 					</div>
 				</div>
 			</div>
