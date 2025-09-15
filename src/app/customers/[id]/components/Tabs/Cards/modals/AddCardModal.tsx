@@ -1,96 +1,95 @@
 import Title from "@/components/shared/Title";
 import cstyle from "../../styles/style.module.scss";
 import { FaTimes, FaCreditCard } from "react-icons/fa";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { CardService } from "@/api/services/cartevo-api/card";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { selectCurrentCustomerDetails } from "@/redux/slices/customer";
+import CButton from "@/components/shared/CButton";
+import { selectCurrentToken } from "@/redux/slices/auth";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface AddCardModalProps {
 	setIsOpen?: (data?: any) => void;
 }
 
-export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
-	const [formData, setFormData] = useState({
-		brand: "visa",
-		amount: "",
-		name: "",
-	});
+const createCardSchema = z.object({
+	brand: z.string(),
+	amount: z.number(),
+	name_on_card: z.string().min(1),
+	customer_id: z.string().min(1),
+});
 
+const handleCreateCard = async (
+	token: string,
+	data: z.infer<typeof createCardSchema>
+) => {
+	const response = await CardService.create_card({
+		token,
+		data,
+	});
+	if (!response.ok) {
+		const responseBody = await response.json();
+		throw new Error(responseBody.message);
+	}
+	const responseJson = await response.json();
+	return responseJson;
+};
+
+export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
+	const currentToken: any = useSelector(selectCurrentToken);
 	const customerDetails = useSelector(selectCurrentCustomerDetails);
 
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-	) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({
-			...prev,
-			[name]: value,
-		}));
-	};
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<z.infer<typeof createCardSchema>>({
+		resolver: zodResolver(createCardSchema),
+		defaultValues: {
+			customer_id: `${customerDetails?.id}`,
+			brand: "VISA",
+			amount: 2,
+			name_on_card: `${customerDetails?.first_name} ${customerDetails?.last_name}`,
+		},
+	});
 
 	// Mutation for creating card
-	const createCardMutation = useMutation(
-		async (cardData: any) => {
-			const token = localStorage.getItem("sktoken");
-			if (!token) {
-				throw new Error("Authentication required");
-			}
+	const createCardMutation = useMutation({
+		mutationFn: (data: any) => handleCreateCard(currentToken, data),
+		onSuccess: () => {
+			toast.success("Card created successfully!");
+			setIsOpen && setIsOpen(false);
 
-			return await CardService.create_card({
-				token,
-				data: cardData,
-			});
+			// Reset form
+			reset();
+
+			// Refresh the page to show new card
+			// window.location.reload();
 		},
-		{
-			onSuccess: () => {
-				toast.success("Card created successfully!");
-				setIsOpen && setIsOpen(false);
+		onError: (error: any) => {
+			console.error("Error creating card:", error);
+			toast.error(error.message || "Failed to create card");
+		},
+	});
 
-				// Reset form
-				setFormData({
-					brand: "visa",
-					amount: "",
-					name: "",
-				});
-
-				// Refresh the page to show new card
-				window.location.reload();
-			},
-			onError: (error: any) => {
-				console.error("Error creating card:", error);
-				toast.error(error.message || "Failed to create card");
-			},
-		}
-	);
-
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-
-		if (!formData.name.trim()) {
-			toast.error("Cardholder name is required");
-			return;
-		}
-
-		if (!formData.amount || parseFloat(formData.amount) <= 0) {
-			toast.error("Please enter a valid amount");
-			return;
-		}
-
+	const onSubmit = (data: any) => {
 		const cardData = {
 			customer_id: customerDetails?.id || "customer_id_here",
-			brand: formData.brand,
-			amount: parseFloat(formData.amount),
-			name: formData.name.trim(),
+			brand: data.brand,
+			amount: parseFloat(data.amount),
+			name_on_card: data.name_on_card.trim(),
 		};
 
 		createCardMutation.mutate(cardData);
 	};
 
 	return (
-		<div className="bg-white m-auto p-8 rounded-md max-w-md w-full max-h-[90vh] overflow-y-auto">
+		<div className="bg-white m-auto p-8 rounded-md w-md max-h-[90vh] overflow-y-auto">
 			<div className="flex justify-between mb-6">
 				<div className="flex items-center gap-3">
 					<FaCreditCard className="text-blue-600" size={24} />
@@ -104,24 +103,7 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 				</div>
 			</div>
 
-			<form onSubmit={handleSubmit} className="space-y-6">
-				{/* Card Brand */}
-				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-2">
-						Card Brand
-					</label>
-					<select
-						name="brand"
-						value={formData.brand}
-						onChange={handleInputChange}
-						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-						required
-					>
-						<option value="visa">Visa</option>
-						<option value="mastercard">Mastercard</option>
-					</select>
-				</div>
-
+			<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 				{/* Cardholder Name */}
 				<div>
 					<label className="block text-sm font-medium text-gray-700 mb-2">
@@ -129,13 +111,38 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 					</label>
 					<input
 						type="text"
-						name="name"
-						value={formData.name}
-						onChange={handleInputChange}
+						{...register("name_on_card", {
+							required: "Cardholder name is required",
+						})}
+						disabled
 						placeholder="Enter cardholder name"
 						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-						required
 					/>
+					{errors.name_on_card && (
+						<p className="text-red-500 text-sm mt-1">
+							{errors.name_on_card.message}
+						</p>
+					)}
+				</div>
+				{/* Card Brand */}
+				<div>
+					<label className="block text-sm font-medium text-gray-700 mb-2">
+						Card Brand
+					</label>
+					<select
+						{...register("brand", {
+							required: "Please select a card brand",
+						})}
+						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+					>
+						<option value="VISA">VISA</option>
+						<option value="MASTERCARD">MASTERCARD</option>
+					</select>
+					{errors.brand && (
+						<p className="text-red-500 text-sm mt-1">
+							{errors.brand.message}
+						</p>
+					)}
 				</div>
 
 				{/* Initial Amount */}
@@ -145,41 +152,53 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 					</label>
 					<input
 						type="number"
-						name="amount"
-						value={formData.amount}
-						onChange={handleInputChange}
+						{...register("amount", {
+							required: "Please enter a valid amount",
+							min: {
+								value: 1,
+								message: "Amount must be at least 1",
+							},
+							valueAsNumber: true,
+						})}
 						placeholder="0.00"
-						min="0"
-						step="0.01"
+						min="2"
+						// step="0.01"
 						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-						required
 					/>
+					{errors.amount && (
+						<p className="text-red-500 text-sm mt-1">
+							{errors.amount.message}
+						</p>
+					)}
 				</div>
 
 				{/* Submit Button */}
-				<div className="flex gap-3 pt-4">
-					<button
-						type="button"
+				<div className="flex flex-col gap-3 pt-4">
+					<CButton
+						text={
+							createCardMutation.isLoading
+								? "Creating..."
+								: "Create Card"
+						}
+						btnStyle={"blue"}
+						type={"submit"}
+						disabled={createCardMutation.isLoading}
+						// width={"150px"}
+						height={"33px"}
+					/>
+					<CButton
+						text={"Cancel"}
+						btnStyle={"outlineDark"}
 						onClick={() => setIsOpen && setIsOpen(false)}
-						className="flex-1 px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
 						disabled={createCardMutation.isLoading}
-					>
-						Cancel
-					</button>
-					<button
-						type="submit"
-						className="flex-1 px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-						disabled={createCardMutation.isLoading}
-					>
-						{createCardMutation.isLoading
-							? "Creating..."
-							: "Create Card"}
-					</button>
+						// width={"150px"}
+						height={"33px"}
+					/>
 				</div>
 			</form>
 
 			{/* Card Preview */}
-			<div className="mt-6 p-4 bg-gray-50 rounded-lg">
+			{/* <div className="mt-6 p-4 bg-gray-50 rounded-lg">
 				<h4 className="text-sm font-medium text-gray-700 mb-2">
 					Preview
 				</h4>
@@ -201,7 +220,7 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 						Balance: ${formData.amount || "0.00"}
 					</div>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 }

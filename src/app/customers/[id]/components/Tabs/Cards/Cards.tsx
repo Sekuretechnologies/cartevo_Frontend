@@ -104,7 +104,7 @@ const Cards = ({ search, setSearch }: Props) => {
 					setFilterContent={setFilterContent}
 					btn={
 						<CButton
-							text={"+ Add card"}
+							text={"Add card"}
 							btnStyle={"blue"}
 							onClick={() => setIsOpen("addCard")}
 							icon={<HiPlus />}

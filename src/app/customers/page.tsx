@@ -88,7 +88,7 @@ export default function Customers() {
 				// balance: item.balance_xaf?.toLocaleString("en-EN"),
 				// nbCards: item.number_of_cards, //item.numberOfCards,
 
-				status: item.active ? (
+				status: item.is_active ? (
 					<BadgeLabel
 						className={`text-xs`}
 						label={"Active"}
