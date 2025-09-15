@@ -24,4 +24,10 @@ export class AuthService {
 		BaseMethods.postRequest(userManagementUrls.REGISTER_USER, info, false);
 	static loginWithCOmpany = (info: any) =>
 		BaseMethods.postRequest(authUrls.LOGIN_WITH_COMPANY, info, false);
+	static acceptInvitation = (info: any) =>
+		BaseMethods.postRequest(
+			userManagementUrls.ACCEPT_INVITATION,
+			info,
+			false
+		);
 }

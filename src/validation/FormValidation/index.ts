@@ -297,7 +297,11 @@ export const registerUserSchema = z.object({
 });
 
 export const LoginWithCompany = z.object({
-	email: z.string(),
 	company_id: z.string().min(1, "Veuillez sélectionner une entreprise"),
+	temp_token: z.string(),
+});
+
+export const AcceptInvitationSchema = z.object({
+	invitationToken: z.string(),
 	password: z.string().min(1, "Le mot de passe est requis"),
 });

@@ -293,7 +293,10 @@ export const operationUrls = {
 export const BASE_URL_USER_MANAGEMENT = `${BASE_URL}/users`;
 export const userManagementUrls = {
 	CREATE_USER: `${BASE_URL_USER_MANAGEMENT}`,
+	// CREATE_USER: `http://127.0.0.1:3001/api/v1/users`,
 	GET_TEAM_MEMBERS: `${BASE_URL_USER_MANAGEMENT}`,
 	DELETE_TEAM_MEMBER: (id: string) => `${BASE_URL_USER_MANAGEMENT}/${id}`,
 	REGISTER_USER: `${BASE_URL_USER_MANAGEMENT}/register`,
+	// ACCEPT_INVITATION: `${BASE_URL_USER_MANAGEMENT}/accept-invitation`,
+	ACCEPT_INVITATION: `http://127.0.0.1:3001/api/v1/users/accept-invitation`,
 };
