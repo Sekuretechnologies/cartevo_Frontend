@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
 import { useTitle } from "@/hooks/useTitle";
@@ -10,10 +10,7 @@ import CButton from "@/components/shared/CButton";
 import { z } from "zod";
 import { LoginWithCompany } from "@/validation/FormValidation";
 import { AuthService } from "@/api/services/cartevo-api/auth";
-import {
-	selectCurrentPassword,
-	selectCurrentUserEmail,
-} from "@/redux/slices/auth";
+import { setCredentials } from "@/redux/slices/auth";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
 import { Form, FormField } from "@/components/ui/form";
@@ -35,7 +32,7 @@ const loginWithCompany = async (data: z.infer<typeof LoginWithCompany>) => {
 
 const SelectCompany = () => {
 	const [selectedCompanyId, setSelectedCompanyId] = useState<string>("");
-
+	const dispatch = useDispatch();
 	const router = useRouter();
 	useTitle("Cartevo | Select-Company");
 
@@ -44,8 +41,6 @@ const SelectCompany = () => {
 		(state: RootState) => state.company.compagnies
 	);
 	const tempToken = useSelector((state: RootState) => state.auth.temp_token);
-	const email = useSelector(selectCurrentUserEmail);
-	const password = useSelector(selectCurrentPassword);
 	const company = useSelector((state: RootState) => state.auth.company);
 	// Form setup
 	const form = useForm<z.infer<typeof LoginWithCompany>>({
@@ -59,10 +54,23 @@ const SelectCompany = () => {
 	// Mutation for company login
 	const mutation = useMutation({
 		mutationFn: loginWithCompany,
-		onSuccess: () => {
+		onSuccess: (data) => {
+			console.log("Verification OTP onSuccess : ", data);
+
+			const token = data.access_token;
+			const user = data.user;
+			const company = data.company;
+
+			dispatch(setCredentials({ token, company, user }));
+
 			toast.success("Authentication Successful");
 
-			router.push(urls.onboarding.root);
+			if (!company?.onboarding_is_completed) {
+				router.push(urls.onboarding.root);
+			} else {
+				router.push(urls.wallets.root);
+			}
+			// router.push(urls.onboarding.root);
 		},
 		onError: () => {
 			toast.error("Login Failed");
