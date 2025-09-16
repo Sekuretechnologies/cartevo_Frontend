@@ -297,6 +297,13 @@ export const userManagementUrls = {
 	GET_TEAM_MEMBERS: `${BASE_URL_USER_MANAGEMENT}`,
 	DELETE_TEAM_MEMBER: (id: string) => `${BASE_URL_USER_MANAGEMENT}/${id}`,
 	REGISTER_USER: `${BASE_URL_USER_MANAGEMENT}/register`,
-	// ACCEPT_INVITATION: `${BASE_URL_USER_MANAGEMENT}/accept-invitation`,
-	ACCEPT_INVITATION: `http://127.0.0.1:3001/api/v1/users/accept-invitation`,
+	ACCEPT_INVITATION: `${BASE_URL_USER_MANAGEMENT}/accept-invitation`,
+};
+
+export const ADMIN_BASE_URL = `${BASE_URL}/admin`;
+export const adminUrls = {
+	// GET_COMPANIES: `${ADMIN_BASE_URL}/get-all-companies`,
+	GET_COMPANIES: `http://127.0.0.1:3001/api/v1/admin/get-all-companies`,
+	HANDLE_KYC: `${ADMIN_BASE_URL}/handle-kyc`,
+	HANDLE_KYB: `${ADMIN_BASE_URL}/handle-kyb`,
 };

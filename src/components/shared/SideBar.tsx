@@ -14,6 +14,7 @@ import {
 	Accueil,
 	Cards,
 	Developers,
+	Identity,
 	Parameters,
 	Transaction,
 	Users,
@@ -29,6 +30,8 @@ import { FaFilterCircleDollar } from "react-icons/fa6";
 import { IoIosSend } from "react-icons/io";
 import { useSelector } from "react-redux";
 import cstyle from "./styles/sidebar-style.module.scss";
+import { title } from "process";
+import { count } from "console";
 
 interface ISideBarLinks {
 	title: string;
@@ -108,6 +111,14 @@ const SideBar = (props: Props) => {
 			path: urls.settings.root,
 			count: null,
 			icon: <Parameters />,
+		},
+		{
+			title: "Approvals",
+			slug: "Approvals",
+			canSee: true,
+			path: urls.Approvals.root,
+			count: null,
+			icon: <Identity />,
 		},
 	];
 

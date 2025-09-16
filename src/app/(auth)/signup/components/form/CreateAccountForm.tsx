@@ -747,7 +747,7 @@ export default function CreateAccountForm() {
 				{/* <Link href="#" className="text-gray-800 font-semibold text-righttext-md">Forgotten Password?</Link> */}
 				<div className="mt-8">
 					<CButton
-						text={"Create account"}
+						text={"Créer un compte"}
 						btnStyle={"blue"}
 						type={"submit"}
 						width={"250px"}

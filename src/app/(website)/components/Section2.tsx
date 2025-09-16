@@ -38,7 +38,7 @@ const Section2 = () => {
 						{/* Texte + bouton */}
 						<div className="flex flex-col items-center flex-1 text-center md:text-left md:items-start">
 							<p className="border text-[13px] border-[#222222] px-8 py-2 w-fit rounded-full hover:bg-[#222222] duration-300 hover:text-white mb-4">
-								Payment as a service
+								Paiement en tant que service
 							</p>
 							<h2 className="text-[30px] font-[700] leading-8 mb-4">
 								<span className="text-primary">
@@ -70,7 +70,7 @@ const Section2 = () => {
 					</div>
 
 					{/* Bloc 2 */}
-					<div className="flex flex-col">
+					<div className="flex flex-col mt-8 md:mt-0" >
 						{/* Images */}
 						<div className="w-full h-[243px] bg-[#DBEDF3] rounded-[15px] mb-8 flex items-end justify-center">
 							<Image
@@ -86,7 +86,7 @@ const Section2 = () => {
 						{/* Texte + bouton */}
 						<div className="flex flex-col flex-1 text-center md:text-left md:items-start">
 							<p className="border px-8 text-[13px] py-2 w-fit rounded-full hover:bg-[#222222] border-[#222222] duration-300 hover:text-white mb-4">
-								Card as a service
+								Carte en tant que service
 							</p>
 							<h2 className="text-[30px] font-[700] leading-8 mb-4">
 								<span className="text-blue-primary">
