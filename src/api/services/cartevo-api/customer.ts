@@ -39,7 +39,7 @@ export class CustomerService {
 		page?: number;
 		limit?: number;
 	}) => {
-		let query_params: any = { sync: true };
+		let query_params: any = {}; // { sync: true };
 		if (page) query_params.page = page;
 		if (limit) query_params.limit = limit;
 		return BaseMethods.getRequest(
