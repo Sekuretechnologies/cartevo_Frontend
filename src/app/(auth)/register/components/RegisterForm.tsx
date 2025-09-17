@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { registerUserSchema } from "@/validation/FormValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -37,14 +37,16 @@ const handleRegisterForm = async (data: z.infer<typeof registerUserSchema>) => {
 const RegisterForm = () => {
 	const router = useRouter();
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
-
+	const searchParams = useSearchParams();
+	const token = searchParams.get("token");
 	const form = useForm<z.infer<typeof registerUserSchema>>({
 		resolver: zodResolver(registerUserSchema),
 		defaultValues: {
 			email: "",
-			invitation_code: "",
+			token: token ?? undefined,
 			password: "",
-			full_name: "",
+			first_name: "",
+			last_name: "",
 		},
 	});
 
@@ -70,32 +72,55 @@ const RegisterForm = () => {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
-				<div>
+				<div className=" mt-20 lg:mt-0">
 					<div>
 						<h1 className="text-[30px] font-poppins tracking-tight font-bold mb-8">
 							Register Your Account
 						</h1>
 					</div>
-					<FormField
-						control={form.control}
-						name="full_name"
-						render={({ field }) => (
-							<FormItem className="mb-2">
-								<FormLabel className=" text-[12px] font-semibold tracking-tight">
-									full Name
-									<span className="text-red-500">*</span>
-								</FormLabel>
-								<FormControl>
-									<Input
-										className="px-6 w-full bg-app-lightgray"
-										placeholder="Your name here"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage className="text-red-400" />
-							</FormItem>
-						)}
-					/>
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+						<FormField
+							control={form.control}
+							name="first_name"
+							render={({ field }) => (
+								<FormItem className="mb-2">
+									<FormLabel className=" text-[12px] font-semibold tracking-tight">
+										First Name
+										<span className="text-red-500">*</span>
+									</FormLabel>
+									<FormControl>
+										<Input
+											className="px-6 w-full bg-app-lightgray"
+											placeholder="Your first name here"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage className="text-red-400" />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="last_name"
+							render={({ field }) => (
+								<FormItem className="mb-2">
+									<FormLabel className=" text-[12px] font-semibold tracking-tight">
+										Last Name
+										<span className="text-red-500">*</span>
+									</FormLabel>
+									<FormControl>
+										<Input
+											className="px-6 w-full bg-app-lightgray"
+											placeholder="Your first name here"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage className="text-red-400" />
+								</FormItem>
+							)}
+						/>
+					</div>
 
 					<FormField
 						control={form.control}
@@ -118,7 +143,7 @@ const RegisterForm = () => {
 						)}
 					/>
 
-					<FormField
+					{/* <FormField
 						control={form.control}
 						name="invitation_code"
 						render={({ field }) => (
@@ -137,7 +162,7 @@ const RegisterForm = () => {
 								<FormMessage className="text-red-400" />
 							</FormItem>
 						)}
-					/>
+					/> */}
 
 					<FormField
 						control={form.control}

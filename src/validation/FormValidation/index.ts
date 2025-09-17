@@ -284,8 +284,9 @@ export const teamMemberSchema = z.object({
 
 export const registerUserSchema = z.object({
 	email: z.string().email("Invalid email"),
-	invitation_code: z.string().min(1, "Invitation code is required"),
-	full_name: z.string().min(1, "Full name is required"),
+	token: z.string().min(1, "Invitation code is required"),
+	first_name: z.string().min(1, "First name is required"),
+	last_name: z.string().min(1, "Last name is required"),
 	password: z
 		.string()
 		.min(8, "Password must be at least 8 characters")
@@ -297,7 +298,11 @@ export const registerUserSchema = z.object({
 });
 
 export const LoginWithCompany = z.object({
-	email: z.string(),
 	company_id: z.string().min(1, "Veuillez sélectionner une entreprise"),
+	temp_token: z.string(),
+});
+
+export const AcceptInvitationSchema = z.object({
+	invitationToken: z.string(),
 	password: z.string().min(1, "Le mot de passe est requis"),
 });

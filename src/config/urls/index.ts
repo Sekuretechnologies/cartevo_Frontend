@@ -50,6 +50,10 @@ const URLConfig = {
 	//   Login
 	login: "/login",
 
+	Approvals: {
+		...Approvals(),
+	},
+
 	// Admin Module
 	// ADMIN: {
 	// ...APPURLS.admin(URL_PREFIX.ADMIN),
@@ -119,6 +123,13 @@ function cards(prefix: string = "") {
 
 function settings(prefix: string = "") {
 	const PATH = `${rootUrl}settings`;
+	return {
+		root: PATH,
+	};
+}
+
+function Approvals(prefix: string = "") {
+	const PATH = `${rootUrl}approvals`;
 	return {
 		root: PATH,
 	};

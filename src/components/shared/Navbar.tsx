@@ -165,7 +165,7 @@ export default function Navbar(props: Props) {
 					)}
 
 					<h1 className="font-semibold text-xl md:text-2xl pl-1 py-0">
-						{currentCompany.name} | {title}
+						{currentCompany?.name} | {title}
 					</h1>
 				</div>
 				<div className="flex justify-between items-center gap-3">
