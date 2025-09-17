@@ -87,7 +87,11 @@ export default function ManageUserAccount() {
 			toast.error("Failed to get user : " + id);
 		},
 		// enabled: false,
-		refetchInterval: 300000, // Fetches data every 300 seconds / 5 mins
+		refetchOnWindowFocus: false,
+		refetchOnReconnect: false,
+		refetchOnMount: false,
+		staleTime: Infinity,
+		// refetchInterval: 300000, // Fetches data every 300 seconds / 5 mins - Disabled
 	});
 	dispatch(setCurrentCustomerDetails(oneUserQueryRes.data));
 	console.log("userQueryRes.data : ", oneUserQueryRes.data);
@@ -100,7 +104,11 @@ export default function ManageUserAccount() {
 			toast.error("Failed to get user Transactions : " + id);
 		},
 		// enabled: false,
-		refetchInterval: 300000, // Fetches data every 300 seconds / 5 mins
+		refetchOnWindowFocus: false,
+		refetchOnReconnect: false,
+		refetchOnMount: false,
+		staleTime: Infinity,
+		// refetchInterval: 300000, // Fetches data every 300 seconds / 5 mins - Disabled
 	});
 	dispatch(setCurrentCustomerTransactions(customerTransactionsQueryRes.data));
 	console.log(
@@ -116,7 +124,11 @@ export default function ManageUserAccount() {
 			toast.error("Failed to get user Cards : " + id);
 		},
 		// enabled: false,
-		refetchInterval: 300000, // Fetches data every 300 seconds / 5 mins
+		refetchOnWindowFocus: false,
+		refetchOnReconnect: false,
+		refetchOnMount: false,
+		staleTime: Infinity,
+		// refetchInterval: 300000, // Fetches data every 300 seconds / 5 mins - Disabled
 	});
 	dispatch(setCurrentCustomerCards(customerCardsQueryRes.data));
 	console.log("customerCardsQueryRes.data : ", customerCardsQueryRes.data);
