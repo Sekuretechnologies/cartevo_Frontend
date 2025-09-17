@@ -79,11 +79,12 @@ export class CustomerService {
 		token: string;
 		data: any;
 	}) => {
+		let query_params: any = { enroll: true };
 		return BaseMethods.postFileRequest(
 			customersUrls.CREATE_CUSTOMER,
 			data,
 			true,
-			{},
+			query_params,
 			token
 		);
 	};
