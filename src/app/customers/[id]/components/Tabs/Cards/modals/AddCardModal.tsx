@@ -33,6 +33,10 @@ const handleCreateCard = async (
 		token,
 		data,
 	});
+	if (response.status === 504) {
+		// Special handling for 504 Gateway Timeout
+		throw new Error("504");
+	}
 	if (!response.ok) {
 		const responseBody = await response.json();
 		throw new Error(responseBody.message);
@@ -75,7 +79,15 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 		},
 		onError: (error: any) => {
 			console.error("Error creating card:", error);
-			toast.error(error.message || "Failed to create card");
+			if (error.message === "504") {
+				// Special handling for 504 Gateway Timeout
+				toast.success("Card creation initiated");
+				setIsOpen && setIsOpen(false);
+				reset();
+				window.location.reload();
+			} else {
+				toast.error(error.message || "Failed to create card");
+			}
 		},
 	});
 
