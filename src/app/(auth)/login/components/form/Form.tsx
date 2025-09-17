@@ -37,13 +37,8 @@ const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 	if (!response.ok) {
 		const responseBody = await response.json();
 		// console.error(response);
-		if (response.status === 403) {
-			throw new Error(responseBody.message);
-		} else {
-			throw new Error(
-				"Echec authentification. Veuillez indiquer votre email et votre mot de passe !"
-			);
-		}
+
+		throw new Error(responseBody.message);
 	}
 	const responseJson = await response.json();
 	return responseJson;
@@ -79,16 +74,14 @@ export default function LoginForm() {
 			toast.success("Login successful! Redirecting...");
 			//-----------------------------------
 			// dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
+			console.log("data", data);
 
-			if (!data.requires_otp) {
-				dispatch(
-					setCurrentPassword({ password: form.getValues("password") })
-				);
-				dispatch(setCompagnies(data.companies)); // -->> suavegarde dans le resuc store
-				router.push("/select-company");
-			} else {
-				router.push("/verify-otp");
-			}
+			dispatch(
+				setCurrentPassword({ password: form.getValues("password") })
+			);
+			dispatch(setCompagnies(data.companies)); // -->> sauvegarde dans le  store
+
+			router.push("/verify-otp");
 
 			//-----------------------------------
 			// if (!company?.onboarding_is_completed) {

@@ -60,8 +60,8 @@ const Section6 = () => {
 				</div>
 
 				<div className="flex flex-col items-center font-poppins text-white pt-12 gap-4 text-center absolute z-30 top-0 left-1/2 -translate-x-1/2">
-					<h3 className="w-[250px] h-[35px] border-1 border-white text-[13px] font-semibold font-poppins flex items-center justify-center rounded-full">
-						For Developers & Businesses
+					<h3 className="w-[350px] h-[35px] border-1 text-center  whitespace-nowrap  border-white text-[13px] font-semibold flex items-center justify-center rounded-full">
+						Pour les développeurs et les entreprises
 					</h3>
 					<h1 className="text-[50px] tracking-tight font-semibold text-center leading-[45px]">
 						Commencez à construire avec{" "}

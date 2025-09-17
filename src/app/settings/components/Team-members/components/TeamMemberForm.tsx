@@ -52,8 +52,8 @@ const handleMemberInfo = async (
 
 const userRoles = [
 	{
-		key: "user",
-		label: "User",
+		key: "member",
+		label: "Member",
 	},
 	{
 		key: "admin",

@@ -2,7 +2,7 @@ import { AuthService } from "@/api/services/cartevo-api/auth";
 import CButton from "@/components/shared/CButton";
 import { Form } from "@/components/ui/form";
 import urls from "@/config/urls";
-import { setCredentials } from "@/redux/slices/auth";
+import { setCredentials, setTempToken } from "@/redux/slices/auth";
 import { verifyOtpSchema } from "@/validation/FormValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
 import { z } from "zod";
 import { selectCurrentUserEmail } from "@/redux/slices/auth";
+import { setCompagnies } from "@/redux/slices/companySlice";
 
 const handleVerifyOtp = async (data: z.infer<typeof verifyOtpSchema>) => {
 	const response = await AuthService.verifyOtp(data);
@@ -73,13 +74,18 @@ export default function VerifyOtpForm() {
 			// localStorage.setItem("access_token", token);
 			toast.success("OTP Verified successfully! Redirecting...");
 			dispatch(setCredentials({ token, company, user }));
-			//-----------------------------------
-			if (!company?.onboarding_is_completed) {
-				router.push(urls.onboarding.root);
+
+			if (data.requires_company_selection) {
+				dispatch(setCompagnies(data.companies));
+				dispatch(setTempToken(data.temp_token));
+				router.push("/select-company");
 			} else {
-				router.push(urls.wallets.root);
+				if (!company?.onboarding_is_completed) {
+					router.push(urls.onboarding.root);
+				} else {
+					router.push(urls.wallets.root);
+				}
 			}
-			//-----------------------------------
 		},
 	});
 

@@ -5,12 +5,12 @@ import RegisterForm from "./components/RegisterForm";
 const Register = () => {
 	return (
 		<section className="relative flex flex-col mt-0 w-full">
-			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] flex items-center">
+			<nav className="absolute z-10 top-0 left-10 lg:left-[150px]  h-[80px] flex items-center">
 				<a href="/">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>
-			<div className="w-full  grid grid-cols-2 font-poppins ">
+			<div className="w-full   grid grid-cols-1 lg:grid-cols-2 font-poppins ">
 				<div
 					style={{
 						backgroundImage:
@@ -19,7 +19,7 @@ const Register = () => {
 						backgroundPosition: "center",
 						backgroundRepeat: "no-repeat",
 					}}
-					className="font-poppins bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  flex flex-col justify-center gap-4 items-center  text-center lg:text-left"
+					className="font-poppins hidden  bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4 items-center  text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight">
 						Gérez, encaissez et développez avec une suite complète
