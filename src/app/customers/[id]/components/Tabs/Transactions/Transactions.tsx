@@ -63,7 +63,7 @@ const Transactions = ({ search, setSearch }: Props) => {
 				country: item.country,
 				phone: item.phone_number,
 				idTrx: item.id,
-				amount: item.amount_xaf?.toLocaleString("en-EN") ?? 0,
+				amount: item.amount?.toLocaleString("en-EN") ?? 0,
 				status:
 					item.status == "SUCCESS" ? (
 						<BadgeLabel
