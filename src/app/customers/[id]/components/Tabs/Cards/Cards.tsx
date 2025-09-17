@@ -36,7 +36,7 @@ const Cards = ({ search, setSearch }: Props) => {
 			number: `${item.masked_number}`,
 			name: item.name,
 			// phone: item.phone_number,
-			balance: item.balance_usd,
+			balance: item.balance,
 			status:
 				item.status === "ACTIVE" ? (
 					<BadgeLabel

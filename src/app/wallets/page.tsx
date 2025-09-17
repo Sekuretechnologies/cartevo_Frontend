@@ -40,6 +40,7 @@ import { selectCurrentToken, selectCurrentUser } from "@/redux/slices/auth";
 import {
 	fetchExchangeRates,
 	fetchTransactionFees,
+	selectCurrentMode,
 	selectExchangeRates,
 	selectTransactionFees,
 } from "@/redux/slices_v2/settings";
@@ -47,6 +48,9 @@ import { HiDownload } from "react-icons/hi";
 import { WalletService } from "@/api/services/cartevo-api/wallets";
 import DepositToUSDWalletModal from "@/components/cards/DepositToUSDWalletModal";
 import { ItemFlag } from "@/components/shared/ItemFlag";
+import CreditTestWalletModal, {
+	CreditTestWalletSubmitProps,
+} from "@/components/cards/CreditTestUSDWalletModal";
 
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
@@ -225,12 +229,33 @@ const depositToWallet = async (
 	}
 	return responseJson.data;
 };
+const creditTestWallet = async (
+	token: string,
+	data: CreditTestWalletSubmitProps
+) => {
+	console.log("creditTestWallet : data :", data);
+
+	let params: any = {};
+	const response = await WalletService.credit_test_wallet({
+		token: token,
+		body: { ...data, sandbox: true },
+	});
+	const responseJson = await response.json();
+	if (!response.ok) {
+		throw new Error(responseJson.message || "Failed to credit test wallet");
+	}
+	return responseJson.data;
+};
 
 export default function Home() {
 	useTitle("Cartevo | wallets", true);
 
 	const currentToken: any = useSelector(selectCurrentToken);
 	const currentUser: any = useSelector(selectCurrentUser);
+	const currentEnvMode: any = useSelector(selectCurrentMode);
+	console.log("currentEnvMode :: ", currentEnvMode);
+	console.log("currentEnvMode :: ", currentEnvMode);
+	console.log("currentEnvMode :: ", currentEnvMode);
 
 	const [filterContent, setFilterContent] = useState({});
 	const [loadTransactions, setLoadTransactions] = useState(false);
@@ -254,30 +279,6 @@ export default function Home() {
 	const transactionsSectionRef = useRef<HTMLDivElement>(null);
 	// dispatch(setSearchTerm(''));
 	const searchTerm: string = useSelector(selectSearchTerm);
-
-	// Intersection Observer to load transactions when user scrolls to the section
-	// useEffect(() => {
-	// 	const observer = new IntersectionObserver(
-	// 		(entries) => {
-	// 			entries.forEach((entry) => {
-	// 				if (entry.isIntersecting && !loadTransactions) {
-	// 					setLoadTransactions(true);
-	// 				}
-	// 			});
-	// 		},
-	// 		{ threshold: 0.1 } // Trigger when 10% of the element is visible
-	// 	);
-
-	// 	if (transactionsSectionRef.current) {
-	// 		observer.observe(transactionsSectionRef.current);
-	// 	}
-
-	// 	return () => {
-	// 		if (transactionsSectionRef.current) {
-	// 			observer.unobserve(transactionsSectionRef.current);
-	// 		}
-	// 	};
-	// }, [loadTransactions]);
 
 	//------------------------------------------------
 	// Lazy load transactions - only when user scrolls to transactions section
@@ -338,6 +339,20 @@ export default function Home() {
 	const depositToWalletMutation = useMutation(
 		(data: DespoitToWalletSubmitProps) =>
 			depositToWallet(currentToken, data),
+		{
+			onSuccess: () => {
+				toast.success("Wallet deposit done successfully!");
+				companyWalletsQueryRes.refetch(); // Refetch wallets after funding
+				companyTransactionsQueryRes.refetch(); // Refetch transactions
+			},
+			onError: (err) => {
+				toast.error("Failed to fund wallet.");
+			},
+		}
+	);
+	const creditTestWalletMutation = useMutation(
+		(data: CreditTestWalletSubmitProps) =>
+			creditTestWallet(currentToken, data),
 		{
 			onSuccess: () => {
 				toast.success("Wallet deposit done successfully!");
@@ -433,13 +448,19 @@ export default function Home() {
 							<CButton
 								text={
 									wallet.currency === "USD"
-										? "Deposit"
+										? currentEnvMode === "sandbox"
+											? "Credit test wallet"
+											: "Deposit"
 										: "Fund"
 								}
 								btnStyle={"blue"}
 								onClick={() => {
 									if (wallet.currency === "USD") {
-										depositToWalletMutation.reset();
+										if (currentEnvMode === "sandbox") {
+											creditTestWalletMutation.reset();
+										} else {
+											depositToWalletMutation.reset();
+										}
 									} else {
 										fundWalletMutation.reset();
 									}
@@ -578,19 +599,42 @@ export default function Home() {
 					}
 					modalContent={
 						fundModalData.wallet?.currency === "USD" ? (
-							<DepositToUSDWalletModal
-								setIsOpen={() =>
-									setFundModalData({
-										isOpen: false,
-										wallet: null,
-									})
-								}
-								onSubmit={depositToWalletMutation.mutate}
-								isLoading={depositToWalletMutation.isLoading}
-								isSuccess={depositToWalletMutation.isSuccess}
-								isError={depositToWalletMutation.isError}
-								wallets={companyWalletsQueryRes?.data || []}
-							/>
+							currentEnvMode === "sandbox" ? (
+								<CreditTestWalletModal
+									setIsOpen={() =>
+										setFundModalData({
+											isOpen: false,
+											wallet: null,
+										})
+									}
+									onSubmit={creditTestWalletMutation.mutate}
+									isLoading={
+										creditTestWalletMutation.isLoading
+									}
+									isSuccess={
+										creditTestWalletMutation.isSuccess
+									}
+									isError={creditTestWalletMutation.isError}
+								/>
+							) : (
+								<DepositToUSDWalletModal
+									setIsOpen={() =>
+										setFundModalData({
+											isOpen: false,
+											wallet: null,
+										})
+									}
+									onSubmit={depositToWalletMutation.mutate}
+									isLoading={
+										depositToWalletMutation.isLoading
+									}
+									isSuccess={
+										depositToWalletMutation.isSuccess
+									}
+									isError={depositToWalletMutation.isError}
+									wallets={companyWalletsQueryRes?.data || []}
+								/>
+							)
 						) : (
 							<FundLocalCurrencyWalletModal
 								setIsOpen={() =>
