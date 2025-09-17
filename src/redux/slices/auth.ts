@@ -8,8 +8,12 @@ const authSlice = createSlice({
 		user: null,
 		user_email: null,
 		user_password: null,
+		temp_token: null,
 	},
 	reducers: {
+		setTempToken: (state, action) => {
+			state.temp_token = action.payload;
+		},
 		setCredentials: (state, action) => {
 			const { token, company, user } = action.payload;
 			state.token = token;
@@ -37,6 +41,7 @@ const authSlice = createSlice({
 });
 
 export const {
+	setTempToken,
 	setCredentials,
 	setCurrentCompany,
 	setCurrentUserEmail,
@@ -53,3 +58,4 @@ export const selectCurrentToken = (state: any) => state.auth.token;
 export const selectCurrentGetSekureApiToken = (state: any) =>
 	state.auth.getSekureApiToken;
 export const selectCurrentPassword = (state: any) => state.auth.user_password;
+export const selectTempToken = (state: any) => state.auth.temp_token;

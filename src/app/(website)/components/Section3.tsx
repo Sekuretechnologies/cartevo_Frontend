@@ -24,8 +24,8 @@ const Section3 = () => {
 					/>
 				</div> */}
 				<div className="flex absolute top-10 left-1/2 w-full   -translate-x-1/2 flex-col items-center gap-4 z-50 ">
-					<h3 className="w-[250px] h-[35px] border-1 border-white text-[13px] font-semibold flex items-center justify-center rounded-full">
-						For Developers & Businesses
+					<h3 className="w-[350px] h-[35px] border-1 text-center  whitespace-nowrap  border-white text-[13px] font-semibold flex items-center justify-center rounded-full">
+						Pour les développeurs et les entreprises
 					</h3>
 					<h1 className="text-[37px] text-white font-semibold text-center max-w-[900px] leading-[45px]">
 						Intégrez nos API et développez, vos propres solutions de{" "}

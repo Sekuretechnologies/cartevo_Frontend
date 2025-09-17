@@ -21,19 +21,29 @@ interface PhoneInputProps {
 	onChange: (number: string, code: string) => void;
 }
 
+const normalize = (str: string) => str.toLowerCase();
+
 const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 	const [selectedCountry, setSelectedCountry] = useState<Country>(
 		countries[0]
 	);
 	const [isOpen, setIsOpen] = useState(false);
+	const [inputValue, setInputValue] = useState(value);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const handleSelect = (country: Country) => {
 		setSelectedCountry(country);
-		setIsOpen(false);
-		const numberWithoutCode = value.replace(/^\+\d+/, "");
+		const numberWithoutCode = inputValue.replace(/^\+\d+/, "");
 		onChange(numberWithoutCode, country.dialCode);
+		setIsOpen(false);
 	};
+
+	// Filtrer les pays en temps réel selon la saisie
+	const filteredCountries = countries.filter(
+		(c) =>
+			normalize(c.name).includes(normalize(inputValue)) ||
+			c.dialCode.startsWith(inputValue)
+	);
 
 	// Fermer le dropdown si clic à l'extérieur
 	useEffect(() => {
@@ -47,9 +57,8 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 		};
 
 		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
+		return () =>
 			document.removeEventListener("mousedown", handleClickOutside);
-		};
 	}, []);
 
 	return (
@@ -74,7 +83,16 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 			{/* Dropdown pays */}
 			{isOpen && (
 				<div className="absolute top-full left-0 mt-2 w-56 bg-white border rounded-xl shadow-lg max-h-60 overflow-y-auto z-50">
-					{countries.map((country) => (
+					{/* Input recherche */}
+					<input
+						type="text"
+						value={inputValue}
+						onChange={(e) => setInputValue(e.target.value)}
+						placeholder="Rechercher un pays ou code"
+						className="w-full px-3 py-2 border-b border-gray-200 focus:outline-none"
+					/>
+					{/* Liste filtrée en temps réel */}
+					{filteredCountries.map((country) => (
 						<button
 							key={country.dialCode}
 							type="button"
