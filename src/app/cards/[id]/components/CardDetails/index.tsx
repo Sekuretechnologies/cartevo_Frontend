@@ -332,7 +332,13 @@ const CardDetails = ({ search, setSearch }: Props) => {
 				</div>
 
 				{/* Card */}
-				<div className="bg-blue-600 text-white rounded-xl p-6 mt-6">
+				<div
+					className={`bg-blue-600 text-white rounded-xl p-6 mt-6 relative ${
+						cardDetails?.status?.toUpperCase() !== "ACTIVE"
+							? "blur-sm"
+							: ""
+					}`}
+				>
 					<div className="flex justify-between items-center mb-4">
 						<div className="flex items-center space-x-2">
 							{/* <FaMicrochip size={24} /> */}
@@ -367,24 +373,39 @@ const CardDetails = ({ search, setSearch }: Props) => {
 							</span>
 						</div>
 					</div>
+					{(cardDetails?.status?.toUpperCase() === "FROZEN" ||
+						cardDetails?.status?.toUpperCase() ===
+							"TERMINATED") && (
+						<div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-xl">
+							{/* <span className="text-white font-bold text-lg uppercase">
+								{cardDetails?.status?.toUpperCase()}
+							</span> */}
+						</div>
+					)}
 				</div>
 
 				{/* Actions */}
 				<div className="grid grid-cols-2 gap-4 mt-4">
-					<button
-						onClick={() => setIsFundModalOpen(true)}
-						className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
-					>
-						<FaDownload className="" />
-						Fund
-					</button>
-					<button
-						onClick={() => setIsWithdrawModalOpen(true)}
-						className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
-					>
-						<FaUpload className="" />
-						Withdraw
-					</button>
+					{cardDetails?.status?.toUpperCase() === "ACTIVE" ? (
+						<>
+							<button
+								onClick={() => setIsFundModalOpen(true)}
+								className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
+							>
+								<FaDownload className="" />
+								Fund
+							</button>
+							<button
+								onClick={() => setIsWithdrawModalOpen(true)}
+								className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
+							>
+								<FaUpload className="" />
+								Withdraw
+							</button>
+						</>
+					) : (
+						<></>
+					)}
 					{cardDetails.status?.toUpperCase() === "ACTIVE" ? (
 						<button
 							onClick={() => setIsFreezeModalOpen(true)}
