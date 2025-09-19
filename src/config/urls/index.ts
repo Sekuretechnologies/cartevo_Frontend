@@ -117,7 +117,7 @@ function cards(prefix: string = "") {
 	const PATH = `${rootUrl}cards`;
 	return {
 		root: PATH,
-		manage: `${PATH}manage`,
+		// manage: `${PATH}manage`,
 	};
 }
 

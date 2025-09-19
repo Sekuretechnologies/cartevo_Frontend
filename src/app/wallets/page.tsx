@@ -51,6 +51,7 @@ import { ItemFlag } from "@/components/shared/ItemFlag";
 import CreditTestWalletModal, {
 	CreditTestWalletSubmitProps,
 } from "@/components/cards/CreditTestUSDWalletModal";
+import { sortByCreatedAtDescending } from "@/utils/utils";
 
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
@@ -484,20 +485,19 @@ export default function Home() {
 
 		if (companyTransactionsQueryRes?.data) {
 			// Sort transactions by created_at descending (most recent first)
-			const sortedTransactions = [
+
+			const sortedTransactions = sortByCreatedAtDescending([
 				...companyTransactionsQueryRes.data,
-			].sort(
-				(a: any, b: any) =>
-					new Date(b.created_at).getTime() -
-					new Date(a.created_at).getTime()
-			);
+			]);
 
 			rearrangedTableData = sortedTransactions.map(
 				(item: any, index: any) => ({
 					serial: index + 1,
 					type: getCategoryTypeV2(item.category, item.type),
 					// name: item.merchant?.name,
-					wallet: `${item.wallet?.country_iso_code} - ${item.wallet?.currency}`,
+					wallet: `${item.wallet?.country_iso_code || ""} - ${
+						item.wallet?.currency || ""
+					}`,
 					phone: item.phone_number && `${item.phone_number}`,
 					idTrx: item.id,
 					currency: item.currency,

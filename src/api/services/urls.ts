@@ -40,7 +40,7 @@ export const BASE_URL_CARD = `${BASE_URL}/cards`;
 export const cardsUrls = {
 	GET_CARDS: `${BASE_URL_CARD}`,
 	CREATE_CARD: `${BASE_URL_CARD}`,
-	UPDATE_CARD: `${BASE_URL_CARD}`,
+	// UPDATE_CARD: `${BASE_URL_CARD}`,
 	GET_ONE_CARD: (id: any) => `${BASE_URL_CARD}/${id}`,
 	GET_CARD_BALANCE: (id: any) => `${BASE_URL_CARD}/${id}/balance`,
 	GET_CARD_TRANSACTIONS: (id: any) => `${BASE_URL_CARD}/${id}/transactions`,

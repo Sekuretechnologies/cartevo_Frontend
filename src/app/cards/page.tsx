@@ -22,6 +22,7 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { CardService } from "@/api/services/cartevo-api/card";
 import { headerCardData } from "@/constants/CardData";
+import { selectCurrentToken } from "@/redux/slices/auth";
 
 const CountryFlags: any = CFlags;
 
@@ -29,8 +30,7 @@ const ItemFlagCM = CountryFlags["CM"];
 const ItemFlagUS = CountryFlags["US"];
 
 const getAllCards = async ({ queryKey }: any) => {
-	const [_key, filter, st] = queryKey;
-	const token = localStorage.getItem("sktoken");
+	const [_key, token, filter, st] = queryKey;
 
 	if (!token) {
 		throw new Error("No authentication token found");
@@ -54,9 +54,9 @@ const getAllCards = async ({ queryKey }: any) => {
 	return responseJson.data;
 };
 
-export default function Home() {
+export default function Cards() {
 	useTitle("Cartevo | Cards", true);
-
+	const currentToken: any = useSelector(selectCurrentToken);
 	const [searchTrx, setSearchTrx] = useState("");
 	const [filterContent, setFilterContent] = useState({});
 
@@ -66,7 +66,7 @@ export default function Home() {
 	const searchTerm: string = useSelector(selectSearchTerm);
 
 	const allCardsQueryRes = useQuery({
-		queryKey: ["allCards", filterContent, searchTrx],
+		queryKey: ["allCards", currentToken, filterContent, searchTrx],
 		queryFn: getAllCards,
 		onError: (err) => {
 			toast.error("Failed to get cards.");
@@ -90,7 +90,7 @@ export default function Home() {
 				number: `${item.masked_number}`,
 				name: item.name,
 				// phone: item.phone_number,
-				balance: item.balance_usd,
+				balance: item.balance,
 				status:
 					item.status === "ACTIVE" ? (
 						<BadgeLabel

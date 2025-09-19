@@ -65,7 +65,7 @@ const Section1 = () => {
 								Commencer
 							</a>
 							<a
-								href="/website/contact"
+								href="/contact"
 								className="bg-[#323232] w-[175px] font-semibold text-[13px] text-white h-[49px] flex justify-center items-center rounded-[10px]"
 							>
 								Contacter le support

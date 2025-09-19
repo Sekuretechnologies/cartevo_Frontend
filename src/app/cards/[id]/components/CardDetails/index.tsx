@@ -20,9 +20,10 @@ import {
 	FaDownload,
 } from "react-icons/fa";
 import { SiVisa, SiMastercard } from "react-icons/si";
-import { isObject } from "@/utils/utils";
+import { isObject, formatSingleDigit } from "@/utils/utils";
 import { CardService } from "@/api/services/cartevo-api/card";
 import toast from "react-hot-toast";
+import { selectCurrentCard } from "@/redux/slices/card";
 
 type Props = {
 	search?: string;
@@ -136,9 +137,11 @@ export function VirtualVisaCard() {
 const CardDetails = ({ search, setSearch }: Props) => {
 	const redirectRef: any = useRef();
 	const dispatch = useDispatch();
-	const customerDetails: any = useSelector(selectCurrentCustomerDetails);
+	const cardDetails: any = useSelector(selectCurrentCard);
 
-	const cardDetails: any = customerDetails?.cards?.data?.[0];
+	console.log("cardDetails :: ", cardDetails);
+
+	// const cardDetails: any = customerDetails?.cards?.data?.[0];
 
 	const [copied, setCopied] = useState("");
 
@@ -277,7 +280,7 @@ const CardDetails = ({ search, setSearch }: Props) => {
 					</div>
 					<div>
 						<span className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-							{`${cardDetails?.balance_usd} USD`}
+							{`${cardDetails?.balance} USD`}
 						</span>
 					</div>
 				</div>
@@ -287,7 +290,10 @@ const CardDetails = ({ search, setSearch }: Props) => {
 					<div className="flex justify-between items-center mb-4">
 						<div className="flex items-center space-x-2">
 							{/* <FaMicrochip size={24} /> */}
-							<span className="font-semibold">Virtual Card</span>
+							<span className="font-semibold">
+								{cardDetails?.brand?.toUpperCase() ||
+									`VIRTUAL CARD`}
+							</span>
 						</div>
 						{cardDetails?.brand?.toLowerCase() === "visa" ? (
 							<SiVisa size={48} />
@@ -298,7 +304,7 @@ const CardDetails = ({ search, setSearch }: Props) => {
 							<></>
 						)}
 					</div>
-					<div className="text-2xl tracking-widest mb-4">
+					<div className="text-xl tracking-widest mb-4">
 						{cardDetails?.masked_number}
 						{/* •••• •••• •••• 5587 */}
 					</div>
@@ -306,8 +312,11 @@ const CardDetails = ({ search, setSearch }: Props) => {
 						<span className="uppercase">{cardDetails?.name}</span>
 						<div className="flex space-x-4">
 							<span>•••</span>
+							{/* <span>{cardDetails?.cvv}</span> */}
 							<span>
-								{cardDetails?.expired_at}
+								{`${formatSingleDigit(
+									cardDetails?.expiry_month
+								)}/${cardDetails?.expiry_year}`}
 								{/* •• /27 */}
 							</span>
 						</div>

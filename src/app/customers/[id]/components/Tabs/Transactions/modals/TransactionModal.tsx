@@ -62,89 +62,93 @@ const infoData: TDataList[] = [
 		[
 			{
 				key: "heure",
-				label: { text: "Heure", fw: "bold", color: "#444" },
+				label: { text: "Time", fw: "bold", color: "#444" },
 				value: { text: "", fw: "bold", color: "#444" },
 			},
 		],
 		[
 			{
 				key: "status",
-				label: { text: "Statut", fw: "bold", color: "#444" },
+				label: { text: "Status", fw: "bold", color: "#444" },
 				value: { text: "", fw: "bold", color: "#1F66FF" },
 			},
 		],
 		[
 			{
 				key: "name",
-				label: { text: "Nom utilisateur", fw: "bold", color: "#444" },
+				label: { text: "Name", fw: "bold", color: "#444" },
 				value: { text: "", color: "#444" },
 			},
 		],
-		[
-			{
-				key: "phone",
-				label: { text: "Téléphone", fw: "bold", color: "#444" },
-				value: { text: "", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "country",
-				label: { text: "Pays", fw: "bold", color: "#444" },
-				value: { text: "", color: "#444" },
-			},
-		],
+		// [
+		// 	{
+		// 		key: "phone",
+		// 		label: { text: "Téléphone", fw: "bold", color: "#444" },
+		// 		value: { text: "", color: "#444" },
+		// 	},
+		// ],
+		// [
+		// 	{
+		// 		key: "country",
+		// 		label: { text: "Pays", fw: "bold", color: "#444" },
+		// 		value: { text: "", color: "#444" },
+		// 	},
+		// ],
 		[
 			{
 				key: "masked_number",
-				label: { text: "Numero carte", fw: "bold", color: "#444" },
+				label: { text: "Masked number", fw: "bold", color: "#444" },
 				value: { text: "", color: "#444" },
 			},
 		],
 		[
 			{
 				key: "id",
-				label: { text: "ID Transaction", fw: "bold", color: "#444" },
+				label: { text: "Transaction ID", fw: "bold", color: "#444" },
 				value: { text: "", color: "#444" },
 			},
 		],
-		[
-			{
-				key: "trx_ref",
-				label: { text: "Ref Transaction", fw: "bold", color: "#444" },
-				value: { text: "", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "order_id",
-				label: {
-					text: "Order ID",
-					fw: "bold",
-					color: "#444",
-				},
-				value: { text: "", color: "#444" },
-			},
-		],
+		// [
+		// 	{
+		// 		key: "trx_ref",
+		// 		label: { text: "Ref Transaction", fw: "bold", color: "#444" },
+		// 		value: { text: "", color: "#444" },
+		// 	},
+		// ],
+		// [
+		// 	{
+		// 		key: "order_id",
+		// 		label: {
+		// 			text: "Order ID",
+		// 			fw: "bold",
+		// 			color: "#444",
+		// 		},
+		// 		value: { text: "", color: "#444" },
+		// 	},
+		// ],
 
 		[
 			{
 				key: "merchant_name",
-				label: { text: "Marchand (nom)", fw: "bold", color: "#444" },
+				label: { text: "Merchant (name)", fw: "bold", color: "#444" },
 				value: { text: "", color: "#444" },
 			},
 		],
 		[
 			{
 				key: "merchant_country",
-				label: { text: "Marchand (pays)", fw: "bold", color: "#444" },
+				label: {
+					text: "Merchant (country)",
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", color: "#444" },
 			},
 		],
 		[
 			{
 				key: "merchant_city",
-				label: { text: "Marchand (ville)", fw: "bold", color: "#444" },
+				label: { text: "Merchant (city)", fw: "bold", color: "#444" },
 				value: { text: "", color: "#444" },
 			},
 		],
@@ -157,85 +161,20 @@ const infoData: TDataList[] = [
 	[
 		[
 			{
-				key: "oldNew",
-				label: { text: "A/N", fw: "bold", color: "#444" },
-				value: { text: "", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "mode",
-				label: { text: "Mode", fw: "bold", color: "#444" },
-				value: { text: "", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "method",
-				label: { text: "Methode", fw: "bold", color: "#444" },
-				value: { text: "", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "amount_xaf",
-				label: { text: "Montant", fw: "bold", color: "#444" },
+				key: "amount",
+				label: { text: "Amount (USD)", fw: "bold", color: "#444" },
 				value: { text: "", fw: "bold", color: "#444" },
 			},
 		],
 		[
 			{
-				key: "fee_xaf",
+				key: "fee",
 				label: {
-					text: "Frais de transaction",
+					text: "Fee",
 					fw: "bold",
 					color: "#444",
 				},
 				value: { text: "", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "old_balance_xaf",
-				label: {
-					text: "Solde compte (avant)",
-					fw: "bold",
-					color: "#444",
-				},
-				value: { text: "", fw: "bold", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "new_balance_xaf",
-				label: {
-					text: "Solde compte (après)",
-					fw: "bold",
-					color: "#444",
-				},
-				value: { text: "", fw: "bold", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "card_old_balance_xaf",
-				label: {
-					text: "Solde carte (avant)",
-					fw: "bold",
-					color: "#444",
-				},
-				value: { text: "", fw: "bold", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "card_new_balance_xaf",
-				label: {
-					text: "Solde carte (après)",
-					fw: "bold",
-					color: "#444",
-				},
-				value: { text: "", fw: "bold", color: "#444" },
 			},
 		],
 		[
@@ -250,43 +189,43 @@ const infoData: TDataList[] = [
 				},
 			},
 		],
-		[
-			{
-				key: "reason",
-				label: { text: "Motif", fw: "bold", color: "#444" },
-				value: {
-					text: "",
-					color: "#444",
-					maxWidth: "200px",
-					whiteSpace: "wrap",
-				},
-			},
-		],
-		[
-			{
-				key: "author",
-				label: { text: "Fait par", fw: "bold", color: "#444" },
-				value: { text: "", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "customer_phone",
-				label: {
-					text: "Fait pour (telephone)",
-					fw: "bold",
-					color: "#444",
-				},
-				value: { text: "", color: "#444" },
-			},
-		],
-		[
-			{
-				key: "customer_name",
-				label: { text: "Fait pour (nom)", fw: "bold", color: "#444" },
-				value: { text: "", color: "#444" },
-			},
-		],
+		// [
+		// 	{
+		// 		key: "reason",
+		// 		label: { text: "Motif", fw: "bold", color: "#444" },
+		// 		value: {
+		// 			text: "",
+		// 			color: "#444",
+		// 			maxWidth: "200px",
+		// 			whiteSpace: "wrap",
+		// 		},
+		// 	},
+		// ],
+		// [
+		// 	{
+		// 		key: "author",
+		// 		label: { text: "Fait par", fw: "bold", color: "#444" },
+		// 		value: { text: "", color: "#444" },
+		// 	},
+		// ],
+		// [
+		// 	{
+		// 		key: "customer_phone",
+		// 		label: {
+		// 			text: "Fait pour (telephone)",
+		// 			fw: "bold",
+		// 			color: "#444",
+		// 		},
+		// 		value: { text: "", color: "#444" },
+		// 	},
+		// ],
+		// [
+		// 	{
+		// 		key: "customer_name",
+		// 		label: { text: "Fait pour (nom)", fw: "bold", color: "#444" },
+		// 		value: { text: "", color: "#444" },
+		// 	},
+		// ],
 		// [{
 		//     key: 'amount',
 		//     label:{text: 'Montant débité', fw:"bold", color:"#444"},

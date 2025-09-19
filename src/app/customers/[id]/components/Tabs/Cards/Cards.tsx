@@ -59,11 +59,12 @@ const Cards = ({ search, setSearch }: Props) => {
 					<div className="flex gap-5">
 						<CButton
 							text={"Details"}
-							onClick={() => setIsOpen(index)}
+							// onClick={() => setIsOpen(index)}
 							btnStyle={"outlineDark"}
+							href={`${urls.cards.root}/${item.id}`}
 							// icon={<FourDots />}
 						/>
-						<Modal
+						{/* <Modal
 							index={`${index}`}
 							name={"cardDetails"}
 							isOpen={isOpen === index}
@@ -74,7 +75,7 @@ const Cards = ({ search, setSearch }: Props) => {
 									item={item}
 								/>
 							}
-						/>
+						/> */}
 					</div>
 				</>
 			),
