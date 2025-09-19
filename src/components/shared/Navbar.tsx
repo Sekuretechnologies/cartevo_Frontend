@@ -45,8 +45,8 @@ const handleLogout = async (token: string) => {
 	}
 };
 const envModes: any = {
-	live: "Live mode",
-	sandbox: "Sandbox mode",
+	live: "Live",
+	sandbox: "Sandbox",
 };
 export default function Navbar(props: Props) {
 	const router = useRouter();
