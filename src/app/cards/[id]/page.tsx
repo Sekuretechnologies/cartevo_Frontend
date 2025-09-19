@@ -58,7 +58,7 @@ const getCardTransactions = async ({ queryKey }: any) => {
 };
 
 export default function ManageCard() {
-	useTitle("Cartevo | Card", true);
+	useTitle("Cartevo | Card details", true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const { id } = useParams();
 	// const id = "2bfc06e5-195e-4482-b728-9b84a5a45af4";
@@ -114,7 +114,7 @@ export default function ManageCard() {
 		"cardTransactionsQueryRes.data?.transactions : ",
 		cardTransactionsQueryRes.data?.transactions
 	);
-	const userTransactionsData = cardTransactionsQueryRes.data?.transactions;
+	const transactionsData = cardTransactionsQueryRes.data?.transactions;
 
 	return (
 		<Layout
@@ -122,8 +122,8 @@ export default function ManageCard() {
 			// backLink={URLConfig.usersAccounts.root}
 			// goBack={() => router.back()} //urls.cards.manage
 		>
-			<div className="grid grid-cols-12 gap-5">
-				<div className="col-span-3">
+			<div className="relative flex gap-5">
+				<div className="col-span-3 min-w-[350px] max-w-[380px]">
 					<div className="flex flex-col px-3 py-4 bg-white rounded-lg shadow-md">
 						{cardData ? (
 							<CardDetails />
@@ -134,12 +134,18 @@ export default function ManageCard() {
 						)}
 					</div>
 				</div>
-				<div className="col-span-9">
-					<div className="px-5 py-4 bg-white rounded-lg shadow-md">
-						<Transactions
-							search={searchTransactions}
-							setSearch={setSearchTransactions}
-						/>
+				<div className="grid grid-cols-1 min-w-[400px]">
+					<div className="px-0 py-4 bg-white rounded-lg shadow-md">
+						{transactionsData ? (
+							<Transactions
+								search={searchTransactions}
+								setSearch={setSearchTransactions}
+							/>
+						) : (
+							<div className="flex justify-center w-full py-10">
+								<div className={"loadingSpinner"}></div>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

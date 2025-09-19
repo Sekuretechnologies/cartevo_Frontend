@@ -15,6 +15,7 @@ import { HiPlus } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import CardDetailsModal from "./modals/CardDetailsModal";
 import AddCardModal from "./modals/AddCardModal";
+import { sortByCreatedAtDescending } from "@/utils/utils";
 
 type Props = {
 	search?: string;
@@ -28,7 +29,9 @@ const Cards = ({ search, setSearch }: Props) => {
 
 	const [isOpen, setIsOpen] = useState<boolean | string | number>(false);
 
-	const rearrangedTableData = customerCards?.map((item: any, index: any) => {
+	const sortedCards = sortByCreatedAtDescending([...customerCards]);
+
+	const rearrangedTableData = sortedCards?.map((item: any, index: any) => {
 		let mode;
 		const rearrangedItem = {
 			serial: index + 1,
