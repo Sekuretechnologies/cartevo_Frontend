@@ -66,7 +66,7 @@ const settingsSlice = createSlice({
 	name: "settings",
 	initialState: {
 		version: 2,
-		mode: "Sandbox",
+		mode: "sandbox",
 		startDate: "2024-03-01",
 		limitDate: "",
 		exchangeRates: [] as ExchangeRate[],

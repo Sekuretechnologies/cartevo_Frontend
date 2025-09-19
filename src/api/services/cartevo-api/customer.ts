@@ -3,7 +3,7 @@ import { customersUrls } from "../urls";
 
 export class CustomerService {
 	static get_customers = ({ token }: { token: string }) => {
-		let query_params: any = {};
+		let query_params: any = { sync: true };
 		return BaseMethods.getRequest(
 			customersUrls.GET_CUSTOMERS,
 			true,
@@ -39,7 +39,7 @@ export class CustomerService {
 		page?: number;
 		limit?: number;
 	}) => {
-		let query_params: any = {};
+		let query_params: any = {}; // { sync: true };
 		if (page) query_params.page = page;
 		if (limit) query_params.limit = limit;
 		return BaseMethods.getRequest(
@@ -79,11 +79,12 @@ export class CustomerService {
 		token: string;
 		data: any;
 	}) => {
+		let query_params: any = { enroll: true };
 		return BaseMethods.postFileRequest(
 			customersUrls.CREATE_CUSTOMER,
 			data,
 			true,
-			{},
+			query_params,
 			token
 		);
 	};

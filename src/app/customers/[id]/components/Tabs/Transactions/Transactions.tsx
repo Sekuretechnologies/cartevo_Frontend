@@ -60,10 +60,10 @@ const Transactions = ({ search, setSearch }: Props) => {
 				serial: index + 1,
 				type: getCategoryTypeV2(item.category, item.type),
 				name: item.merchant?.name,
-				country: item.country,
-				phone: item.phone_number,
+				// country: item.country,
+				// phone: item.phone_number,
 				idTrx: item.id,
-				amount: item.amount_xaf?.toLocaleString("en-EN") ?? 0,
+				amount: item.amount?.toLocaleString("en-EN") ?? 0,
 				status:
 					item.status == "SUCCESS" ? (
 						<BadgeLabel

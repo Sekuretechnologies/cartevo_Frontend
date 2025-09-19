@@ -10,61 +10,56 @@ import {
 } from "@/redux/slices/customer";
 import { I18nProvider } from "@react-aria/i18n";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
-import { useDispatch } from "react-redux";
-import Cards from "./components/Tabs/Cards/Cards";
-import Transactions from "./components/Tabs/Transactions/Transactions";
+import { useDispatch, useSelector } from "react-redux";
+
+import Transactions from "./components/Transactions/Transactions";
 import CardDetails from "./components/CardDetails";
+import { selectCurrentToken } from "@/redux/slices/auth";
+import { setCardTransactions, setCurrentCard } from "@/redux/slices/card";
 
 const getCardDetails = async ({ queryKey }: any) => {
-	const [_key, cardId] = queryKey;
-	const token = localStorage.getItem("sktoken");
-
+	const [_key, token, cardId] = queryKey;
 	if (!token) {
 		throw new Error("No authentication token found");
 	}
-
 	const response = await CardService.get_card({
 		token,
 		cardId,
 		reveal: true,
 	});
-
 	const responseJson = await response.json();
 	if (!response.ok) {
 		throw new Error(responseJson.message || "Failed to get card " + cardId);
 	}
-	return responseJson.data;
+	return responseJson;
 };
 
 const getCardTransactions = async ({ queryKey }: any) => {
-	const [_key, cardId] = queryKey;
-	const token = localStorage.getItem("sktoken");
-
+	const [_key, token, cardId] = queryKey;
 	if (!token) {
 		throw new Error("No authentication token found");
 	}
-
 	const response = await CardService.get_card_transactions({
 		token,
 		cardId,
 		page: 1,
 		limit: 20,
 	});
-
 	const responseJson = await response.json();
 	if (!response.ok) {
 		throw new Error(
 			responseJson.message || "Failed to get card transactions " + cardId
 		);
 	}
-	return responseJson.data;
+	return responseJson;
 };
 
-export default function ManageUserAccount() {
-	useTitle("Cartevo | Customer", true);
+export default function ManageCard() {
+	useTitle("Cartevo | Card", true);
+	const currentToken: any = useSelector(selectCurrentToken);
 	const { id } = useParams();
 	// const id = "2bfc06e5-195e-4482-b728-9b84a5a45af4";
 	const dispatch = useDispatch();
@@ -73,8 +68,8 @@ export default function ManageUserAccount() {
 	const [searchCards, setSearchCards] = useState("");
 	const [searchTransactions, setSearchTransactions] = useState("");
 
-	const cardDetailsQueryRes = useQuery({
-		queryKey: ["cardDetails", id],
+	const cardDetailsQueryRes: any = useQuery({
+		queryKey: ["cardDetails", currentToken, id],
 		queryFn: getCardDetails,
 		onError: (err) => {
 			toast.error("Failed to get card : " + id);
@@ -82,16 +77,9 @@ export default function ManageUserAccount() {
 		// enabled: false,
 		// refetchInterval: 50000, // Fetches data every 60 seconds
 	});
-	dispatch(
-		setCurrentCustomerDetails({
-			cards: { data: [cardDetailsQueryRes.data] },
-		})
-	);
-	console.log("cardDetailsQueryRes.data : ", cardDetailsQueryRes.data);
-	const userData = cardDetailsQueryRes.data;
-	//------------------------------------------------
-	const cardTransactionsQueryRes = useQuery({
-		queryKey: ["cardTransactions", id],
+
+	const cardTransactionsQueryRes: any = useQuery({
+		queryKey: ["cardTransactions", currentToken, id],
 		queryFn: getCardTransactions,
 		onError: (err) => {
 			toast.error("Failed to get card Transactions : " + id);
@@ -99,16 +87,34 @@ export default function ManageUserAccount() {
 		// enabled: false,
 		// refetchInterval: 50000, // Fetches data every 60 seconds
 	});
-	dispatch(
-		setCurrentCustomerTransactions({
-			transactions: { data: cardTransactionsQueryRes.data },
-		})
-	);
+
+	let cardData: any = null;
+
+	// Update Redux store when card details change
+	// useEffect(() => {
+	// 	if (cardDetailsQueryRes.data?.card) {
+	cardData = cardDetailsQueryRes.data?.card;
+	dispatch(setCurrentCard(cardDetailsQueryRes.data?.card));
+	// 	}
+	// }, [cardDetailsQueryRes, dispatch]);
+
+	// Update Redux store when card transactions change
+	// useEffect(() => {
+	// 	if (cardTransactionsQueryRes?.transactions) {
+	dispatch(setCardTransactions(cardTransactionsQueryRes.data?.transactions));
+	// }
+	// }, [cardTransactionsQueryRes, dispatch]);
+
 	console.log(
-		"cardTransactionsQueryRes.data : ",
-		cardTransactionsQueryRes.data
+		"cardDetailsQueryRes.data?.card : ",
+		cardDetailsQueryRes.data?.card
 	);
-	const userTransactionsData = cardTransactionsQueryRes.data;
+
+	console.log(
+		"cardTransactionsQueryRes.data?.transactions : ",
+		cardTransactionsQueryRes.data?.transactions
+	);
+	const userTransactionsData = cardTransactionsQueryRes.data?.transactions;
 
 	return (
 		<Layout
@@ -119,7 +125,7 @@ export default function ManageUserAccount() {
 			<div className="grid grid-cols-12 gap-5">
 				<div className="col-span-3">
 					<div className="flex flex-col px-3 py-4 bg-white rounded-lg shadow-md">
-						{userData ? (
+						{cardData ? (
 							<CardDetails />
 						) : (
 							<div className="flex justify-center w-full py-10">
