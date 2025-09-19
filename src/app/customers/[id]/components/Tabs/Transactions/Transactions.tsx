@@ -37,6 +37,7 @@ import LabelWithBadge from "@/components/shared/LabelWithBadge";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import { useState } from "react";
 import BadgeLabel from "@/components/shared/BadgeLabel";
+import { sortByCreatedAtDescending } from "@/utils/utils";
 
 type Props = {
 	search?: string;
@@ -53,7 +54,11 @@ const Transactions = ({ search, setSearch }: Props) => {
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	const rearrangedTableData = customerTransactions?.map(
+	const sortedTransactions = sortByCreatedAtDescending([
+		...customerTransactions,
+	]);
+
+	const rearrangedTableData = sortedTransactions?.map(
 		(item: any, index: any) => {
 			let mode;
 			const rearrangedItem = {

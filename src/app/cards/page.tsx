@@ -8,7 +8,7 @@ import { TDataList } from "@/components/cards/InfoCard";
 import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
 import Layout from "@/components/shared/Layout";
-import { isObject } from "@/utils/utils";
+import { isObject, sortByCreatedAtDescending } from "@/utils/utils";
 
 import { CustomerService } from "@/api/services/v2/customer";
 import BadgeLabel from "@/components/shared/BadgeLabel";
@@ -81,46 +81,51 @@ export default function Cards() {
 	let rearrangedTableData: any[] = [];
 
 	/** ------------------------------------------------- */
+	if (allCardsQueryRes?.data) {
+		const sortedTransactions = sortByCreatedAtDescending([
+			...allCardsQueryRes?.data,
+		]);
 
-	rearrangedTableData = allCardsQueryRes?.data?.map(
-		(item: any, index: any) => {
-			const rearrangedItem = {
-				serial: index + 1,
-				type: item.brand,
-				number: `${item.masked_number}`,
-				name: item.name,
-				// phone: item.phone_number,
-				balance: item.balance,
-				status:
-					item.status === "ACTIVE" ? (
-						<BadgeLabel
-							className={`text-xs`}
-							label={"Active"}
-							badgeColor={"#1F66FF"}
-							textColor={"#444"}
+		rearrangedTableData = sortedTransactions?.map(
+			(item: any, index: any) => {
+				const rearrangedItem = {
+					serial: index + 1,
+					type: item.brand,
+					number: `${item.masked_number}`,
+					name: item.name,
+					// phone: item.phone_number,
+					balance: item.balance,
+					status:
+						item.status === "ACTIVE" ? (
+							<BadgeLabel
+								className={`text-xs`}
+								label={"Active"}
+								badgeColor={"#1F66FF"}
+								textColor={"#444"}
+							/>
+						) : (
+							<BadgeLabel
+								className={`text-xs`}
+								label={"Inactive"}
+								badgeColor={"#F85D4B"}
+								textColor={"#444"}
+							/>
+						), //<ActiveYesNo isActive={item.active} />,
+					date: getFormattedDateTime(item.created_at, "en"), //item.date,
+					actions: (
+						<CButton
+							text={"Details"}
+							href={`${urls.cards.root}/${item.id}`}
+							btnStyle={"outlineDark"}
+							// icon={<FourDots />}
 						/>
-					) : (
-						<BadgeLabel
-							className={`text-xs`}
-							label={"Inactive"}
-							badgeColor={"#F85D4B"}
-							textColor={"#444"}
-						/>
-					), //<ActiveYesNo isActive={item.active} />,
-				date: getFormattedDateTime(item.created_at, "en"), //item.date,
-				actions: (
-					<CButton
-						text={"Details"}
-						href={`${urls.cards.root}/${item.id}`}
-						btnStyle={"outlineDark"}
-						// icon={<FourDots />}
-					/>
-				),
-			};
-			item = rearrangedItem;
-			return item;
-		}
-	);
+					),
+				};
+				item = rearrangedItem;
+				return item;
+			}
+		);
+	}
 
 	return (
 		<Layout title={"Cards"}>
