@@ -59,7 +59,7 @@ const Section1 = () => {
 
 						<div className=" flex flex-col md:flex-row gap-2 md:justify-center lg:justify-start items-center">
 							<a
-								href="/login"
+								href="/signup"
 								className="bg-[#1F66FF] hover:bg-[#00CFD9] hover:text-black  flex justify-center items-center w-[175px] font-semibold text-[13px] text-white h-[49px] rounded-[10px]"
 							>
 								Commencer

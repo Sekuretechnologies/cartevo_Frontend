@@ -78,7 +78,7 @@ const WebsiteHeader = () => {
 				<div className="flex items-center gap-0 font-poppins">
 					<div className="hidden lg:block">
 						<a
-							href="/login"
+							href="/signup"
 							className="h-[38px] w-[134px] hover:bg-[#00CFD9] hover:text-black duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]"
 						>
 							Commencer
@@ -164,9 +164,9 @@ const WebsiteHeader = () => {
 								<ChevronRight size={18} color="#1f66ff" />
 							</li>
 							<li>
-								<button className="h-[38px] w-[134px] hover:bg-[#00CFD9] duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]">
+								<a href="/signup" className="h-[38px] w-[134px] hover:bg-[#00CFD9] duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]">
 									Commencer
-								</button>
+								</a>
 							</li>
 						</ul>
 					</nav>

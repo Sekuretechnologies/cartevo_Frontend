@@ -47,13 +47,13 @@ const PricingSection4 = () => {
 
 						<div className="text-[#222222] text-[13px] font-semibold flex flex-col gap-2 sm:flex-row items-center">
 							<a
-								href="/login"
+								href="/signup"
 								className="w-[234px] h-[54px] rounded-[20px] flex justify-center items-center bg-[#00CFD9]"
 							>
 								Commencer{" "}
 							</a>
 							<a
-								href="#"
+								href="/contact"
 								className="w-[234px] h-[54px] rounded-[20px] flex justify-center items-center bg-white border-1 border-[#222222]"
 							>
 								Demander

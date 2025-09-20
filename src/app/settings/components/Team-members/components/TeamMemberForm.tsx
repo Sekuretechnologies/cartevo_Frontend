@@ -32,7 +32,6 @@ const handleMemberInfo = async (
 	token: string,
 	data: z.infer<typeof teamMemberSchema>
 ) => {
-	console.log("donnees", data);
 	const response = await SettingsService.add_team_member({
 		token: token,
 		data,
@@ -83,7 +82,7 @@ const TeamMemberForm = ({ onClose }: TeamMemberFormProps) => {
 		},
 		onSuccess: (data: any) => {
 			toast.success("New team member added successfully");
-			onClose()
+			onClose();
 		},
 	});
 
