@@ -25,6 +25,7 @@ import nairapayRedux from "./slices_v2/nairapay";
 import settingsRedux from "./slices_v2/settings";
 import customerticketRedux from "./slices_v2/customerticket";
 import companyReducer from "./slices/companySlice";
+import selectedCompanyReducer from "./slices/selectedCompany";
 
 const createNoopStorage = () => {
 	return {
@@ -77,6 +78,7 @@ const rootReducer = combineReducers({
 	nairapay: nairapayRedux,
 	customerticket: customerticketRedux,
 	company: companyReducer,
+	selectedCompany: selectedCompanyReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

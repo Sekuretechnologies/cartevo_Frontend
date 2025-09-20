@@ -181,6 +181,14 @@ export default function VerifyOtpForm() {
 						/>
 					))}
 				</div>
+				<div className="mt-8 flex justify-end w-full ">
+					<p>
+						Vous n'avez pas recus le code ?{" "}
+						<button className="text-primary font-semibold cursor-pointer ">
+							Renvoyer
+						</button>
+					</p>
+				</div>
 				<div className={`mt-[30px] flex gap-5`}>
 					<CButton
 						text={"Continue"}

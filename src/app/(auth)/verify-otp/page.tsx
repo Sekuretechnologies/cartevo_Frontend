@@ -32,8 +32,9 @@ const VerifyOtpPage = () => {
 					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight text-app-secondary">
 						Verify OTP
 					</h1>
-					<p className="text-app-secondary">
-						Innovative Payments for a Digital World
+					<p className="text-app-secondary max-w-[500px] font-poppins">
+						Veuillez entrer le code OTP (One-Time Password) que nous
+						venons d'envoyer par e-mail
 					</p>
 				</div>
 				<div className=" flex justify-center items-center px-[50px]">

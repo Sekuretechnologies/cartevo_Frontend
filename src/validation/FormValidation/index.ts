@@ -1,3 +1,4 @@
+import { values } from "lodash";
 import { string, z } from "zod";
 
 // declare global {
@@ -305,4 +306,16 @@ export const LoginWithCompany = z.object({
 export const AcceptInvitationSchema = z.object({
 	invitationToken: z.string(),
 	password: z.string().min(1, "Le mot de passe est requis"),
+});
+
+export const RejectKYBSchema = z.object({
+	companyId: z.string(),
+	value: z.literal("REJECTED"),
+	message: z.string().min(1, "Message is required"),
+});
+
+export const RejectKycSchema = z.object({
+	userId: z.string(),
+	value: z.literal("REJECTED"),
+	message: z.string().min(1, "Message is required"),
 });

@@ -42,13 +42,13 @@ const Section3 = () => {
 
 					<div className="flex flex-col gap-3 md:flex-row mt-4">
 						<a
-							href="/login"
+							href="/signup"
 							className="bg-[#1F66FF] hover:bg-[#00CFD9] hover:text-black  text-[13px] font-[600] w-[238px] h-[49px] rounded-[10px] flex justify-center items-center"
 						>
 							Commencer
 						</a>
 						<a
-							href="/website/contact"
+							href="/contact"
 							className="bg-gray-800 hover:bg-gray-700 dark:bg-white cursor-pointer w-[238px] text-[13px] font-[600] text-white dark:text-[#3A3D44]  dark:text-[#3A3D44] h-[49px] rounded-[10px] flex justify-center items-center"
 						>
 							Contacter le support

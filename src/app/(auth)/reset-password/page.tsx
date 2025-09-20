@@ -22,6 +22,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { z } from "zod";
 import SuccessModal from "./components/page";
 import { PuffLoader } from "react-spinners";
+import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
 
 const ResetPassword = () => {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
@@ -84,31 +85,38 @@ const ResetPassword = () => {
 	}
 
 	return (
-		<section className="relative flex flex-col h-screen mt-0 w-full">
-			<nav className="absolute z-10 top-0 left-0 w-full h-[80px] px-[50px] flex items-center">
-				<a href="/">{cartevoIconName}</a>
+		<section className="relative flex flex-col mt-0 ">
+			<nav className="absolute z-10 top-0 left-0 lg:left-[150px] md:left-[120px]  h-[80px] flex items-center">
+				<a href="/">
+					<img src="/website/logos/logo_full.png" alt="logo" />
+				</a>
 			</nav>
-			<div className="w-full min-h-[70vh] grid grid-cols-12">
-				<div className="relative col-span-5 pl-[60px] pt-[200px] bg-app-lightblue rounded-br-[50px] overflow-hidden">
-					<div className="absolute bottom-[100px] left-0 w-full h-[90px]">
-						<img
-							src="/images/white-cartevo-logo-001.svg"
-							alt="white-cartevo-logo"
-						/>
-					</div>
-					<h1 className="font-bold text-4xl text-app-secondary">
-						Create a New Password
+			<div className="w-full  grid grid-cols-1  lg:grid-cols-2 font-poppins ">
+				<div
+					style={{
+						backgroundImage:
+							"url('/website/home/heroBackground.png')",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
+						backgroundRepeat: "no-repeat",
+					}}
+					className="font-poppins hidden   bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4  text-center lg:text-left"
+				>
+					<h1 className="font-bold text-[30px] leading-8 max-w-[500px] tracking-tight">
+						Créez un nouveau{" "}
+						<span className="text-primary">mot de passe</span>{" "}
 					</h1>
-					<span className="text-lg text-app-secondary">
-						Enter your new password to secure your account.
-					</span>
+					<p>
+						Entrez un nouveau mot de passe pour sécuriser votre
+						compte
+					</p>
 				</div>
-				<div className="col-span-7 flex justify-center items-center px-[50px]">
-					<div className="w-full max-w-[400px]">
+				<div className=" flex items-center px-[50px]">
+					<div className="w-full ">
 						<FormProvider {...form}>
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
-								className="space-y-4"
+								className="px-3 lg:pl-10 lg:pr-[90px] 2xl:pr-[150px] lg:w-full max-w-[700px] mx-auto lg:mx-0 space-y-4"
 							>
 								<FormField
 									control={form.control}
@@ -126,6 +134,7 @@ const ResetPassword = () => {
 																? "text"
 																: "password"
 														}`}
+														placeholder="Entrez le mot de passe"
 														className="px-6 w-full bg-app-lightgray"
 														{...field}
 													/>
@@ -176,6 +185,7 @@ const ResetPassword = () => {
 																? "text"
 																: "password"
 														}`}
+														placeholder="Confirmez le mot de passe"
 														className="px-6 w-full bg-app-lightgray"
 														{...field}
 													/>
@@ -210,18 +220,20 @@ const ResetPassword = () => {
 									)}
 								/>
 
-								<button
-									type="submit"
-									className="w-full py-2 px-4 bg-app-primary text-white rounded hover:bg-app-secondary"
-								>
-									Reset Password
-								</button>
+								<div className="flex justify-center">
+									<button
+										type="submit"
+										className=" py-2 px-8 bg-app-primary text-white rounded hover:bg-app-secondary"
+									>
+										Rénitialiser le mot de passe
+									</button>
+								</div>
 							</form>
 						</FormProvider>
 					</div>
 				</div>
 			</div>
-			<Footer />
+			<WebsiteFooter />
 			{showSuccessModal && <SuccessModal />}
 			{loading && (
 				<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/40 backdrop-blur-sm ">
