@@ -12,6 +12,16 @@ export class WalletService {
 		);
 	};
 
+	static get_wallet = ({ token, id }: { token: string; id: string }) => {
+		let query_params: any = {};
+		return BaseMethods.getRequest(
+			walletUrls.GET_WALLET(id),
+			true,
+			query_params,
+			token
+		);
+	};
+
 	static create_wallet = ({ token, body }: { token: string; body: any }) =>
 		BaseMethods.postRequest(
 			walletUrls.CREATE_WALLET,
@@ -23,6 +33,9 @@ export class WalletService {
 
 	static fund_wallet = ({ token, body }: { token: string; body: any }) =>
 		BaseMethods.postRequest(walletUrls.FUND_WALLET, body, true, {}, token);
+
+	static withdraw_wallet = ({ token, body }: { token: string; body: any }) =>
+		BaseMethods.postRequest(walletUrls.WITHDRAW_WALLET, body, true, {}, token);
 
 	static deposit_to_wallet = ({
 		token,
@@ -39,6 +52,53 @@ export class WalletService {
 			token
 		);
 
+	static transfer_internal = ({
+		token,
+		walletId,
+		body,
+	}: {
+		token: string;
+		walletId: string;
+		body: { amount: number; direction: 'PAYIN_TO_PAYOUT' | 'PAYOUT_TO_PAYIN'; reason?: string };
+	}) =>
+		BaseMethods.postRequest(
+			walletUrls.TRANSFER_INTERNAL(walletId),
+			body,
+			true,
+			{},
+			token
+		);
+
+	static transfer_between = ({
+		token,
+		body,
+	}: {
+		token: string;
+		body: { from_wallet_id: string; to_wallet_id: string; amount: number; reason?: string };
+	}) =>
+		BaseMethods.postRequest(
+			walletUrls.TRANSFER_BETWEEN,
+			body,
+			true,
+			{},
+			token
+		);
+
+	static calculate_transfer_fees = ({
+		token,
+		body,
+	}: {
+		token: string;
+		body: { from_currency: string; to_currency: string; amount: number; country_iso_code?: string };
+	}) =>
+		BaseMethods.postRequest(
+			walletUrls.CALCULATE_TRANSFER_FEES,
+			body,
+			true,
+			{},
+			token
+		);
+
 	static get_transactions = ({ token }: { token: string }) => {
 		let query_params: any = {};
 		return BaseMethods.getRequest(
@@ -48,6 +108,36 @@ export class WalletService {
 			token
 		);
 	};
+
+	static get_wallet_transactions = ({
+		token,
+		walletId,
+	}: {
+		token: string;
+		walletId: string;
+	}) => {
+		let query_params: any = { walletId };
+		return BaseMethods.getRequest(
+			walletUrls.GET_TRANSACTIONS,
+			true,
+			query_params,
+			token
+		);
+	};
+
+	static get_available_wallets_for_transfer = ({
+		token,
+		sourceWalletId,
+	}: {
+		token: string;
+		sourceWalletId: string;
+	}) =>
+		BaseMethods.getRequest(
+			walletUrls.GET_AVAILABLE_FOR_TRANSFER(sourceWalletId),
+			true,
+			{},
+			token
+		);
 
 	static get_onboarding_steps = ({ token }: { token: string }) => {
 		let query_params: any = {};

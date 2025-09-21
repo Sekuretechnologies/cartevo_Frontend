@@ -1,8 +1,9 @@
 "use client";
 import { useTitle } from "@/hooks/useTitle";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useQuery, useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import { TDataList } from "@/components/cards/InfoCard";
 import CButton from "@/components/shared/CButton";
@@ -10,43 +11,33 @@ import CustomTable from "@/components/shared/CustomTable";
 import Layout from "@/components/shared/Layout";
 import Title from "@/components/shared/Title";
 
-import { CompanyService } from "@/api/services/cartevo-api/company";
-import WalletCardGrid from "@/components/cards/WalletCardGrid";
-import {
-	headerUserTransactionDataV2,
-	headerWalletTransactionData,
-} from "@/constants/TransactionData";
-import useKeyPressed from "@/hooks/useKeyPressed";
-import { selectSearchTerm } from "@/redux/slices/search";
-import * as CFlags from "country-flag-icons/react/3x2";
-import { FaArrowsRotate, FaMoneyBillWave } from "react-icons/fa6";
-import { MdDownload, MdOutlineFileDownload } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategoryTypeV2 } from "@/utils/graphs";
-import BadgeLabel from "@/components/shared/BadgeLabel";
-import { getFormattedDateTime } from "@/utils/DateFormat";
-import Modal from "@/components/shared/Modal/Modal";
-import TransactionModal from "./manage/[id]/components/Tabs/Transactions/modals/TransactionModal";
+import { WalletService } from "@/api/services/cartevo-api/wallets";
 import AddWalletModal, {
 	AddWalletSubmitProps,
 } from "@/components/cards/AddWalletModal";
-import FundUSDModal, {
+import DepositToUSDWalletModal, {
 	DespoitToWalletSubmitProps,
 } from "@/components/cards/DepositToUSDWalletModal";
 import FundLocalCurrencyWalletModal, {
 	FundLocalCurrencyWalletSubmitProps,
 } from "@/components/cards/FundLocalCurrencyWalletModal";
+import WalletCardGrid from "@/components/cards/WalletCardGrid";
+import BadgeLabel from "@/components/shared/BadgeLabel";
+import { ItemFlag } from "@/components/shared/ItemFlag";
+import Modal from "@/components/shared/Modal/Modal";
+import { headerWalletTransactionData } from "@/constants/TransactionData";
+import useKeyPressed from "@/hooks/useKeyPressed";
 import { selectCurrentToken, selectCurrentUser } from "@/redux/slices/auth";
+import { selectSearchTerm } from "@/redux/slices/search";
 import {
 	fetchExchangeRates,
 	fetchTransactionFees,
-	selectExchangeRates,
-	selectTransactionFees,
 } from "@/redux/slices_v2/settings";
+import { getFormattedDateTime } from "@/utils/DateFormat";
+import { getCategoryTypeV2 } from "@/utils/graphs";
 import { HiDownload } from "react-icons/hi";
-import { WalletService } from "@/api/services/cartevo-api/wallets";
-import DepositToUSDWalletModal from "@/components/cards/DepositToUSDWalletModal";
-import { ItemFlag } from "@/components/shared/ItemFlag";
+import { MdDownload, MdOutlineFileDownload } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
@@ -229,6 +220,7 @@ const depositToWallet = async (
 export default function Home() {
 	useTitle("Cartevo | wallets", true);
 
+	const router = useRouter();
 	const currentToken: any = useSelector(selectCurrentToken);
 	const currentUser: any = useSelector(selectCurrentUser);
 
@@ -377,6 +369,8 @@ export default function Home() {
 			);
 		});
 
+		console.log("sortedWallets :", sortedWallets);
+
 		// Dynamically generate infoData based on sorted wallets
 		infoData = sortedWallets.map((wallet) => [
 			[
@@ -430,31 +424,51 @@ export default function Home() {
 					label: { text: "", fw: "", color: "#444" },
 					value: {
 						text: (
-							<CButton
-								text={
-									wallet.currency === "USD"
-										? "Deposit"
-										: "Fund"
-								}
-								btnStyle={"blue"}
-								onClick={() => {
-									if (wallet.currency === "USD") {
-										depositToWalletMutation.reset();
-									} else {
-										fundWalletMutation.reset();
+							<div className="flex flex-col gap-2 w-full">
+								<CButton
+									text={
+										wallet.currency === "USD"
+											? "Deposit"
+											: "Fund"
 									}
-									setFundModalData({ isOpen: true, wallet });
-								}}
-								icon={
-									wallet.currency === "USD" ? (
-										<HiDownload size={50} />
-									) : (
-										<MdDownload size={50} />
-									)
-								}
-								width={"100%"}
-								height={"40px"}
-							/>
+									btnStyle={"blue"}
+									onClick={() => {
+										if (wallet.currency === "USD") {
+											depositToWalletMutation.reset();
+										} else {
+											fundWalletMutation.reset();
+										}
+										setFundModalData({
+											isOpen: true,
+											wallet,
+										});
+									}}
+									icon={
+										wallet.currency === "USD" ? (
+											<HiDownload size={50} />
+										) : (
+											<MdDownload size={50} />
+										)
+									}
+									width={"100%"}
+									height={"40px"}
+								/>
+								{wallet.currency !== "USD" && (
+									<CButton
+										text={"Details"}
+										btnStyle={"outlineDark"}
+										onClick={() =>
+											router.push(`/wallets/${wallet.id}`)
+										}
+										width={"100%"}
+										height={"36px"}
+										style={{
+											marginTop: "8px",
+											padding: "10px",
+										}}
+									/>
+								)}
+							</div>
 						),
 					},
 				},
