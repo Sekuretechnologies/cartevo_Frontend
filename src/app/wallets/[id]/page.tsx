@@ -653,8 +653,8 @@ export default function WalletDetailsPage() {
 										No transactions found
 									</div>
 									<div className="text-gray-400 text-sm">
-										This wallet doesn't have any
-										transactions yet
+										{`This wallet doesn't have any
+										transactions yet`}
 									</div>
 								</div>
 							)}
@@ -715,7 +715,8 @@ export default function WalletDetailsPage() {
 							currency: walletDetails?.currency || "",
 							payout_balance: walletDetails?.payout_balance || 0,
 							country_iso_code: walletDetails?.country_iso_code,
-							country_phone_code: walletDetails?.country_phone_code,
+							country_phone_code:
+								walletDetails?.country_phone_code,
 						}}
 						operators={walletDetails?.operators || []}
 						userId={currentUser?.id || ""}
