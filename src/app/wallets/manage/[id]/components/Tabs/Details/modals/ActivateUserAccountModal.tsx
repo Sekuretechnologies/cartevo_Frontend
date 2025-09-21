@@ -19,7 +19,7 @@ const handleActivate = async (queryData: any) => {
 	const response = await UserService.activate_user_account({
 		userId: currentUserId,
 		customerId: customerId,
-		body: { active: activate },
+		body: { is_active: activate },
 	});
 	if (!response.ok) {
 		const responseBody = await response.json();

@@ -215,11 +215,11 @@ const CartesCardV2 = ({
 				<span
 					style={{
 						whiteSpace: "nowrap",
-						color: !card.active ? "gray" : "#1F66FF",
+						color: !card.is_active ? "gray" : "#1F66FF",
 					}}
 					className="text-sm font-[400] tracking-tighter"
 				>
-					{!card.active ? "Non" : "Oui"}
+					{!card.is_active ? "Non" : "Oui"}
 				</span>
 				<h1
 					style={{ whiteSpace: "nowrap" }}
