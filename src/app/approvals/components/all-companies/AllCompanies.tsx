@@ -1,10 +1,14 @@
 import { AdminService } from "@/api/services/cartevo-api/admin";
+import BadgeLabel from "@/components/shared/BadgeLabel";
 import CustomTable from "@/components/shared/CustomTable";
 import { selectCurrentToken } from "@/redux/slices/auth";
+import { setSelectedCompany } from "@/redux/slices/selectedCompany";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "react-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import StatusBadge from "../StatusBadge";
 
 const getCompanies = async ({ queryKey }: any) => {
 	const [_key, token] = queryKey;
@@ -21,6 +25,14 @@ const AllCompanies = () => {
 	const currentToken: any = useSelector(selectCurrentToken);
 
 	const queryClient = useQueryClient();
+
+	const dispatch = useDispatch();
+	const router = useRouter();
+
+	const handleViewDetails = (company: any) => {
+		dispatch(setSelectedCompany(company));
+		router.push("/approvals/company-details");
+	};
 
 	const companiesQuery = useQuery({
 		queryKey: ["companies", currentToken],
@@ -46,10 +58,13 @@ const AllCompanies = () => {
 			companyName: company.name,
 			owner: `${company.owner.first_name} ${company.owner.last_name}`,
 			companyEmail: company.email,
-			kybStatus: company.kyb_status,
-			kycStatus: company.owner.kyc_status,
+			kybStatus: <StatusBadge status={company.kyb_status} />,
+			kycStatus: <StatusBadge status={company.owner.kyc_status} />,
 			action: (
-				<button className="border-1 border-primary hover:bg-primary/10 px-4 py-2 rounded-full">
+				<button
+					className="border-1 border-primary hover:bg-primary/10 px-4 py-2 rounded-full"
+					onClick={() => handleViewDetails(company)}
+				>
 					View Details
 				</button>
 			),
@@ -60,28 +75,17 @@ const AllCompanies = () => {
 	return (
 		<div className="p-4">
 			<h2 className="text-xl font-semibold text-gray-800">
-				Team Members
+				All Companies
 			</h2>
 			<p className="text-gray-600 text-sm mt-1 mb-4">
-				Manage your team members, assign roles, and control access
-				permissions.
+				View all registered companies, check their status, and manage
+				approvals.
 			</p>
 
 			<CustomTable
 				headerData={allCompaniesHeaderData}
 				tableData={allCompaniesTableData}
-				// isLoading={teamMembersQuery.isLoading}
-				// btn={
-				// 	<CButton
-				// 		text="Add New Team Member"
-				// 		btnStyle="blue"
-				// 		icon={<HiPlus />}
-				// 		height="33px"
-				// 		onClick={() => {
-				// 			setAddTeamMemberModal(true);
-				// 		}}
-				// 	/>
-				// }
+				isLoading={companiesQuery.isLoading}
 			/>
 		</div>
 	);

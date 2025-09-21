@@ -60,7 +60,7 @@ const Section2 = () => {
 							{/* Bouton en bas */}
 							<div className="mt-auto">
 								<a
-									href="/login"
+									href="/signup"
 									className="text-white text-[13px] font-semibold bg-[#252421] px-8 py-3 w-fit flex gap-2 items-center rounded-full"
 								>
 									Commencer <ChevronRight />
@@ -111,7 +111,7 @@ const Section2 = () => {
 							{/* Bouton en bas */}
 							<div className="mt-auto">
 								<a
-									href="/login"
+									href="/signup"
 									className="text-white text-[13px] font-semibold bg-[#252421] px-8 w-fit py-3 flex gap-2 items-center rounded-full"
 								>
 									Commencer <ChevronRight />

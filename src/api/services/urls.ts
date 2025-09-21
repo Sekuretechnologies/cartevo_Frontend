@@ -1,5 +1,6 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
 export const BASE_URL = `https://api.cartevo.co/api/v1`;
+// export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 /** AUTH ============================================================ */
 export const BASE_URL_AUTH = `${BASE_URL}/auth`;
@@ -86,9 +87,17 @@ export const BASE_URL_WALLET = `${BASE_URL}/wallets`;
 export const BASE_URL_WALLET_TRANSACTIONS = `${BASE_URL}/wallet/transactions`;
 export const walletUrls = {
 	GET_WALLETS: `${BASE_URL_WALLET}`,
+	GET_WALLET: (id: any) => `${BASE_URL_WALLET}/${id}`,
 	CREATE_WALLET: `${BASE_URL_WALLET}`,
 	FUND_WALLET: `${BASE_URL_WALLET}/fund`,
 	DEPOSIT_TO_WALLET: `${BASE_URL_WALLET}/deposit`,
+	WITHDRAW_WALLET: `${BASE_URL_WALLET}/withdraw`,
+	TRANSFER_INTERNAL: (id: any) =>
+		`${BASE_URL_WALLET}/${id}/transfer-internal`,
+	TRANSFER_BETWEEN: `${BASE_URL_WALLET}/transfer-between`,
+	CALCULATE_TRANSFER_FEES: `${BASE_URL_WALLET}/calculate-transfer-fees`,
+	GET_AVAILABLE_FOR_TRANSFER: (id: any) =>
+		`${BASE_URL_WALLET}/${id}/available-for-transfer`,
 	CREDIT_TEST_WALLET: `${BASE_URL_WALLET}/credit-test-wallet`,
 	GET_TRANSACTIONS: `${BASE_URL_WALLET_TRANSACTIONS}`,
 };

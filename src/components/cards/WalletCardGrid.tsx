@@ -24,6 +24,8 @@ export type TDataList = TDataItem[][];
 interface WalletCardProps {
 	walletData: TDataList[];
 	onAddWallet?: () => void;
+	onWalletClick?: (walletId: string) => void;
+	walletIds?: string[];
 }
 // interface IDataLine {
 //   items: IDataItem[];
@@ -36,15 +38,27 @@ interface WalletCardProps {
 const WalletCardGrid: React.FC<WalletCardProps> = ({
 	walletData,
 	onAddWallet,
+	onWalletClick,
+	walletIds,
 }) => {
 	return (
 		// <div className={`mb-10 ${cstyle["infoCardGrid"]}`}>
 		<div
 			className={`mb-10 gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3`}
 		>
-			{walletData.map((data, index) => (
-				<WalletCard key={index} data={data} />
-			))}
+			{walletData.map((data, index) => {
+				const canNavigate = Boolean(walletIds && walletIds[index]);
+				const clickHandler = canNavigate && onWalletClick && walletIds
+					? () => onWalletClick(walletIds![index]!)
+					: undefined;
+				return (
+					<WalletCard
+						key={index}
+						data={data}
+						onClick={clickHandler}
+					/>
+				);
+			})}
 			{/* Add new wallet card */}
 			<div
 				className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"

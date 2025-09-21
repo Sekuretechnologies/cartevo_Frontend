@@ -19,6 +19,7 @@ export type TDataList = TDataItem[][];
 
 interface InfoCardProps {
 	data: TDataList;
+	onClick?: () => void;
 }
 // interface IDataLine {
 //   items: IDataItem[];
@@ -28,9 +29,12 @@ interface InfoCardProps {
 //   lines: IDataLine[];
 // };
 
-const WalletCard: React.FC<InfoCardProps> = ({ data }) => {
+const WalletCard: React.FC<InfoCardProps> = ({ data, onClick }) => {
 	return (
-		<div className="px-2 py-4 bg-white rounded-lg shadow-md grid grid-cols-2">
+    <div 
+      className={`px-2 py-4 bg-white rounded-lg shadow-md grid grid-cols-2 ${onClick ? 'cursor-pointer hover:shadow-lg transition-shadow' : 'cursor-default'}`}
+      onClick={onClick}
+    >
 			{data.map((line, index1) => (
 				<div
 					key={index1}
