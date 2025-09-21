@@ -101,7 +101,7 @@ export default function WalletDetailsPage() {
 			country: w.country,
 			country_iso_code: w.country_iso_code,
 			country_phone_code: w.country_phone_code,
-			active: w.is_active || w.active,
+			active: w.active,
 			company_id: w.company_id,
 			created_at: w.created_at,
 			updated_at: w.updated_at,

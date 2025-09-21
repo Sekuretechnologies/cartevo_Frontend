@@ -15,6 +15,9 @@ import { WalletService } from "@/api/services/cartevo-api/wallets";
 import AddWalletModal, {
 	AddWalletSubmitProps,
 } from "@/components/cards/AddWalletModal";
+import CreditTestWalletModal, {
+	CreditTestWalletSubmitProps,
+} from "@/components/cards/CreditTestUSDWalletModal";
 import DepositToUSDWalletModal, {
 	DespoitToWalletSubmitProps,
 } from "@/components/cards/DepositToUSDWalletModal";
@@ -36,13 +39,10 @@ import {
 } from "@/redux/slices_v2/settings";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import { getCategoryTypeV2 } from "@/utils/graphs";
+import { sortByCreatedAtDescending } from "@/utils/utils";
 import { HiDownload } from "react-icons/hi";
 import { MdDownload, MdOutlineFileDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import CreditTestWalletModal, {
-	CreditTestWalletSubmitProps,
-} from "@/components/cards/CreditTestUSDWalletModal";
-import { sortByCreatedAtDescending } from "@/utils/utils";
 
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
@@ -445,19 +445,19 @@ export default function Home() {
 									text={
 										wallet.currency === "USD"
 											? currentEnvMode === "sandbox"
-											? "Credit test wallet"
-											: "Deposit"
+												? "Credit test wallet"
+												: "Deposit"
 											: "Fund"
 									}
 									btnStyle={"blue"}
 									onClick={() => {
 										if (wallet.currency === "USD") {
 											if (currentEnvMode === "sandbox") {
-											creditTestWalletMutation.reset();
-										} else {
-											depositToWalletMutation.reset();
+												creditTestWalletMutation.reset();
+											} else {
+												depositToWalletMutation.reset();
 											}
-									} else {
+										} else {
 											fundWalletMutation.reset();
 										}
 										setFundModalData({

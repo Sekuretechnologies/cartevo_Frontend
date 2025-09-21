@@ -66,12 +66,6 @@ const TransferBetweenWalletsModal: React.FC<TransferBetweenWalletsModalProps> = 
   const amountNum = parseFloat(amount) || 0;
   const selectedWallet = availableWallets.find(w => w.id === selectedWalletId);
   
-  console.log('TransferBetweenWalletsModal - state:', { 
-    selectedWalletId, 
-    selectedWallet, 
-    availableWallets: availableWallets.length,
-    availableWalletsData: availableWallets 
-  });
 
   useEffect(() => {
     loadAvailableWallets();
@@ -130,14 +124,16 @@ const TransferBetweenWalletsModal: React.FC<TransferBetweenWalletsModalProps> = 
       });
       
       const json = await res.json();
+      console.log('Full API response:', json);
+      
       if (json.success && json.data) {
+        console.log('Fee calculation result:', json.data);
         setFeeCalculation(json.data);
       } else {
-        console.warn('Fee calculation failed:', json.message);
+        console.log('Fee calculation failed:', json.message);
         setFeeCalculation(null);
       }
     } catch (error) {
-      console.error('Fee calculation error:', error);
       setFeeCalculation(null);
     } finally {
       setLoadingFees(false);
@@ -308,14 +304,7 @@ const TransferBetweenWalletsModal: React.FC<TransferBetweenWalletsModalProps> = 
               </span>
             </div>
             
-            <div className="flex justify-between border-t pt-2">
-              <span className="font-medium">Total Amount:</span>
-              <span className="font-bold text-red-600">
-                {feeCalculation.totalAmount.toLocaleString()} {sourceWallet.currency}
-              </span>
-            </div>
-            
-            {feeCalculation.feeAmount > 0 && (
+            {feeCalculation && (
               <div className="flex justify-between">
                 <span className="font-medium">Transfer Fee:</span>
                 <span className="font-bold text-red-600">
@@ -323,8 +312,15 @@ const TransferBetweenWalletsModal: React.FC<TransferBetweenWalletsModalProps> = 
                 </span>
               </div>
             )}
+            
+            <div className="flex justify-between border-t pt-2">
+              <span className="font-medium">Total Amount:</span>
+              <span className="font-bold text-red-600">
+                {feeCalculation.totalAmount.toLocaleString()} {sourceWallet.currency}
+              </span>
+            </div>
 
-            {sourceWallet.currency !== selectedWallet.currency && feeCalculation.exchangeRate && (
+            {selectedWallet.currency === 'USD' && feeCalculation.exchangeRate && (
               <>
                 <div className="flex justify-between">
                   <span className="font-medium">Exchange Rate:</span>

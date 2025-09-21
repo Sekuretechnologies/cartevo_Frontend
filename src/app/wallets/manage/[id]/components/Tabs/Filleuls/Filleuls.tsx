@@ -94,7 +94,7 @@ const Filleuls = ({ search, setSearch }: Props) => {
 					) : (
 						<LabelWithBadge label="Aucun" badgeColor="#000" />
 					),
-				status: <ActiveYesNo isActive={item.active} />,
+				status: <ActiveYesNo isActive={item.is_active} />,
 				locked: (
 					<ActiveYesNo
 						isActive={item.blocked}
