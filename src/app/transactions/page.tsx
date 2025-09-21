@@ -22,7 +22,7 @@ import { IGenericRow } from "@/components/AdminTable/Table";
 import ActiveYesNo from "@/components/shared/ActiveYesNo";
 import ButtonOutlined from "@/components/shared/ButtonOutlined";
 import { FourDots } from "@/components/shared/icons";
-import { isObject, isString } from "@/utils/utils";
+import { isObject, isString, sortByCreatedAtDescending } from "@/utils/utils";
 import Transfers from "@/components/cards/Transfers";
 import TransfersTotal from "@/components/cards/TransfersTotal";
 import TransferType from "@/components/cards/TransferType";
@@ -69,25 +69,28 @@ import * as CFlags from "country-flag-icons/react/3x2";
 import { getCategoryModeV2, getCategoryTypeV2 } from "@/utils/graphs";
 // import TransactionModal from "../dashboard/v2/users_accounts/manage/[id]/components/Tabs/Transactions/modals/TransactionModal";
 import {
+	headerAllTransactionData,
 	headerTransactionData,
 	headerUserTransactionDataV2,
 } from "@/constants/TransactionData";
 import BadgeLabel from "@/components/shared/BadgeLabel";
+import { CompanyService } from "@/api/services/cartevo-api/company";
+import { selectCurrentToken } from "@/redux/slices/auth";
 
 const CountryFlags: any = CFlags;
 
 const ItemFlagCM = CountryFlags["CM"];
 const ItemFlagUS = CountryFlags["US"];
 
-const getOneCustomerTransactions = async ({ queryKey }: any) => {
-	const [_key, id] = queryKey;
+const getCompanyTransactions = async ({ queryKey }: any) => {
+	const [_key, token] = queryKey;
 	// console.log("getCustomers searchTerm : ", st, queryKey);
 
-	const response = await CustomerService.get_one_customer_transactions(id);
+	const response = await CompanyService.get_transactions({ token });
 	const responseJson = await response.json();
 	if (!response.ok) {
 		throw new Error(
-			responseJson.message || "Failed to get user transactions" + id
+			responseJson.message || "Failed to get company transactions"
 		);
 	}
 	return responseJson.data;
@@ -96,10 +99,9 @@ const getOneCustomerTransactions = async ({ queryKey }: any) => {
 export default function Home() {
 	useTitle("Cartevo | transactions", true);
 
+	const currentToken: any = useSelector(selectCurrentToken);
 	const [filterContent, setFilterContent] = useState({});
-
 	const [statsData, setStatsData] = useState<TDataList[]>();
-
 	const [isOpen, setIsOpen] = useState(false);
 
 	const dispatch = useDispatch();
@@ -108,12 +110,9 @@ export default function Home() {
 	const searchTerm: string = useSelector(selectSearchTerm);
 
 	//------------------------------------------------
-	const oneUserTransactionsQueryRes = useQuery({
-		queryKey: [
-			"oneUserTransactions",
-			"2920c23e-3389-4caf-ba26-569683eb4b7a",
-		],
-		queryFn: getOneCustomerTransactions,
+	const companyTransactionsQueryRes = useQuery({
+		queryKey: ["companyTransactions", currentToken],
+		queryFn: getCompanyTransactions,
 		onError: (err) => {
 			toast.error(
 				"Failed to get user Transactions : " +
@@ -123,9 +122,12 @@ export default function Home() {
 		// enabled: false,
 		// refetchInterval: 50000, // Fetches data every 60 seconds
 	});
-	// dispatch(setCurrentCustomerTransactions(oneUserTransactionsQueryRes.data));
-	console.log("userQueryRes.data : ", oneUserTransactionsQueryRes.data);
-	const userTransactionsData = oneUserTransactionsQueryRes.data;
+	// dispatch(setCurrentCustomerTransactions(companyTransactionsQueryRes.data));
+	console.log(
+		"companyTransactionsQueryRes.data : ",
+		companyTransactionsQueryRes.data
+	);
+	const userTransactionsData = companyTransactionsQueryRes.data;
 
 	//------------------------------------------------
 
@@ -134,17 +136,25 @@ export default function Home() {
 	/** ------------------------------------------------- */
 	const { shiftDown, iPressed, ePressed } = useKeyPressed();
 
-	rearrangedTableData =
-		oneUserTransactionsQueryRes?.data?.transactions?.data?.map(
+	if (companyTransactionsQueryRes.data) {
+		const sortedTransactions = sortByCreatedAtDescending([
+			...companyTransactionsQueryRes.data,
+		]);
+		rearrangedTableData = sortedTransactions?.map(
 			(item: any, index: any) => {
 				const rearrangedItem = {
 					serial: index + 1,
 					type: getCategoryTypeV2(item.category, item.type),
 					name: item.merchant?.name,
 					country: item.country,
+					wallet: `${item.wallet?.country_iso_code || ""} - ${
+						item.wallet?.currency || ""
+					}`,
+					card: item.card?.masked_number,
 					phone: item.phone_number,
 					idTrx: item.id,
-					amount: item.amount_xaf?.toLocaleString("en-EN") ?? 0,
+					currency: item.currency,
+					amount: item.amount?.toLocaleString("en-EN") ?? 0,
 					status:
 						item.status == "SUCCESS" ? (
 							<BadgeLabel
@@ -209,6 +219,7 @@ export default function Home() {
 				return item;
 			}
 		);
+	}
 
 	return (
 		<Layout title={"Transactions"}>
@@ -218,10 +229,10 @@ export default function Home() {
 						<Title title={"Last transactions"} />
 					</div> */}
 					<CustomTable
-						headerData={headerTransactionData}
+						headerData={headerAllTransactionData}
 						tableData={rearrangedTableData}
 						isLoading={
-							oneUserTransactionsQueryRes?.status == "loading"
+							companyTransactionsQueryRes?.status == "loading"
 						}
 						// threeButtons
 						filter

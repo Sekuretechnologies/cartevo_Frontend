@@ -23,10 +23,10 @@ const WebsiteFooter = () => {
 							<a href="#">Termes et conditions</a>
 						</li>
 						<li>
-							<a href="#">Api documentation</a>
+							<a href="docs.cartevo.co">Api documentation</a>
 						</li>
 						<li>
-							<a href="#">Contactez-nous</a>
+							<a href="/contact">Contactez-nous</a>
 						</li>
 					</ul>
 

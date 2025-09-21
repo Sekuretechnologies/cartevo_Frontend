@@ -35,7 +35,13 @@ export class WalletService {
 		BaseMethods.postRequest(walletUrls.FUND_WALLET, body, true, {}, token);
 
 	static withdraw_wallet = ({ token, body }: { token: string; body: any }) =>
-		BaseMethods.postRequest(walletUrls.WITHDRAW_WALLET, body, true, {}, token);
+		BaseMethods.postRequest(
+			walletUrls.WITHDRAW_WALLET,
+			body,
+			true,
+			{},
+			token
+		);
 
 	static deposit_to_wallet = ({
 		token,
@@ -59,7 +65,11 @@ export class WalletService {
 	}: {
 		token: string;
 		walletId: string;
-		body: { amount: number; direction: 'PAYIN_TO_PAYOUT' | 'PAYOUT_TO_PAYIN'; reason?: string };
+		body: {
+			amount: number;
+			direction: "PAYIN_TO_PAYOUT" | "PAYOUT_TO_PAYIN";
+			reason?: string;
+		};
 	}) =>
 		BaseMethods.postRequest(
 			walletUrls.TRANSFER_INTERNAL(walletId),
@@ -74,7 +84,12 @@ export class WalletService {
 		body,
 	}: {
 		token: string;
-		body: { from_wallet_id: string; to_wallet_id: string; amount: number; reason?: string };
+		body: {
+			from_wallet_id: string;
+			to_wallet_id: string;
+			amount: number;
+			reason?: string;
+		};
 	}) =>
 		BaseMethods.postRequest(
 			walletUrls.TRANSFER_BETWEEN,
@@ -89,10 +104,30 @@ export class WalletService {
 		body,
 	}: {
 		token: string;
-		body: { from_currency: string; to_currency: string; amount: number; country_iso_code?: string };
+		body: {
+			from_currency: string;
+			to_currency: string;
+			amount: number;
+			country_iso_code?: string;
+		};
 	}) =>
 		BaseMethods.postRequest(
 			walletUrls.CALCULATE_TRANSFER_FEES,
+			body,
+			true,
+			{},
+			token
+		);
+
+	static credit_test_wallet = ({
+		token,
+		body,
+	}: {
+		token: string;
+		body: any;
+	}) =>
+		BaseMethods.postRequest(
+			walletUrls.CREDIT_TEST_WALLET,
 			body,
 			true,
 			{},

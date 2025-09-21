@@ -1,14 +1,7 @@
 "use client";
 
-import { AdminService } from "@/api/services/cartevo-api/admin";
 import Layout from "@/components/shared/Layout";
-import { selectCurrentToken } from "@/redux/slices/auth";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
-import { useQuery, useQueryClient } from "react-query";
-import { useSelector } from "react-redux";
-import { any } from "zod";
-import CompanyCard from "./CompanyCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PendingCompanies from "./components/pending-companies/PendingCompanies";
 import ApprovedCompanies from "./components/approved-companies/ApprovedCompanies";

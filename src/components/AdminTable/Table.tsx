@@ -137,6 +137,8 @@ const AdminTable: React.FC<Props> = ({
 	headerData,
 	isLoading,
 }) => {
+	console.log("headerData :: ", headerData);
+
 	const [sort, setSort] = useState<ISortState>({
 		keyToSort: "serial",
 		order: "asc",

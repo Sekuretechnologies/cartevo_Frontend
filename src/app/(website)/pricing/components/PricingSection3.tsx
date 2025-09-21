@@ -45,7 +45,7 @@ const PricingSection3 = () => {
 							<Image
 								src="/website/pricing/logo1.png"
 								alt="Technology partner logo 1"
-								width={100}
+								width={300}
 								height={50}
 								loading="lazy"
 								// className="w-auto h-auto"
@@ -53,7 +53,7 @@ const PricingSection3 = () => {
 							<Image
 								src="/website/pricing/logo2.png"
 								alt="Technology partner logo 2"
-								width={100}
+								width={300}
 								height={50}
 								loading="lazy"
 								// className="w-auto h-auto"

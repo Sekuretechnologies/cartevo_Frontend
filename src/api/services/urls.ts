@@ -41,7 +41,7 @@ export const BASE_URL_CARD = `${BASE_URL}/cards`;
 export const cardsUrls = {
 	GET_CARDS: `${BASE_URL_CARD}`,
 	CREATE_CARD: `${BASE_URL_CARD}`,
-	UPDATE_CARD: `${BASE_URL_CARD}`,
+	// UPDATE_CARD: `${BASE_URL_CARD}`,
 	GET_ONE_CARD: (id: any) => `${BASE_URL_CARD}/${id}`,
 	GET_CARD_BALANCE: (id: any) => `${BASE_URL_CARD}/${id}/balance`,
 	GET_CARD_TRANSACTIONS: (id: any) => `${BASE_URL_CARD}/${id}/transactions`,
@@ -98,5 +98,6 @@ export const walletUrls = {
 	CALCULATE_TRANSFER_FEES: `${BASE_URL_WALLET}/calculate-transfer-fees`,
 	GET_AVAILABLE_FOR_TRANSFER: (id: any) =>
 		`${BASE_URL_WALLET}/${id}/available-for-transfer`,
+	CREDIT_TEST_WALLET: `${BASE_URL_WALLET}/credit-test-wallet`,
 	GET_TRANSACTIONS: `${BASE_URL_WALLET_TRANSACTIONS}`,
 };

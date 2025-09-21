@@ -132,9 +132,9 @@ const Section5 = () => {
 							</div>
 						</div>
 					</div>
-					<button className="text-white text-[13px] font-semibold lg:mb-20 cursor-pointer mt-4 flex items-center justify-between pl-16 pr-5 bg-[#222222] w-[251px] h-[59px] rounded-[20px] ">
+					<a href="/signup" className="text-white text-[13px] font-semibold lg:mb-20 cursor-pointer mt-4 flex items-center justify-between pl-16 pr-5 bg-[#222222] w-[251px] h-[59px] rounded-[20px] ">
 						Commencer <ChevronRight />
-					</button>
+					</a>
 				</div>
 
 				<div

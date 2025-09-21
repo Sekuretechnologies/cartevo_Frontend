@@ -8,7 +8,7 @@ import { TDataList } from "@/components/cards/InfoCard";
 import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
 import Layout from "@/components/shared/Layout";
-import { isObject } from "@/utils/utils";
+import { isObject, sortByCreatedAtDescending } from "@/utils/utils";
 
 import { CustomerService } from "@/api/services/v2/customer";
 import BadgeLabel from "@/components/shared/BadgeLabel";
@@ -22,6 +22,7 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { CardService } from "@/api/services/cartevo-api/card";
 import { headerCardData } from "@/constants/CardData";
+import { selectCurrentToken } from "@/redux/slices/auth";
 
 const CountryFlags: any = CFlags;
 
@@ -29,8 +30,7 @@ const ItemFlagCM = CountryFlags["CM"];
 const ItemFlagUS = CountryFlags["US"];
 
 const getAllCards = async ({ queryKey }: any) => {
-	const [_key, filter, st] = queryKey;
-	const token = localStorage.getItem("sktoken");
+	const [_key, token, filter, st] = queryKey;
 
 	if (!token) {
 		throw new Error("No authentication token found");
@@ -54,9 +54,9 @@ const getAllCards = async ({ queryKey }: any) => {
 	return responseJson.data;
 };
 
-export default function Home() {
+export default function Cards() {
 	useTitle("Cartevo | Cards", true);
-
+	const currentToken: any = useSelector(selectCurrentToken);
 	const [searchTrx, setSearchTrx] = useState("");
 	const [filterContent, setFilterContent] = useState({});
 
@@ -66,7 +66,7 @@ export default function Home() {
 	const searchTerm: string = useSelector(selectSearchTerm);
 
 	const allCardsQueryRes = useQuery({
-		queryKey: ["allCards", filterContent, searchTrx],
+		queryKey: ["allCards", currentToken, filterContent, searchTrx],
 		queryFn: getAllCards,
 		onError: (err) => {
 			toast.error("Failed to get cards.");
@@ -81,46 +81,51 @@ export default function Home() {
 	let rearrangedTableData: any[] = [];
 
 	/** ------------------------------------------------- */
+	if (allCardsQueryRes?.data) {
+		const sortedTransactions = sortByCreatedAtDescending([
+			...allCardsQueryRes?.data,
+		]);
 
-	rearrangedTableData = allCardsQueryRes?.data?.map(
-		(item: any, index: any) => {
-			const rearrangedItem = {
-				serial: index + 1,
-				type: item.brand,
-				number: `${item.masked_number}`,
-				name: item.name,
-				// phone: item.phone_number,
-				balance: item.balance_usd,
-				status:
-					item.status === "ACTIVE" ? (
-						<BadgeLabel
-							className={`text-xs`}
-							label={"Active"}
-							badgeColor={"#1F66FF"}
-							textColor={"#444"}
+		rearrangedTableData = sortedTransactions?.map(
+			(item: any, index: any) => {
+				const rearrangedItem = {
+					serial: index + 1,
+					type: item.brand,
+					number: `${item.masked_number}`,
+					name: item.name,
+					// phone: item.phone_number,
+					balance: item.balance,
+					status:
+						item.status === "ACTIVE" ? (
+							<BadgeLabel
+								className={`text-xs`}
+								label={"Active"}
+								badgeColor={"#1F66FF"}
+								textColor={"#444"}
+							/>
+						) : (
+							<BadgeLabel
+								className={`text-xs`}
+								label={"Inactive"}
+								badgeColor={"#F85D4B"}
+								textColor={"#444"}
+							/>
+						), //<ActiveYesNo isActive={item.active} />,
+					date: getFormattedDateTime(item.created_at, "en"), //item.date,
+					actions: (
+						<CButton
+							text={"Details"}
+							href={`${urls.cards.root}/${item.id}`}
+							btnStyle={"outlineDark"}
+							// icon={<FourDots />}
 						/>
-					) : (
-						<BadgeLabel
-							className={`text-xs`}
-							label={"Inactive"}
-							badgeColor={"#F85D4B"}
-							textColor={"#444"}
-						/>
-					), //<ActiveYesNo isActive={item.active} />,
-				date: getFormattedDateTime(item.created_at, "en"), //item.date,
-				actions: (
-					<CButton
-						text={"Details"}
-						href={`${urls.cards.root}/${item.id}`}
-						btnStyle={"outlineDark"}
-						// icon={<FourDots />}
-					/>
-				),
-			};
-			item = rearrangedItem;
-			return item;
-		}
-	);
+					),
+				};
+				item = rearrangedItem;
+				return item;
+			}
+		);
+	}
 
 	return (
 		<Layout title={"Cards"}>

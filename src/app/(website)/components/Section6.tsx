@@ -75,13 +75,13 @@ const Section6 = () => {
 					</p>
 					<div className="flex flex-col gap-2  md:flex-row">
 						<a
-							href="/login"
+							href="/signup"
 							className="w-[263px] h-[54px] flex justify-center items-center rounded-[20px] text-[#0D5053] text-[13px] font-semibold bg-[#00CFD9]"
 						>
 							Commencer Maintenant
 						</a>
 						<a
-							href="/website/contact"
+							href="/contact"
 							className="w-[263px] h-[54px] flex justify-center  items-center rounded-[20px] text-[#0D5053] text-[13px] font-semibold bg-white"
 						>
 							Contacter le support

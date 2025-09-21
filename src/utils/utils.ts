@@ -228,3 +228,18 @@ export function removeKeyValuePairs(obj: any, keysToRemove: string[]) {
 		Object.entries(obj).filter(([key]) => !keysToRemove.includes(key))
 	);
 }
+
+export function formatSingleDigit(value: number | string): string {
+	const num = typeof value === "string" ? parseInt(value, 10) : value;
+	if (isNaN(num)) return String(value);
+	return num < 10 ? `0${num}` : String(num);
+}
+
+export function sortByCreatedAtDescending<
+	T extends { created_at: string | Date }
+>(array: T[]): T[] {
+	return [...array].sort(
+		(a, b) =>
+			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+	);
+}

@@ -44,7 +44,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 
 	return (
 		<section className="">
-			<div className="flex gap-5 justify-center items-center pb-5 border-b-1 ">
+			<div className="flex flex-col gap-3 justify-center items-center pb-5 border-b-1 ">
 				<div>
 					<div
 						style={{
@@ -74,9 +74,9 @@ const UserDetails = ({ search, setSearch }: Props) => {
 						/>
 					</div>
 				</div>
-				<div className="w-full py-5 ">
-					<h1 className="text-lg text-gray-700 font-bold">{`${userData?.first_name} ${userData?.last_name}`}</h1>
-					<p className="text-md text-gray-500">{userData?.email}</p>
+				<div className="w-full text-center ">
+					<h1 className="text-md text-gray-700 font-bold">{`${userData?.first_name} ${userData?.last_name}`}</h1>
+					<p className="text-sm text-gray-500">{userData?.email}</p>
 					{/* <p className="text-md text-gray-500">
 						{userData?.phone}
 					</p> */}

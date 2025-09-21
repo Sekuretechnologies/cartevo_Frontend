@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectItem } from "@nextui-org/select";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaFileAlt } from "react-icons/fa";
 import { useMutation } from "react-query";
@@ -248,7 +248,24 @@ export default function PersonalInfoForm() {
 		},
 	});
 
+	// Disable scrolling when mutation is loading
+	useEffect(() => {
+		if (mutation.isLoading) {
+			window.scrollTo({ top: 0, behavior: "smooth" });
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "";
+		}
+
+		// Cleanup on unmount
+		return () => {
+			document.body.style.overflow = "";
+		};
+	}, [mutation.isLoading]);
+
 	const onSubmit = (data: any) => {
+		// Scroll to top on form submit
+		window.scrollTo({ top: 0, behavior: "smooth" });
 		mutation.mutate(data);
 	};
 	const onError = (err: any) => {

@@ -15,6 +15,7 @@ import { HiPlus } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import CardDetailsModal from "./modals/CardDetailsModal";
 import AddCardModal from "./modals/AddCardModal";
+import { sortByCreatedAtDescending } from "@/utils/utils";
 
 type Props = {
 	search?: string;
@@ -28,7 +29,9 @@ const Cards = ({ search, setSearch }: Props) => {
 
 	const [isOpen, setIsOpen] = useState<boolean | string | number>(false);
 
-	const rearrangedTableData = customerCards?.map((item: any, index: any) => {
+	const sortedCards = sortByCreatedAtDescending([...customerCards]);
+
+	const rearrangedTableData = sortedCards?.map((item: any, index: any) => {
 		let mode;
 		const rearrangedItem = {
 			serial: index + 1,
@@ -36,7 +39,7 @@ const Cards = ({ search, setSearch }: Props) => {
 			number: `${item.masked_number}`,
 			name: item.name,
 			// phone: item.phone_number,
-			balance: item.balance_usd,
+			balance: item.balance,
 			status:
 				item.status === "ACTIVE" ? (
 					<BadgeLabel
@@ -59,11 +62,12 @@ const Cards = ({ search, setSearch }: Props) => {
 					<div className="flex gap-5">
 						<CButton
 							text={"Details"}
-							onClick={() => setIsOpen(index)}
+							// onClick={() => setIsOpen(index)}
 							btnStyle={"outlineDark"}
+							href={`${urls.cards.root}/${item.id}`}
 							// icon={<FourDots />}
 						/>
-						<Modal
+						{/* <Modal
 							index={`${index}`}
 							name={"cardDetails"}
 							isOpen={isOpen === index}
@@ -74,7 +78,7 @@ const Cards = ({ search, setSearch }: Props) => {
 									item={item}
 								/>
 							}
-						/>
+						/> */}
 					</div>
 				</>
 			),
@@ -104,7 +108,7 @@ const Cards = ({ search, setSearch }: Props) => {
 					setFilterContent={setFilterContent}
 					btn={
 						<CButton
-							text={"+ Add card"}
+							text={"Add card"}
 							btnStyle={"blue"}
 							onClick={() => setIsOpen("addCard")}
 							icon={<HiPlus />}

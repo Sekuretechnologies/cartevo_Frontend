@@ -34,6 +34,8 @@ import LabelWithBadge from "@/components/shared/LabelWithBadge";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import { useState } from "react";
 import BadgeLabel from "@/components/shared/BadgeLabel";
+import { selectCardTransactions } from "@/redux/slices/card";
+import { sortByCreatedAtDescending } from "@/utils/utils";
 
 type Props = {
 	search?: string;
@@ -43,21 +45,23 @@ type Props = {
 const Transactions = ({ search, setSearch }: Props) => {
 	const [filterContent, setFilterContent] = useState({});
 
-	const customerDetails: any = useSelector(selectCurrentCustomerTransactions);
+	const cardTransactions: any = useSelector(selectCardTransactions);
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	const rearrangedTableData = customerDetails?.transactions?.data?.map(
+	const sortedTransactions = sortByCreatedAtDescending([...cardTransactions]);
+
+	const rearrangedTableData = sortedTransactions?.map(
 		(item: any, index: any) => {
 			let mode;
 			const rearrangedItem = {
 				serial: index + 1,
 				type: getCategoryTypeV2(item.category, item.type),
 				name: item.merchant?.name,
-				country: item.country,
-				phone: item.phone_number,
+				// country: item.country,
+				// phone: item.phone_number,
 				idTrx: item.id,
-				amount: item.amount_xaf?.toLocaleString("en-EN") ?? 0,
+				amount: item.amount?.toLocaleString("en-EN") ?? 0,
 				status:
 					item.status == "SUCCESS" ? (
 						<BadgeLabel
@@ -110,7 +114,7 @@ const Transactions = ({ search, setSearch }: Props) => {
 								modalContent={
 									<TransactionModal
 										setIsOpen={setIsOpen}
-										customer={customerDetails?.customer}
+										customer={item?.customer}
 										item={item}
 									/>
 								}

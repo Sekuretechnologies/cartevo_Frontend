@@ -185,13 +185,13 @@ export class CardService {
 	};
 
 	// Legacy method for backward compatibility
-	static update_card = ({ token, data }: { token: string; data: any }) => {
-		return BaseMethods.postFileRequest(
-			cardsUrls.UPDATE_CARD,
-			data,
-			true,
-			{},
-			token
-		);
-	};
+	// static update_card = ({ token, data }: { token: string; data: any }) => {
+	// 	return BaseMethods.postFileRequest(
+	// 		cardsUrls.UPDATE_CARD,
+	// 		data,
+	// 		true,
+	// 		{},
+	// 		token
+	// 	);
+	// };
 }

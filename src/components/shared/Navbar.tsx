@@ -44,7 +44,10 @@ const handleLogout = async (token: string) => {
 		throw new Error(responseBody.message);
 	}
 };
-
+const envModes: any = {
+	live: "Live",
+	sandbox: "Sandbox",
+};
 export default function Navbar(props: Props) {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -60,7 +63,7 @@ export default function Navbar(props: Props) {
 	const currentStartDate = useSelector(selectStartDate);
 	const currentLimitDate = useSelector(selectLimitDate);
 
-	const [envMode, setEnvMode] = useState(currentMode || "Sandbox");
+	const [envMode, setEnvMode] = useState(currentMode || "sandbox");
 	const [isChangeStartDateModalFormOpen, setIsChangeStartDateModalFormOpen] =
 		useState(false);
 
@@ -114,11 +117,11 @@ export default function Navbar(props: Props) {
 		console.log("checked :: ", checked);
 
 		if (checked) {
-			setEnvMode("Live");
-			dispatch(setMode("Live"));
+			setEnvMode("live");
+			dispatch(setMode("live"));
 		} else {
-			setEnvMode("Sandbox");
-			dispatch(setMode("Sandbox"));
+			setEnvMode("sandbox");
+			dispatch(setMode("sandbox"));
 		}
 	};
 
@@ -194,7 +197,7 @@ export default function Navbar(props: Props) {
 							onClick={(e) => handleOnboardingError(e)}
 						>
 							<span className="text-[15px] w-[55px] text-center text-gray-600">
-								{envMode}
+								{envModes[currentMode]}
 							</span>
 
 							<Switch

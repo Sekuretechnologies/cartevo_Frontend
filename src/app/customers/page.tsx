@@ -8,7 +8,7 @@ import { TDataList } from "@/components/cards/InfoCard";
 import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
 import Layout from "@/components/shared/Layout";
-import { isObject } from "@/utils/utils";
+import { isObject, sortByCreatedAtDescending } from "@/utils/utils";
 
 import { CustomerService } from "@/api/services/cartevo-api/customer";
 import BadgeLabel from "@/components/shared/BadgeLabel";
@@ -70,53 +70,58 @@ export default function Customers() {
 	let rearrangedTableData: any[] = [];
 
 	/** ------------------------------------------------- */
+	if (allCustomersQueryRes?.data) {
+		const sortedTransactions = sortByCreatedAtDescending([
+			...allCustomersQueryRes?.data,
+		]);
 
-	rearrangedTableData = allCustomersQueryRes?.data?.map(
-		(item: any, index: any) => {
-			const rearrangedItem = {
-				serial: index + 1,
-				name: `${item.last_name} ${item.first_name}`,
-				country:
-					item.country.includes("Congo") &&
-					item.country.includes("Democratic")
-						? "Congo RDC"
-						: item.country,
-				phone: item.country_phone_code
-					? `${item.country_phone_code} ${item.phone_number}`
-					: item.phone_number,
-				email: item.email,
-				// balance: item.balance_xaf?.toLocaleString("en-EN"),
-				// nbCards: item.number_of_cards, //item.numberOfCards,
+		rearrangedTableData = sortedTransactions?.map(
+			(item: any, index: any) => {
+				const rearrangedItem = {
+					serial: index + 1,
+					name: `${item.last_name} ${item.first_name}`,
+					country:
+						item.country.includes("Congo") &&
+						item.country.includes("Democratic")
+							? "Congo RDC"
+							: item.country,
+					phone: item.country_phone_code
+						? `${item.country_phone_code} ${item.phone_number}`
+						: item.phone_number,
+					email: item.email,
+					// balance: item.balance_xaf?.toLocaleString("en-EN"),
+					// nbCards: item.number_of_cards, //item.numberOfCards,
 
-				status: item.active ? (
-					<BadgeLabel
-						className={`text-xs`}
-						label={"Active"}
-						badgeColor={"#1F66FF"}
-						textColor={"#444"}
-					/>
-				) : (
-					<BadgeLabel
-						className={`text-xs`}
-						label={"Inactive"}
-						badgeColor={"#F85D4B"}
-						textColor={"#444"}
-					/>
-				), //<ActiveYesNo isActive={item.active} />,
-				date: getFormattedDateTime(item.created_at, "en"), //item.date,
-				actions: (
-					<CButton
-						text={"Details"}
-						href={`${urls.customers.root}/${item.id}`}
-						btnStyle={"outlineDark"}
-						// icon={<FourDots />}
-					/>
-				),
-			};
-			item = rearrangedItem;
-			return item;
-		}
-	);
+					status: item.is_active ? (
+						<BadgeLabel
+							className={`text-xs`}
+							label={"Active"}
+							badgeColor={"#1F66FF"}
+							textColor={"#444"}
+						/>
+					) : (
+						<BadgeLabel
+							className={`text-xs`}
+							label={"Inactive"}
+							badgeColor={"#F85D4B"}
+							textColor={"#444"}
+						/>
+					), //<ActiveYesNo isActive={item.active} />,
+					date: getFormattedDateTime(item.created_at, "en"), //item.date,
+					actions: (
+						<CButton
+							text={"Details"}
+							href={`${urls.customers.root}/${item.id}`}
+							btnStyle={"outlineDark"}
+							// icon={<FourDots />}
+						/>
+					),
+				};
+				item = rearrangedItem;
+				return item;
+			}
+		);
+	}
 
 	return (
 		<Layout title={"Customers"}>

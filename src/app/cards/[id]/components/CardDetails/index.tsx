@@ -20,9 +20,16 @@ import {
 	FaDownload,
 } from "react-icons/fa";
 import { SiVisa, SiMastercard } from "react-icons/si";
-import { isObject } from "@/utils/utils";
+import { isObject, formatSingleDigit } from "@/utils/utils";
 import { CardService } from "@/api/services/cartevo-api/card";
 import toast from "react-hot-toast";
+import { selectCurrentCard } from "@/redux/slices/card";
+import Modal from "@/components/shared/Modal/Modal";
+import FundModal from "../modals/FundModal";
+import WithdrawModal from "../modals/WithdrawModal";
+import FreezeModal from "../modals/FreezeModal";
+import UnfreezeModal from "../modals/UnfreezeModal";
+import BadgeLabel from "@/components/shared/BadgeLabel";
 
 type Props = {
 	search?: string;
@@ -31,6 +38,9 @@ type Props = {
 
 export function VirtualVisaCard() {
 	const [copied, setCopied] = useState("");
+	const [isFundModalOpen, setIsFundModalOpen] = useState(false);
+	const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+	const [isFreezeModalOpen, setIsFreezeModalOpen] = useState(false);
 	const details = [
 		{ label: "Card ID", value: "45E5R76T77" },
 		{ label: "Card Number", value: "---- ---- ---- 4565" },
@@ -136,11 +146,18 @@ export function VirtualVisaCard() {
 const CardDetails = ({ search, setSearch }: Props) => {
 	const redirectRef: any = useRef();
 	const dispatch = useDispatch();
+	const cardDetails: any = useSelector(selectCurrentCard);
 	const customerDetails: any = useSelector(selectCurrentCustomerDetails);
 
-	const cardDetails: any = customerDetails?.cards?.data?.[0];
+	console.log("cardDetails :: ", cardDetails);
+
+	// const cardDetails: any = customerDetails?.cards?.data?.[0];
 
 	const [copied, setCopied] = useState("");
+	const [isFundModalOpen, setIsFundModalOpen] = useState(false);
+	const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+	const [isFreezeModalOpen, setIsFreezeModalOpen] = useState(false);
+	const [isUnfreezeModalOpen, setIsUnfreezeModalOpen] = useState(false);
 
 	const handleCopy = (label: any, text: any) => {
 		navigator.clipboard.writeText(text);
@@ -166,9 +183,9 @@ const CardDetails = ({ search, setSearch }: Props) => {
 		cvv: "CVV",
 		masked_number: "Number",
 		name: "Name",
-		expired_at: "Expiry Date",
+		status: "Status",
 		created_at: "Issuing Date",
-		balance_usd: "Balance",
+		balance: "Balance",
 	};
 
 	const handleFundCard = async (cardId: string) => {
@@ -266,28 +283,69 @@ const CardDetails = ({ search, setSearch }: Props) => {
 				{/* Header */}
 				<div className="flex justify-between items-center">
 					<div>
-						<h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+						{/* <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
 							Card details
-						</h2>
-						<p className="text-sm text-gray-500 dark:text-gray-400">
+						</h2> */}
+						<div>
+							{cardDetails.status == "ACTIVE" ? (
+								<BadgeLabel
+									className={`text-xs`}
+									label={"ACTIVE"}
+									badgeColor={"#1F66FF"}
+									textColor={"#444"}
+								/>
+							) : cardDetails.status == "TERMINATED" ? (
+								<BadgeLabel
+									className={`text-xs`}
+									label={"TERMINATED"}
+									badgeColor={"#F85D4B"}
+									textColor={"#444"}
+								/>
+							) : cardDetails.status?.toUpperCase() ==
+							  "FROZEN" ? (
+								<BadgeLabel
+									className={`text-xs`}
+									label={"FROZEN"}
+									badgeColor={"#FFAC1C"}
+									textColor={"#444"}
+								/>
+							) : (
+								<BadgeLabel
+									className={`text-xs`}
+									label={"Suspendu"}
+									badgeColor={"#444"}
+									textColor={"#444"}
+								/>
+							)}
+						</div>
+						{/* <p className="text-sm text-gray-500 dark:text-gray-400">
 							{`Created at ${getFormattedDateTime(
 								cardDetails?.created_at
 							)}`}
-						</p>
+						</p> */}
 					</div>
 					<div>
 						<span className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-							{`${cardDetails?.balance_usd} USD`}
+							{`${cardDetails?.balance} USD`}
 						</span>
 					</div>
 				</div>
 
 				{/* Card */}
-				<div className="bg-blue-600 text-white rounded-xl p-6 mt-6">
+				<div
+					className={`bg-blue-600 text-white rounded-xl p-6 mt-6 relative ${
+						cardDetails?.status?.toUpperCase() !== "ACTIVE"
+							? "blur-sm"
+							: ""
+					}`}
+				>
 					<div className="flex justify-between items-center mb-4">
 						<div className="flex items-center space-x-2">
 							{/* <FaMicrochip size={24} /> */}
-							<span className="font-semibold">Virtual Card</span>
+							<span className="font-semibold">
+								{cardDetails?.brand?.toUpperCase() ||
+									`VIRTUAL CARD`}
+							</span>
 						</div>
 						{cardDetails?.brand?.toLowerCase() === "visa" ? (
 							<SiVisa size={48} />
@@ -298,7 +356,7 @@ const CardDetails = ({ search, setSearch }: Props) => {
 							<></>
 						)}
 					</div>
-					<div className="text-2xl tracking-widest mb-4">
+					<div className="text-xl tracking-widest mb-4">
 						{cardDetails?.masked_number}
 						{/* •••• •••• •••• 5587 */}
 					</div>
@@ -306,44 +364,67 @@ const CardDetails = ({ search, setSearch }: Props) => {
 						<span className="uppercase">{cardDetails?.name}</span>
 						<div className="flex space-x-4">
 							<span>•••</span>
+							{/* <span>{cardDetails?.cvv}</span> */}
 							<span>
-								{cardDetails?.expired_at}
+								{`${formatSingleDigit(
+									cardDetails?.expiry_month
+								)}/${cardDetails?.expiry_year}`}
 								{/* •• /27 */}
 							</span>
 						</div>
 					</div>
+					{(cardDetails?.status?.toUpperCase() === "FROZEN" ||
+						cardDetails?.status?.toUpperCase() ===
+							"TERMINATED") && (
+						<div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-xl">
+							{/* <span className="text-white font-bold text-lg uppercase">
+								{cardDetails?.status?.toUpperCase()}
+							</span> */}
+						</div>
+					)}
 				</div>
 
 				{/* Actions */}
 				<div className="grid grid-cols-2 gap-4 mt-4">
-					<button
-						onClick={() => handleFundCard(cardDetails?.id)}
-						className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
-					>
-						<FaDownload className="" />
-						Fund
-					</button>
-					<button
-						onClick={() => handleWithdrawCard(cardDetails?.id)}
-						className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
-					>
-						<FaUpload className="" />
-						Withdraw
-					</button>
-					<button
-						onClick={() => handleFreezeCard(cardDetails?.id)}
-						className="flex-1 flex gap-2 items-center justify-center bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition"
-					>
-						<FaLock className="" />
-						Freeze
-					</button>
-					<button
-						onClick={() => handleUnfreezeCard(cardDetails?.id)}
-						className="flex-1 flex gap-2 items-center justify-center bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition"
-					>
-						<FaLock className="" />
-						Unfreeze
-					</button>
+					{cardDetails?.status?.toUpperCase() === "ACTIVE" ? (
+						<>
+							<button
+								onClick={() => setIsFundModalOpen(true)}
+								className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
+							>
+								<FaDownload className="" />
+								Fund
+							</button>
+							<button
+								onClick={() => setIsWithdrawModalOpen(true)}
+								className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
+							>
+								<FaUpload className="" />
+								Withdraw
+							</button>
+						</>
+					) : (
+						<></>
+					)}
+					{cardDetails.status?.toUpperCase() === "ACTIVE" ? (
+						<button
+							onClick={() => setIsFreezeModalOpen(true)}
+							className="col-span-2 flex-1 flex gap-2 items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded transition"
+						>
+							<FaLock className="" />
+							Freeze
+						</button>
+					) : cardDetails.status?.toUpperCase() === "FROZEN" ? (
+						<button
+							onClick={() => setIsUnfreezeModalOpen(true)}
+							className="col-span-2 flex-1 flex gap-2 items-center justify-center bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition"
+						>
+							<FaLock className="" />
+							Unfreeze
+						</button>
+					) : (
+						<></>
+					)}
 				</div>
 
 				{/* Details Grid */}
@@ -357,9 +438,9 @@ const CardDetails = ({ search, setSearch }: Props) => {
 										"cvv",
 										"masked_number",
 										"name",
+										"status",
 										"created_at",
-										"expired_at",
-										"balance_usd",
+										"balance",
 									].includes(label)
 								)
 									return (
@@ -378,10 +459,12 @@ const CardDetails = ({ search, setSearch }: Props) => {
 														? getFormattedDateTime(
 																cardDetails?.created_at
 														  )
+														: label === "balance"
+														? `${cardDetails?.balance} USD`
 														: value}
 												</p>
 											</div>
-											<button
+											{/* <button
 												onClick={() =>
 													handleCopy(label, value)
 												}
@@ -393,12 +476,64 @@ const CardDetails = ({ search, setSearch }: Props) => {
 												) : (
 													<FaRegCopy className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition" />
 												)}
-											</button>
+											</button> */}
 										</div>
 									);
 							}
 						)}
 				</div>
+
+				{/* Modals */}
+				<Modal
+					name="fund"
+					isOpen={isFundModalOpen}
+					setIsOpen={setIsFundModalOpen}
+					modalContent={
+						<FundModal
+							isOpen={isFundModalOpen}
+							setIsOpen={setIsFundModalOpen}
+							cardId={cardDetails?.id}
+							customerId={cardDetails?.customer_id}
+						/>
+					}
+				/>
+				<Modal
+					name="withdraw"
+					isOpen={isWithdrawModalOpen}
+					setIsOpen={setIsWithdrawModalOpen}
+					modalContent={
+						<WithdrawModal
+							isOpen={isWithdrawModalOpen}
+							setIsOpen={setIsWithdrawModalOpen}
+							cardId={cardDetails?.id}
+							customerId={cardDetails?.customer_id}
+						/>
+					}
+				/>
+				<Modal
+					name="freeze"
+					isOpen={isFreezeModalOpen}
+					setIsOpen={setIsFreezeModalOpen}
+					modalContent={
+						<FreezeModal
+							isOpen={isFreezeModalOpen}
+							setIsOpen={setIsFreezeModalOpen}
+							cardId={cardDetails?.id}
+						/>
+					}
+				/>
+				<Modal
+					name="unfreeze"
+					isOpen={isUnfreezeModalOpen}
+					setIsOpen={setIsUnfreezeModalOpen}
+					modalContent={
+						<UnfreezeModal
+							isOpen={isUnfreezeModalOpen}
+							setIsOpen={setIsUnfreezeModalOpen}
+							cardId={cardDetails?.id}
+						/>
+					}
+				/>
 			</div>
 		</section>
 	);
