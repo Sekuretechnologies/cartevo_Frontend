@@ -1,3 +1,4 @@
+import { string } from "zod";
 import BaseMethods from "../../baseMethods";
 import { companyUrls, walletUrls } from "../urls";
 
@@ -44,6 +45,22 @@ export class CompanyService {
 		let query_params: any = {};
 		return BaseMethods.getRequest(
 			companyUrls.GET_ONBOARDING_STEPS,
+			true,
+			query_params,
+			token
+		);
+	};
+
+	static get_verification_status = ({
+		token,
+		companyId,
+	}: {
+		token: string;
+		companyId: string;
+	}) => {
+		const query_params = { companyId };
+		return BaseMethods.getRequest(
+			companyUrls.GET_VERIFICATION_STATUS,
 			true,
 			query_params,
 			token

@@ -22,6 +22,7 @@ export const companyUrls = {
 	GET_ONBOARDING_STEPS: `${BASE_URL_COMPANY}/onboarding-steps`,
 	COMPLETE_KYB: `${BASE_URL_COMPANY}/onboarding/kyb`,
 	COMPLETE_KYC: `${BASE_URL_COMPANY}/onboarding/kyc`,
+	GET_VERIFICATION_STATUS: `${BASE_URL_COMPANY}/get-status`,
 };
 
 /** CUSTOMER ============================================================ */
