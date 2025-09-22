@@ -302,10 +302,9 @@ export const userManagementUrls = {
 
 export const ADMIN_BASE_URL = `${BASE_URL}/admin`;
 export const adminUrls = {
-	// GET_COMPANIES: `${ADMIN_BASE_URL}/get-all-companies`,
-	GET_COMPANIES: `http://127.0.0.1:3001/api/v1/admin/get-all-companies`,
-	// HANDLE_KYC: `${ADMIN_BASE_URL}/handle-kyc`,
-	HANDLE_KYC: `http://127.0.0.1:3001/api/v1/admin/handle-kyc`,
-	// HANDLE_KYB: `${ADMIN_BASE_URL}/handle-kyb`,
-	HANDLE_KYB: `http://127.0.0.1:3001/api/v1/admin/handle-kyb`,
+	GET_COMPANIES: `${ADMIN_BASE_URL}/get-all-companies`,
+
+	HANDLE_KYC: `${ADMIN_BASE_URL}/handle-kyc`,
+
+	HANDLE_KYB: `${ADMIN_BASE_URL}/handle-kyb`,
 };

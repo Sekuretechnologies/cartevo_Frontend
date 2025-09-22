@@ -1,114 +1,152 @@
-"use client";
-
-import React, { useState, useRef, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
-import { allCountries } from "country-telephone-data";
+import React, { useState, useEffect, useRef, ChangeEvent } from "react";
+import { allCountries } from "country-telephone-data"; // ou autre source de données pays
+// utilitaire pour fermer au clic extérieur
 
 type Country = {
 	name: string;
+	iso2: string;
 	dialCode: string;
 	flag: string;
 };
 
-const countries: Country[] = allCountries.map((c) => ({
-	name: c.name,
-	dialCode: `+${c.dialCode}`,
-	flag: `https://flagcdn.com/${c.iso2.toLowerCase()}.svg`,
-}));
-
-interface PhoneInputProps {
+interface CountryPhoneInputProps {
 	value?: string;
-	onChange: (number: string, code: string) => void;
+	defaultCountryIso2?: string;
+	onChange: (fullNumber: string, country: Country) => void;
+	placeholder?: string;
+	className?: string;
 }
 
-const normalize = (str: string) => str.toLowerCase();
+const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
+	value = "",
+	defaultCountryIso2,
+	onChange,
+	placeholder = "Numéro de téléphone",
+	className = "",
+}) => {
+	const countries: Country[] = allCountries.map((c) => ({
+		name: c.name,
+		iso2: c.iso2.toLowerCase(),
+		dialCode: `+${c.dialCode}`,
+		flag: `https://flagcdn.com/${c.iso2.toLowerCase()}.svg`,
+	}));
 
-const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
-	const [selectedCountry, setSelectedCountry] = useState<Country>(
-		countries[0]
-	);
-	const [isOpen, setIsOpen] = useState(false);
-	const [inputValue, setInputValue] = useState(value);
-	const dropdownRef = useRef<HTMLDivElement>(null);
+	const defaultCountry =
+		countries.find((c) => c.iso2 === defaultCountryIso2?.toLowerCase()) ||
+		countries[0];
 
-	const handleSelect = (country: Country) => {
-		setSelectedCountry(country);
-		const numberWithoutCode = inputValue.replace(/^\+\d+/, "");
-		onChange(numberWithoutCode, country.dialCode);
-		setIsOpen(false);
-	};
+	const [selectedCountry, setSelectedCountry] =
+		useState<Country>(defaultCountry);
+	const [phoneNumber, setPhoneNumber] = useState<string>(value);
+	const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+	const [searchTerm, setSearchTerm] = useState<string>("");
 
-	// Filtrer les pays en temps réel selon la saisie
-	const filteredCountries = countries.filter(
-		(c) =>
-			normalize(c.name).includes(normalize(inputValue)) ||
-			c.dialCode.startsWith(inputValue)
-	);
+	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	// Fermer le dropdown si clic à l'extérieur
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				dropdownRef.current &&
-				!dropdownRef.current.contains(event.target as Node)
-			) {
-				setIsOpen(false);
-			}
-		};
+	useOnClickOutside(wrapperRef, () => {
+		setDropdownOpen(false);
+	});
 
-		document.addEventListener("mousedown", handleClickOutside);
-		return () =>
-			document.removeEventListener("mousedown", handleClickOutside);
-	}, []);
+	// Filtrer les pays selon la saisie
+	const filteredCountries = countries.filter((c) => {
+		const term = searchTerm.trim().toLowerCase();
+		if (term === "") return true;
+		return (
+			c.name.toLowerCase().includes(term) ||
+			c.dialCode.startsWith(term) ||
+			c.iso2.toLowerCase().startsWith(term)
+		);
+	});
+
+	// Quand le pays change ou numéro change, on envoie la valeur
+	useEffect(() => {
+		const full = `${selectedCountry.dialCode}${phoneNumber.replace(
+			/\D/g,
+			""
+		)}`;
+		onChange(full, selectedCountry);
+	}, [selectedCountry, phoneNumber, onChange]);
+
+	const handleCountrySelect = (country: Country) => {
+		setSelectedCountry(country);
+		setDropdownOpen(false);
+	};
+
+	const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const v = e.target.value;
+		// autoriser chiffres, espace, tirets etc
+		setPhoneNumber(v);
+	};
 
 	return (
-		<div className="relative w-fit" ref={dropdownRef}>
-			{/* Sélecteur pays */}
-			<button
-				type="button"
-				onClick={() => setIsOpen(!isOpen)}
-				className="flex items-center gap-2 px-3 py-3 border border-[#E6E6E6] rounded-[7px]"
-			>
-				<img
-					src={selectedCountry.flag}
-					alt={selectedCountry.dialCode}
-					className="w-6 h-6"
+		<div className={`relative ${className}`} ref={wrapperRef}>
+			{/* Sélecteur pays + numéro */}
+			<div className="flex items-center border rounded-md overflow-hidden">
+				{/* bouton pays */}
+				<button
+					type="button"
+					className="flex items-center px-3 py-2 bg-white hover:bg-gray-100 border-r"
+					onClick={() => setDropdownOpen((open) => !open)}
+				>
+					<img
+						src={selectedCountry.flag}
+						alt={selectedCountry.iso2}
+						className="w-5 h-5 mr-2"
+					/>
+					<span className="mr-1">{selectedCountry.dialCode}</span>
+					<svg
+						className="w-4 h-4 ml-auto"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+					>
+						<path
+							d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.35a.75.75 0 011.14.98l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z"
+							fillRule="evenodd"
+							clipRule="evenodd"
+						/>
+					</svg>
+				</button>
+				{/* input phone number */}
+				<input
+					type="tel"
+					value={phoneNumber}
+					onChange={handlePhoneChange}
+					placeholder={placeholder}
+					className="flex-1 px-3 py-2 outline-none"
 				/>
-				<span className="text-sm text-gray-700 font-poppins">
-					{selectedCountry.dialCode}
-				</span>
-				<ChevronDown />
-			</button>
+			</div>
 
-			{/* Dropdown pays */}
-			{isOpen && (
-				<div className="absolute top-full left-0 mt-2 w-56 bg-white border rounded-xl shadow-lg max-h-60 overflow-y-auto z-50">
-					{/* Input recherche */}
+			{/* Dropdown de sélection des pays */}
+			{dropdownOpen && (
+				<div className="absolute mt-1 left-0 w-full max-h-60 bg-white border rounded-md shadow-lg overflow-y-auto z-50">
 					<input
 						type="text"
-						value={inputValue}
-						onChange={(e) => setInputValue(e.target.value)}
-						placeholder="Rechercher un pays ou code"
-						className="w-full px-3 py-2 border-b border-gray-200 focus:outline-none"
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+						placeholder="Chercher pays ou code"
+						className="w-full px-3 py-2 border-b outline-none"
 					/>
-					{/* Liste filtrée en temps réel */}
-					{filteredCountries.map((country) => (
+					{filteredCountries.length === 0 && (
+						<div className="px-3 py-2 text-gray-500">
+							Aucun résultat
+						</div>
+					)}
+					{filteredCountries.map((c) => (
 						<button
-							key={country.dialCode}
+							key={c.iso2 + c.dialCode}
 							type="button"
-							onClick={() => handleSelect(country)}
-							className="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-100 text-left"
+							onClick={() => handleCountrySelect(c)}
+							className="flex items-center w-full px-3 py-2 hover:bg-gray-100"
 						>
 							<img
-								src={country.flag}
-								alt={country.name}
-								className="w-6 h-6"
+								src={c.flag}
+								alt={c.name}
+								className="w-5 h-5 mr-2"
 							/>
-							<span className="text-sm text-gray-700 font-poppins">
-								{country.name}
-							</span>
-							<span className="ml-auto text-sm text-gray-500 font-poppins">
-								{country.dialCode}
+							<span className="flex-1 text-left">{c.name}</span>
+							<span className="text-sm text-gray-500 ml-auto">
+								{c.dialCode}
 							</span>
 						</button>
 					))}
@@ -118,4 +156,24 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value = "", onChange }) => {
 	);
 };
 
-export default PhoneInput;
+export default CountryPhoneInput;
+
+function useOnClickOutside(
+	ref: React.RefObject<HTMLElement>,
+	handler: (event: MouseEvent | TouchEvent) => void
+) {
+	useEffect(() => {
+		const listener = (event: MouseEvent | TouchEvent) => {
+			if (!ref.current || ref.current.contains(event.target as Node)) {
+				return;
+			}
+			handler(event);
+		};
+		document.addEventListener("mousedown", listener);
+		document.addEventListener("touchstart", listener);
+		return () => {
+			document.removeEventListener("mousedown", listener);
+			document.removeEventListener("touchstart", listener);
+		};
+	}, [ref, handler]);
+}
