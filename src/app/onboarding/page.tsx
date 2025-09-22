@@ -224,6 +224,7 @@ export default function OnboardingPage() {
 		}
 	};
 
+	const isLoadingVerification = verificationStatusRes?.isLoading;
 	return (
 		<Layout title={"Onboarding"}>
 			{onboardingStepsQueryRes?.status === "loading" ? (
@@ -274,39 +275,51 @@ export default function OnboardingPage() {
 
 								{/* texte basé sur kycStatus / kybStatus */}
 								{step.slug === "profile_completion" && (
-									<p
-										className={`text-sm mb-2 ${
-											getVerificationMessage(
-												kycStatus,
-												"KYC"
-											).className
-										}`}
-									>
-										{
-											getVerificationMessage(
-												kycStatus,
-												"KYC"
-											).message
-										}
-									</p>
+									<>
+										{isLoading ? (
+											<div className="loadingSpinner"></div>
+										) : (
+											<p
+												className={`text-sm mb-2 ${
+													getVerificationMessage(
+														kycStatus,
+														"KYC"
+													).className
+												}`}
+											>
+												{
+													getVerificationMessage(
+														kycStatus,
+														"KYC"
+													).message
+												}
+											</p>
+										)}
+									</>
 								)}
 
 								{step.slug === "kyb_completion" && (
-									<p
-										className={`text-sm mb-2 ${
-											getVerificationMessage(
-												kybStatus,
-												"KYB"
-											).className
-										}`}
-									>
-										{
-											getVerificationMessage(
-												kybStatus,
-												"KYB"
-											).message
-										}
-									</p>
+									<>
+										{isLoading ? (
+											<div className="loadingSpinner"></div>
+										) : (
+											<p
+												className={`text-sm mb-2 ${
+													getVerificationMessage(
+														kybStatus,
+														"KYB"
+													).className
+												}`}
+											>
+												{
+													getVerificationMessage(
+														kybStatus,
+														"KYB"
+													).message
+												}
+											</p>
+										)}
+									</>
 								)}
 
 								<div className="flex justify-between items-center">
