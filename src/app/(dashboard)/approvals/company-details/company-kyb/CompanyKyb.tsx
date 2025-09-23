@@ -126,11 +126,11 @@ const CompanyKyb = () => {
 	}
 
 	return (
-		<div className="px-5 py-8 ">
+		<div className="px-5 py-8 relative">
 			{/**Status */}
 			<div
-				className={`flex justify-end absolute font-semibold text-[15px] right-12 px-4 py-2
-					rounded-full top-36 ${dynamicStyle}`}
+				className={`flex justify-end absolute font-semibold text-[15px] right-5 px-4 py-2
+					rounded-full -top-12 ${dynamicStyle}`}
 			>
 				<p>{selectedCompany.kyb_status}</p>
 			</div>
@@ -140,7 +140,7 @@ const CompanyKyb = () => {
 				<h3 className="text-lg font-semibold  text-app-secondary">
 					General Information
 				</h3>
-				<div className=" mt-6 grid grid-cols-2 gap-4">
+				<div className=" mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
 					<KybcInfo
 						label="Comapny Name"
 						value={selectedCompany.name}
@@ -166,7 +166,7 @@ const CompanyKyb = () => {
 				<h3 className="text-lg font-semibold  text-app-secondary">
 					Company
 				</h3>
-				<div className=" mt-8 grid grid-cols-2 gap-4">
+				<div className=" mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
 					<KybcInfo
 						label="Business Name"
 						value={selectedCompany.business_name}
@@ -195,7 +195,7 @@ const CompanyKyb = () => {
 				<h3 className="text-lg font-semibold  text-app-secondary">
 					Contact
 				</h3>
-				<div className=" mt-8 grid grid-cols-2 gap-4">
+				<div className=" mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
 					<KybcInfo
 						label="Business Phone Number"
 						value={selectedCompany.business_phone_number}
@@ -250,7 +250,7 @@ const CompanyKyb = () => {
 				<h3 className="text-lg font-semibold  text-app-secondary">
 					Country / Currency
 				</h3>
-				<div className=" mt-8 grid grid-cols-2 gap-4">
+				<div className=" mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
 					<KybcInfo
 						label="Country Iso Code"
 						value={selectedCompany.country_iso_code}

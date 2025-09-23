@@ -62,4 +62,47 @@ export class AdminService {
 			token
 		);
 	};
+
+	static get_users = ({
+		token,
+		companyId,
+		page = 1,
+		perPage = 10,
+	}: {
+		token: string;
+		companyId?: string;
+		page?: number;
+		perPage?: number;
+	}) => {
+		const params = new URLSearchParams();
+
+		if (companyId) params.append("companyId", companyId);
+		params.append("page", page.toString());
+		params.append("perPage", perPage.toString());
+
+		return BaseMethods.getRequest(
+			`${adminUrls.GET_USERS}?${params.toString()}`,
+			false,
+			{},
+			token
+		);
+	};
+
+	static toggleUserStatus = ({
+		token,
+		userId,
+		status,
+	}: {
+		token: string;
+		userId: string;
+		status: string;
+	}) => {
+		return BaseMethods.putRequest(
+			`${adminUrls.TOGGLE_USERS_STATUS}/${userId}`,
+			{ status },
+			true,
+			{},
+			token
+		);
+	};
 }
