@@ -43,6 +43,7 @@ import { sortByCreatedAtDescending } from "@/utils/utils";
 import { HiDownload } from "react-icons/hi";
 import { MdDownload, MdOutlineFileDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { setCompanyWallets } from "@/redux/slices/wallets";
 
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
@@ -300,6 +301,19 @@ export default function Home() {
 		// staleTime: 2 * 60 * 1000, // Consider data fresh for 2 minutes
 		// cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
 	});
+
+	useEffect(() => {
+		if (companyWalletsQueryRes?.data) {
+			dispatch(setCompanyWallets(companyWalletsQueryRes.data));
+		}
+	}, [companyWalletsQueryRes?.data, dispatch]);
+
+    // Sync wallets into Redux store for reuse elsewhere (e.g., transfer between wallets modal)
+    useEffect(() => {
+        if (companyWalletsQueryRes?.data) {
+            dispatch(setCompanyWallets(companyWalletsQueryRes.data));
+        }
+    }, [companyWalletsQueryRes?.data, dispatch]);
 
 	const createWalletMutation = useMutation(
 		(data: AddWalletSubmitProps) => createWallet(currentToken, data),

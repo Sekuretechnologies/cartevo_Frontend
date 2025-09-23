@@ -6,7 +6,7 @@ import { Select, SelectItem } from "@nextui-org/select";
 import { useSelector } from "react-redux";
 import { selectTransactionFees } from "@/redux/slices_v2/settings";
 import classNames from "classnames";
-import { PuffLoader } from "react-spinners";
+import LoadingOverlay from "@/components/shared/LoadingOverlay";
 import { countries as countryDataList } from "country-data";
 import { getCountryPhonePrefix } from "@/utils/utils";
 
@@ -30,6 +30,7 @@ interface WithdrawFundsModalProps {
     country_phone_code?: string;
   };
   userId: string;
+  phoneNumbers?: Array<{ operator: string; phone_number: string }>; // align with Fund modal
 }
 
 export interface WithdrawFundsSubmitProps {
@@ -48,13 +49,18 @@ const WithdrawFundsModal: React.FC<WithdrawFundsModalProps> = ({
   isError,
   operators = [],
   wallet,
-  userId
+  userId,
+  phoneNumbers = []
 }) => {
   const [amount, setAmount] = useState("100");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState("");
+  const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [operator, setOperator] = useState("");
   const [reason, setReason] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [useExistingPhone, setUseExistingPhone] = useState(
+    (phoneNumbers?.length || 0) > 0
+  );
 
   const countryIsoCode = wallet.country_iso_code || "CM";
   const countryPhoneCode = getCountryPhonePrefix(
@@ -77,14 +83,31 @@ const WithdrawFundsModal: React.FC<WithdrawFundsModalProps> = ({
   const feeAmount = (amountNum * fees) / 100;
   const totalAmount = amountNum + feeAmount;
 
+  const isPhoneProvided = useExistingPhone
+    ? Boolean(selectedPhoneNumber)
+    : Boolean(newPhoneNumber);
+  const isOperatorProvided = useExistingPhone ? true : Boolean(operator);
+  const isSubmitDisabled =
+    amountNum <= 0 ||
+    totalAmount > wallet.payout_balance ||
+    !isPhoneProvided ||
+    !isOperatorProvided;
+
   const handleSubmit = () => {
     console.log('=== WITHDRAWAL VALIDATION DEBUG ===');
     console.log('wallet.payout_balance:', wallet.payout_balance);
     console.log('amountNum:', amountNum);
     console.log('feeAmount:', feeAmount);
     console.log('totalAmount:', totalAmount);
-    console.log('phoneNumber:', phoneNumber);
-    console.log('operator:', operator);
+    const effectivePhoneNumber = useExistingPhone
+      ? selectedPhoneNumber.split("-")[1]
+      : newPhoneNumber;
+    const effectiveOperator = useExistingPhone
+      ? selectedPhoneNumber.split("-")[0]
+      : operator;
+
+    console.log('phoneNumber:', effectivePhoneNumber);
+    console.log('operator:', effectiveOperator);
     console.log('Validation: wallet.payout_balance < totalAmount =', wallet.payout_balance < totalAmount);
     console.log('=====================================');
 
@@ -93,12 +116,12 @@ const WithdrawFundsModal: React.FC<WithdrawFundsModalProps> = ({
       return;
     }
 
-    if (!phoneNumber) {
+    if (!effectivePhoneNumber) {
       setErrorMessage("Please enter a phone number");
       return;
     }
 
-    if (!operator) {
+    if (!useExistingPhone && !effectiveOperator) {
       setErrorMessage("Please select an operator");
       return;
     }
@@ -110,8 +133,10 @@ const WithdrawFundsModal: React.FC<WithdrawFundsModalProps> = ({
 
     onSubmit({
       amount: amountNum,
-      phone_number: phoneNumber.replace(`+`, "").replace(`${countryPhoneCode}`, ""),
-      operator,
+      phone_number: String(effectivePhoneNumber)
+        .replace(`+`, "")
+        .replace(`${countryPhoneCode}`, ""),
+      operator: effectiveOperator,
       reason: reason || undefined,
       user_id: userId
     });
@@ -151,55 +176,106 @@ const WithdrawFundsModal: React.FC<WithdrawFundsModalProps> = ({
           </p>
         </div>
 
-        {/* Phone Number Input */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Phone Number
-          </label>
-          <div className="w-full px-3 py-2 border border-gray-300 rounded-md" style={{ position: 'relative' }}>
-            <PhoneInput
-              value={phoneNumber}
-              onChange={(value) => setPhoneNumber(value || "")}
-              defaultCountry={countryIsoCode as any}
-              international
-              countryCallingCodeEditable={false}
-              className="w-full"
-              inputClassName="w-full border-0 focus:outline-none focus:ring-0 bg-transparent"
-              containerClassName="w-full"
-              placeholder="Enter phone number"
-              style={{ 
-                '--PhoneInputCountryFlag-height': '1.2em',
-                '--PhoneInputCountrySelectArrow-opacity': '0.5'
-              } as any}
-            />
+        {/* Phone Number Selection */}
+        {(phoneNumbers?.length || 0) > 0 && phoneNumbers.length < 3 && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Use existing phone number?
+            </label>
+            <div className="flex gap-4">
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  checked={useExistingPhone}
+                  onChange={() => setUseExistingPhone(true)}
+                  className="mr-2"
+                />
+                Existing
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  checked={!useExistingPhone}
+                  onChange={() => setUseExistingPhone(false)}
+                  className="mr-2"
+                />
+                New
+              </label>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Operator Selection */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Mobile Money Operator
-          </label>
-          <Select
-            placeholder="Select an operator"
-            selectedKeys={[operator]}
-            onSelectionChange={(keys) => {
-              const value = keys.currentKey as string;
-              setOperator(value);
-            }}
-            className="w-full"
-          >
-            {operators.map((op: any, idx: number) => {
-              const value = op.operator_code || op.operator_name || op.code || op.name;
-              const label = op.operator_name || op.operator_code || op.name || value;
-              return (
-                <SelectItem key={`${value}-${idx}`} value={value}>
-                  {label}
+        {useExistingPhone && (phoneNumbers?.length || 0) > 0 ? (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Select Phone Number
+            </label>
+            <Select
+              placeholder="Select a phone number"
+              selectedKeys={[selectedPhoneNumber]}
+              onSelectionChange={(keys) => {
+                const value = keys.currentKey as string;
+                setSelectedPhoneNumber(value);
+              }}
+              className="w-full"
+            >
+              {phoneNumbers.map((item: any) => (
+                <SelectItem
+                  key={`${item.operator}-${item.phone_number}`}
+                  value={`${item.operator}-${item.phone_number}`}
+                >
+                  {item.phone_number}
                 </SelectItem>
-              );
-            })}
-          </Select>
-        </div>
+              ))}
+            </Select>
+          </div>
+        ) : (
+          <>
+            {/* New Phone Number Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number
+              </label>
+              <div className="phoneInputCustomClass w-full px-3 py-2 border border-gray-300 rounded-md">
+                <PhoneInput
+                  value={newPhoneNumber}
+                  onChange={(value) => setNewPhoneNumber(value || "")}
+                  defaultCountry={countryIsoCode as any}
+                  international
+                  countryCallingCodeEditable={false}
+                  className="w-full border-0"
+                  placeholder="Enter phone number"
+                />
+              </div>
+            </div>
+
+            {/* Operator Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Mobile Money Operator
+              </label>
+              <Select
+                placeholder="Select an operator"
+                selectedKeys={[operator]}
+                onSelectionChange={(keys) => {
+                  const value = keys.currentKey as string;
+                  setOperator(value);
+                }}
+                className="w-full"
+              >
+                {operators.map((op: any, idx: number) => {
+                  const value = op.operator_code || op.operator_name || op.code || op.name;
+                  const label = op.operator_name || op.operator_code || op.name || value;
+                  return (
+                    <SelectItem key={`${value}-${idx}`} value={value}>
+                      {label}
+                    </SelectItem>
+                  );
+                })}
+              </Select>
+            </div>
+          </>
+        )}
 
         {/* Reason Input */}
         <div>
@@ -238,8 +314,8 @@ const WithdrawFundsModal: React.FC<WithdrawFundsModalProps> = ({
           <div className="flex justify-between">
             <span className="font-medium">To:</span>
             <span className="font-bold text-gray-900">
-              {operator && phoneNumber && phoneNumber.length > 4 
-                ? `${operator.split('-')[0]} - ${phoneNumber.replace(`+${countryPhoneCode}`, '')}` 
+              {(useExistingPhone ? selectedPhoneNumber : operator) && (useExistingPhone ? selectedPhoneNumber.split('-')[1] : newPhoneNumber) && (useExistingPhone ? selectedPhoneNumber.split('-')[1] : newPhoneNumber).length > 4 
+                ? `${(useExistingPhone ? selectedPhoneNumber.split('-')[0] : operator).split('-')[0]} - ${(useExistingPhone ? selectedPhoneNumber.split('-')[1] : newPhoneNumber).replace(`+${countryPhoneCode}`, '')}` 
                 : '-'}
             </span>
           </div>
@@ -268,26 +344,11 @@ const WithdrawFundsModal: React.FC<WithdrawFundsModalProps> = ({
           text="Withdraw Funds"
           btnStyle="blue"
           onClick={handleSubmit}
-          disabled={amountNum <= 0 || totalAmount > wallet.payout_balance || !phoneNumber || !operator}
+          disabled={isSubmitDisabled}
         />
       </div>
 
-      {isLoading && (
-        <div
-          className={classNames(
-            "transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-0 left-0 h-full w-full flex items-center justify-center",
-            {
-              "!opacity-100 !visible z-[1000]": isLoading,
-            }
-          )}
-        >
-          <PuffLoader
-            className="shrink-0"
-            size={50}
-            color="#1F66FF"
-          />
-        </div>
-      )}
+      <LoadingOverlay isLoading={isLoading} />
     </div>
   );
 };
