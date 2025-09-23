@@ -298,11 +298,21 @@ export default function CreateAccountForm() {
 						<h1 className="text-[30px] tracking-tight font-bold ">
 							Créer un compte
 						</h1>
-						<p className="text-[12px] mb-8">
+						<p className="text-[12px] mb-2">
 							Commencez Aujourd’hui, Offrez des services
 							financiers à vos clients dès demain .
 						</p>
+						<div className="mb-8 text-app-secondary text-[12px]">
+							Vous avez déjà un compte ?{" "}
+							<a
+								href="/login"
+								className="text-app-primary underline hover:text-app-secondary"
+							>
+								Se connecter
+							</a>
+						</div>
 					</div>
+
 					{/* Company Block */}
 					<div className="">
 						<FormField

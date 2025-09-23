@@ -123,7 +123,7 @@ export default function SignupPage() {
 					<div className="w-full max-w-[700px] mt-20 ">
 						<CreateAccountForm />
 
-						<div className="mt-4 text-app-secondary text-sm text-right text-[13px]">
+						{/* <div className="mt-4 text-app-secondary text-sm text-right text-[13px]">
 							Vous avez déjà un compte ?{" "}
 							<a
 								href="/login"
@@ -131,7 +131,7 @@ export default function SignupPage() {
 							>
 								Se connecter
 							</a>
-						</div>
+						</div> */}
 						{/* <div className="mt-4 text-app-secondary text-sm text-right text-[13px]">
 							Already have an account?{" "}
 							<a
