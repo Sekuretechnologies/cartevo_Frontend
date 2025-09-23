@@ -1811,7 +1811,7 @@ export default function WalletDetailsPage() {
 										setNewPhone((p) => ({
 											...p,
 											phone_number: number,
-											country_phone_code: code,
+											country_phone_code: String(code),
 										}))
 									}
 								/>
@@ -1986,7 +1986,7 @@ export default function WalletDetailsPage() {
 								value={editPhoneValue.phone_number}
 								onChange={(number, code) =>
 									setEditPhoneValue({
-										country_phone_code: code,
+										country_phone_code: String(code),
 										phone_number: number,
 									})
 								}

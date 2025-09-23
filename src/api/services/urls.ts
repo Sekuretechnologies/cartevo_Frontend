@@ -13,6 +13,7 @@ export const authUrls = {
 	REGISTER_STEP1: `${BASE_URL}/company/register/step1`,
 	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
 	LOGIN_WITH_COMPANY: `${BASE_URL_AUTH}/select-company`,
+	ACCEPT_INVITATION: `${BASE_URL_AUTH}/invitations/accept`,
 };
 
 /** COMPANY ============================================================ */
@@ -22,6 +23,8 @@ export const companyUrls = {
 	GET_ONBOARDING_STEPS: `${BASE_URL_COMPANY}/onboarding-steps`,
 	COMPLETE_KYB: `${BASE_URL_COMPANY}/onboarding/kyb`,
 	COMPLETE_KYC: `${BASE_URL_COMPANY}/onboarding/kyc`,
+	GET_VERIFICATION_STATUS: `${BASE_URL_COMPANY}/get-status`,
+	// GET_VERIFICATION_STATUS: `http://127.0.0.1:3001/api/v1/company/get-status`,
 };
 
 /** CUSTOMER ============================================================ */

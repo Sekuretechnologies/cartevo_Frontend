@@ -7,7 +7,7 @@ import { verifyOtpSchema } from "@/validation/FormValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useMutation } from "react-query";
@@ -50,6 +50,7 @@ const handleVerifyOtp = async (data: z.infer<typeof verifyOtpSchema>) => {
 export default function VerifyOtpForm() {
 	// const previousUrl = window.sessionStorage.getItem("previousUrl");
 	const currentUserEmail: any = useSelector(selectCurrentUserEmail);
+	const [timeLeft, setTimeLeft] = useState(180);
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const form = useForm<z.infer<typeof verifyOtpSchema>>({
@@ -59,6 +60,23 @@ export default function VerifyOtpForm() {
 			otp: "",
 		},
 	});
+
+	useEffect(() => {
+		if (timeLeft <= 0) return;
+		const interval = setInterval(() => {
+			setTimeLeft((prev) => prev - 1);
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [timeLeft]);
+
+	const formatTime = (seconds: number) => {
+		const m = Math.floor(seconds / 60)
+			.toString()
+			.padStart(2, "0");
+		const s = (seconds % 60).toString().padStart(2, "0");
+		return `${m}:${s}`;
+	};
 
 	const mutation = useMutation({
 		mutationFn: handleVerifyOtp,
@@ -182,10 +200,26 @@ export default function VerifyOtpForm() {
 					))}
 				</div>
 				<div className="mt-8 flex justify-end w-full ">
-					<p>
-						Vous n'avez pas recus le code ?{" "}
-						<button className="text-primary font-semibold cursor-pointer ">
-							Renvoyer
+					<p
+						className={`${
+							timeLeft > 0
+								? "flex flex-col items-end"
+								: "flex flex-row items-center "
+						}`}
+					>
+						{`Vous n'avez pas recus le code ?`}{" "}
+						<button
+							className={`text-primary font-semibold cursor-pointer ${
+								timeLeft > 0
+									? "opacity-50 cursor-not-allowed"
+									: ""
+							}`}
+							onClick={handleResend}
+							disabled={timeLeft > 0}
+						>
+							{timeLeft > 0
+								? `Renvoyer dans ${formatTime(timeLeft)}`
+								: "Renvoyer"}
 						</button>
 					</p>
 				</div>
