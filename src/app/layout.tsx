@@ -27,6 +27,7 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className="">
+				{/* {children} */}
 				<NextUIProvider locale="en-GB">
 					<StoreProvider>
 						{children}
