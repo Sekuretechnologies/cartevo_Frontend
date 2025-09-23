@@ -15,6 +15,11 @@ export default function SiteLayout({
 				<main>{children}</main>
 
 				<WebsiteFooter />
+				<script
+					src="https://cartevo.bolddesk.com/chatwidget-api/widget/v1/005a8bac-b5a3-4990-a9ea-d9a749dde2c4"
+					defer
+					async
+				></script>
 			</body>
 		</html>
 	);
