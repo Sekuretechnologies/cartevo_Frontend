@@ -125,11 +125,11 @@ const UserKyc = () => {
 	};
 
 	return (
-		<div className="px-5 py-8">
+		<div className="px-5 py-8 relative">
 			{/**Status */}
 			<div
-				className={`flex justify-end absolute font-semibold text-[15px] right-12 px-4 py-2
-					rounded-full top-36 ${dynamicStyle}`}
+				className={`flex justify-end absolute font-semibold text-[15px] right-5 px-4 py-2
+					rounded-full -top-12 ${dynamicStyle}`}
 			>
 				<p>{selectedCompany.owner.kyc_status}</p>
 			</div>
@@ -138,7 +138,7 @@ const UserKyc = () => {
 				<h3 className="text-lg font-semibold  text-app-secondary">
 					Personal Information
 				</h3>
-				<div className=" mt-6 grid grid-cols-2 gap-4">
+				<div className=" mt-0 md:mt-6  grid grid-cols-1 md:grid-cols-2 gap-4">
 					<KybcInfo
 						label="Full name"
 						value={`${selectedCompany.owner.first_name}  ${selectedCompany.owner.last_name}`}
@@ -166,7 +166,7 @@ const UserKyc = () => {
 				<h3 className="text-lg font-semibold  text-app-secondary">
 					Address
 				</h3>
-				<div className=" mt-8 grid grid-cols-2 gap-4">
+				<div className=" mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
 					<KybcInfo
 						label="Country of Residence"
 						value={selectedCompany.owner.country_of_residence}
@@ -202,7 +202,7 @@ const UserKyc = () => {
 				<h3 className="text-lg font-semibold  text-app-secondary">
 					Identity Document
 				</h3>
-				<div className=" mt-8 grid grid-cols-2 gap-4">
+				<div className=" mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
 					<KybcInfo
 						label="ID Document Type"
 						value={selectedCompany.owner.id_document_type}

@@ -82,9 +82,6 @@ const SelectCompany = () => {
 	};
 
 	useEffect(() => {
-		console.log("companies", companies);
-		console.log("temp token", tempToken);
-
 		// Dès que l'utilisateur sélectionne une entreprise, on l'injecte dans le formulaire
 		form.setValue("company_id", selectedCompanyId);
 	}, [selectedCompanyId, companies, tempToken, form]);

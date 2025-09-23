@@ -1,6 +1,6 @@
 "use client";
 import { useTitle } from "@/hooks/useTitle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import CButton from "@/components/shared/CButton";
@@ -14,6 +14,7 @@ import { useQuery } from "react-query";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/slices/auth";
+import { RootState } from "@/redux/store";
 
 const PENDING = "PENDING";
 const COMPLETED = "COMPLETED";
@@ -45,6 +46,7 @@ const getOnboardingSteps = async ({ queryKey }: any) => {
 		token: token || "",
 	});
 	const responseJson = await response.json();
+	console.log("response", responseJson);
 	if (!response.ok) {
 		throw new Error(
 			responseJson.message || "Failed to get onboarding steps"
@@ -53,11 +55,32 @@ const getOnboardingSteps = async ({ queryKey }: any) => {
 	return responseJson.data;
 };
 
+const getVerificationStatus = async ({ queryKey }: any) => {
+	const [_key, token, companyId] = queryKey;
+	const response = await CompanyService.get_verification_status({
+		token: token,
+		companyId,
+	});
+
+	const responseJson = await response.json();
+
+	if (!response.ok) {
+		throw new Error(
+			responseJson.message || "Failed to get verification status"
+		);
+	}
+
+	return responseJson;
+};
+
 export default function OnboardingPage() {
 	useTitle("Cartevo | Onboarding", true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const router = useRouter();
 	// const [steps, setSteps] = useState(onboardingSteps);
+	const company = useSelector((state: RootState) => state.auth.company) as {
+		id: string;
+	} | null;
 
 	//------------------------------------------------
 	onboardingSteps = [];
@@ -69,6 +92,21 @@ export default function OnboardingPage() {
 		},
 		refetchInterval: 60000, // Fetches data every 30 seconds
 	});
+
+	const { data: verificationStatusRes, isLoading } = useQuery({
+		queryKey: ["verificationStatus", currentToken, company?.id],
+		queryFn: getVerificationStatus,
+		onError: (err: any) => {
+			console.log("erreur");
+			toast.error(err.message);
+		},
+		onSuccess: (data) => {
+			console.log(data);
+		},
+	});
+
+	const kycStatus = verificationStatusRes?.kycStatus || "NONE";
+	const kybStatus = verificationStatusRes?.kybStatus || "NONE";
 
 	if (onboardingStepsQueryRes?.data) {
 		onboardingStepsQueryRes?.data?.steps.map((step: any) => {
@@ -143,6 +181,50 @@ export default function OnboardingPage() {
 		router.push(`/onboarding/${slug}`);
 	};
 
+	const getVerificationMessage = (status: string, type: "KYC" | "KYB") => {
+		switch (status) {
+			case "PENDING":
+				return {
+					message: `Your ${type} has been submitted and is under review. Please wait 24-72 hours for validation.`,
+					className: "text-yellow-600",
+				};
+			case "APPROVED":
+				return {
+					message: `Your ${type} is approved.`,
+					className: "text-green-600 font-semibold",
+				};
+			case "REJECTED":
+				return {
+					message: (
+						<>
+							Your {type} has been rejected.{" "}
+							<span
+								className="underline cursor-pointer text-blue-600"
+								onClick={() =>
+									handleStepClick(
+										type === "KYC"
+											? "profile_completion"
+											: "kyb_completion"
+									)
+								}
+							>
+								Click here to resubmit your information
+							</span>
+							.
+						</>
+					),
+					className: "text-red-600 font-semibold",
+				};
+
+			default:
+				return {
+					message: `Your ${type} status is unknown.`,
+					className: "text-gray-500",
+				};
+		}
+	};
+
+	const isLoadingVerification = verificationStatusRes?.isLoading;
 	return (
 		<Layout title={"Onboarding"}>
 			{onboardingStepsQueryRes?.status === "loading" ? (
@@ -161,7 +243,7 @@ export default function OnboardingPage() {
 
 					{/* Onboarding Steps Grid */}
 					<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
-						{onboardingSteps.map((step, index) => (
+						{onboardingSteps.map((step) => (
 							<div
 								key={step.slug}
 								className="bg-white shadow-md rounded-xl p-6 hover:shadow-lg transition-shadow cursor-pointer border border-gray-100"
@@ -187,13 +269,61 @@ export default function OnboardingPage() {
 									</div>
 								</div>
 
-								<p className="text-gray-600 mb-4">
+								<p className="text-gray-600 mb-2">
 									{step.description}
 								</p>
 
+								{/* texte basé sur kycStatus / kybStatus */}
+								{step.slug === "profile_completion" && (
+									<>
+										{isLoading ? (
+											<div className="loadingSpinner"></div>
+										) : (
+											<p
+												className={`text-sm mb-2 ${
+													getVerificationMessage(
+														kycStatus,
+														"KYC"
+													).className
+												}`}
+											>
+												{
+													getVerificationMessage(
+														kycStatus,
+														"KYC"
+													).message
+												}
+											</p>
+										)}
+									</>
+								)}
+
+								{step.slug === "kyb_completion" && (
+									<>
+										{isLoading ? (
+											<div className="loadingSpinner"></div>
+										) : (
+											<p
+												className={`text-sm mb-2 ${
+													getVerificationMessage(
+														kybStatus,
+														"KYB"
+													).className
+												}`}
+											>
+												{
+													getVerificationMessage(
+														kybStatus,
+														"KYB"
+													).message
+												}
+											</p>
+										)}
+									</>
+								)}
+
 								<div className="flex justify-between items-center">
 									<div className="flex-1 pr-3">
-										{/* Progress indicator */}
 										<div className="w-full bg-gray-200 rounded-full h-2">
 											<div
 												className={`h-2 rounded-full transition-all duration-300 ${
@@ -207,7 +337,7 @@ export default function OnboardingPage() {
 											></div>
 										</div>
 									</div>
-									{step.status !== COMPLETED ? (
+									{step.status !== COMPLETED && (
 										<CButton
 											text={
 												step.status === COMPLETED
@@ -228,8 +358,6 @@ export default function OnboardingPage() {
 											width="100px"
 											height="35px"
 										/>
-									) : (
-										<></>
 									)}
 								</div>
 							</div>
