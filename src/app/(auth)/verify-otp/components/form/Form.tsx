@@ -207,7 +207,7 @@ export default function VerifyOtpForm() {
 								: "flex flex-row items-center "
 						}`}
 					>
-						<span>Vous n'avez pas recu le code ?</span>{" "}
+						{`Vous n'avez pas recus le code ?`}{" "}
 						<button
 							className={`text-primary font-semibold cursor-pointer ${
 								timeLeft > 0
