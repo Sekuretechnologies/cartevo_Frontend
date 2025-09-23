@@ -172,7 +172,11 @@ const ContactForm = () => {
 													) => {
 														form.setValue(
 															"country_code",
-															code
+															code.dialCode
+														);
+														form.setValue(
+															"whatsapp",
+															number
 														);
 													}}
 												/>
@@ -248,7 +252,7 @@ const ContactForm = () => {
 											))}
 										</Select>
 									</FormControl>
-								<FormMessage className="text-red-400 font-poppins" />
+									<FormMessage className="text-red-400 font-poppins" />
 								</FormItem>
 							)}
 						/>
