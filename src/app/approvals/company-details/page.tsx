@@ -5,6 +5,9 @@ import Layout from "@/components/shared/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CompanyKyb from "./company-kyb/CompanyKyb";
 import UserKyc from "./user-kyc/UserKyc";
+import Title from "@/components/shared/Title";
+
+
 
 const CompanyDetails = () => {
 	return (

@@ -18,6 +18,7 @@ import { setSearchTerm, selectSearchTerm } from "@/redux/slices/search";
 import CustomersFilterForm from "./CustomTableFilters/CustomersFilterForm";
 import RegularisationFilterForm from "./CustomTableFilters/RegularisationFilterForm";
 import TransactionsFilterForm from "./CustomTableFilters/TransactionsFilterForm";
+import UserFilterForm from "./CustomTableFilters/userFilterForm";
 
 interface CustomTableProps {
 	btn?: React.ReactNode;
@@ -55,15 +56,15 @@ const CustomTable: React.FC<CustomTableProps> = ({
 	const [usersPerPage] = useState(5);
 	const [data, setData] = React.useState<IGenericRow[]>(); // Add type annotation for data and change initial state value to an empty object
 
-	// useEffect(() => {
-	//   const getUsers = async () => {
-	//     const res = await fetch('api/users');
-	//     const users = await res.json();
-	//     setData(users);
-	//   }
+	// --- Nouveau state pour les companies ---
+	const [companiesList, setCompaniesList] = useState<string[]>([]);
 
-	//   getUsers();
-	// }, []);
+	// --- Mettre à jour la liste des companies si filterContent change ---
+	useEffect(() => {
+		if (filterContent?.companies) {
+			setCompaniesList(filterContent.companies);
+		}
+	}, [filterContent]);
 
 	const indexOfLastUser = currentPage * usersPerPage;
 	const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -76,12 +77,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
 		setFilterDetails(!filterDetails);
 		console.log("filterDetails ::: ", filterDetails);
 	};
-
-	// useEffect(() => {
-	//   console.log("filter ::: ", filter);
-	//   console.log("filterType ::: ", filterType);
-	//   console.log("filterDetails ::: ", filterDetails);
-	// }, []);
 
 	return (
 		<>
@@ -100,77 +95,34 @@ const CustomTable: React.FC<CustomTableProps> = ({
 							height={"33px"}
 							onClick={() => handleFilterOpen()}
 						/>
-					) : (
-						<></>
-					)}
+					) : null}
 
 					{btn}
 
-					{
-						threeButtons ? (
-							<div className={`flex gap-x-3`}>
-								{/* <CButton
-          text={'Copier'}
-          icon={<IoCopyOutline/>}
-          btnStyle={'lightGreen'}
-          height={'32px'}
-          /> */}
-
-								{generateExcel ? (
-									<CButton
-										text={"Excel"}
-										icon={<BsFileEarmarkExcel />}
-										btnStyle={"lightGreen"}
-										height={"32px"}
-										onClick={() => generateExcel()}
-									/>
-								) : (
-									<></>
-								)}
-
-								{/* <CButton
-          text={'Imprimer'}
-          icon={<IoPrintOutline/>}
-          btnStyle={'lightGreen'}
-          height={'32px'}
-          /> */}
-							</div>
-						) : (
-							<></>
-						)
-						// <CustomDropdown
-						//   cstyle={'light-green'}
-						//   iconSize={20}
-						//   hasDropdownIcon={false}
-						//   icon= {<RxDotsHorizontal/>}
-						//   items={[
-						//     <div key={'1'} className='flex justify-between gap-2'>
-						//     <IoCopyOutline size={15} color={'#18BC7A'} />
-						//     <span className='text-sm text-[#18BC7A]'>
-						//       Copy
-						//     </span>
-						//   </div>,
-						//   <div key={'2'} className='flex justify-between gap-2'>
-						//     <BsFileEarmarkExcel size={15} color={'#18BC7A'} />
-						//     <span className='text-sm text-[#18BC7A] h-fit'>
-						//       Excel
-						//     </span>
-						//   </div>,
-						//   <div key={'3'} className='flex justify-between gap-2'>
-						//     <IoPrintOutline size={15} color={'#18BC7A'} />
-						//     <span className='text-sm text-[#18BC7A]'>
-						//       Print
-						//     </span>
-						//   </div>
-						//   ]}
-						// />
-					}
+					{threeButtons ? (
+						<div className={`flex gap-x-3`}>
+							{generateExcel ? (
+								<CButton
+									text={"Excel"}
+									icon={<BsFileEarmarkExcel />}
+									btnStyle={"lightGreen"}
+									height={"32px"}
+									onClick={() => generateExcel()}
+								/>
+							) : null}
+						</div>
+					) : null}
 				</div>
 			</div>
+
+			{/* --- Section filtre --- */}
+
 			{filter && filterDetails ? (
 				<div className="mt-3">
+					{/* Filtre par company uniquement pour les users */}
+
 					{filterType === "user" ? (
-						<CustomersFilterForm
+						<UserFilterForm
 							filterContent={filterContent}
 							setFilterContent={setFilterContent}
 						/>
@@ -184,13 +136,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
 							filterContent={filterContent}
 							setFilterContent={setFilterContent}
 						/>
-					) : (
-						<></>
-					)}
+					) : null}
 				</div>
-			) : (
-				<></>
-			)}
+			) : null}
 
 			<div className="mt-6 w-full">
 				<AdminTable
@@ -200,24 +148,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
 					data={tableData || []}
 				/>
 			</div>
-
-			{/* <div className='py-10 text-sm flex justify-end items-center'>
-        <div className='flex items-center gap-3'>
-            <span>Aller à la page</span>
-            <Link href=""><FaChevronLeft/></Link>
-            <div className="py-2 px-2 w-[70px] bg-gray-200 rounded-2xl text-center flex justify-center">
-              <input
-                defaultValue={'01'}
-                type="number"
-                min={'0'}
-                className="w-full bg-gray-200 border-none outline-none text-center"
-                placeholder="Enter a number"
-              />
-            </div>
-            <Link href=""><FaChevronRight/></Link>
-            <span>sur 254</span>
-        </div>
-    </div> */}
 		</>
 	);
 };
