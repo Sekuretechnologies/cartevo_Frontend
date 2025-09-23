@@ -1,32 +1,33 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
-	persistStore,
-	persistReducer,
 	FLUSH,
-	REHYDRATE,
 	PAUSE,
 	PERSIST,
+	persistReducer,
+	persistStore,
 	PURGE,
 	REGISTER,
+	REHYDRATE,
 } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
 import authRedux from "./slices/auth";
-import signupRedux from "./slices/signup";
-import transactionRedux from "./slices/transaction";
-import customerRedux from "./slices/customer";
 import cardRedux from "./slices/card";
+import customerRedux from "./slices/customer";
 import kycRedux from "./slices/kyc";
 import searchRedux from "./slices/search";
+import signupRedux from "./slices/signup";
+import transactionRedux from "./slices/transaction";
 /** ------------------------------------ */
-import kycV2Redux from "./slices_v2/kyc";
-import chinpayRedux from "./slices_v2/chinpay";
-import nairapayRedux from "./slices_v2/nairapay";
-import settingsRedux from "./slices_v2/settings";
-import customerticketRedux from "./slices_v2/customerticket";
 import companyReducer from "./slices/companySlice";
 import selectedCompanyReducer from "./slices/selectedCompany";
 import userReducer from "./slices/userSlices";
+import walletsReducer from "./slices/wallets";
+import chinpayRedux from "./slices_v2/chinpay";
+import customerticketRedux from "./slices_v2/customerticket";
+import kycV2Redux from "./slices_v2/kyc";
+import nairapayRedux from "./slices_v2/nairapay";
+import settingsRedux from "./slices_v2/settings";
 
 const createNoopStorage = () => {
 	return {
@@ -80,6 +81,7 @@ const rootReducer = combineReducers({
 	customerticket: customerticketRedux,
 	company: companyReducer,
 	selectedCompany: selectedCompanyReducer,
+	wallets: walletsReducer,
 	user: userReducer,
 });
 
