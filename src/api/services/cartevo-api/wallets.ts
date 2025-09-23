@@ -79,6 +79,30 @@ export class WalletService {
 			token
 		);
 
+	static transfer_internal_advanced = ({
+		token,
+		walletId,
+		body,
+	}: {
+		token: string;
+		walletId: string;
+		body: {
+			amount: number;
+			from_type: "MAIN" | "PAYIN" | "PAYOUT";
+			to_type: "MAIN" | "PAYIN" | "PAYOUT" | "WITHDRAW";
+			reason?: string;
+			phone_number?: string;
+			operator?: string;
+		};
+	}) =>
+		BaseMethods.postRequest(
+			walletUrls.TRANSFER_INTERNAL_ADVANCED(walletId),
+			body,
+			true,
+			{},
+			token
+		);
+
 	static transfer_between = ({
 		token,
 		body,
@@ -159,6 +183,77 @@ export class WalletService {
 			token
 		);
 	};
+
+	// Wallet Phone Numbers API
+	static get_wallet_phone_numbers = ({
+		token,
+		walletId,
+	}: {
+		token: string;
+		walletId?: string;
+	}) => {
+		let query_params: any = {};
+		if (walletId) query_params.walletId = walletId;
+		return BaseMethods.getRequest(
+			walletUrls.WALLET_PHONE_NUMBERS,
+			true,
+			query_params,
+			token
+		);
+	};
+
+	static create_wallet_phone_number = ({
+		token,
+		body,
+	}: {
+		token: string;
+		body: {
+			wallet_id: string;
+			country_iso_code: string;
+			country_phone_code: string;
+			currency: string;
+			phone_number: string;
+			operator?: string;
+		};
+	}) =>
+		BaseMethods.postRequest(
+			walletUrls.WALLET_PHONE_NUMBERS,
+			body,
+			true,
+			{},
+			token
+		);
+
+	static delete_wallet_phone_number = ({
+		token,
+		id,
+	}: {
+		token: string;
+		id: string;
+	}) => BaseMethods.deleteRequest(walletUrls.WALLET_PHONE_NUMBER(id), {}, true, token);
+
+	static update_wallet_phone_number = ({
+		token,
+		id,
+		body,
+	}: {
+		token: string;
+		id: string;
+		body: Partial<{
+			country_iso_code: string;
+			country_phone_code: string;
+			currency: string;
+			phone_number: string;
+			operator: string;
+		}>;
+	}) =>
+		BaseMethods.putRequest(
+			walletUrls.WALLET_PHONE_NUMBER(id),
+			body,
+			true,
+			{},
+			token
+		);
 
 	static get_available_wallets_for_transfer = ({
 		token,

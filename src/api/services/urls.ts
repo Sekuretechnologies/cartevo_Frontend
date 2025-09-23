@@ -97,10 +97,15 @@ export const walletUrls = {
 	WITHDRAW_WALLET: `${BASE_URL_WALLET}/withdraw`,
 	TRANSFER_INTERNAL: (id: any) =>
 		`${BASE_URL_WALLET}/${id}/transfer-internal`,
+	TRANSFER_INTERNAL_ADVANCED: (id: any) =>
+		`${BASE_URL_WALLET}/${id}/transfer-internal-advanced`,
 	TRANSFER_BETWEEN: `${BASE_URL_WALLET}/transfer-between`,
 	CALCULATE_TRANSFER_FEES: `${BASE_URL_WALLET}/calculate-transfer-fees`,
 	GET_AVAILABLE_FOR_TRANSFER: (id: any) =>
 		`${BASE_URL_WALLET}/${id}/available-for-transfer`,
 	CREDIT_TEST_WALLET: `${BASE_URL_WALLET}/credit-test-wallet`,
 	GET_TRANSACTIONS: `${BASE_URL_WALLET_TRANSACTIONS}`,
+	// Wallet phone numbers
+	WALLET_PHONE_NUMBERS: `${BASE_URL}/wallet-phone-numbers`,
+	WALLET_PHONE_NUMBER: (id: any) => `${BASE_URL}/wallet-phone-numbers/${id}`,
 };
