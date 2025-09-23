@@ -25,9 +25,5 @@ export class AuthService {
 	static loginWithCOmpany = (info: any) =>
 		BaseMethods.postRequest(authUrls.LOGIN_WITH_COMPANY, info, false);
 	static acceptInvitation = (info: any) =>
-		BaseMethods.postRequest(
-			userManagementUrls.ACCEPT_INVITATION,
-			info,
-			false
-		);
+		BaseMethods.postRequest(authUrls.ACCEPT_INVITATION, info, false);
 }
