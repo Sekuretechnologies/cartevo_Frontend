@@ -26,6 +26,7 @@ import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import CButton from "@/components/shared/CButton";
 
 const handleSubmit = async (data: z.infer<typeof AcceptInvitationSchema>) => {
 	const response = await AuthService.acceptInvitation(data);
@@ -48,7 +49,7 @@ const InvitationPage = () => {
 	const form = useForm<z.infer<typeof AcceptInvitationSchema>>({
 		resolver: zodResolver(AcceptInvitationSchema),
 		defaultValues: {
-			invitationToken: token ?? undefined,
+			token: token ?? undefined,
 			password: "",
 		},
 	});
@@ -148,6 +149,16 @@ const InvitationPage = () => {
 										</FormItem>
 									)}
 								/>
+
+								<div className="mt-8">
+									<CButton
+										btnStyle="blue"
+										text="Soumettre"
+										width="200px"
+										height="40px"
+										type="submit"
+									/>
+								</div>
 							</form>
 						</Form>
 					</div>

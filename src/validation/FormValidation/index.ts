@@ -304,7 +304,7 @@ export const LoginWithCompany = z.object({
 });
 
 export const AcceptInvitationSchema = z.object({
-	invitationToken: z.string(),
+	token: z.string(),
 	password: z.string().min(1, "Le mot de passe est requis"),
 });
 
