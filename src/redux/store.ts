@@ -26,6 +26,7 @@ import settingsRedux from "./slices_v2/settings";
 import customerticketRedux from "./slices_v2/customerticket";
 import companyReducer from "./slices/companySlice";
 import selectedCompanyReducer from "./slices/selectedCompany";
+import walletsReducer from "./slices/wallets";
 
 const createNoopStorage = () => {
 	return {
@@ -79,6 +80,7 @@ const rootReducer = combineReducers({
 	customerticket: customerticketRedux,
 	company: companyReducer,
 	selectedCompany: selectedCompanyReducer,
+	wallets: walletsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
