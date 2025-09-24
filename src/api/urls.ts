@@ -1,5 +1,6 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-export const BASE_URL = `https://api.cartevo.co/api/v1`;
+// export const BASE_URL = `https://api.cartevo.co/api/v1`;
+export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 // export const API_V2_BASE_URL = `http://localhost:3000/api/v2/admin`;
 // export const API_V2_BASE_URL = `https://apigetsekure.com/api/v2/admin`;
