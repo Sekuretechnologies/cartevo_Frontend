@@ -255,7 +255,9 @@ export const forgotPasswordSchema = z.object({
 
 export const resetPsswordSchema = z
 	.object({
-		password: z.string({ message: "Entrez un mot de passe" }),
+		password: z
+			.string({ message: "Entrez un mot de passe" })
+			.min(1, "Entrez un mot de passe"),
 		confirmPassword: z.string(),
 	})
 	.refine((data) => data.password === data.confirmPassword, {

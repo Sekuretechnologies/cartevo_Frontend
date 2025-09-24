@@ -193,7 +193,7 @@ export default function LoginForm() {
 				>
 					<button
 						type="submit"
-						className="bg-primary flex gap-8 text-white text-[12px] font-bold pl-[70px] items-center w-[215px] h-[52px] rounded-[18px]"
+						className="bg-primary flex gap-8 text-white text-[13px] font-bold  justify-center items-center w-[175px] h-[49px] rounded-[10px]"
 					>
 						Continue <ChevronRight />
 					</button>

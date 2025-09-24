@@ -188,11 +188,13 @@ export default function OnboardingPage() {
 					message: `Your ${type} has been submitted and is under review. Please wait 24-72 hours for validation.`,
 					className: "text-yellow-600",
 				};
+
 			case "APPROVED":
 				return {
 					message: `Your ${type} is approved.`,
 					className: "text-green-600 font-semibold",
 				};
+
 			case "REJECTED":
 				return {
 					message: (
@@ -216,6 +218,29 @@ export default function OnboardingPage() {
 					className: "text-red-600 font-semibold",
 				};
 
+			case "NONE":
+				return {
+					message: (
+						<>
+							You haven’t submitted your {type} yet.{" "}
+							<span
+								className="underline cursor-pointer text-blue-600"
+								onClick={() =>
+									handleStepClick(
+										type === "KYC"
+											? "profile_completion"
+											: "kyb_completion"
+									)
+								}
+							>
+								Click here to start
+							</span>
+							.
+						</>
+					),
+					className: "text-gray-600",
+				};
+
 			default:
 				return {
 					message: `Your ${type} status is unknown.`,
@@ -225,6 +250,56 @@ export default function OnboardingPage() {
 	};
 
 	const isLoadingVerification = verificationStatusRes?.isLoading;
+
+	const getGlobalVerificationStatus = (
+		kycStatus: string,
+		kybStatus: string
+	): "APPROVED" | "REJECTED" | "NONE" | "PENDING" => {
+		if (kycStatus === "APPROVED" && kybStatus === "APPROVED")
+			return "APPROVED";
+		if (kycStatus === "REJECTED" && kybStatus === "REJECTED")
+			return "REJECTED";
+		if (kycStatus === "NONE" && kybStatus === "NONE") return "NONE";
+		if (
+			(kycStatus === "REJECTED" && kybStatus === "NONE") ||
+			(kycStatus === "NONE" && kybStatus === "REJECTED")
+		)
+			return "REJECTED";
+		return "PENDING";
+	};
+
+	const getGlobalVerificationMessage = (
+		status: "APPROVED" | "REJECTED" | "NONE" | "PENDING"
+	) => {
+		switch (status) {
+			case "APPROVED":
+				return (
+					<p className="text-green-600 font-semibold mt-3">
+						All your verifications are approved.
+					</p>
+				);
+			case "REJECTED":
+				return (
+					<p className="text-red-600 font-semibold mt-3">
+						One or more of your verifications have been rejected.
+					</p>
+				);
+			case "NONE":
+				return (
+					<p className="text-gray-600 mt-3">
+						You haven’t submitted any verification yet.
+					</p>
+				);
+			case "PENDING":
+			default:
+				return (
+					<p className="text-yellow-600 mt-3">
+						Your verifications are still pending.
+					</p>
+				);
+		}
+	};
+
 	return (
 		<Layout title={"Onboarding"}>
 			{onboardingStepsQueryRes?.status === "loading" ? (
@@ -395,6 +470,10 @@ export default function OnboardingPage() {
 							Complete all steps to unlock full access to your
 							Cartevo dashboard.
 						</p>
+
+						{getGlobalVerificationMessage(
+							getGlobalVerificationStatus(kycStatus, kybStatus)
+						)}
 					</div>
 				</section>
 			)}

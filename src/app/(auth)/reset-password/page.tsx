@@ -23,6 +23,7 @@ import { z } from "zod";
 import SuccessModal from "./components/page";
 import { PuffLoader } from "react-spinners";
 import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
+import CButton from "@/components/shared/CButton";
 
 const ResetPassword = () => {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
@@ -111,8 +112,20 @@ const ResetPassword = () => {
 						compte
 					</p>
 				</div>
-				<div className=" flex items-center px-[50px]">
+				<div className=" flex items-center px-[50px] mt-32 lg:mt-0">
 					<div className="w-full ">
+						<div className="text-center flex flex-col items-center  mb-8 lg:hidden">
+							<h1 className="font-bold text-[30px] leading-8 max-w-[500px] tracking-tight">
+								Créez un nouveau{" "}
+								<span className="text-primary">
+									{`mot de passe`}
+								</span>{" "}
+							</h1>
+							<p>
+								Entrez un nouveau mot de passe pour sécuriser
+								votre compte
+							</p>
+						</div>
 						<FormProvider {...form}>
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
@@ -220,13 +233,13 @@ const ResetPassword = () => {
 									)}
 								/>
 
-								<div className="flex justify-center">
-									<button
+								<div className="flex justify-center mt-[50px]">
+									<CButton
 										type="submit"
-										className=" py-2 px-8 bg-app-primary text-white rounded hover:bg-app-secondary"
-									>
-										Rénitialiser le mot de passe
-									</button>
+										text="	Rénitialiser le mot de passe"
+										btnStyle="blue"
+										height="49px"
+									/>
 								</div>
 							</form>
 						</FormProvider>
