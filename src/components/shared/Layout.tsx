@@ -173,6 +173,13 @@ const Layout: React.FC<LayoutProps> = ({
 				<div className="pl-5 md:pl-10 pr-5 md:pr-0   pt-10 pb-10 w-full ">
 					{children}
 				</div>
+
+				<footer className="mt-4 mb-4 text-center text-gray-500 text-sm">
+					<p>
+						© {new Date().getFullYear()} Cartevo. All rights
+						reserved.
+					</p>
+				</footer>
 			</div>
 			{/* <Modal/>    */}
 		</main>

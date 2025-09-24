@@ -228,8 +228,8 @@ export default function VerifyOtpForm() {
 						text={"Continue"}
 						btnStyle={"blue"}
 						type={"submit"}
-						width={"200px"}
-						height={"40px"}
+						width={"175px"}
+						height={"49px"}
 					/>
 					{/* <button
 						type="button"
