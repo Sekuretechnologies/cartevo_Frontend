@@ -9,7 +9,7 @@ import { z } from "zod";
 import { AcceptInvitationSchema } from "@/validation/FormValidation";
 import { AuthService } from "@/api/services/cartevo-api/auth";
 import { useSearchParam } from "react-use";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
 	Form,
 	FormControl,
@@ -27,6 +27,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import CButton from "@/components/shared/CButton";
+import { PuffLoader } from "react-spinners";
 
 const handleSubmit = async (data: z.infer<typeof AcceptInvitationSchema>) => {
 	const response = await AuthService.acceptInvitation(data);
@@ -45,6 +46,7 @@ const InvitationPage = () => {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const searchParams = useSearchParams();
 	const token = searchParams.get("token");
+	const router = useRouter();
 
 	const form = useForm<z.infer<typeof AcceptInvitationSchema>>({
 		resolver: zodResolver(AcceptInvitationSchema),
@@ -60,7 +62,8 @@ const InvitationPage = () => {
 			toast.error(err.message);
 		},
 		onSuccess: (data) => {
-			toast.success("Invitation accepted successfully!");
+			toast.success("Invitation accepted successfully! Redirecting...");
+			router.push("/login");
 		},
 	});
 
@@ -73,12 +76,12 @@ const InvitationPage = () => {
 	};
 	return (
 		<section className="relative flex flex-col h-screen mt-0  w-full">
-			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] flex items-center">
+			<nav className="absolute z-10 top-0 lg:left-[150px]  h-[80px] flex items-center">
 				<a href="/">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>
-			<div className="w-full  grid grid-cols-2 font-poppins ">
+			<div className="w-full grid-cols-1  grid lg:grid-cols-2 font-poppins ">
 				<div
 					style={{
 						backgroundImage:
@@ -87,7 +90,7 @@ const InvitationPage = () => {
 						backgroundPosition: "center",
 						backgroundRepeat: "no-repeat",
 					}}
-					className="font-poppins bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  flex flex-col justify-center gap-4   text-center lg:text-left"
+					className="font-poppins hidden bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4   text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight text-app-secondary">
 						Vous avez reçu une invitation
@@ -97,8 +100,18 @@ const InvitationPage = () => {
 						de passe.
 					</p>
 				</div>
-				<div className=" flex justify-center items-center px-[50px]">
-					<div className="w-full max-w-[400px]">
+				<div className=" flex justify-center items-center px-6 lg:px-[50px] mt-28 lg:mt-0">
+					<div className="w-full max-w-[500px]">
+						<div className="mb-8 text-center space-y-4 lg:hidden">
+							<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight text-app-secondary lg:hidden">
+								Vous avez reçu une invitation
+							</h1>
+							<p className="text-app-secondary">
+								Pour rejoindre l’entreprise, merci de saisir
+								votre mot de passe.
+							</p>
+						</div>
+
 						<h1>Entrez votre mot de passe</h1>
 						<Form {...form}>
 							<form
@@ -150,16 +163,26 @@ const InvitationPage = () => {
 									)}
 								/>
 
-								<div className="mt-8">
+								<div className="mt-8 flex justify-center lg:justify-start">
 									<CButton
 										btnStyle="blue"
 										text="Soumettre"
-										width="200px"
-										height="40px"
+										width="175px"
+										height="49px"
 										type="submit"
 									/>
 								</div>
 							</form>
+
+							{mutation.isLoading && (
+								<div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black/40 backdrop-blur-sm  z-[1000]">
+									<PuffLoader
+										className="shrink-0"
+										size={50}
+										color="#1F66FF"
+									/>
+								</div>
+							)}
 						</Form>
 					</div>
 				</div>

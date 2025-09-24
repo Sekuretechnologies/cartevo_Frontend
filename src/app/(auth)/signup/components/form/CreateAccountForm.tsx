@@ -755,15 +755,23 @@ export default function CreateAccountForm() {
           <a href="#" className="inline-block w-[272px] text-md font-[400]">Mot de passe oublié ?</a>
         </div> */}
 				{/* <Link href="#" className="text-gray-800 font-semibold text-righttext-md">Forgotten Password?</Link> */}
-				<div className="mt-8">
+				<div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center ">
 					<CButton
 						text={"Créer un compte"}
 						btnStyle={"blue"}
 						type={"submit"}
-						width={"250px"}
-						height={"40px"}
+						width={"200px"}
+						height={"49px"}
 						disabled={!acceptTerms || mutation.isLoading}
 					/>
+
+					<a
+						className="bg-[#F3F3F3] text-black text-[12px] font-bold flex gap-1 items-center justify-center w-[325px] h-[52px] rounded-[18px]"
+						href="/login"
+					>
+						<span>Déjà un compte ?</span>{" "}
+						<span className="text-primary">Connectez-vous</span>
+					</a>
 				</div>
 				<div
 					className={classNames(
