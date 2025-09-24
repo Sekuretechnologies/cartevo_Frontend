@@ -13,12 +13,12 @@ const VerifyOtpPage = () => {
 	useTitle("Cartevo | Verify OTP");
 	return (
 		<section className="relative flex flex-col h-screen mt-0  w-full">
-			<nav className="absolute z-10 top-0 left-[150px]  h-[80px] flex items-center">
+			<nav className="absolute z-10 top-0 lg:left-[150px]  h-[80px] flex items-center">
 				<a href="/">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>
-			<div className="w-full  grid grid-cols-2 font-poppins ">
+			<div className="w-full   grid grid-cols-1  lg:grid-cols-2 font-poppins ">
 				<div
 					style={{
 						backgroundImage:
@@ -27,7 +27,7 @@ const VerifyOtpPage = () => {
 						backgroundPosition: "center",
 						backgroundRepeat: "no-repeat",
 					}}
-					className="font-poppins bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  flex flex-col justify-center gap-4   text-center lg:text-left"
+					className="font-poppins hidden bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4   text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight text-app-secondary">
 						Verify OTP
@@ -38,7 +38,7 @@ const VerifyOtpPage = () => {
 					</p>
 				</div>
 				<div className=" flex justify-center items-center px-[50px]">
-					<div className="w-full max-w-[400px]">
+					<div className="w-full max-w-[400px] mt-28 lg:mt-0">
 						<VerifyOTPForm />
 					</div>
 				</div>

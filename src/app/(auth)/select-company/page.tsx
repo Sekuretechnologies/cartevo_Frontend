@@ -89,13 +89,13 @@ const SelectCompany = () => {
 	return (
 		<section className="relative flex flex-col mt-0">
 			{/* Navbar */}
-			<nav className="absolute z-10 top-0 left-[150px] h-[80px] flex items-center">
+			<nav className="absolute z-10 top-0 lg:left-[150px] h-[80px] flex items-center">
 				<a href="/">
 					<img src="/website/logos/logo_full.png" alt="logo" />
 				</a>
 			</nav>
 
-			<div className="w-full grid grid-cols-2 font-poppins">
+			<div className="w-full grid grid-cols-1  lg:grid-cols-2 font-poppins">
 				{/* Left panel */}
 				<div
 					style={{
@@ -105,27 +105,27 @@ const SelectCompany = () => {
 						backgroundPosition: "center",
 						backgroundRepeat: "no-repeat",
 					}}
-					className="bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px] flex flex-col pt-44 gap-4 text-center lg:text-left"
+					className="bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px] hidden lg:flex flex-col justify-center gap-4  text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight">
-						Select Your{" "}
-						<span className="text-primary">Company</span>
+						Sélectionnez une{" "}
+						<span className="text-primary">{`entreprise`}</span>
 					</h1>
 					<p className="text-[12px] mb-8">
-						You are associated with multiple companies. Please
-						select one to proceed.
+						Vous êtes associé(e) à plusieurs entreprises. Veuillez
+						en sélectionner une pour continuer.
 					</p>
 				</div>
 
 				{/* Right panel */}
-				<div className="flex flex-col px-20 pt-44 pr-28">
-					<h2 className="text-[12px] font-semibold tracking-tight">
+				<div className="flex flex-col px-4 lg:px-20 mt-32 lg:mt-0 justify-center lg:pr-28 pr-0 ">
+					<h2 className="text-[30px] mb-8 font-semibold tracking-tight  w-full">
 						Veuillez sélectionner une entreprise
 						<span className="text-red-500">*</span>
 					</h2>
 
 					{/* List of companies */}
-					<div className="flex h-fit gap-4 mb-4">
+					<div className="flex flex-wrap h-fit gap-4 mb-4">
 						{companies.map((company) => (
 							<button
 								key={company.id}
@@ -171,8 +171,8 @@ const SelectCompany = () => {
 									text="Continue"
 									btnStyle="blue"
 									type="submit"
-									width="200px"
-									height="40px"
+									width="175px"
+									height="49px"
 								/>
 							</div>
 

@@ -120,6 +120,7 @@ export default function WalletDetailsPage() {
 		country_phone_code: string;
 		phone_number: string;
 	}>({ country_phone_code: "", phone_number: "" });
+	const [isUpdatingPhone, setIsUpdatingPhone] = useState(false);
 	// Add Phone modal validation state
 	const [phoneNumberError, setPhoneNumberError] = useState<string>("");
 	const walletQuery = useQuery({
@@ -148,7 +149,7 @@ export default function WalletDetailsPage() {
 			country: w.country,
 			country_iso_code: w.country_iso_code,
 			country_phone_code: w.country_phone_code,
-			active: w.active,
+			active: w.is_active,
 			company_id: w.company_id,
 			created_at: w.created_at,
 			updated_at: w.updated_at,
@@ -569,13 +570,7 @@ export default function WalletDetailsPage() {
 	// Phone numbers: add
 	const handleAddPhone = async () => {
 		if (!walletDetails?.id) return;
-		// Block numbers starting with + (indicatif handled separately)
-		if (/^\s*\+/.test(newPhone.phone_number)) {
-			toast.error(
-				"N'entrez pas l'indicatif (+...). Renseignez seulement le numéro."
-			);
-			return;
-		}
+
 		if (!newPhone.phone_number || !newPhone.country_phone_code) {
 			toast.error(
 				"Veuillez renseigner le numéro et le code téléphonique"
@@ -938,17 +933,13 @@ export default function WalletDetailsPage() {
 														<div className="flex items-center justify-between">
 															<div>
 																<div className="font-medium text-gray-900">
-																	{
-																		phone.country_phone_code
-																	}{" "}
-																	{
-																		phone.phone_number
-																	}
+																	{`${phone.country_phone_code}${phone.phone_number}`}
 																</div>
 																<div className="text-sm text-gray-500">
-																	{
-																		phone.operator
-																	}{" "}
+																	{String(
+																		phone.operator ||
+																			""
+																	).toUpperCase()}{" "}
 																	•{" "}
 																	{
 																		phone.currency
@@ -1807,33 +1798,31 @@ export default function WalletDetailsPage() {
 							<div className="flex items-center gap-3">
 								<PhoneInput
 									value={newPhone.phone_number}
-									onChange={(number, code) =>
-										setNewPhone((p) => ({
-											...p,
-											phone_number: number,
-											country_phone_code: String(code),
-										}))
+									defaultCountryIso2={
+										walletDetails?.country_iso_code
 									}
-								/>
-								<input
-									type="text"
-									className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none "
-									placeholder="Phone number"
-									value={newPhone.phone_number}
-									onChange={(e) => {
-										const val = e.target.value;
-										if (/^\s*\+/.test(val)) {
-											setPhoneNumberError(
-												"N'entrez pas l'indicatif (+...). Renseignez seulement le numéro."
-											);
-										} else {
-											setPhoneNumberError("");
-										}
-										setNewPhone((p) => ({
-											...p,
-											phone_number: val,
-										}));
-									}}
+									onChange={(number, code) =>
+										setNewPhone((prev) => {
+											const nextCode =
+												code?.dialCode || String(code);
+											// remove dial code and non-digits from full number
+											const clean = number
+												.replace(nextCode, "")
+												.replace(/\D/g, "");
+											if (
+												prev.phone_number === clean &&
+												prev.country_phone_code ===
+													nextCode
+											) {
+												return prev;
+											}
+											return {
+												...prev,
+												phone_number: clean,
+												country_phone_code: nextCode,
+											};
+										})
+									}
 								/>
 							</div>
 							{phoneNumberError && (
@@ -1890,7 +1879,7 @@ export default function WalletDetailsPage() {
 								})()}
 							</div>
 						</div>
-						<div className="flex gap-3 justify-end mt-6">
+								<div className="flex gap-3 justify-end mt-6 relative">
 							<CButton
 								text="Cancel"
 								btnStyle="outlineDark"
@@ -1903,7 +1892,18 @@ export default function WalletDetailsPage() {
 								disabled={isSavingPhone}
 							/>
 						</div>
-						<LoadingOverlay isLoading={isSavingPhone} />
+								{isSavingPhone && (
+									<div
+										className={classNames(
+											"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-0 left-0 h-full w-full flex items-center justify-center",
+											{
+												"!opacity-100 !visible z-[1000]": isSavingPhone,
+											}
+										)}
+									>
+										<PuffLoader className="shrink-0" size={50} color="#1F66FF" />
+									</div>
+								)}
 					</div>
 				}
 			/>
@@ -1977,45 +1977,51 @@ export default function WalletDetailsPage() {
 				isOpen={showEditPhoneModal}
 				setIsOpen={setShowEditPhoneModal}
 				modalContent={
-					<div className="bg-white rounded-lg p-6 w-[420px] relative">
+					<div className="bg-white rounded-lg p-6 w-[370px] relative">
 						<h2 className="text-xl font-bold mb-4">
 							Modifier le numéro
 						</h2>
 						<div className="flex items-center">
 							<PhoneInput
 								value={editPhoneValue.phone_number}
-								onChange={(number, code) =>
-									setEditPhoneValue({
-										country_phone_code: String(code),
-										phone_number: number,
-									})
+								defaultCountryIso2={
+									walletDetails?.country_iso_code
 								}
-							/>
-							<input
-								type="text"
-								className="w-full px-3  border border-gray-300 rounded-md focus:outline-none "
-								placeholder="Phone number"
-								value={editPhoneValue.phone_number}
-								onChange={(e) =>
-									setEditPhoneValue({
-										...editPhoneValue,
-										phone_number: e.target.value,
+								onChange={(number, code) =>
+									setEditPhoneValue((prev) => {
+										const dial =
+											(code as any)?.dialCode ||
+											String(code);
+										const clean = number
+											.replace(dial, "")
+											.replace(/\D/g, "");
+										if (
+											prev.phone_number === clean &&
+											prev.country_phone_code === dial
+										) {
+											return prev;
+										}
+										return {
+											country_phone_code: dial,
+											phone_number: clean,
+										};
 									})
 								}
 							/>
 						</div>
-						<div className="flex gap-3 justify-end mt-6">
+							<div className="flex gap-3 justify-end mt-6 relative">
 							<CButton
 								text="Annuler"
 								btnStyle="outlineDark"
 								onClick={() => setShowEditPhoneModal(false)}
 							/>
 							<CButton
-								text="Enregistrer"
+									text={isUpdatingPhone ? "Enregistrement..." : "Enregistrer"}
 								btnStyle="blue"
 								onClick={async () => {
 									if (!selectedPhone?.id) return;
 									try {
+											setIsUpdatingPhone(true);
 										const res =
 											await WalletService.update_wallet_phone_number(
 												{
@@ -2047,10 +2053,24 @@ export default function WalletDetailsPage() {
 										toast.error(
 											e?.message || "Echec de mise à jour"
 										);
-									}
+										} finally {
+											setIsUpdatingPhone(false);
+										}
 								}}
 							/>
 						</div>
+							{isUpdatingPhone && (
+								<div
+									className={classNames(
+										"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-0 left-0 h-full w-full flex items-center justify-center",
+										{
+											"!opacity-100 !visible z-[1000]": isUpdatingPhone,
+										}
+									)}
+								>
+									<PuffLoader className="shrink-0" size={50} color="#1F66FF" />
+								</div>
+							)}
 					</div>
 				}
 			/>
