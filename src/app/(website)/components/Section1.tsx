@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { FlipWords } from "@/components/ui/shadcn-io/flip-words";
+import { mastercardIcon, visaIcon } from "@/constants/icons";
 
 const Section1 = () => {
 	const words = ["Fintechs", "PMEs"];
@@ -70,6 +71,10 @@ const Section1 = () => {
 							>
 								Contacter le support
 							</a>
+						</div>
+						<div className="flex justify-center md:justify-start items-center my-8 gap-5">
+							<div>{visaIcon}</div>
+							<div>{mastercardIcon}</div>
 						</div>
 					</div>
 				</div>
