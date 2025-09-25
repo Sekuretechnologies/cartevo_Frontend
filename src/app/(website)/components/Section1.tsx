@@ -17,7 +17,7 @@ const Section1 = () => {
 				}}
 			>
 				{/* <div className="w-full h-full bg-primary/5 top-0 left-0 z-20 absolute "></div> */}
-				<div className=" flex flex-col lg:flex-row  pt-40">
+				<div className=" flex flex-col lg:flex-row  pt-[140px]">
 					<div
 						className=" lg:absolute lg:bottom-0 lg:-right-0  lg:flex lg:justify-end  lg:px-0 lg:w-[65%] h-full  overflow-y-hidden"
 						style={{
