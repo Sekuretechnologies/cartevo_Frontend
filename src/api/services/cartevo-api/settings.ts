@@ -162,9 +162,27 @@ export class SettingsService {
 		token: string;
 	}) => {
 		return BaseMethods.deleteRequest(
-				userManagementUrls.DELETE_TEAM_MEMBER(id),
+			userManagementUrls.DELETE_TEAM_MEMBER(id),
 			{},
 			true,
+			token
+		);
+	};
+
+	static EditUser = ({
+		userId,
+		token,
+		data,
+	}: {
+		userId: string;
+		token: string;
+		data: any;
+	}) => {
+		return BaseMethods.putRequest(
+			userManagementUrls.EDIT_USER(userId),
+			data,
+			true,
+			{},
 			token
 		);
 	};

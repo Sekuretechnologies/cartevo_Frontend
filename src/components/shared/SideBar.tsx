@@ -5,6 +5,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Logo from "../shared/Logo";
 import {
 	Accueil,
+	CardIcon,
 	Cards,
 	Company,
 	Developers,
@@ -21,6 +22,12 @@ import { hasPermission } from "@/utils/permissions";
 import { useSelector } from "react-redux";
 import cstyle from "./styles/sidebar-style.module.scss";
 import { RootState } from "@/redux/store";
+import { CreditCard, UsersRound } from "lucide-react";
+import { UserIcon } from "@heroicons/react/24/outline";
+import { FaUsers } from "react-icons/fa";
+import { FaCreditCard } from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { LuSettings2 } from "react-icons/lu";
 
 type Props = {
 	isExpanded: boolean;
@@ -67,6 +74,14 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Identity />,
 		},
 		{
+			title: "Users",
+			slug: "Users",
+			canSee: true,
+			path: urls.user.root,
+			count: null,
+			icon: <FaUsers size={20} />,
+		},
+		{
 			title: "Companies",
 			slug: "Companies",
 			canSee: true,
@@ -75,12 +90,28 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Company />,
 		},
 		{
-			title: "Users",
-			slug: "Users",
+			title: "Cards",
+			slug: "Cards",
 			canSee: true,
-			path: urls.user.root,
+			path: urls.cardsAdmin.root,
 			count: null,
-			icon: <Company />,
+			icon: <FaCreditCard size={20} />,
+		},
+		{
+			title: "Transactions",
+			slug: "Transactions",
+			canSee: true,
+			path: urls.adminTransaction.root,
+			count: null,
+			icon: <FaArrowRightArrowLeft size={20} />,
+		},
+		{
+			title: "Settings",
+			slug: "Settings",
+			canSee: true,
+			path: urls.adminSettings.root,
+			count: null,
+			icon: <LuSettings2 size={20} />,
 		},
 	];
 
