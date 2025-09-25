@@ -2,6 +2,7 @@ import React from "react";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import type { Metadata } from "next";
+import Script from "next/script";
 import StoreProvider from "./storeProvider";
 import { NextUIProvider } from "@nextui-org/react";
 // import { I18nProvider } from "@react-aria/i18n";
@@ -26,11 +27,11 @@ export default function RootLayout({
 					rel="stylesheet"
 				/>
 				{/* Start cookieyes banner */}
-				<script
+				<Script
 					id="cookieyes"
-					type="text/javascript"
 					src="https://cdn-cookieyes.com/client_data/40e31a15e268dd0908dc5c7a/script.js"
-				></script>
+					strategy="beforeInteractive"
+				/>
 				{/* End cookieyes banner */}
 			</head>
 			<body className="">
