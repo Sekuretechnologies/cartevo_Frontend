@@ -60,6 +60,15 @@ const URLConfig = {
 	user: {
 		...User(),
 	},
+	cardsAdmin: {
+		...card(),
+	},
+	adminTransaction: {
+		...transactionsAdmin(),
+	},
+	adminSettings: {
+		...adminSettings(),
+	},
 
 	// Admin Module
 	// ADMIN: {
@@ -157,7 +166,20 @@ function User() {
 }
 
 function card() {
-	const PATH = `${rootUrl}card`;
+	const PATH = `${rootUrl}cards-admin`;
+	return {
+		root: PATH,
+	};
+}
+function transactionsAdmin() {
+	const PATH = `${rootUrl}transactions-admin`;
+	return {
+		root: PATH,
+	};
+}
+
+function adminSettings() {
+	const PATH = `${rootUrl}admin-settings`;
 	return {
 		root: PATH,
 	};

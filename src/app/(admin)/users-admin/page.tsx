@@ -65,12 +65,12 @@ const Users = () => {
 	useEffect(() => {
 		console.log("filtre content", filterContent);
 		if (usersQueryRes.data?.data) {
-			setData(usersQueryRes.data.data); // mettre à jour les users
+			setData(usersQueryRes.data.data);
 		}
 	}, [usersQueryRes.data]);
 
 	// filtrage
-	const filteredUsers = data.filter(
+	const filteredUsers = data?.filter(
 		(user) =>
 			!filterContent?.selectedCompany ||
 			user.companyId === filterContent.selectedCompany

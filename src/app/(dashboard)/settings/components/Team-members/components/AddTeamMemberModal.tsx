@@ -8,7 +8,7 @@ type ModalProps = {
 
 const AddTeamMemberModal = ({ onClose }: ModalProps) => {
 	return (
-		<div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex justify-center items-center z-50">
+		<div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex justify-center items-center z-[1000]">
 			<div className="relative flex flex-col px-8 py-8 bg-white rounded-lg w-[600px]">
 				<div className="flex justify-between items-center mb-8">
 					<h1 className=" text-xl font-semibold">

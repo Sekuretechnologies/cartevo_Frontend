@@ -321,3 +321,7 @@ export const RejectKycSchema = z.object({
 	value: z.literal("REJECTED"),
 	message: z.string().min(1, "Message is required"),
 });
+
+export const EditRoleSchema = z.object({
+	role: z.union([z.literal("admin"), z.literal("member")]),
+});
