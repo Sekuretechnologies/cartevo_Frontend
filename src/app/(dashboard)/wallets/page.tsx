@@ -282,6 +282,7 @@ export default function Home() {
 		onError: (err) => {
 			toast.error("Failed to get Company Transactions.");
 		},
+		refetchInterval: 300000,
 		// enabled: loadTransactions, // Only load when explicitly requested
 		// staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
 		// cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
@@ -297,7 +298,7 @@ export default function Home() {
 		onError: (err) => {
 			toast.error("Failed to get wallets.");
 		},
-		// refetchInterval: 300000, // Reduced to 5 minutes instead of 1 minute
+		refetchInterval: 300000, // Reduced to 5 minutes instead of 1 minute
 		// staleTime: 2 * 60 * 1000, // Consider data fresh for 2 minutes
 		// cacheTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
 	});

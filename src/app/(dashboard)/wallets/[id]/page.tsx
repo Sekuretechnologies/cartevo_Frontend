@@ -358,7 +358,11 @@ export default function WalletDetailsPage() {
 				throw new Error(json?.message || "Withdrawal failed");
 			toast.success(json?.message || "Withdrawal initiated successfully");
 			setShowWithdrawModal(false);
-			walletQuery.refetch();
+			
+			// Force refetch wallet data to get updated payout_balance
+			await walletQuery.refetch();
+			// Also refetch transactions to show the new withdrawal
+			walletTrxQuery.refetch();
 		} catch (error: any) {
 			toast.error(error?.message || "Withdrawal failed");
 		} finally {
