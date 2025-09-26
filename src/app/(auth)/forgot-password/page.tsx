@@ -82,10 +82,23 @@ const ForgotPassword = () => {
 					</p>
 				</div>
 
-				<div className="flex  items-center px-[50px] font-poppins">
-					<div className="w-full max-w-[400px] font-poppins">
+				<div className="flex  items-center px-[50px] mt-32 lg:mt-0 font-poppins">
+					<div className="w-full flex flex-col items-center mx-auto lg:mx-0 lg:items-start max-w-[500px] font-poppins">
+						<div className="text-center lg:hidden">
+							<h1 className="font-bold text-[30px] -mt-10 leading-8 max-w-[500px] tracking-tight">
+								Mot de passe{" "}
+								<span className="text-primary">{`oublié ?`}</span>
+							</h1>
+							<p>
+								Veuillez saisir votre adresse e-mail pour
+								recevoir le lien de réinitalisation
+							</p>
+						</div>
 						<FormProvider {...form}>
-							<form onSubmit={form.handleSubmit(onSubmit)}>
+							<form
+								onSubmit={form.handleSubmit(onSubmit)}
+								className="w-full"
+							>
 								<FormField
 									control={form.control}
 									name="email"
@@ -110,25 +123,28 @@ const ForgotPassword = () => {
 										</FormItem>
 									)}
 								/>
-								<div className="mt-[30px]">
+								<div className="mt-[30px] flex flex-col gap-4 items-center sm:flex-row justify-center lg:justify-start">
 									<CButton
 										text="Envoyer le lien"
 										btnStyle="blue"
 										type="submit"
+										width="175px"
+										height="49px"
 									/>
+									<a
+										className="bg-[#F3F3F3] text-black text-[12px] font-bold flex gap-1 items-center justify-center w-[325px] h-[52px] rounded-[18px]"
+										href="/login"
+									>
+										<span>{`Je me souviens`},</span>{" "}
+										<span className="text-primary">
+											{`Retourner au login`}
+										</span>
+									</a>
 								</div>
 							</form>
 						</FormProvider>
 
-						<div className="mt-6 text-app-secondary text-sm">
-							{`Je me souviens`},{" "}
-							<a
-								href="/signup"
-								className="text-app-primary underline hover:text-app-secondary"
-							>
-								Retourner au login
-							</a>
-						</div>
+						<div className="mt-6 text-app-secondary text-sm"></div>
 					</div>
 				</div>
 			</div>

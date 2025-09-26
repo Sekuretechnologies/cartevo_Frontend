@@ -82,7 +82,7 @@ export class AdminService {
 
 		return BaseMethods.getRequest(
 			`${adminUrls.GET_USERS}?${params.toString()}`,
-			false,
+			true,
 			{},
 			token
 		);
