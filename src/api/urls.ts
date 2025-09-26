@@ -307,6 +307,19 @@ export const adminUrls = {
 	HANDLE_KYC: `${ADMIN_BASE_URL}/handle-kyc`,
 	HANDLE_KYB: `${ADMIN_BASE_URL}/handle-kyb`,
 	GET_USERS: `${ADMIN_BASE_URL}/get-all-users`,
-
 	TOGGLE_USERS_STATUS: (id: string) => `${ADMIN_BASE_URL}/toggle-user/${id}`,
+};
+
+export const COMPANY_ADMIN_URL = `${BASE_URL}/companies-admin`;
+export const companyAdminUrl = {
+	GET_ADMIN_USERS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/users-by-company/${id}`,
+
+	GET_ADMIN_TRANSACTION_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/transactions-by-company/${id}`,
+
+	GET_ADMIN_CUSTOMERS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/customers-by-company/${id}`,
+	GET_ADMIN_CARDS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/cards-by-company/${id}`,
 };

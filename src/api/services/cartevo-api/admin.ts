@@ -1,5 +1,5 @@
 import BaseMethods from "@/api/baseMethods";
-import { adminUrls } from "@/api/urls";
+import { adminUrls, companyAdminUrl } from "@/api/urls";
 import { string } from "zod";
 
 export class AdminService {
@@ -100,6 +100,66 @@ export class AdminService {
 		return BaseMethods.putRequest(
 			`${adminUrls.TOGGLE_USERS_STATUS}/${userId}`,
 			{ status },
+			true,
+			{},
+			token
+		);
+	};
+
+	static getUsersByCompany = ({
+		token,
+		companyId,
+	}: {
+		token: string;
+		companyId: string;
+	}) => {
+		return BaseMethods.getRequest(
+			companyAdminUrl.GET_ADMIN_USERS_BY_COMPANY(companyId),
+			true,
+			{},
+			token
+		);
+	};
+
+	static getTransactionsByCompany = ({
+		token,
+		companyId,
+	}: {
+		token: string;
+		companyId: string;
+	}) => {
+		return BaseMethods.getRequest(
+			companyAdminUrl.GET_ADMIN_TRANSACTION_BY_COMPANY(companyId),
+			true,
+			{},
+			token
+		);
+	};
+
+	static getCustomersByCompany = ({
+		token,
+		companyId,
+	}: {
+		token: string;
+		companyId: string;
+	}) => {
+		return BaseMethods.getRequest(
+			companyAdminUrl.GET_ADMIN_CUSTOMERS_BY_COMPANY(companyId),
+			true,
+			{},
+			token
+		);
+	};
+
+	static getCardByCompany = ({
+		token,
+		companyId,
+	}: {
+		token: string;
+		companyId: string;
+	}) => {
+		return BaseMethods.getRequest(
+			companyAdminUrl.GET_ADMIN_CARDS_BY_COMPANY(companyId),
 			true,
 			{},
 			token
