@@ -207,4 +207,19 @@ export class AdminService {
 			token
 		);
 	};
+
+	static getWalletsByCompany = ({
+		token,
+		companyId,
+	}: {
+		token: string;
+		companyId: string;
+	}) => {
+		return BaseMethods.getRequest(
+			companyAdminUrl.GET_WALLETS_BY_COMPANY(companyId),
+			true,
+			{},
+			token
+		);
+	};
 }

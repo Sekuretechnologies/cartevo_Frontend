@@ -1,6 +1,6 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-export const BASE_URL = `https://api.cartevo.co/api/v1`;
-// export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
+// export const BASE_URL = `https://api.cartevo.co/api/v1`;
+export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 // export const API_V2_BASE_URL = `http://localhost:3000/api/v2/admin`;
 // export const API_V2_BASE_URL = `https://apigetsekure.com/api/v2/admin`;
@@ -325,4 +325,6 @@ export const companyAdminUrl = {
 	GET_ADMIN_CARDS_BY_COMPANY: (id: string) =>
 		`${COMPANY_ADMIN_URL}/cards-by-company/${id}`,
 	GET_COUNTRIES: `${COMPANY_ADMIN_URL}/countries`,
+	GET_WALLETS_BY_COMPANY: (companyId: string) =>
+		`${COMPANY_ADMIN_URL}/get-wallets-by-company/${companyId}`,
 };
