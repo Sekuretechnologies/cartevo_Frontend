@@ -39,7 +39,7 @@ const Transactions = () => {
 	);
 
 	const transactionsQuery = useQuery({
-		queryKey: ["users", selectedCompany.id, currentToken],
+		queryKey: ["transactions", selectedCompany.id, currentToken],
 		queryFn: () =>
 			getTransactionsByCompany({
 				companyId: selectedCompany.id as string,
@@ -77,7 +77,21 @@ const Transactions = () => {
 				amount: txn.amount ?? "-",
 				fee_amount: txn.fee_amount ?? "-",
 				net_amount: txn.net_amount ?? "-",
-				status: txn.status ?? "-",
+				status: (
+					<span
+						className={
+							txn.status === "SUCCESS"
+								? "px-2 py-1 rounded-full text-green-700 bg-green-100"
+								: txn.status === "FAILED"
+								? "px-2 py-1 rounded-full text-red-700 bg-red-100"
+								: txn.status === "PENDING"
+								? "px-2 py-1 rounded-full text-yellow-700 bg-yellow-100"
+								: "px-2 py-1 rounded-full text-gray-700 bg-gray-100"
+						}
+					>
+						{txn.status ?? "-"}
+					</span>
+				),
 				currency: txn.currency ?? "-",
 				provider: txn.provider ?? "-",
 				operator: txn.operator ?? "-",

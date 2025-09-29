@@ -5,6 +5,7 @@ import { hasPermission } from "@/utils/permissions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 
 interface ICartesCard {
 	cardNumber: string;
@@ -53,8 +54,9 @@ const CartesCardV2 = ({
 	card,
 	customer,
 }: ICartesCard) => {
-	const router = useRouter();
-	const currentUser = useSelector(selectCurrentUser);
+    const router = useRouter();
+    const currentUser = useSelector(selectCurrentUser);
+    const { createLocalizedLink } = useLocalizedNavigation();
 	return (
 		<div className="flex flex-col justify-start items-start gap-3">
 			{/* <h1 className="text-base font-semibold tracking-tight">{title ?? `Carte ${index}`}</h1> */}
@@ -334,36 +336,36 @@ const CartesCardV2 = ({
 								<div className="text-sm font-semibold">
 									Propriétaire de la carte
 								</div>
-								<Link
-									href={`${urls.users.manage}/${customer?._id}`}
+                                <Link
+                                    href={createLocalizedLink(`${urls.users.manage}/${customer?._id}`)}
 									className="hover:text-[#18BC7A] "
 								>
 									<div
-										onClick={() =>
-											router.push(
-												`${urls.users.manage}/${customer?._id}`
-											)
-										}
+                                        onClick={() =>
+                                            router.push(
+                                                createLocalizedLink(`${urls.users.manage}/${customer?._id}`)
+                                            )
+                                        }
 										className="text-md cursor-pointer font-normal "
 									>
 										{customer?.name}
 									</div>
 									<div
-										onClick={() =>
-											router.push(
-												`${urls.users.manage}/${customer?._id}`
-											)
-										}
+                                        onClick={() =>
+                                            router.push(
+                                                createLocalizedLink(`${urls.users.manage}/${customer?._id}`)
+                                            )
+                                        }
 										className="text-sm cursor-pointer font-normal "
 									>
 										{customer?.email}
 									</div>
 									<div
-										onClick={() =>
-											router.push(
-												`${urls.users.manage}/${customer?._id}`
-											)
-										}
+                                        onClick={() =>
+                                            router.push(
+                                                createLocalizedLink(`${urls.users.manage}/${customer?._id}`)
+                                            )
+                                        }
 										className="text-sm cursor-pointer font-normal "
 									>
 										{customer?.phone}

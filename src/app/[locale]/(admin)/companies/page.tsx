@@ -1,19 +1,20 @@
 "use client";
 
 import { AdminService } from "@/api/services/cartevo-api/admin";
-import StatusBadge from "@/app/(dashboard)/approvals/components/StatusBadge";
+
 import CustomTable from "@/components/shared/CustomTable";
 import Layout from "@/components/shared/Layout";
 import ProtectedRoute from "@/components/shared/ProtectedRoute";
 import Title from "@/components/shared/Title";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { setSelectedCompany } from "@/redux/slices/selectedCompany";
-import { filter } from "lodash";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
+import StatusBadge from "../../(dashboard)/approvals/components/StatusBadge";
 
 const getCompanies = async ({ queryKey }: any) => {
 	const [_key, token, filterContent] = queryKey;
@@ -38,6 +39,7 @@ const Companies = () => {
 	const [filterContent, setFilterContent] = useState<any>({});
 	const [data, setData] = useState<any[]>([]);
 	let rearrangedTableData: any[] = [];
+	const { createLocalizedLink, navigateTo } = useLocalizedNavigation();
 
 	const companiesQuery = useQuery({
 		queryKey: ["companies", currentToken, filterContent],
@@ -55,7 +57,7 @@ const Companies = () => {
 	}, [companiesQuery.data]);
 
 	// const filteredCompany = data?.filter(
-	// 	(company) => !filterContent?.select 
+	// 	(company) => !filterContent?.select
 	// )
 
 	const allCompaniesHeaderData = {
@@ -112,7 +114,8 @@ const Companies = () => {
 	const handleViewDetails = (company: { id: string; name: string }) => {
 		const slug = toSlug(company.name);
 		dispatch(setSelectedCompany(company));
-		router.push(`/companies/${company.id}-${slug}`);
+		// router.push(`/companies/${company.id}-${slug}`);
+		navigateTo(`/companies/${company.id}-${slug}`);
 	};
 	return (
 		<ProtectedRoute allowedClearances={["admin"]}>

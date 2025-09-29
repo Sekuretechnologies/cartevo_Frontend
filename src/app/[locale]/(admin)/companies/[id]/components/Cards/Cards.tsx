@@ -38,7 +38,7 @@ const Cards = () => {
 	);
 
 	const cardsQuery = useQuery({
-		queryKey: ["users", selectedCompany.id, currentToken],
+		queryKey: ["cards", selectedCompany.id, currentToken],
 		queryFn: () =>
 			getCardsByCompany({
 				companyId: selectedCompany.id as string,
@@ -66,7 +66,19 @@ const Cards = () => {
 			serial: index + 1,
 			name: card.name ?? "-",
 			masked_number: card.masked_number ?? "-",
-			status: card.status ?? "-",
+			status: (
+				<span
+					className={
+						card.status === "ACTIVE"
+							? "px-2 py-1 rounded-full text-green-700 bg-green-100"
+							: card.status === "INACTIVE"
+							? "px-2 py-1 rounded-full text-red-700 bg-red-100"
+							: "px-2 py-1 rounded-full text-gray-700 bg-gray-100"
+					}
+				>
+					{card.status ?? "-"}
+				</span>
+			),
 			balance: card.balance ?? "-",
 			currency: card.currency ?? "-",
 			brand: card.brand ?? "-",
@@ -76,7 +88,7 @@ const Cards = () => {
 
 	return (
 		<div className="my-[50px] bg-white shadow-md rounded-xl p-5">
-			<Title title={"Cards List"} />
+			<Title title={"Wallets List"} />
 
 			<CustomTable
 				headerData={cardsHeaderData}

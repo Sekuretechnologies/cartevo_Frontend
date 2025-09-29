@@ -27,6 +27,7 @@ import {
 	Wallet,
 } from "./icons";
 import cstyle from "./styles/sidebar-style.module.scss";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 
 type Props = {
 	isExpanded: boolean;
@@ -36,6 +37,7 @@ type Props = {
 
 const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 	const pathname = usePathname();
+    const { createLocalizedLink} = useLocalizedNavigation();
 	const clearance = useSelector(
 		(state: RootState) => (state.auth.company as any)?.clearance
 	);
@@ -245,11 +247,11 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 						</div>
 
 						{/* Links */}
-						{(isAdminView ? SideBarLinksAdmin : SideBarLinksV2).map(
+                        {(isAdminView ? SideBarLinksAdmin : SideBarLinksV2).map(
 							(link) => {
-								const isActive =
-									pathname?.split("/")[1] ===
-									link.path.split("/")[1];
+                                const currentSegment = pathname?.split("/")[2] || ""; // after [locale]
+                                const linkSegment = link.path.split("/")[1] || ""; // path without locale
+                                const isActive = currentSegment === linkSegment;
 								const iconColor = isActive
 									? "fill-[#1F66FF] stroke-[#1F66FF]"
 									: "fill-[#000]";
@@ -261,8 +263,8 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 
 								return (
 									<li key={link.title} className="relative">
-										<Link
-											href={link.path}
+                                        <Link
+                                            href={createLocalizedLink(link.path)}
 											style={{
 												color: isActive
 													? "#1F66FF"

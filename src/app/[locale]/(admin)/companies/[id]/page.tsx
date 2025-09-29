@@ -7,7 +7,7 @@ import Users from "./components/Users/Users";
 import Customers from "./components/Customers/Customers";
 import Cards from "./components/Cards/Cards";
 import Transactions from "./components/Transaction/Transactions";
-import Wallet from "./components/wallets/Wallet";
+import { Wallet } from "@/components/shared/icons";
 
 const ManageCompany = () => {
 	return (

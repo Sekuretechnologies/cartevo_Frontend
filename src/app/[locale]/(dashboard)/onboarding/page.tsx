@@ -8,14 +8,15 @@ import Layout from "@/components/shared/Layout";
 import Title from "@/components/shared/Title";
 
 import { CompanyService } from "@/api/services/cartevo-api/company";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { RootState } from "@/redux/store";
 import toast from "react-hot-toast";
 import { FaBuilding, FaCheck, FaClock, FaUser } from "react-icons/fa";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
-import { useTranslation } from "@/hooks/useTranslation";
-import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { PuffLoader } from "react-spinners";
 
 const PENDING = "PENDING";
 const COMPLETED = "COMPLETED";
@@ -341,13 +342,15 @@ export default function OnboardingPage() {
 		<Layout title={"Onboarding"}>
 			{onboardingStepsQueryRes?.status === "loading" ? (
 				<div className="flex justify-center w-full py-10">
-					<div className={"loadingSpinner"}></div>
+					<div className="w-full h-screen flex justify-center items-center">
+						<PuffLoader size={40} color="#1F66FF" />
+					</div>
 				</div>
 			) : (
-				<section className="mt-2">
+				<section className="mt-1">
 					<div className="mb-8">
 						<Title title={t.onboarding.mainTitle} />
-						<p className="text-gray-600 mt-2">
+						<p className="text-gray-600 mt-2 ">
 							{t.onboarding.mainDescription}
 						</p>
 					</div>
@@ -369,6 +372,7 @@ export default function OnboardingPage() {
 											<h3 className="font-semibold text-lg text-gray-900">
 												{step.name}
 											</h3>
+
 											<p className="text-sm text-gray-500">
 												{t.onboarding.counters.step}{" "}
 												{step.order}
