@@ -14,9 +14,9 @@ const Section2 = () => {
 						Des services complets fournis
 					</h1>
 					<p className="text-[12px] text-center lg:text-left lg:w-[650px] font-[300] ">
-						Offrez à vos clients une expérience unique avec des
+						{`Offrez à vos clients une expérience unique avec des
 						fonctionnalités adaptées à leurs besoins. Utilisez l’API
-						Cartevo et personnalisez-la à votre image.
+						Cartevo et personnalisez-la à votre image.`}
 					</p>
 				</div>
 
@@ -24,12 +24,12 @@ const Section2 = () => {
 					{/* Bloc 1 */}
 					<div className="flex flex-col">
 						{/* Images */}
-						<div className="w-full h-[243px] bg-[#DBEDF3] rounded-[15px] mb-8 flex items-end justify-center">
+						<div className="w-full h-[243px] bg-[#DBEDF3] rounded-[15px] mt-8 md:mt-0 mb-8 flex items-end justify-center">
 							<Image
-								src="/website/home/mobile.png"
+								src="/website/home/collect_payment.png"
 								alt="Mobile payment illustration showing payment collection across African countries"
-								width={490}
-								height={390}
+								width={300}
+								height={200}
 								loading="lazy"
 								// className="w-auto h-auto"
 							/>
@@ -70,7 +70,7 @@ const Section2 = () => {
 					</div>
 
 					{/* Bloc 2 */}
-					<div className="flex flex-col mt-8 md:mt-0" >
+					<div className="flex flex-col mt-8 md:mt-0">
 						{/* Images */}
 						<div className="w-full h-[243px] bg-[#DBEDF3] rounded-[15px] mb-8 flex items-end justify-center">
 							<Image

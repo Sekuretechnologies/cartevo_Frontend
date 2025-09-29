@@ -1044,8 +1044,8 @@ export default function WalletDetailsPage() {
 											No transactions found
 										</div>
 										<div className="text-gray-400 text-sm">
-											This wallet doesn't have any
-											transactions yet
+											{`This wallet doesn't have any
+											transactions yet`}
 										</div>
 									</div>
 								)}
