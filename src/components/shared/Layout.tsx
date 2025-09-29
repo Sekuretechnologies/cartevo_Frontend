@@ -1,28 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import cstyle from "./styles/layout-style.module.scss";
 import Navbar from "./Navbar";
 import SideBar from "./SideBar";
-import Modal from "./Modal/Modal";
+import cstyle from "./styles/layout-style.module.scss";
 // import Footer from "./Footer";
-import { useContext, useEffect } from "react";
-import { capitalize } from "@/utils/capitalize";
-import { context } from "@/context/ApplicationContext";
-import { useRouter, usePathname } from "next/navigation";
-import {
-	selectCurrentCompany,
-	selectCurrentToken,
-	selectCurrentUser,
-	logOut,
-} from "@/redux/slices/auth";
-import { useSelector, useDispatch } from "react-redux";
 import { useAuth } from "@/hooks/useAuth";
-import { isTokenExpired } from "@/utils/auth";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
-import urls from "@/config/urls";
-import urlsV2 from "@/config/urls_v2";
-import urlsV1V2 from "@/config/urlsv1v2";
-import { hasPermission } from "@/utils/permissions";
+import {
+	logOut,
+	selectCurrentCompany,
+	selectCurrentUser,
+} from "@/redux/slices/auth";
+import { isTokenExpired } from "@/utils/auth";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 interface LayoutProps {
 	title: string;
 	children: React.ReactNode;
@@ -45,6 +37,11 @@ const Layout: React.FC<LayoutProps> = ({
 	const user = useSelector(selectCurrentUser);
 	const company = useSelector(selectCurrentCompany);
 	const { token, isAuthenticated, isChecking } = useAuth();
+
+	// Determine current section after [locale]
+	const pathSegments = (pathname || "").split("/").filter(Boolean);
+	const sectionAfterLocale = pathSegments[1] || ""; // e.g., /fr/onboarding -> onboarding
+	const isOnboardingRoute = sectionAfterLocale === "onboarding";
 
 	// console.log("token : ", token);
 
@@ -82,6 +79,8 @@ const Layout: React.FC<LayoutProps> = ({
 				: router.push(createLocalizedLink("/onboarding"));
 		}
 	}, [pathname]);
+
+	const { navigateTo } = useLocalizedNavigation();
 
 	// useEffect(() => {
 	// 	// const sktoken = localStorage.getItem('sktoken');
@@ -172,6 +171,46 @@ const Layout: React.FC<LayoutProps> = ({
 						isExpanded={isExpanded}
 					/>
 				</div>
+				{!isOnboardingRoute && (
+					<div className="border-[1px] w-full py-2  flex flex-col gap-y-2 border-gray-300 border-dotted bg-primary-50">
+						<h3 className=" text-center mt-2">
+							Bienvenue sur Cartevo – Mode Pré-production
+						</h3>
+						<div className="flex justify-center items-center w-full">
+							<h4
+								text-center
+								className="text-sm text-center max-w-[80%]"
+							>
+								Vous testez la plateforme dans un environnement
+								proche de la réalité, avec des limites de
+								sécurité :{" "}
+								<span className="font-semibold">
+									Transactions
+								</span>{" "}
+								: volume restreint
+								<span className="font-semibold">
+									{" "}
+									Cartes{" "}
+								</span>{" "}
+								: quota réduit ,{" "}
+								<span className="font-semibold">
+									{" "}
+									Devises
+								</span>{" "}
+								: conversion FCFA ⇄ USD disponible 50000 FCFA,
+								<span className="font-semibold">Devises</span> :
+								conversion FCFA ⇄ USD disponible. Pour débloquer
+								la Production complète, vérifiez votre compte.{" "}
+								<span
+									className="font-semibold cursor-pointer underline"
+									onClick={() => navigateTo("/onboarding")}
+								>
+									Passer en production
+								</span>
+							</h4>
+						</div>
+					</div>
+				)}
 				<div className="pl-5 md:pl-10 pr-5 md:pr-0   pt-10 pb-10 w-full ">
 					{children}
 				</div>

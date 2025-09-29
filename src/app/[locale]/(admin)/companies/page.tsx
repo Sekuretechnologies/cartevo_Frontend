@@ -6,16 +6,15 @@ import CustomTable from "@/components/shared/CustomTable";
 import Layout from "@/components/shared/Layout";
 import ProtectedRoute from "@/components/shared/ProtectedRoute";
 import Title from "@/components/shared/Title";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { setSelectedCompany } from "@/redux/slices/selectedCompany";
-import { filter } from "lodash";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import StatusBadge from "../../(dashboard)/approvals/components/StatusBadge";
-import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 
 const getCompanies = async ({ queryKey }: any) => {
 	const [_key, token, filterContent] = queryKey;
