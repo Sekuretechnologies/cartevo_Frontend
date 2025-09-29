@@ -1,6 +1,3 @@
-import { root } from "postcss";
-import * as APPURLS from "./";
-
 export type URLType = { [key: string]: string };
 
 // ALL APP ROUTES
@@ -68,6 +65,10 @@ const URLConfig = {
 	},
 	adminSettings: {
 		...adminSettings(),
+	},
+
+	adminWallets: {
+		...adminWallets(),
 	},
 
 	// Admin Module
@@ -180,6 +181,12 @@ function transactionsAdmin() {
 
 function adminSettings() {
 	const PATH = `${rootUrl}admin-settings`;
+	return {
+		root: PATH,
+	};
+}
+function adminWallets() {
+	const PATH = `${rootUrl}wallets-admin`;
 	return {
 		root: PATH,
 	};

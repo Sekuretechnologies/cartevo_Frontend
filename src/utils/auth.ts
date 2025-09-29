@@ -92,7 +92,10 @@ export const redirectToLogin = (currentPath?: string): void => {
 
 	const path = currentPath || window.location.pathname;
 	window.sessionStorage.setItem("previousUrl", path);
-	window.location.href = "/login";
+	
+	// Extract locale from current path or default to 'fr'
+	const locale = path.split('/')[1] || 'fr';
+	window.location.href = `/${locale}/login`;
 };
 
 /**
