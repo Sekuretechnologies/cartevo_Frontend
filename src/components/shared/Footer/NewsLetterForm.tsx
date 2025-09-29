@@ -21,6 +21,7 @@ import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { HashLoader } from "react-spinners";
 import { z } from "zod";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 
 const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 	const response = await AuthService.login(data);
@@ -42,7 +43,8 @@ const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 export default function NewsLetterForm() {
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const previousUrl = window.sessionStorage.getItem("previousUrl");
-	const router = useRouter();
+    const router = useRouter();
+    const { createLocalizedLink } = useLocalizedNavigation();
 	const dispatch = useDispatch();
 	const form = useForm<z.infer<typeof loginSchema>>({
 		resolver: zodResolver(loginSchema),
@@ -66,8 +68,8 @@ export default function NewsLetterForm() {
 			localStorage.setItem("sktoken", token);
 			toast.success("Login successful! Redirecting...");
 			dispatch(setCredentials({ token, getSekureApiToken, user }));
-			// router.push("/verify-token");
-			router.push(previousUrl || urlsV2.dashboardHome.root);
+            // router.push("/verify-token");
+            router.push(previousUrl || createLocalizedLink(urlsV2.dashboardHome.root));
 		},
 	});
 
