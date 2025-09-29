@@ -1,6 +1,11 @@
+"use client";
+
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+
 import React from "react";
 
 const WebsiteFooter = () => {
+	const { createLocalizedLink } = useLocalizedNavigation();
 	return (
 		<footer className=" py-12">
 			<div className="customContainer">
@@ -26,7 +31,7 @@ const WebsiteFooter = () => {
 							<a href="docs.cartevo.co">Api documentation</a>
 						</li>
 						<li>
-							<a href="/contact">Contactez-nous</a>
+							<a href={createLocalizedLink("/contact")}>Contactez-nous</a>
 						</li>
 					</ul>
 
