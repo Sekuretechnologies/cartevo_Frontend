@@ -1,4 +1,7 @@
+"use client";
+
 import { AuthService } from "@/api/services/cartevo-api/auth";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import {
 	logOut,
 	selectCurrentCompany,
@@ -6,13 +9,17 @@ import {
 	selectCurrentUser,
 } from "@/redux/slices/auth";
 import {
+	selectAvailableLanguages,
+	selectCurrentLanguage,
+	setLanguageByCode,
+} from "@/redux/slices/languageSlice";
+import {
 	selectCurrentMode,
-	selectCurrentVersion,
 	selectLimitDate,
 	selectStartDate,
 	setMode,
-	setVersion,
 } from "@/redux/slices_v2/settings";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -22,12 +29,13 @@ import { MdCheck, MdLogout } from "react-icons/md";
 import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useScrollYPosition } from "react-use-scroll-position";
+import { Switch } from "../ui/switch";
 import CButton from "./CButton";
 import CustomDropdown2 from "./CustomDropdown2";
+import { ItemFlag } from "./ItemFlag";
 import SearchUserInput from "./search/UserSearchInput";
 import "./style-navbar.css";
 import cstyle from "./styles/navbar-style.module.scss";
-import { Switch } from "../ui/switch";
 type Props = {
 	title: string | undefined;
 	backLink?: string;
@@ -48,11 +56,13 @@ const envModes: any = {
 	live: "Live",
 	sandbox: "Sandbox",
 };
+
 export default function Navbar(props: Props) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const dispatch = useDispatch();
 	const { title, backLink, goBack, isExpanded } = props;
+	const { changeLocale, createLocalizedLink } = useLocalizedNavigation();
 	const classNames = (...classes: string[]): string =>
 		classes.filter(Boolean).join(" ");
 
@@ -62,6 +72,10 @@ export default function Navbar(props: Props) {
 	const currentMode = useSelector(selectCurrentMode);
 	const currentStartDate = useSelector(selectStartDate);
 	const currentLimitDate = useSelector(selectLimitDate);
+
+	// Language state from Redux
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const availableLanguages = useSelector(selectAvailableLanguages);
 
 	const [envMode, setEnvMode] = useState(currentMode || "sandbox");
 	const [isChangeStartDateModalFormOpen, setIsChangeStartDateModalFormOpen] =
@@ -76,7 +90,7 @@ export default function Navbar(props: Props) {
 		onSuccess: (data) => {
 			toast.success("Bye. See you soon!");
 			dispatch(logOut());
-			router.push("/login");
+			router.push(createLocalizedLink("/login"));
 		},
 		onError: (err: any) => {
 			console.error("Logout onError : ", err.message);
@@ -123,6 +137,14 @@ export default function Navbar(props: Props) {
 			setEnvMode("sandbox");
 			dispatch(setMode("sandbox"));
 		}
+	};
+
+	const handleLanguageChange = (newLocale: string) => {
+		// Mettre à jour le store Redux
+		dispatch(setLanguageByCode(newLocale));
+
+		// Changer la locale de la page
+		changeLocale(newLocale.toLowerCase());
 	};
 
 	// Use the useScrollPosition hook to get the current scroll position
@@ -252,6 +274,61 @@ export default function Navbar(props: Props) {
 								</div>
 							</div>
 						</label> */}
+
+						<CustomDropdown2
+							btnChild={
+								<div className="flex items-center gap-1 border-1 border-gray-300 px-3 py-1 rounded-lg hover:bg-gray-50">
+									<ItemFlag
+										iso2={currentLanguage?.iso2 || "US"}
+										size={3}
+									/>
+									<span className="flex items-center">
+										<span className="text-gray-700 font-medium text-sm">
+											{currentLanguage.code.toUpperCase()}
+										</span>
+										<ChevronDown className="h-4 w-4 ml-1 text-gray-600" />
+									</span>
+								</div>
+							}
+							cstyle={""}
+							iconSize={20}
+							items={[
+								<div
+									key="1"
+									className="flex flex-col justify-center w-full"
+								>
+									{availableLanguages.map((lang) => (
+										<button
+											key={lang.code}
+											onClick={() =>
+												handleLanguageChange(lang.code)
+											}
+											className={`hover:bg-gray-100 w-full px-3 py-2 text-left transition-all flex items-center space-x-3 duration-200 ${
+												currentLanguage.code ===
+												lang.code
+													? "bg-blue-50 text-blue-700"
+													: ""
+											}`}
+										>
+											<ItemFlag
+												iso2={lang?.iso2 || "US"}
+												size={3}
+											/>
+											<span className="font-medium text-sm">
+												{lang.name}
+											</span>
+											{currentLanguage.code ===
+												lang.code && (
+												<MdCheck
+													className="ml-auto text-blue-600"
+													size={16}
+												/>
+											)}
+										</button>
+									))}
+								</div>,
+							]}
+						/>
 
 						<div className="ml-10 text-sm">
 							{currentUser?.last_name?.split(" ")[0] || ""}

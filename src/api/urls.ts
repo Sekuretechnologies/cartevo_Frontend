@@ -1,6 +1,6 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-// export const BASE_URL = `https://api.cartevo.co/api/v1`;
-export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
+export const BASE_URL = `https://api.cartevo.co/api/v1`;
+// export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 // export const API_V2_BASE_URL = `http://localhost:3000/api/v2/admin`;
 // export const API_V2_BASE_URL = `https://apigetsekure.com/api/v2/admin`;
@@ -309,4 +309,13 @@ export const adminUrls = {
 	GET_USERS: `${ADMIN_BASE_URL}/get-all-users`,
 
 	TOGGLE_USERS_STATUS: (id: string) => `${ADMIN_BASE_URL}/toggle-user/${id}`,
+};
+
+// Wallets (admin can query global wallets via base wallets endpoint)
+export const BASE_URL_WALLET = `${BASE_URL}/wallets`;
+export const walletUrls = {
+	GET_WALLETS: `${BASE_URL_WALLET}`,
+	GET_ONE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}`,
+	UPDATE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}`,
+	DISABLE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}/disable`,
 };

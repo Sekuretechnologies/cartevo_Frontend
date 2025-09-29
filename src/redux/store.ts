@@ -18,11 +18,13 @@ import kycRedux from "./slices/kyc";
 import searchRedux from "./slices/search";
 import signupRedux from "./slices/signup";
 import transactionRedux from "./slices/transaction";
+import languageReducer from "./slices/languageSlice";
 /** ------------------------------------ */
 import companyReducer from "./slices/companySlice";
 import selectedCompanyReducer from "./slices/selectedCompany";
 import userReducer from "./slices/userSlices";
 import walletsReducer from "./slices/wallets";
+import adminWalletsReducer from "./slices/adminWallets";
 import chinpayRedux from "./slices_v2/chinpay";
 import customerticketRedux from "./slices_v2/customerticket";
 import kycV2Redux from "./slices_v2/kyc";
@@ -82,7 +84,9 @@ const rootReducer = combineReducers({
 	company: companyReducer,
 	selectedCompany: selectedCompanyReducer,
 	wallets: walletsReducer,
+  adminWallets: adminWalletsReducer,
 	user: userReducer,
+	language: languageReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 const Logo = () => {
+	const { createLocalizedLink } = useLocalizedNavigation();
 	return (
-		<Link href="/">
+		<Link href={createLocalizedLink("/")}>
 			<div className="flex items-center justify-center gap-5">
 				<Image
 					src="/images/logo.png"
