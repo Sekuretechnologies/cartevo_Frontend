@@ -13,12 +13,13 @@ import toast from "react-hot-toast";
 import { TeamMemberSettingsRequest } from "@/types/settings";
 import DeleteModal from "./components/DeleteModal";
 import { X } from "lucide-react";
+import EditRoleModal from "./components/EditRoleModal";
 
 const getTeamMembers = async ({ queryKey }: any) => {
 	const [_key, token] = queryKey;
 	const response = await SettingsService.get_team_members({ token });
 	const data = await response.json();
-	console.log(data)
+	console.log(data);
 
 	if (!response.ok) {
 		throw new Error(data.message || "failed to get team members");
@@ -31,9 +32,8 @@ const TeamMember = () => {
 		useState<boolean>(false);
 	const [deleteModalVisible, setDeleteModalVisible] =
 		useState<boolean>(false);
-	const [selectedMemberId, setSelectedMemberId] = useState<string | null>(
-		null
-	);
+	const [selectedMemberId, setSelectedMemberId] = useState<string>("");
+	const [editModalVIsible, setEditModalVisible] = useState<boolean>(false);
 	const queryClient = useQueryClient();
 
 	const currentToken: any = useSelector(selectCurrentToken);
@@ -60,7 +60,7 @@ const TeamMember = () => {
 						text="Edit role"
 						btnStyle="yellow"
 						height="30px"
-						// onClick={() => handleEdit(member)}
+						onClick={() => handleEditModal(member.id)}
 					/>
 					<CButton
 						text="Delete"
@@ -90,9 +90,15 @@ const TeamMember = () => {
 		actions: "Actions",
 	};
 
-	const handleDeleteModal = async (memeberId: string) => {
-		setSelectedMemberId(memeberId);
+	const handleDeleteModal = async (memberId: string) => {
+		setSelectedMemberId(memberId);
+
 		setDeleteModalVisible(true);
+	};
+
+	const handleEditModal = async (memberId: string) => {
+		setSelectedMemberId(memberId);
+		setEditModalVisible(true);
 	};
 
 	const deleteMutation = useMutation({
@@ -181,6 +187,13 @@ const TeamMember = () => {
 						</div>
 					</div>
 				</div>
+			)}
+
+			{editModalVIsible && (
+				<EditRoleModal
+					userId={selectedMemberId}
+					onClose={() => setEditModalVisible(false)}
+				/>
 			)}
 		</div>
 	);

@@ -67,6 +67,41 @@ export class CompanyService {
 		);
 	};
 
+	static update_company_info = ({
+		token,
+		companyId,
+		body,
+	}: {
+		token: string;
+		companyId: string;
+		body: any;
+	}) => {
+		let query_params: any = { companyId };
+		return BaseMethods.putRequest(
+			companyUrls.UPDATE_COMPANY_INFO(companyId),
+			body,
+			true,
+			query_params,
+			token
+		);
+	};
+
+	static get_company_by_id = ({
+		token,
+		companyId,
+	}: {
+		token: string;
+		companyId: string;
+	}) => {
+		let query_params: any = {};
+		return BaseMethods.getRequest(
+			companyUrls.GET_COMPANY_BY_ID(companyId),
+			true,
+			query_params,
+			token
+		);
+	};
+
 	// static get_kyc_stats = (filter?:string) =>{
 	//     let query_params:any = {};
 	//     if(filter) query_params.filter =filter;
