@@ -188,7 +188,21 @@ export default function OnboardingPage() {
 		}
 	};
 
+	const canNavigate = (slug: string) => {
+		if (slug === "profile_completion") {
+			return kycStatus === "NONE" || kycStatus === "REJECTED";
+		}
+		if (slug === "kyb_completion") {
+			return kybStatus === "NONE" || kybStatus === "REJECTED";
+		}
+
+		return true;
+	};
+
 	const handleStepClick = (slug: string) => {
+		if (!canNavigate(slug)) {
+			return;
+		}
 		router.push(createLocalizedLink(`/onboarding/${slug}`));
 	};
 
@@ -358,6 +372,7 @@ export default function OnboardingPage() {
 											<h3 className="font-semibold text-lg text-gray-900">
 												{step.name}
 											</h3>
+
 											<p className="text-sm text-gray-500">
 												{t.onboarding.counters.step}{" "}
 												{step.order}

@@ -7,6 +7,7 @@ import Users from "./components/Users/Users";
 import Customers from "./components/Customers/Customers";
 import Cards from "./components/Cards/Cards";
 import Transactions from "./components/Transaction/Transactions";
+import { Wallet } from "@/components/shared/icons";
 
 const ManageCompany = () => {
 	return (
@@ -48,6 +49,15 @@ const ManageCompany = () => {
 
 									<TabsTrigger
 										className="TabsTrigger"
+										value="wallets"
+									>
+										<span className="px-10 py-4 border-1 rounded-full">
+											Wallets
+										</span>
+									</TabsTrigger>
+
+									<TabsTrigger
+										className="TabsTrigger"
 										value="cards"
 									>
 										<span className="px-10 py-4 border-1 rounded-full">
@@ -75,6 +85,10 @@ const ManageCompany = () => {
 								</TabsContent>
 								<TabsContent value="customers">
 									<Customers />
+								</TabsContent>
+
+								<TabsContent value="wallets">
+									<Wallet />
 								</TabsContent>
 
 								<TabsContent value="cards">
