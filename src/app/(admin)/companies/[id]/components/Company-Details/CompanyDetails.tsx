@@ -6,16 +6,42 @@ import { RootState } from "@/redux/store";
 import { Input } from "@/components/ui/input";
 import DocumentViewer from "@/components/shared/DocumentViewer";
 import CButton from "@/components/shared/CButton";
-import { X, XCircle } from "lucide-react";
+import { CheckCircle, X, XCircle } from "lucide-react";
 import { FaEdit } from "react-icons/fa";
 import { CompanyService } from "@/api/services/cartevo-api/company";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { PuffLoader } from "react-spinners";
 import { Select, SelectItem } from "@nextui-org/react";
 import { countryCurrencies } from "@/constants/countryCurrenciesData";
 import { ItemFlag } from "@/components/shared/ItemFlag";
+import { string } from "zod";
+import { AdminService } from "@/api/services/cartevo-api/admin";
+
+const toggleCompanyStatus = async ({
+	token,
+	companyId,
+	isActive,
+}: {
+	token: string;
+	companyId: string;
+	isActive: boolean;
+}) => {
+	const response = await AdminService.toggleCompanyStatus({
+		token,
+		companyId,
+		isActive,
+	});
+
+	const responseJson = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseJson.message || "Failed to toggle company");
+	}
+
+	return responseJson;
+};
 
 const handleEditCompany = async ({
 	token,
@@ -69,12 +95,14 @@ const CompanyDetails = () => {
 
 	const [isEditing, setIsEditing] = useState(false);
 	const [formData, setFormData] = useState(selectedCompany);
+	const queryClient = useQueryClient();
+	const [statusModal, setSatusModal] = useState(false);
 
-	// useEffect(() => {
-	// 	setFormData(selectedCompany);
-	// }, [selectedCompany]);
+	const toggleModal = () => {
+		setSatusModal(!statusModal);
+	};
 
-	const { data, isLoading, isError } = useQuery({
+	const companyQuery = useQuery({
 		queryKey: ["company", selectedCompany.id],
 		queryFn: () =>
 			getCompanyById({
@@ -137,7 +165,6 @@ const CompanyDetails = () => {
 			body: modifiedFields,
 		});
 
-		console.log("champs modifiees", modifiedFields);
 		setIsEditing(false);
 	};
 
@@ -148,11 +175,53 @@ const CompanyDetails = () => {
 		return { displayVal, classes };
 	};
 
+	const toggleMutation = useMutation({
+		mutationFn: toggleCompanyStatus,
+		onSuccess: (data: any) => {
+			toast.success("Company status updated successfully");
+
+			queryClient.invalidateQueries(["company", selectedCompany.id]);
+			setFormData((prev: any) => ({
+				...prev,
+				is_active: prev.is_active,
+			}));
+
+			setSatusModal(false);
+			companyQuery.refetch();
+		},
+		onError: (err: any) => {
+			toast.error(err.message || "Failed to update company status");
+		},
+	});
+
+	const handleToggleStatus = (isActive: boolean) => {
+		toggleMutation.mutate({
+			token: currentToken,
+			companyId: selectedCompany.id,
+			isActive,
+		});
+	};
+
 	return (
 		<div className="px-5 py-8 relative">
-			{/* Boutons */}
-
 			<div>
+				<div className="absolute -top-14 right-6">
+					<div
+						className={`px-8 py-3 w-fit rounded-full font-semibold ${
+							formData.is_active
+								? "bg-green-100 text-green-800"
+								: "bg-red-100 text-red-800"
+						}`}
+					>
+						<p>
+							{" "}
+							{formData.is_active
+								? "Active company"
+								: "Inactive company"}
+						</p>
+					</div>
+				</div>
+
 				{/* General Information */}
 				<div>
 					<h3 className="text-lg font-semibold text-app-secondary">
@@ -452,12 +521,22 @@ const CompanyDetails = () => {
 							iconSize={24}
 						/>
 						<CButton
-							onClick={() => setIsEditing(true)}
-							text="Deactivated Company"
-							btnStyle="blue"
+							onClick={() => setSatusModal(true)}
+							text={
+								formData.is_active
+									? "Deactivate Company"
+									: "Activate Company"
+							}
+							btnStyle={formData.is_active ? "blue" : "green"}
 							width="230px"
 							height="49px"
-							icon={<XCircle />}
+							icon={
+								formData.is_active ? (
+									<XCircle />
+								) : (
+									<CheckCircle />
+								)
+							}
 							iconSize={24}
 						/>
 					</div>
@@ -485,7 +564,57 @@ const CompanyDetails = () => {
 				)}
 			</div>
 
-			{isLoading && (
+			{/** Modal de desactivation */}
+			{statusModal && (
+				<div className="fixed h-full w-full left-0 top-0 z-[1000] bg-black/20 backdrop-blur-sm flex justify-center items-center">
+					<div className="w-[500px] pt-4 pb-10 px-8 rounded-lg bg-white">
+						<div className="flex justify-end">
+							<button
+								className="text-gray-400 hover:bg-gray-200 duration-300 rounded-md p-2"
+								onClick={() => setSatusModal(false)}
+							>
+								<X />
+							</button>
+						</div>
+
+						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
+							{formData.is_active
+								? "Confirm Company Deactivation"
+								: "Confirm Company Activation"}
+						</h3>
+
+						<p className="mb-4">
+							{formData.is_active
+								? "Are you sure you want to deactivate this company? All users and services associated with this company will be temporarily disabled. You can reactivate the company later if needed."
+								: "Are you sure you want to activate this company? All users and services associated with this company will be enabled."}
+						</p>
+
+						<div className="flex items-center gap-4 mt-8">
+							<CButton
+								text={
+									formData.is_active
+										? "Confirm Deactivation"
+										: "Confirm Activation"
+								}
+								btnStyle={formData.is_active ? "blue" : "green"}
+								height="49px"
+								onClick={() => {
+									handleToggleStatus(!formData.is_active);
+								}}
+							/>
+
+							<CButton
+								text="Cancel"
+								btnStyle="red"
+								height="49px"
+								onClick={() => setSatusModal(false)}
+							/>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{companyQuery.isLoading && (
 				<div className="w-full h-full bg-white absolute top-0 left-0 z-[1000] flex items-center justify-center">
 					<div className="w-full h-screen bg-white absolute top-0 left-0 z-[1000] flex items-center justify-center">
 						<div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
@@ -493,8 +622,8 @@ const CompanyDetails = () => {
 				</div>
 			)}
 
-			{mutation.isLoading && (
-				<div className="fixed top-0 left-0 w-full h-full  bg-black/20 backdrop-blur-sm z-[1000] flex items-center justify-center">
+			{(mutation.isLoading || toggleMutation.isLoading) && (
+				<div className="fixed top-0 left-0 w-full h-full bg-black/20 backdrop-blur-sm z-[1000] flex items-center justify-center">
 					<PuffLoader size={50} color="#1F66FF" />
 				</div>
 			)}

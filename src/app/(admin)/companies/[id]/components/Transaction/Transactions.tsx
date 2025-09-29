@@ -65,7 +65,6 @@ const Transactions = () => {
 		operator: "Operator",
 		phone_number: "Phone Number",
 		created_at: "Created At",
-		action: "Action",
 	};
 
 	// Table data
@@ -91,12 +90,14 @@ const Transactions = () => {
 
 	return (
 		<div className="my-[50px] bg-white shadow-md rounded-xl p-5">
-			<Title title={"Users List"} />
+			<Title title={"Transaction List"} />
 
 			<CustomTable
 				headerData={transactionsHeaderData}
 				tableData={transactionsTableData}
-				isLoading={transactionsQuery.isLoading}
+				isLoading={
+					transactionsQuery.isLoading || transactionsQuery.isFetching
+				}
 			/>
 		</div>
 	);

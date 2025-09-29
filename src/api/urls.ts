@@ -1,6 +1,6 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-export const BASE_URL = `https://api.cartevo.co/api/v1`;
-// export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
+// export const BASE_URL = `https://api.cartevo.co/api/v1`;
+export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 // export const API_V2_BASE_URL = `http://localhost:3000/api/v2/admin`;
 // export const API_V2_BASE_URL = `https://apigetsekure.com/api/v2/admin`;
@@ -308,6 +308,8 @@ export const adminUrls = {
 	HANDLE_KYB: `${ADMIN_BASE_URL}/handle-kyb`,
 	GET_USERS: `${ADMIN_BASE_URL}/get-all-users`,
 	TOGGLE_USERS_STATUS: (id: string) => `${ADMIN_BASE_URL}/toggle-user/${id}`,
+	TOGGLE_COMPANY_STATUS: (id: string) =>
+		`${ADMIN_BASE_URL}/toggle-company/${id}`,
 };
 
 export const COMPANY_ADMIN_URL = `${BASE_URL}/companies-admin`;
@@ -322,4 +324,5 @@ export const companyAdminUrl = {
 		`${COMPANY_ADMIN_URL}/customers-by-company/${id}`,
 	GET_ADMIN_CARDS_BY_COMPANY: (id: string) =>
 		`${COMPANY_ADMIN_URL}/cards-by-company/${id}`,
+	GET_COUNTRIES: `${COMPANY_ADMIN_URL}/countries`,
 };

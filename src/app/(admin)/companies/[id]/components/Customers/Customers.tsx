@@ -76,6 +76,9 @@ const Customers = () => {
 			})
 		) ?? [];
 
+	console.log("data reçue", customersQuery.data);
+	console.log("tableData", customersTableData);
+
 	return (
 		<div className="my-[50px] bg-white shadow-md rounded-xl p-5">
 			<Title title={"Customers List"} />

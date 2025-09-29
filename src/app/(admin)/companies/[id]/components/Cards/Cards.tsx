@@ -76,12 +76,12 @@ const Cards = () => {
 
 	return (
 		<div className="my-[50px] bg-white shadow-md rounded-xl p-5">
-			<Title title={"Users List"} />
+			<Title title={"Cards List"} />
 
 			<CustomTable
 				headerData={cardsHeaderData}
 				tableData={cardsTableData}
-				isLoading={cardsQuery.isLoading}
+				isLoading={cardsQuery.isLoading || cardsQuery.isFetching}
 			/>
 		</div>
 	);

@@ -172,7 +172,7 @@ const ContactForm = () => {
 													) => {
 														form.setValue(
 															"country_code",
-															code
+															String(code)
 														);
 													}}
 												/>

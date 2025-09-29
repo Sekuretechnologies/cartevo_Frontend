@@ -19,6 +19,7 @@ import CustomersFilterForm from "./CustomTableFilters/CustomersFilterForm";
 import RegularisationFilterForm from "./CustomTableFilters/RegularisationFilterForm";
 import TransactionsFilterForm from "./CustomTableFilters/TransactionsFilterForm";
 import UserFilterForm from "./CustomTableFilters/userFilterForm";
+import CompanyFilterForm from "./CustomTableFilters/CompanyFilterForm";
 
 interface CustomTableProps {
 	btn?: React.ReactNode;
@@ -133,6 +134,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
 						/>
 					) : filterType === "transaction" ? (
 						<TransactionsFilterForm
+							filterContent={filterContent}
+							setFilterContent={setFilterContent}
+						/>
+					) : filterType === "company" ? (
+						<CompanyFilterForm
 							filterContent={filterContent}
 							setFilterContent={setFilterContent}
 						/>

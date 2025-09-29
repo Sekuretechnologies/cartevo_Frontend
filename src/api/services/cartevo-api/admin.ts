@@ -6,12 +6,27 @@ export class AdminService {
 	static get_Companies = ({
 		token,
 		status,
+		filters,
 	}: {
 		token: string;
 		status?: "pending" | "approved" | "none" | "rejected";
+		filters?: any;
 	}) => {
-		const queryParams = status ? `?status=${status}` : "";
-		const url = `${adminUrls.GET_COMPANIES}${queryParams}`;
+		const params = new URLSearchParams();
+
+		if (status) params.append("status", status);
+
+		// Ajouter les filtres
+		if (filters) {
+			if (filters.country) params.append("country", filters.country);
+			if (filters.business_type)
+				params.append("business_type", filters.business_type);
+			if (filters.is_active !== undefined)
+				params.append("is_active", filters.is_active.toString());
+		}
+
+		const url = `${adminUrls.GET_COMPANIES}?${params.toString()}`;
+
 		return BaseMethods.getRequest(url, true, {}, token);
 	};
 
@@ -160,6 +175,33 @@ export class AdminService {
 	}) => {
 		return BaseMethods.getRequest(
 			companyAdminUrl.GET_ADMIN_CARDS_BY_COMPANY(companyId),
+			true,
+			{},
+			token
+		);
+	};
+
+	static toggleCompanyStatus = ({
+		token,
+		companyId,
+		isActive,
+	}: {
+		token: string;
+		companyId: string;
+		isActive: boolean;
+	}) => {
+		return BaseMethods.putRequest(
+			adminUrls.TOGGLE_COMPANY_STATUS(companyId),
+			{ isActive },
+			true,
+			{},
+			token
+		);
+	};
+
+	static getCountries = ({ token }: { token: string }) => {
+		return BaseMethods.getRequest(
+			companyAdminUrl.GET_COUNTRIES,
 			true,
 			{},
 			token

@@ -68,20 +68,20 @@ const Users = () => {
 		phone_number: "Phone Number",
 	};
 
-	const usersTableData = usersQuery.data?.users?.map(
-		(user: any, index: number) => ({
-			serial: index + 1,
-			name:
-				`${user.first_name ?? ""} ${user.last_name ?? ""}`.trim() ||
-				"-",
-			email: user.email ?? "-",
-			role: user.role?.name ?? "-",
-			country: user.country_of_residence ?? "-",
-			city: user.city ?? "-",
-			nationality: user.nationality ?? "-",
-			phone_number: user.phone_number ?? "-",
-		})
-	);
+	const rawUsers = Array.isArray(usersQuery.data?.users)
+		? usersQuery.data?.users
+		: [];
+
+	const usersTableData = rawUsers.map((user: any, index: number) => ({
+		serial: index + 1,
+		name: `${user.first_name ?? ""} ${user.last_name ?? ""}`.trim() || "-",
+		email: user.email ?? "-",
+		role: user.role?.name ?? "-",
+		country: user.country_of_residence ?? "-",
+		city: user.city ?? "-",
+		nationality: user.nationality ?? "-",
+		phone_number: user.phone_number ?? "-",
+	}));
 
 	return (
 		<div className="my-[50px] bg-white shadow-md rounded-xl p-5">
@@ -90,7 +90,7 @@ const Users = () => {
 			<CustomTable
 				headerData={usersHeaderData}
 				tableData={usersTableData}
-				isLoading={usersQuery.isLoading}
+				isLoading={usersQuery.isLoading || usersQuery.isFetching}
 			/>
 		</div>
 	);
