@@ -1,6 +1,6 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-export const BASE_URL = `https://api.cartevo.co/api/v1`;
-// export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
+// export const BASE_URL = `https://api.cartevo.co/api/v1`;
+export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 // export const API_V2_BASE_URL = `http://localhost:3000/api/v2/admin`;
 // export const API_V2_BASE_URL = `https://apigetsekure.com/api/v2/admin`;
@@ -294,23 +294,35 @@ export const operationUrls = {
 export const BASE_URL_USER_MANAGEMENT = `${BASE_URL}/users`;
 export const userManagementUrls = {
 	CREATE_USER: `${BASE_URL_USER_MANAGEMENT}`,
-	// CREATE_USER: `http://127.0.0.1:3001/api/v1/users`,
 	GET_TEAM_MEMBERS: `${BASE_URL_USER_MANAGEMENT}`,
 	DELETE_TEAM_MEMBER: (id: string) => `${BASE_URL_USER_MANAGEMENT}/${id}`,
 	REGISTER_USER: `${BASE_URL_USER_MANAGEMENT}/register`,
-	// ACCEPT_INVITATION: `${BASE_URL_USER_MANAGEMENT}/accept-invitation`,
+	// EDIT_USER_ROLE: (id: string) => `${BASE_URL_USER_MANAGEMENT}/${id}`,
+	EDIT_USER: (id: string) => `http://127.0.0.1:3001/api/v1/users/${id}`,
 };
 
 export const ADMIN_BASE_URL = `${BASE_URL}/admin`;
 export const adminUrls = {
 	GET_COMPANIES: `${ADMIN_BASE_URL}/get-all-companies`,
-	// GET_COMPANIES: `http://127.0.0.1:3001/api/v1/admin/get-all-companies`,
-
 	HANDLE_KYC: `${ADMIN_BASE_URL}/handle-kyc`,
-
 	HANDLE_KYB: `${ADMIN_BASE_URL}/handle-kyb`,
 	GET_USERS: `${ADMIN_BASE_URL}/get-all-users`,
-	// GET_USERS: `http://127.0.0.1:3001/api/v1/admin/get-all-users`,
-
 	TOGGLE_USERS_STATUS: (id: string) => `${ADMIN_BASE_URL}/toggle-user/${id}`,
+	TOGGLE_COMPANY_STATUS: (id: string) =>
+		`${ADMIN_BASE_URL}/toggle-company/${id}`,
+};
+
+export const COMPANY_ADMIN_URL = `${BASE_URL}/companies-admin`;
+export const companyAdminUrl = {
+	GET_ADMIN_USERS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/users-by-company/${id}`,
+
+	GET_ADMIN_TRANSACTION_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/transactions-by-company/${id}`,
+
+	GET_ADMIN_CUSTOMERS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/customers-by-company/${id}`,
+	GET_ADMIN_CARDS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/cards-by-company/${id}`,
+	GET_COUNTRIES: `${COMPANY_ADMIN_URL}/countries`,
 };
