@@ -1,31 +1,28 @@
 "use client";
 
 import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { ItemFlag } from "../shared/ItemFlag";
+import { useState } from "react";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import CustomDropdown2 from "../shared/CustomDropdown2";
+import { ItemFlag } from "../shared/ItemFlag";
 
 const languages = [
 	{ iso2: "FR", code: "FR", name: "Français" },
 	{ iso2: "GB", code: "EN", name: "English" },
 ];
 const WebsiteHeader = () => {
-	// 	  const locale = useLocale();
-	//   const router = useRouter();
-	//   const pathname = usePathname();
-
+	const { createLocalizedLink, changeLocale } = useLocalizedNavigation();
+	
 	const [isLangOpen, setIsLangOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
-
-	//   const currentLanguage =
-	//     languages.find((lang) => lang.code === locale) || languages[0];
 
 	const handleLanguageChange = (newLocale: string) => {
 		const lang = languages.find((l) => l.code === newLocale);
 		if (lang) {
 			setCurrentLanguage(lang);
+			// Utiliser le hook pour changer de locale
+			changeLocale(newLocale.toLowerCase());
 		}
 		setIsLangOpen(false);
 	};
@@ -38,7 +35,7 @@ const WebsiteHeader = () => {
 		<div className="text-black-custom font-poppins absolute z-50 w-full">
 			<div className="customContainer flex items-center gap-1 justify-between">
 				<div className="flex items-center gap-20">
-					<a href="/">
+					<a href={createLocalizedLink("/")}>
 						<img src="/website/logos/logo_full.png" alt="logo" />
 					</a>
 
@@ -47,7 +44,7 @@ const WebsiteHeader = () => {
 						<ul className="flex items-center gap-8 mt-2">
 							<li className="h-[30px]">
 								<a
-									href="/"
+									href={createLocalizedLink("/")}
 									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
 									Accueil
@@ -55,7 +52,7 @@ const WebsiteHeader = () => {
 							</li>
 							<li className="h-[30px]">
 								<a
-									href="/pricing"
+									href={createLocalizedLink("/pricing")}
 									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
 									Tarifs
@@ -64,7 +61,7 @@ const WebsiteHeader = () => {
 
 							<li className="flex items-center h-[30px]">
 								<a
-									href="/contact"
+									href={createLocalizedLink("/contact")}
 									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
 									Contacter
@@ -78,7 +75,7 @@ const WebsiteHeader = () => {
 				<div className="flex items-center gap-0 font-poppins">
 					<div className="hidden lg:block">
 						<a
-							href="/signup"
+							href={createLocalizedLink("/signup")}
 							className="h-[38px] w-[134px] hover:bg-[#00CFD9] hover:text-black duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]"
 						>
 							Commencer
@@ -147,24 +144,27 @@ const WebsiteHeader = () => {
 					<nav className=" px-5 py-5 bg-white ">
 						<ul className=" flex flex-col gap-4 font-poppins text-lg">
 							<li>
-								<a href="/website" className="navItem ">
-									Acceuil
+								<a href={createLocalizedLink("/")} className="navItem ">
+									Accueil
 								</a>
 							</li>
 							<li>
-								<a href="/website/pricing" className="navItem">
+								<a href={createLocalizedLink("/pricing")} className="navItem">
 									Tarifs
 								</a>
 							</li>
 
 							<li className="flex items-center">
-								<a href="/contact" className="navItem">
+								<a href={createLocalizedLink("/contact")} className="navItem">
 									Contacter
 								</a>
 								<ChevronRight size={18} color="#1f66ff" />
 							</li>
 							<li>
-								<a href="/signup" className="h-[38px] w-[134px] hover:bg-[#00CFD9] duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]">
+								<a
+									href={createLocalizedLink("/signup")}
+									className="h-[38px] w-[134px] hover:bg-[#00CFD9] duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]"
+								>
 									Commencer
 								</a>
 							</li>

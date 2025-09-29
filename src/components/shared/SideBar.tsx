@@ -1,11 +1,22 @@
-import { usePathname } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import urls from "@/config/urls";
+import { selectCurrentVersion } from "@/redux/slices_v2/settings";
+import { RootState } from "@/redux/store";
+import { Wallet as Wallets } from "lucide-react";
 import Link from "next/link";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import {
+	FaChevronLeft,
+	FaChevronRight,
+	FaCreditCard,
+	FaUsers,
+} from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { LuSettings2 } from "react-icons/lu";
+import { useSelector } from "react-redux";
 import Logo from "../shared/Logo";
 import {
 	Accueil,
-	CardIcon,
 	Cards,
 	Company,
 	Developers,
@@ -15,19 +26,7 @@ import {
 	Users,
 	Wallet,
 } from "./icons";
-import urls from "@/config/urls";
-import urlsV1V2 from "@/config/urlsv1v2";
-import { selectCurrentVersion } from "@/redux/slices_v2/settings";
-import { hasPermission } from "@/utils/permissions";
-import { useSelector } from "react-redux";
 import cstyle from "./styles/sidebar-style.module.scss";
-import { RootState } from "@/redux/store";
-import { CreditCard, UsersRound } from "lucide-react";
-import { UserIcon } from "@heroicons/react/24/outline";
-import { FaUsers } from "react-icons/fa";
-import { FaCreditCard } from "react-icons/fa";
-import { FaArrowRightArrowLeft } from "react-icons/fa6";
-import { LuSettings2 } from "react-icons/lu";
 
 type Props = {
 	isExpanded: boolean;
@@ -112,6 +111,14 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			path: urls.adminSettings.root,
 			count: null,
 			icon: <LuSettings2 size={20} />,
+		},
+		{
+			title: "Wallets",
+			slug: "wallets1",
+			canSee: true,
+			path: urls.adminWallets.root,
+			count: null,
+			icon: <Wallets size={20} />,
 		},
 	];
 
