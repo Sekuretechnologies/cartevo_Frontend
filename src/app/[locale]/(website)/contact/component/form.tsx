@@ -172,7 +172,7 @@ const ContactForm = () => {
 													) => {
 														form.setValue(
 															"country_code",
-															code
+															String(code)
 														);
 													}}
 												/>
@@ -248,7 +248,7 @@ const ContactForm = () => {
 											))}
 										</Select>
 									</FormControl>
-								<FormMessage className="text-red-400 font-poppins" />
+									<FormMessage className="text-red-400 font-poppins" />
 								</FormItem>
 							)}
 						/>

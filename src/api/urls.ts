@@ -307,8 +307,24 @@ export const adminUrls = {
 	HANDLE_KYC: `${ADMIN_BASE_URL}/handle-kyc`,
 	HANDLE_KYB: `${ADMIN_BASE_URL}/handle-kyb`,
 	GET_USERS: `${ADMIN_BASE_URL}/get-all-users`,
-
 	TOGGLE_USERS_STATUS: (id: string) => `${ADMIN_BASE_URL}/toggle-user/${id}`,
+	TOGGLE_COMPANY_STATUS: (id: string) =>
+		`${ADMIN_BASE_URL}/toggle-company/${id}`,
+};
+
+export const COMPANY_ADMIN_URL = `${BASE_URL}/companies-admin`;
+export const companyAdminUrl = {
+	GET_ADMIN_USERS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/users-by-company/${id}`,
+
+	GET_ADMIN_TRANSACTION_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/transactions-by-company/${id}`,
+
+	GET_ADMIN_CUSTOMERS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/customers-by-company/${id}`,
+	GET_ADMIN_CARDS_BY_COMPANY: (id: string) =>
+		`${COMPANY_ADMIN_URL}/cards-by-company/${id}`,
+	GET_COUNTRIES: `${COMPANY_ADMIN_URL}/countries`,
 };
 
 // Wallets (admin can query global wallets via base wallets endpoint)
