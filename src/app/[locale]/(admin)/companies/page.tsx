@@ -1,7 +1,7 @@
 "use client";
 
 import { AdminService } from "@/api/services/cartevo-api/admin";
-import StatusBadge from "@/app/(dashboard)/approvals/components/StatusBadge";
+
 import CustomTable from "@/components/shared/CustomTable";
 import Layout from "@/components/shared/Layout";
 import ProtectedRoute from "@/components/shared/ProtectedRoute";
@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
+import StatusBadge from "../../(dashboard)/approvals/components/StatusBadge";
 
 const getCompanies = async ({ queryKey }: any) => {
 	const [_key, token, filterContent] = queryKey;
@@ -55,7 +56,7 @@ const Companies = () => {
 	}, [companiesQuery.data]);
 
 	// const filteredCompany = data?.filter(
-	// 	(company) => !filterContent?.select 
+	// 	(company) => !filterContent?.select
 	// )
 
 	const allCompaniesHeaderData = {

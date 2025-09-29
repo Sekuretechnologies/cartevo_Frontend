@@ -3,6 +3,7 @@ import { Button, Card, CardFooter, CardHeader, Image } from "@nextui-org/react";
 import { useQuery } from "react-query";
 import { useRouter } from "next/navigation";
 import slugify from "slugify";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 
 export interface IProduct {
 	discountPercentage: number;
@@ -19,7 +20,8 @@ export interface IProduct {
 }
 
 export default function ProductsSection() {
-	const router = useRouter()
+    const router = useRouter()
+    const { createLocalizedLink } = useLocalizedNavigation();
 	const productsView = useQuery({
 		queryKey: ["products"],
 		queryFn: async () => {
@@ -28,9 +30,9 @@ export default function ProductsSection() {
 		},
 	});
 
-	const goProduct = (product : IProduct) => () => {
-		router.push(`/products/${slugify(product.title)}-${product._id}`)
-	}
+    const goProduct = (product : IProduct) => () => {
+        router.push(createLocalizedLink(`/products/${slugify(product.title)}-${product._id}`))
+    }
 	return productsView.data ? (
 		<div className="py-[80px] bg-black">
 			<h2 className="text-center text-3xl my-6">Our top Sales</h2>

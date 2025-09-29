@@ -8,14 +8,15 @@ import Layout from "@/components/shared/Layout";
 import Title from "@/components/shared/Title";
 
 import { CompanyService } from "@/api/services/cartevo-api/company";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { RootState } from "@/redux/store";
 import toast from "react-hot-toast";
 import { FaBuilding, FaCheck, FaClock, FaUser } from "react-icons/fa";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
-import { useTranslation } from "@/hooks/useTranslation";
-import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { PuffLoader } from "react-spinners";
 
 const PENDING = "PENDING";
 const COMPLETED = "COMPLETED";
@@ -75,19 +76,19 @@ const getVerificationStatus = async ({ queryKey }: any) => {
 };
 
 export default function OnboardingPage() {
-    const { t }:{t:any} = useTranslation();
-    useTitle(t.onboarding.pageTitle, true);
+	const { t }: { t: any } = useTranslation();
+	useTitle(t.onboarding.pageTitle, true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const router = useRouter();
-    const params = useParams();
-    const { createLocalizedLink } = useLocalizedNavigation();
+	const params = useParams();
+	const { createLocalizedLink } = useLocalizedNavigation();
 	// const [steps, setSteps] = useState(onboardingSteps);
 	const company = useSelector((state: RootState) => state.auth.company) as {
 		id: string;
 	} | null;
 
 	//------------------------------------------------
-onboardingSteps = [];
+	onboardingSteps = [];
 	const onboardingStepsQueryRes: any = useQuery({
 		queryKey: ["onboardingSteps", currentToken],
 		queryFn: getOnboardingSteps,
@@ -187,9 +188,9 @@ onboardingSteps = [];
 		}
 	};
 
-const handleStepClick = (slug: string) => {
+	const handleStepClick = (slug: string) => {
 		router.push(createLocalizedLink(`/onboarding/${slug}`));
-};
+	};
 
 	const getVerificationMessage = (status: string, type: "KYC" | "KYB") => {
 		switch (status) {
@@ -327,14 +328,16 @@ const handleStepClick = (slug: string) => {
 		<Layout title={"Onboarding"}>
 			{onboardingStepsQueryRes?.status === "loading" ? (
 				<div className="flex justify-center w-full py-10">
-					<div className={"loadingSpinner"}></div>
+					<div className="w-full h-screen flex justify-center items-center">
+						<PuffLoader size={40} color="#1F66FF" />
+					</div>
 				</div>
 			) : (
-				<section className="mt-2">
+				<section className="mt-1">
 					<div className="mb-8">
-					<Title title={t.onboarding.mainTitle} />
-						<p className="text-gray-600 mt-2">
-						{t.onboarding.mainDescription}
+						<Title title={t.onboarding.mainTitle} />
+						<p className="text-gray-600 mt-2 ">
+							{t.onboarding.mainDescription}
 						</p>
 					</div>
 
@@ -355,9 +358,10 @@ const handleStepClick = (slug: string) => {
 											<h3 className="font-semibold text-lg text-gray-900">
 												{step.name}
 											</h3>
-								<p className="text-sm text-gray-500">
-									{t.onboarding.counters.step} {step.order}
-								</p>
+											<p className="text-sm text-gray-500">
+												{t.onboarding.counters.step}{" "}
+												{step.order}
+											</p>
 										</div>
 									</div>
 									<div className="flex items-center gap-2">
@@ -436,14 +440,16 @@ const handleStepClick = (slug: string) => {
 									</div>
 									{step.status !== COMPLETED && (
 										<CButton
-								text={
-									step.status === COMPLETED
-										? t.onboarding.buttons.review
-										: step.status ===
-										  IN_PROGRESS
-										? t.onboarding.buttons.continue
-										: t.onboarding.buttons.start
-								}
+											text={
+												step.status === COMPLETED
+													? t.onboarding.buttons
+															.review
+													: step.status ===
+													  IN_PROGRESS
+													? t.onboarding.buttons
+															.continue
+													: t.onboarding.buttons.start
+											}
 											btnStyle={
 												step.status === COMPLETED
 													? "outlineDark"
@@ -464,14 +470,15 @@ const handleStepClick = (slug: string) => {
 					{/* Overall Progress */}
 					<div className="mt-8 bg-white shadow-md rounded-xl p-6">
 						<div className="flex items-center justify-between mb-4">
-						<Title title={t.onboarding.overallProgress} />
+							<Title title={t.onboarding.overallProgress} />
 							<span className="text-lg font-semibold text-gray-700">
 								{
 									onboardingSteps.filter(
 										(s) => s.status === COMPLETED
 									).length
 								}{" "}
-							/ {onboardingSteps.length} {t.onboarding.counters.completed}
+								/ {onboardingSteps.length}{" "}
+								{t.onboarding.counters.completed}
 							</span>
 						</div>
 						<div className="w-full bg-gray-200 rounded-full h-3">
