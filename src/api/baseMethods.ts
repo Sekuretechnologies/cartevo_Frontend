@@ -29,7 +29,9 @@ class BaseMethods {
 					"previousUrl",
 					window.location.pathname
 				);
-				window.location.href = "/login";
+				// Extract locale from current path or default to 'fr'
+				const locale = window.location.pathname.split('/')[1] || 'fr';
+				window.location.href = `/${locale}/login`;
 			}
 			return headers;
 		}
@@ -47,7 +49,9 @@ class BaseMethods {
 						"previousUrl",
 						window.location.pathname
 					);
-					window.location.href = "/login";
+					// Extract locale from current path or default to 'fr'
+					const locale = window.location.pathname.split('/')[1] || 'fr';
+					window.location.href = `/${locale}/login`;
 				}
 				return headers; // Return headers without token
 			}
@@ -59,7 +63,9 @@ class BaseMethods {
 					"previousUrl",
 					window.location.pathname
 				);
-				window.location.href = "/login";
+				// Extract locale from current path or default to 'fr'
+				const locale = window.location.pathname.split('/')[1] || 'fr';
+				window.location.href = `/${locale}/login`;
 			}
 			return headers;
 		}

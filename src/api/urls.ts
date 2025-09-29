@@ -326,3 +326,12 @@ export const companyAdminUrl = {
 		`${COMPANY_ADMIN_URL}/cards-by-company/${id}`,
 	GET_COUNTRIES: `${COMPANY_ADMIN_URL}/countries`,
 };
+
+// Wallets (admin can query global wallets via base wallets endpoint)
+export const BASE_URL_WALLET = `${BASE_URL}/wallets`;
+export const walletUrls = {
+	GET_WALLETS: `${BASE_URL_WALLET}`,
+	GET_ONE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}`,
+	UPDATE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}`,
+	DISABLE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}/disable`,
+};

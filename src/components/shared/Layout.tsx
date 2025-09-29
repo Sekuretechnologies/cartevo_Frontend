@@ -18,6 +18,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useAuth } from "@/hooks/useAuth";
 import { isTokenExpired } from "@/utils/auth";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import urls from "@/config/urls";
 import urlsV2 from "@/config/urls_v2";
 import urlsV1V2 from "@/config/urlsv1v2";
@@ -39,6 +40,7 @@ const Layout: React.FC<LayoutProps> = ({
 	const router = useRouter();
 	const pathname = usePathname();
 	const dispatch = useDispatch();
+	const { createLocalizedLink } = useLocalizedNavigation();
 	// const token = useSelector(selectCurrentToken);
 	const user = useSelector(selectCurrentUser);
 	const company = useSelector(selectCurrentCompany);
@@ -60,7 +62,7 @@ const Layout: React.FC<LayoutProps> = ({
 		// Check if user is not authenticated
 		if (!isAuthenticated) {
 			window.sessionStorage.setItem("previousUrl", pathname);
-			router.push("/login");
+			router.push(createLocalizedLink("/login"));
 			return;
 		}
 
@@ -69,15 +71,15 @@ const Layout: React.FC<LayoutProps> = ({
 		if (token && isTokenExpired(token)) {
 			dispatch(logOut());
 			window.sessionStorage.setItem("previousUrl", pathname);
-			router.push("/login");
+			router.push(createLocalizedLink("/login"));
 		}
 	}, [isAuthenticated, isChecking, router, pathname, dispatch]);
 
 	useEffect(() => {
 		if (token && (pathname === "/login" || pathname === "/verify-otp")) {
 			company?.onboarding_is_completed
-				? router.push("/wallets")
-				: router.push("/onboarding");
+				? router.push(createLocalizedLink("/wallets"))
+				: router.push(createLocalizedLink("/onboarding"));
 		}
 	}, [pathname]);
 
