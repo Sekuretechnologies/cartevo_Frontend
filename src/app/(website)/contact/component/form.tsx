@@ -172,11 +172,7 @@ const ContactForm = () => {
 													) => {
 														form.setValue(
 															"country_code",
-															code.dialCode
-														);
-														form.setValue(
-															"whatsapp",
-															number
+															String(code)
 														);
 													}}
 												/>

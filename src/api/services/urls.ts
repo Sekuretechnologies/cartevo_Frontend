@@ -24,7 +24,8 @@ export const companyUrls = {
 	COMPLETE_KYB: `${BASE_URL_COMPANY}/onboarding/kyb`,
 	COMPLETE_KYC: `${BASE_URL_COMPANY}/onboarding/kyc`,
 	GET_VERIFICATION_STATUS: `${BASE_URL_COMPANY}/get-status`,
-	// GET_VERIFICATION_STATUS: `http://127.0.0.1:3001/api/v1/company/get-status`,
+	UPDATE_COMPANY_INFO: (id: string) => `${BASE_URL_COMPANY}/update/${id}`,
+	GET_COMPANY_BY_ID: (id: string) => `${BASE_URL_COMPANY}/admin/${id}`,
 };
 
 /** CUSTOMER ============================================================ */

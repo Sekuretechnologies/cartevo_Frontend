@@ -1,3 +1,4 @@
+import { root } from "postcss";
 import * as APPURLS from "./";
 
 export type URLType = { [key: string]: string };
@@ -52,6 +53,21 @@ const URLConfig = {
 
 	Approvals: {
 		...Approvals(),
+	},
+	company: {
+		...Company(),
+	},
+	user: {
+		...User(),
+	},
+	cardsAdmin: {
+		...card(),
+	},
+	adminTransaction: {
+		...transactionsAdmin(),
+	},
+	adminSettings: {
+		...adminSettings(),
 	},
 
 	// Admin Module
@@ -130,6 +146,40 @@ function settings(prefix: string = "") {
 
 function Approvals(prefix: string = "") {
 	const PATH = `${rootUrl}approvals`;
+	return {
+		root: PATH,
+	};
+}
+
+function Company(prefix: string = "") {
+	const PATH = `${rootUrl}companies`;
+	return {
+		root: PATH,
+	};
+}
+
+function User() {
+	const PATH = `${rootUrl}users-admin`;
+	return {
+		root: PATH,
+	};
+}
+
+function card() {
+	const PATH = `${rootUrl}cards-admin`;
+	return {
+		root: PATH,
+	};
+}
+function transactionsAdmin() {
+	const PATH = `${rootUrl}transactions-admin`;
+	return {
+		root: PATH,
+	};
+}
+
+function adminSettings() {
+	const PATH = `${rootUrl}admin-settings`;
 	return {
 		root: PATH,
 	};

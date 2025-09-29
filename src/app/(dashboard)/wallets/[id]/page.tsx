@@ -32,6 +32,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { MdOutlineFileDownload } from "react-icons/md";
+import { RollingText } from "@/components/text/rolling-text";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
@@ -670,36 +671,48 @@ export default function WalletDetailsPage() {
 												</span>
 											)}
 										</div>
-										<div className="text-2xl font-bold text-gray-900">
-											{totalBalance?.toLocaleString(
-												"en-EN"
-											) ?? 0}
-											<span className="text-sm font-normal text-gray-600 ml-1">
-												{walletDetails.currency}
-											</span>
-										</div>
+                                        <div className="text-2xl font-bold text-gray-900">
+                                            <RollingText
+                                                text={
+                                                    (totalBalance?.toLocaleString(
+                                                        "en-EN"
+                                                    ) ?? "0") as unknown as string
+                                                }
+                                            />
+                                            <span className="text-sm font-normal text-gray-600 ml-1">
+                                                {walletDetails.currency}
+                                            </span>
+                                        </div>
 										<div className="mt-2 space-y-1">
 											<div className="flex items-center  text-sm text-gray-600">
 												<span>Main Balance</span>
-												<span className="font-medium text-gray-900 ml-[20%]">
-													{walletDetails.balance?.toLocaleString(
-														"en-EN"
-													) ?? 0}
-													<span className="text-medium font-normal text-gray-600 ml-1">
-														{walletDetails.currency}
-													</span>
-												</span>
+                                                <span className="font-medium text-gray-900 ml-[20%]">
+                                                    <RollingText
+                                                        text={
+                                                            (walletDetails.balance?.toLocaleString(
+                                                                "en-EN"
+                                                            ) ?? "0") as unknown as string
+                                                        }
+                                                    />
+                                                    <span className="text-medium font-normal text-gray-600 ml-1">
+                                                        {walletDetails.currency}
+                                                    </span>
+                                                </span>
 											</div>
 											<div className="flex items-center  text-sm text-gray-600">
 												<span>Collected Balance</span>
-												<span className="font-medium text-gray-900 ml-[20%]">
-													{walletDetails.payin_balance?.toLocaleString(
-														"en-EN"
-													) ?? 0}
-													<span className="text-medium font-normal text-gray-600 ml-1">
-														{walletDetails.currency}
-													</span>
-												</span>
+                                                <span className="font-medium text-gray-900 ml-[20%]">
+                                                    <RollingText
+                                                        text={
+                                                            (walletDetails.payin_balance?.toLocaleString(
+                                                                "en-EN"
+                                                            ) ?? "0") as unknown as string
+                                                        }
+                                                    />
+                                                    <span className="text-medium font-normal text-gray-600 ml-1">
+                                                        {walletDetails.currency}
+                                                    </span>
+                                                </span>
 											</div>
 										</div>
 									</div>

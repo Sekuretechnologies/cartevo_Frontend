@@ -76,9 +76,6 @@ export default function LoginForm() {
 			// dispatch(setCurrentUserEmail({ email: form.getValues("email") }));
 			console.log("data", data);
 
-			dispatch(
-				setCurrentPassword({ password: form.getValues("password") })
-			);
 			dispatch(setCompagnies(data.companies)); // -->> sauvegarde dans le  store
 
 			router.push("/verify-otp");
