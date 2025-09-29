@@ -39,7 +39,7 @@ const Customers = () => {
 	);
 
 	const customersQuery = useQuery({
-		queryKey: ["users", selectedCompany.id, currentToken],
+		queryKey: ["customers", selectedCompany.id, currentToken],
 		queryFn: () =>
 			getCostumersByCompany({
 				companyId: selectedCompany.id as string,
