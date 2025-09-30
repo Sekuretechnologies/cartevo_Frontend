@@ -311,7 +311,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 
 						{/* Admin toggle */}
 						{isAdmin && (
-							<div className="absolute bottom-0 pl-4 mb-5">
+							<div className="absolute bottom-16 pl-4 mb-5">
 								<div className="flex items-center gap-2 mt-3 relative group">
 									<button
 										onClick={toggleAdminView}

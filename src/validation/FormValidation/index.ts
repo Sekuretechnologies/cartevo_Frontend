@@ -266,17 +266,19 @@ export const resetPsswordSchema = z
 	});
 
 export const contactSchema = z.object({
-	country_code: z.string().min(1, "Le code pays est obligatoire"),
-	whatsapp: z.string().min(1, "Le numéro WhatsApp est obligatoire"),
-	email: z.string().email("Adresse e-mail invalide"),
-	subject: z.string().min(3, "L’objet doit contenir au moins 3 caractères"),
+	country_code: z.string().min(1, "Country code is required"),
+	whatsapp: z.string().min(1, "WhatsApp number is required"),
+	email: z.string().email("Invalid email address"),
+	subject: z
+		.string()
+		.min(3, "The subject must contain at least 3 characters"),
 	message: z
 		.string()
-		.min(5, "Le message doit contenir au moins 5 caractères"),
-	name: z.string().min(1, "Le nom est obligatoire"),
-	entrepriseName: z.string().min(1, "Le nom de l’entreprise est obligatoire"),
-	activity: z.string().min(1, "L’activité est obligatoire"),
-	service: z.string().min(1, "Le service est obligatoire"),
+		.min(5, "The message must contain at least 5 characters"),
+	name: z.string().min(1, "Name is required"),
+	entrepriseName: z.string().min(1, "Company name is required"),
+	activity: z.string().min(1, "Activity is required"),
+	service: z.string().min(1, "Service is required"),
 });
 
 export const teamMemberSchema = z.object({

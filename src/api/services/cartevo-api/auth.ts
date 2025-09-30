@@ -26,4 +26,6 @@ export class AuthService {
 		BaseMethods.postRequest(authUrls.LOGIN_WITH_COMPANY, info, false);
 	static acceptInvitation = (info: any) =>
 		BaseMethods.postRequest(authUrls.ACCEPT_INVITATION, info, false);
+	static resendOtp = (info: any) =>
+		BaseMethods.putRequest(authUrls.RESEND_OTP, info, false);
 }

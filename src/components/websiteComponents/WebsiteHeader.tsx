@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import CustomDropdown2 from "../shared/CustomDropdown2";
 import { ItemFlag } from "../shared/ItemFlag";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const languages = [
 	{ iso2: "FR", code: "FR", name: "Français" },
@@ -12,7 +13,9 @@ const languages = [
 ];
 const WebsiteHeader = () => {
 	const { createLocalizedLink, changeLocale } = useLocalizedNavigation();
-	
+	const { t } = useTranslation();
+	const headerTranslate = t.websiteNavBar;
+	const btnTranslate = t.btn;
 	const [isLangOpen, setIsLangOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
@@ -47,7 +50,7 @@ const WebsiteHeader = () => {
 									href={createLocalizedLink("/")}
 									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
-									Accueil
+									{headerTranslate.home}
 								</a>
 							</li>
 							<li className="h-[30px]">
@@ -55,7 +58,7 @@ const WebsiteHeader = () => {
 									href={createLocalizedLink("/pricing")}
 									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
-									Tarifs
+									{headerTranslate.tarifs}
 								</a>
 							</li>
 
@@ -64,7 +67,7 @@ const WebsiteHeader = () => {
 									href={createLocalizedLink("/contact")}
 									className="navItem font-poppins text-lg hover:text-app-primary"
 								>
-									Contacter
+									{headerTranslate.contact}
 								</a>
 								<ChevronRight size={18} color="#1f66ff" />
 							</li>
@@ -78,7 +81,7 @@ const WebsiteHeader = () => {
 							href={createLocalizedLink("/signup")}
 							className="h-[38px] w-[134px] hover:bg-[#00CFD9] hover:text-black duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]"
 						>
-							Commencer
+							{btnTranslate.buttonText}
 						</a>
 					</div>
 
@@ -144,19 +147,28 @@ const WebsiteHeader = () => {
 					<nav className=" px-5 py-5 bg-white ">
 						<ul className=" flex flex-col gap-4 font-poppins text-lg">
 							<li>
-								<a href={createLocalizedLink("/")} className="navItem ">
-									Accueil
+								<a
+									href={createLocalizedLink("/")}
+									className="navItem "
+								>
+									{headerTranslate.home}
 								</a>
 							</li>
 							<li>
-								<a href={createLocalizedLink("/pricing")} className="navItem">
-									Tarifs
+								<a
+									href={createLocalizedLink("/pricing")}
+									className="navItem"
+								>
+									{headerTranslate.tarifs}
 								</a>
 							</li>
 
 							<li className="flex items-center">
-								<a href={createLocalizedLink("/contact")} className="navItem">
-									Contacter
+								<a
+									href={createLocalizedLink("/contact")}
+									className="navItem"
+								>
+									{headerTranslate.contact}
 								</a>
 								<ChevronRight size={18} color="#1f66ff" />
 							</li>
@@ -165,7 +177,7 @@ const WebsiteHeader = () => {
 									href={createLocalizedLink("/signup")}
 									className="h-[38px] w-[134px] hover:bg-[#00CFD9] duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]"
 								>
-									Commencer
+									{btnTranslate.buttonText}
 								</a>
 							</li>
 						</ul>

@@ -1,11 +1,15 @@
 "use client";
 
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import React from "react";
 
 const WebsiteFooter = () => {
 	const { createLocalizedLink } = useLocalizedNavigation();
+	const { t } = useTranslation();
+	const footerTranslate = t.websiteFooter;
+
 	return (
 		<footer className=" py-12">
 			<div className="customContainer">
@@ -17,21 +21,23 @@ const WebsiteFooter = () => {
 							className="-ml-[6px]"
 						/>
 						<p className="uppercase max-w-64  font-syne font-bold text-[12px]">
-							Innovez sans attendre, encaissez sans limite.
+							{footerTranslate.title}
 						</p>
 					</div>
 					<ul className="flex flex-col gap-2 font-semibold text-[12px] font-poppins">
 						<li>
-							<a href="#">Politique de confidentialité</a>
+							<a href="#"> {footerTranslate.politique}</a>
 						</li>
 						<li>
-							<a href="#">Termes et conditions</a>
+							<a href="#"> {footerTranslate.termes}</a>
 						</li>
 						<li>
-							<a href="docs.cartevo.co">Api documentation</a>
+							<a href="docs.cartevo.co"> {footerTranslate.api}</a>
 						</li>
 						<li>
-							<a href={createLocalizedLink("/contact")}>Contactez-nous</a>
+							<a href={createLocalizedLink("/contact")}>
+								{footerTranslate.contact}
+							</a>
 						</li>
 					</ul>
 
@@ -81,22 +87,10 @@ const WebsiteFooter = () => {
 					</ul>
 				</div>
 				<p className="text-[12px] text-black-text">
-					© 2025 Cartevo. Tous droits réservés.
+					{footerTranslate.allRights}
 				</p>
 				<p className="text-[12px] text-black-text">
-					Cartevo est une plateforme fintech innovante spécialisée
-					dans l’émission de cartes bancaires virtuelles et la
-					collecte de paiements via API dans 14 pays africains. Nous
-					offrons ces services en partenariat avec des opérateurs de
-					paiement, des agrégateurs et des banques dûment agréés et
-					conformes dans leurs juridictions respectives, afin de
-					garantir la sécurité, la conformité et la fiabilité de nos
-					solutions. Tous les contenus de ce site, y compris les
-					textes, visuels, logos et éléments graphiques, sont protégés
-					par les lois sur la propriété intellectuelle. Toute
-					reproduction, diffusion ou utilisation non autorisée, totale
-					ou partielle, est strictement interdite sans autorisation
-					préalable.
+					{footerTranslate.description2}
 				</p>
 			</div>
 		</footer>
