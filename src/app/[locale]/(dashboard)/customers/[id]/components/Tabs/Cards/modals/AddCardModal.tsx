@@ -1,18 +1,17 @@
-import Title from "@/components/shared/Title";
-import cstyle from "../../styles/style.module.scss";
-import { FaTimes, FaCreditCard } from "react-icons/fa";
-import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 import { CardService } from "@/api/services/cartevo-api/card";
-import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { selectCurrentCustomerDetails } from "@/redux/slices/customer";
 import CButton from "@/components/shared/CButton";
+import Title from "@/components/shared/Title";
 import { selectCurrentToken } from "@/redux/slices/auth";
-import { z } from "zod";
+import { selectCurrentCustomerDetails } from "@/redux/slices/customer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { FaCreditCard, FaTimes } from "react-icons/fa";
+import { useMutation } from "react-query";
+import { useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
+import { z } from "zod";
 
 interface AddCardModalProps {
 	setIsOpen?: (data?: any) => void;
@@ -103,7 +102,7 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 	};
 
 	return (
-		<div className="bg-white m-auto p-8 rounded-md w-md max-h-[90vh] overflow-y-auto">
+		<div className="bg-white m-auto  md:w-[480px] p-12 rounded-md w-md max-h-[90vh] overflow-y-auto max-w-[580px]">
 			<div className="flex justify-between mb-6">
 				<div className="flex items-center gap-3">
 					<FaCreditCard className="text-blue-600" size={24} />
