@@ -71,8 +71,8 @@ export const completeKybSchema = z.object({
 	}),
 	business_website: z
 		.string()
-		// .url({ message: "Please enter a valid URL" })
-		.optional(),
+		.min(3, { message: "Website url is required" }),
+	// .url({ message: "Please enter a valid URL" })
 	// .or(z.literal("")),
 	business_description: z.string().min(10, {
 		message: "Description must be at least 10 characters long",
@@ -204,7 +204,7 @@ const handleCompleteKyb = async (
 };
 
 export default function KybCompletionForm() {
-    const { t }:{t:any} = useTranslation();
+	const { t }: { t: any } = useTranslation();
 	const router = useRouter();
 	const { createLocalizedLink } = useLocalizedNavigation();
 	const currentToken: any = useSelector(selectCurrentToken);
@@ -238,8 +238,8 @@ export default function KybCompletionForm() {
 			toast.error(err.message);
 		},
 		onSuccess: (data) => {
-            console.log("Company info submitted successfully:", data);
-            toast.success(t.onboarding.kybForm.toasts.successCompanyInfoSaved);
+			console.log("Company info submitted successfully:", data);
+			toast.success(t.onboarding.kybForm.toasts.successCompanyInfoSaved);
 			if (data.onboarding_is_completed) {
 				dispatch(
 					setCurrentCompany({
@@ -319,10 +319,10 @@ export default function KybCompletionForm() {
 			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
 				<div className="space-y-[20px] w-full">
 					{/* Block 1: Basic Business Information */}
-                    <div>
-                        <h3 className="text-lg font-semibold mb-4 text-app-secondary">
-                            {t.onboarding.kybForm.sections.businessInfoTitle}
-                        </h3>
+					<div>
+						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
+							{t.onboarding.kybForm.sections.businessInfoTitle}
+						</h3>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<FormField
 								control={form.control}
@@ -330,7 +330,10 @@ export default function KybCompletionForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-                                            {t.onboarding.kybForm.labels.business_phone_number}{" "}
+											{
+												t.onboarding.kybForm.labels
+													.business_phone_number
+											}{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -339,7 +342,11 @@ export default function KybCompletionForm() {
 											<Input
 												type="tel"
 												className="px-6 w-full bg-app-lightgray"
-                                                placeholder={t.onboarding.kybForm.placeholders.business_phone_number}
+												placeholder={
+													t.onboarding.kybForm
+														.placeholders
+														.business_phone_number
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -353,7 +360,10 @@ export default function KybCompletionForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-                                            {t.onboarding.kybForm.labels.business_address}{" "}
+											{
+												t.onboarding.kybForm.labels
+													.business_address
+											}{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -361,7 +371,11 @@ export default function KybCompletionForm() {
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-                                                placeholder={t.onboarding.kybForm.placeholders.business_address}
+												placeholder={
+													t.onboarding.kybForm
+														.placeholders
+														.business_address
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -373,9 +387,9 @@ export default function KybCompletionForm() {
 					</div>
 					{/* Block 2: Business Details */}
 					<div>
-                        <h3 className="text-lg font-semibold mb-4 text-app-secondary">
-                            {t.onboarding.kybForm.sections.businessDetailsTitle}
-                        </h3>
+						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
+							{t.onboarding.kybForm.sections.businessDetailsTitle}
+						</h3>
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<FormField
@@ -384,7 +398,10 @@ export default function KybCompletionForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-                                            {t.onboarding.kybForm.labels.tax_id_number}
+											{
+												t.onboarding.kybForm.labels
+													.tax_id_number
+											}
 											<span className="text-red-500">
 												*
 											</span>
@@ -392,7 +409,11 @@ export default function KybCompletionForm() {
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-                                                placeholder={t.onboarding.kybForm.placeholders.tax_id_number}
+												placeholder={
+													t.onboarding.kybForm
+														.placeholders
+														.tax_id_number
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -406,13 +427,23 @@ export default function KybCompletionForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-                                            {t.onboarding.kybForm.labels.business_website}
+											{
+												t.onboarding.kybForm.labels
+													.business_website
+											}
+											<span className="text-red-500">
+												*
+											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
 												type="text"
 												className="px-6 w-full bg-app-lightgray"
-                                                placeholder={t.onboarding.kybForm.placeholders.business_website}
+												placeholder={
+													t.onboarding.kybForm
+														.placeholders
+														.business_website
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -428,13 +459,21 @@ export default function KybCompletionForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
-                                        {t.onboarding.kybForm.labels.business_description}
+										{
+											t.onboarding.kybForm.labels
+												.business_description
+										}
+										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<textarea
 											className="px-6 py-3 w-full bg-app-lightgray border border-gray-200 rounded-md resize-none"
 											rows={4}
-                                            placeholder={t.onboarding.kybForm.placeholders.business_description}
+											placeholder={
+												t.onboarding.kybForm
+													.placeholders
+													.business_description
+											}
 											{...field}
 										/>
 									</FormControl>
@@ -449,13 +488,20 @@ export default function KybCompletionForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
-                                        {t.onboarding.kybForm.labels.source_of_funds}
+										{
+											t.onboarding.kybForm.labels
+												.source_of_funds
+										}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<Select
 											{...field}
-                                            placeholder={t.onboarding.kybForm.placeholders.select_source_of_funds}
+											placeholder={
+												t.onboarding.kybForm
+													.placeholders
+													.select_source_of_funds
+											}
 											style={{
 												width: "100%",
 											}}
@@ -489,9 +535,12 @@ export default function KybCompletionForm() {
 
 					{/* Block 3: Document Upload Section */}
 					<div>
-                        <h3 className="text-lg font-semibold mb-4 text-app-secondary">
-                            {t.onboarding.kybForm.sections.requiredDocumentsTitle}
-                        </h3>
+						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
+							{
+								t.onboarding.kybForm.sections
+									.requiredDocumentsTitle
+							}
+						</h3>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<FormField
 								control={form.control}
@@ -499,7 +548,10 @@ export default function KybCompletionForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-                                            {t.onboarding.kybForm.labels.incorporation_certificate}
+											{
+												t.onboarding.kybForm.labels
+													.incorporation_certificate
+											}
 											<span className="text-red-500">
 												*
 											</span>
@@ -541,10 +593,13 @@ export default function KybCompletionForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-                                            {t.onboarding.kybForm.labels.share_holding_document}
-											{/* <span className="text-red-500">
+											{
+												t.onboarding.kybForm.labels
+													.share_holding_document
+											}
+											<span className="text-red-500">
 												*
-											</span> */}
+											</span>
 										</FormLabel>
 										<div className="flex items-center gap-4">
 											<FormControl>
@@ -584,7 +639,10 @@ export default function KybCompletionForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
-                                        {t.onboarding.kybForm.labels.business_proof_of_address}
+										{
+											t.onboarding.kybForm.labels
+												.business_proof_of_address
+										}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<div className="flex items-center gap-4">
@@ -622,8 +680,8 @@ export default function KybCompletionForm() {
 				</div>
 
 				<div className={`mt-[50px]`}>
-                    <CButton
-                        text={t.onboarding.kybForm.buttons.save}
+					<CButton
+						text={t.onboarding.kybForm.buttons.save}
 						btnStyle={"blue"}
 						type={"submit"}
 						width={"250px"}

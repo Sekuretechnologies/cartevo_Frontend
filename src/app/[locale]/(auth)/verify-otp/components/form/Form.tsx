@@ -17,6 +17,7 @@ import { z } from "zod";
 import { selectCurrentUserEmail } from "@/redux/slices/auth";
 import { setCompagnies } from "@/redux/slices/companySlice";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const handleVerifyOtp = async (data: z.infer<typeof verifyOtpSchema>) => {
 	const response = await AuthService.verifyOtp(data);
@@ -30,6 +31,17 @@ const handleVerifyOtp = async (data: z.infer<typeof verifyOtpSchema>) => {
 		}
 	}
 	const responseJson = await response.json();
+	return responseJson;
+};
+
+const handleResendOtp = async ({ email }: { email: string }) => {
+	const response = await AuthService.resendOtp({ email });
+	const responseJson = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseJson.message || "Echec renvoi OTP.");
+	}
+
 	return responseJson;
 };
 
@@ -49,6 +61,7 @@ const handleVerifyOtp = async (data: z.infer<typeof verifyOtpSchema>) => {
 // };
 
 export default function VerifyOtpForm() {
+	const { t } = useTranslation();
 	// const previousUrl = window.sessionStorage.getItem("previousUrl");
 	const currentUserEmail: any = useSelector(selectCurrentUserEmail);
 	const [timeLeft, setTimeLeft] = useState(180);
@@ -79,6 +92,18 @@ export default function VerifyOtpForm() {
 		const s = (seconds % 60).toString().padStart(2, "0");
 		return `${m}:${s}`;
 	};
+
+	const resendOtpMutation = useMutation({
+		mutationFn: handleResendOtp,
+		onError: (err: any) => {
+			toast.error(err.message);
+			console.error("Resend OTP onError : ", err.message);
+		},
+		onSuccess: () => {
+			toast.success("OTP renvoyé avec succès!");
+			setTimeLeft(180);
+		},
+	});
 
 	const mutation = useMutation({
 		mutationFn: handleVerifyOtp,
@@ -169,7 +194,7 @@ export default function VerifyOtpForm() {
 
 	const handleResend = () => {
 		console.log("Resend code requested");
-		// mutationGenerateToken.mutate();
+		resendOtpMutation.mutate({ email: currentUserEmail });
 	};
 
 	const handleClearAll = () => {
@@ -206,11 +231,12 @@ export default function VerifyOtpForm() {
 						className={`${
 							timeLeft > 0
 								? "flex flex-col items-end"
-								: "flex flex-row items-center "
+								: "flex flex-row items-center gap-2"
 						}`}
 					>
-						{`Vous n'avez pas recus le code ?`}{" "}
+						{t.verifyOtp.didnt_receive_code}{" "}
 						<button
+							type="button"
 							className={`text-primary font-semibold cursor-pointer ${
 								timeLeft > 0
 									? "opacity-50 cursor-not-allowed"
@@ -220,14 +246,16 @@ export default function VerifyOtpForm() {
 							disabled={timeLeft > 0}
 						>
 							{timeLeft > 0
-								? `Renvoyer dans ${formatTime(timeLeft)}`
-								: "Renvoyer"}
+								? `${t.verifyOtp.resend_in} ${formatTime(
+										timeLeft
+								  )}`
+								: `${t.verifyOtp.resend}`}
 						</button>
 					</p>
 				</div>
 				<div className={`mt-[30px] flex gap-5`}>
 					<CButton
-						text={"Continue"}
+						text={t.verifyOtp.constinue}
 						btnStyle={"blue"}
 						type={"submit"}
 						width={"175px"}
@@ -246,7 +274,8 @@ export default function VerifyOtpForm() {
 						"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-0 left-0 h-full w-full flex items-center justify-center",
 						{
 							"!opacity-100 !visible z-[1000]":
-								mutation.isLoading,
+								mutation.isLoading ||
+								resendOtpMutation.isLoading,
 						}
 					)}
 				>
