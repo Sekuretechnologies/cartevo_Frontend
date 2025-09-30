@@ -2,28 +2,25 @@
 import { useTitle } from "@/hooks/useTitle";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
-import { TDataList } from "@/components/cards/InfoCard";
 import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
 import Layout from "@/components/shared/Layout";
-import { isObject, sortByCreatedAtDescending } from "@/utils/utils";
+import { sortByCreatedAtDescending } from "@/utils/utils";
 
-import { CustomerService } from "@/api/services/v2/customer";
+import { CardService } from "@/api/services/cartevo-api/card";
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import urls from "@/config/urls";
-import { headerCustomersData } from "@/constants/UserAccountData";
+import { headerCardData } from "@/constants/CardData";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { selectCurrentToken } from "@/redux/slices/auth";
 import { selectSearchTerm } from "@/redux/slices/search";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import * as CFlags from "country-flag-icons/react/3x2";
-import { FaArrowsRotate } from "react-icons/fa6";
-import { MdOutlineFileDownload } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { CardService } from "@/api/services/cartevo-api/card";
-import { headerCardData } from "@/constants/CardData";
-import { selectCurrentToken } from "@/redux/slices/auth";
-import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { Plus } from "lucide-react";
+import { useSelector } from "react-redux";
+import CreateCardModal from "./components/modals/CreateCardModal";
 
 const CountryFlags: any = CFlags;
 
@@ -75,8 +72,10 @@ export default function Cards() {
 			console.log("Failed to get cards : ", err);
 		},
 		// enabled: false,
+		enabled: !!currentToken,
 		refetchInterval: 30000, // Fetches data every 30 seconds
 	});
+	const [isCreateOpen, setIsCreateOpen] = useState(false);
 	// dispatch(setTrxAll(allCardsQueryRes.data));
 	console.log("allCardsQueryRes.data : ", allCardsQueryRes.data);
 
@@ -117,7 +116,9 @@ export default function Cards() {
 					actions: (
 						<CButton
 							text={"Details"}
-							href={createLocalizedLink(`${urls.cards.root}/${item.id}`)}
+							href={createLocalizedLink(
+								`${urls.cards.root}/${item.id}`
+							)}
 							btnStyle={"outlineDark"}
 							// icon={<FourDots />}
 						/>
@@ -145,9 +146,24 @@ export default function Cards() {
 						filterType={"card"}
 						filterContent={filterContent}
 						setFilterContent={setFilterContent}
+						btn={
+							<CButton
+								text={"Create Card"}
+								btnStyle={"blue"}
+								icon={<Plus size={18} color="#fff" />}
+								height={"33px"}
+								onClick={() => setIsCreateOpen(true)}
+							/>
+						}
 						// generateExcel={() => mutationExcel.mutate()}
 					/>
 				</div>
+				{isCreateOpen ? (
+					<CreateCardModal
+						isOpen={isCreateOpen}
+						setIsOpen={setIsCreateOpen}
+					/>
+				) : null}
 
 				<a ref={redirectRef} download hidden href="#"></a>
 			</section>

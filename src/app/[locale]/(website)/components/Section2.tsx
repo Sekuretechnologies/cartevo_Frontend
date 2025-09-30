@@ -5,9 +5,13 @@ import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { ChevronRight } from "lucide-react";
 import React from "react";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Section2 = () => {
 	const { createLocalizedLink } = useLocalizedNavigation();
+	const { t } = useTranslation();
+	const section2Translate = t.home.section2;
+	const btnTranslate = t.btn;
 	return (
 		<section className="py-12">
 			<div
@@ -16,12 +20,10 @@ const Section2 = () => {
 			>
 				<div className="mb-8 lg:mb-12 font-poppins ">
 					<h1 className=" text-[40px] font-[700] leading-10 text-center lg:text-left mb-4 tracking-tight">
-						Des services complets fournis
+						{section2Translate.title}
 					</h1>
 					<p className="text-[12px] text-center lg:text-left lg:w-[650px] font-[300] ">
-						{`Offrez à vos clients une expérience unique avec des
-						fonctionnalités adaptées à leurs besoins. Utilisez l’API
-						Cartevo et personnalisez-la à votre image.`}
+						{section2Translate.description}
 					</p>
 				</div>
 
@@ -43,23 +45,25 @@ const Section2 = () => {
 						{/* Texte + bouton */}
 						<div className="flex flex-col items-center flex-1 text-center md:text-left md:items-start">
 							<p className="border text-[13px] border-[#222222] px-8 py-2 w-fit rounded-full hover:bg-[#222222] duration-300 hover:text-white mb-4">
-								Paiement en tant que service
+								{section2Translate.paymentAsAservice.title}
 							</p>
 							<h2 className="text-[30px] font-[700] leading-8 mb-4">
 								<span className="text-primary">
-									Une seule API
+									{
+										section2Translate.paymentAsAservice
+											.mainTitle.span1
+									}
 								</span>{" "}
-								pour collecter de l’argent dans 14 pays
-								africains
+								{
+									section2Translate.paymentAsAservice
+										.mainTitle.span2
+								}
 							</h2>
 							<p className="text-[12px] mb-4 text-[#7B7B7B]">
-								Avec une seule API, simplifiez vos encaissements
-								dans 14 pays africains et unifiez vos flux
-								financiers sur une plateforme unique. Offrez à
-								vos clients la possibilité de payer via mobile
-								money, cartes bancaires et solutions locales,
-								tout en garantissant rapidité, sécurité et
-								conformité.
+								{
+									section2Translate.paymentAsAservice
+										.description
+								}
 							</p>
 
 							{/* Bouton en bas */}
@@ -68,7 +72,7 @@ const Section2 = () => {
 									href={createLocalizedLink("/signup")}
 									className="text-white text-[13px] font-semibold bg-[#252421] px-8 py-3 w-fit flex gap-2 items-center rounded-full"
 								>
-									Commencer <ChevronRight />
+									{btnTranslate.buttonText} <ChevronRight />
 								</a>
 							</div>
 						</div>
@@ -91,26 +95,28 @@ const Section2 = () => {
 						{/* Texte + bouton */}
 						<div className="flex flex-col flex-1 text-center md:text-left md:items-start">
 							<p className="border px-8 text-[13px] py-2 w-fit rounded-full hover:bg-[#222222] border-[#222222] duration-300 hover:text-white mb-4">
-								Carte en tant que service
+								{section2Translate.cardAsAService.title}
 							</p>
 							<h2 className="text-[30px] font-[700] leading-8 mb-4">
 								<span className="text-blue-primary">
-									Emettez des{" "}
+									{
+										section2Translate.cardAsAService
+											.mainTitle.span1
+									}{" "}
 									<span className="text-primary">
-										Cartes bancaires
+										{
+											section2Translate.cardAsAService
+												.mainTitle.Span2
+										}
 									</span>{" "}
-									Virtuelles à vos clients et équipes
+									{
+										section2Translate.cardAsAService
+											.mainTitle.span3
+									}
 								</span>
 							</h2>
 							<p className="text-[12px] mb-4 text-[#7B7B7B]">
-								Créez, personnalisez et distribuez des cartes
-								virtuelles en quelques secondes. Gardez le
-								contrôle total sur les plafonds, les dépenses et
-								la sécurité, tout en offrant flexibilité et
-								transparence. Une solution idéale pour les
-								fintechs, PME et marketplaces qui souhaitent
-								moderniser leurs paiements et optimiser la
-								gestion financière
+								{section2Translate.cardAsAService.description}
 							</p>
 
 							{/* Bouton en bas */}
@@ -119,7 +125,7 @@ const Section2 = () => {
 									href={createLocalizedLink("/signup")}
 									className="text-white text-[13px] font-semibold bg-[#252421] px-8 w-fit py-3 flex gap-2 items-center rounded-full"
 								>
-									Commencer <ChevronRight />
+									{btnTranslate.buttonText} <ChevronRight />
 								</a>
 							</div>
 						</div>

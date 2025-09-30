@@ -1,21 +1,21 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { CardService } from "@/api/services/cartevo-api/card";
+import LoadingOverlay from "@/components/shared/LoadingOverlay";
+import { Button } from "@/components/ui/button";
 import {
 	Form,
+	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { CardService } from "@/api/services/cartevo-api/card";
-import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/slices/auth";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useMutation } from "react-query";
-import LoadingOverlay from "@/components/shared/LoadingOverlay";
+import { useSelector } from "react-redux";
 
 interface WithdrawModalProps {
 	isOpen: boolean;
@@ -86,7 +86,7 @@ const WithdrawModal = ({
 	};
 
 	return (
-		<div className="bg-white rounded-lg p-6 w-full max-w-md">
+		<div className="bg-white rounded-lg p-6  max-w-md md:w-[490px]  mx-auto">
 			<h2 className="text-xl font-semibold mb-4">Withdraw from Card</h2>
 			<Form {...form}>
 				<form

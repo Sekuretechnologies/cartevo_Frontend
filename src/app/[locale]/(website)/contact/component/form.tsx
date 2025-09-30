@@ -12,6 +12,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "@/hooks/useTranslation";
 import { contactSchema } from "@/validation/FormValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectItem } from "@nextui-org/select";
@@ -26,6 +27,10 @@ import { z } from "zod";
 const handleSubmit = async (data: z.infer<typeof contactSchema>) => {};
 
 const ContactForm = () => {
+	const { t } = useTranslation();
+	const contactTranslation = t.contact;
+	const btnTranslate = t.btn;
+
 	const form = useForm<z.infer<typeof contactSchema>>({
 		resolver: zodResolver(contactSchema),
 		defaultValues: {
@@ -91,15 +96,10 @@ const ContactForm = () => {
 	return (
 		<div>
 			<div className="font-poppins mb-8 text-center lg:text-start">
-				<h1 className="text-[35px] font-bold leading-10">
-					Contactez le service client
+				<h1 className="text-[35px] font-bold leading-10 mb-4">
+					{contactTranslation.title}
 				</h1>
-				<p className="text-[12px]">
-					Un projet ? Une question ? Partagez-les avec nous via le
-					formulaire, et notre équipe commerciale vous recontactera
-					rapidement pour vous accompagner dans ce que vous souhaitez
-					lancer.
-				</p>
+				<p className="text-[12px]">{contactTranslation.description}</p>
 			</div>
 
 			<Form {...form}>
@@ -112,14 +112,17 @@ const ContactForm = () => {
 								render={({ field }) => (
 									<FormItem className="flex flex-col w-full">
 										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-											Entrez votre Nom Complet
+											{contactTranslation.form.name}
 										</FormLabel>
 										<FormControl>
 											<input
 												{...field}
 												type="text"
 												id="name"
-												placeholder="Votre nom"
+												placeholder={
+													contactTranslation.form
+														.namePlaceholder
+												}
 												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 											/>
 										</FormControl>
@@ -134,14 +137,17 @@ const ContactForm = () => {
 								render={({ field }) => (
 									<FormItem className="flex flex-col w-full">
 										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-											Nom Legal de votre entreprise
+											{contactTranslation.form.legalName}
 										</FormLabel>
 										<FormControl>
 											<input
 												{...field}
 												type="text"
 												id="email"
-												placeholder="Nom de l’entreprise"
+												placeholder={
+													contactTranslation.form
+														.legalNamePlaceholder
+												}
 												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 											/>
 										</FormControl>
@@ -160,7 +166,10 @@ const ContactForm = () => {
 								render={({ field }) => (
 									<FormItem className="w-full">
 										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-											Numéro Whatsapp / Téléphone
+											{
+												contactTranslation.form
+													.PhoneNumber
+											}
 										</FormLabel>
 										<div className="flex gap-1 items-center w-full">
 											<FormControl>
@@ -199,14 +208,17 @@ const ContactForm = () => {
 								render={({ field }) => (
 									<FormItem className="flex flex-col w-full">
 										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-											adresse mail Professionelle
+											{contactTranslation.form.email}
 										</FormLabel>
 										<FormControl>
 											<input
 												{...field}
 												type="text"
 												id="email"
-												placeholder="contact@votreentreprise.com"
+												placeholder={
+													contactTranslation.form
+														.emailPlaceholder
+												}
 												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
 											/>
 										</FormControl>
@@ -221,12 +233,18 @@ const ContactForm = () => {
 							render={({ field }) => (
 								<FormItem className="flex flex-col w-full">
 									<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-										Secteur d’acrifvité
+										{
+											contactTranslation.form
+												.secteurActivite
+										}
 									</FormLabel>
 									<FormControl>
 										<Select
 											{...field}
-											placeholder="Veuillez selectionner un secteur d'activité"
+											placeholder={
+												contactTranslation.form
+													.secteurActivitePlaceholder
+											}
 											style={{
 												width: "100%",
 											}}
@@ -260,7 +278,7 @@ const ContactForm = () => {
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
 									<FormLabel className="text-[#101010] font-poppins text-[12px] mb-2">
-										Sélectionnez le service souhaité
+										{contactTranslation.form.service}
 									</FormLabel>
 									<FormControl>
 										<div className="flex sm:flex-row flex-col gap-6">
@@ -308,7 +326,10 @@ const ContactForm = () => {
 												</span>
 
 												<span className="text-[14px] font-poppins">
-													Cartes bancaires virtuelles
+													{
+														contactTranslation.form
+															.serviceCard
+													}
 												</span>
 											</label>
 
@@ -352,7 +373,10 @@ const ContactForm = () => {
 													)}
 												</span>
 												<span className="text-[14px] font-poppins">
-													Collecte de paiements
+													{
+														contactTranslation.form
+															.servicePayment
+													}
 												</span>
 											</label>
 										</div>
@@ -367,14 +391,17 @@ const ContactForm = () => {
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
 									<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-										Objet du mail
+										{contactTranslation.form.mailObject}
 									</FormLabel>
 									<FormControl>
 										<input
 											{...field}
 											type="text"
 											id="subject"
-											placeholder="Titre du message ici "
+											placeholder={
+												contactTranslation.form
+													.mailObjectMessage
+											}
 											className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>
@@ -388,14 +415,17 @@ const ContactForm = () => {
 							render={({ field }) => (
 								<FormItem className="flex flex-col">
 									<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-										Laissez un message
+										{contactTranslation.form.message}
 									</FormLabel>
 									<FormControl>
 										<textarea
 											{...field}
 											id="subject"
 											rows={7}
-											placeholder="votre message ici "
+											placeholder={
+												contactTranslation.form
+													.messagePlaceholder
+											}
 											className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] "
 										/>
 									</FormControl>
@@ -407,7 +437,8 @@ const ContactForm = () => {
 							type="submit"
 							className="bg-primary font-poppins  text-white text-[13px] font-semibold h-[52px] w-[215px] mt-4  flex justify-between px-10 items-center rounded-[18px]"
 						>
-							<span>Commencer</span> <ChevronRight />
+							<span>{btnTranslate.buttonText}</span>{" "}
+							<ChevronRight />
 						</button>
 					</div>
 				</form>
