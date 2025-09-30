@@ -306,8 +306,21 @@ export default function TransactionModal({
 			JSON.stringify(infoData)
 		); // Shallow copy
 		const itm2 = { ...itm };
-		itm2.name = `${customer.last_name} ${customer.first_name}`;
-		itm2.phone = customer.phone;
+		const customerFirstName =
+			customer?.first_name ||
+			customer?.full_name ||
+			itm?.customerDetails?.first_name ||
+			"";
+		const customerLastName =
+			customer?.last_name || itm?.customerDetails?.last_name || "";
+		const customerPhone =
+			customer?.phone ||
+			customer?.phone_number ||
+			itm?.customerDetails?.phone ||
+			itm?.phone ||
+			"";
+		itm2.name = `${customerLastName} ${customerFirstName}`.trim();
+		itm2.phone = customerPhone;
 		itm2.date = "2024-02-18";
 		itm2.heure = "11:18";
 		itm2.merchant_name = "";
@@ -322,8 +335,8 @@ export default function TransactionModal({
 				data.forEach((line, lineIndex) => {
 					line.forEach((x, xIndex) => {
 						if (key.toString() === String(x.key)) {
-							if (key.toString() === "name") {
-								x.value.text = `${customer.last_name} ${customer.first_name}`;
+						if (key.toString() === "name") {
+							x.value.text = `${customerLastName} ${customerFirstName}`.trim();
 							} else if (key.toString() === "oldNew") {
 								x.value.text = itm?.is_from_v1
 									? "Ancien"
@@ -347,8 +360,8 @@ export default function TransactionModal({
 								x.value.text = getFormattedTime(
 									itm["created_at"]
 								);
-							} else if (key.toString() === "phone") {
-								x.value.text = customer.phone;
+						} else if (key.toString() === "phone") {
+							x.value.text = customerPhone;
 							} else if (key.toString() === "merchant_name") {
 								x.value.text = itm.merchant?.name ?? "";
 							} else if (key.toString() === "merchant_country") {
