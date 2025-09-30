@@ -1,0 +1,41 @@
+export const signUpFr = {
+	title: "Créer un compte",
+	description:
+		"Commencez aujourd’hui et offrez des services financiers à vos clients dès demain.",
+	login1: {
+		span1: "Vous avez déjà un compte ?",
+		span2: " Se connecter",
+	},
+	min: "(min. 5 caractères)",
+
+	enterpriseName: "Nom de l’entreprise",
+	enterPriseNamePlaceholder: "Entrez le nom de l'entreprise",
+	prenom: "Prénom",
+	prenomPlaceholder: "Entrez votre prénom",
+	name: "Nom de famille",
+	namePlaceholder: "Entrez votre nom",
+	email: "E-mail professionnel",
+	emailPlaceHolder: "Entrez votre e-mail professionnel",
+	phoneNumber: "Numéro de téléphone",
+    phoneNumberPlaceholder: "Entrez votre numéro de téléphone",
+	typeEntreprise: "Type d’entreprise",
+	typeEntreprisePlaceholder: "Sélectionnez le type d’entreprise",
+	country: "Pays de l’entreprise",
+	countryPlaceholder: "Sélectionnez le pays de l’entreprise",
+	password: "Mot de passe",
+	passwordPlaceHolder: "Créez un mot de passe sécurisé",
+	confirmPassword: "Confirmer le mot de passe",
+	confirmPasswordPlaceHolder: "Confirmez votre mot de passe",
+	condition: {
+		span1: "Je consens par la présente aux",
+		span2: "Conditions d'utilisation",
+		span3: "et donne mon consentement pour que Cartevo traite mes données conformément à la",
+		span4: "Politique de confidentialité",
+		span5: "de Cartevo. Je confirme également que j'ai l'autorisation du conseil d'administration et de la société pour créer ce compte et fournir leurs données personnelles.",
+	},
+	create: "Créer un compte",
+	login: {
+		span1: "Déjà un compte ?",
+		span2: "Connectez-vous",
+	},
+};

@@ -1,9 +1,13 @@
 "use client";
 
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Section6 = () => {
 	const { createLocalizedLink } = useLocalizedNavigation();
+	const { t } = useTranslation();
+	const section6Translate = t.home.section6;
+	const btnTranslate = t.btn;
 	return (
 		<section className="relative">
 			<div
@@ -63,30 +67,27 @@ const Section6 = () => {
 
 				<div className="flex flex-col items-center font-poppins text-white pt-12 gap-4 text-center absolute z-30 top-0 left-1/2 -translate-x-1/2">
 					<h3 className="w-[350px] h-[35px] border-1 text-center  whitespace-nowrap  border-white text-[13px] font-semibold flex items-center justify-center rounded-full">
-						Pour les développeurs et les entreprises
+						{section6Translate.title}
 					</h3>
 					<h1 className="text-[50px] tracking-tight font-semibold text-center leading-[45px]">
-						Commencez à construire avec{" "}
+						{section6Translate.mainTitle.span1}{" "}
 						<span className="text-[#00CFD9] ">Cartevo</span>
 					</h1>
 					<p className="text-[14px] max-w-[800px]">
-						Que vous automatisiez vos finances ou offriez des
-						services de paiement, bancaires ou de cartes, nos APIs
-						vous donnent les outils pour construire, évoluer et
-						réussir.
+						{section6Translate.description}
 					</p>
 					<div className="flex flex-col gap-2  md:flex-row">
 						<a
 							href={createLocalizedLink("/signup")}
 							className="w-[263px] h-[54px] flex justify-center items-center rounded-[20px] text-[#0D5053] text-[13px] font-semibold bg-[#00CFD9]"
 						>
-							Commencer Maintenant
+							{btnTranslate.btnTextNow}
 						</a>
 						<a
 							href={createLocalizedLink("/contact")}
 							className="w-[263px] h-[54px] flex justify-center  items-center rounded-[20px] text-[#0D5053] text-[13px] font-semibold bg-white"
 						>
-							Contacter le support
+							{btnTranslate.btnTextContact}
 						</a>
 					</div>
 				</div>

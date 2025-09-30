@@ -22,8 +22,12 @@ import { PuffLoader } from "react-spinners";
 import CButton from "@/components/shared/CButton";
 import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const ForgotPassword = () => {
+	const { t } = useTranslation();
+	const forgotTranslation = t.forgotPassword;
+
 	const [loading, setLoading] = useState<boolean>(false);
 	const { createLocalizedLink } = useLocalizedNavigation();
 
@@ -75,26 +79,24 @@ const ForgotPassword = () => {
 					className="font-poppins hidden   bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4   text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[30px] -mt-10 leading-8 max-w-[500px] tracking-tight">
-						Mot de passe{" "}
-						<span className="text-primary">oublié ?</span>
+						{forgotTranslation.title.span1}{" "}
+						<span className="text-primary">
+							{forgotTranslation.title.span2}
+						</span>
 					</h1>
-					<p>
-						Veuillez saisir votre adresse e-mail pour recevoir le
-						lien de réinitalisation
-					</p>
+					<p>{forgotTranslation.description}</p>
 				</div>
 
 				<div className="flex  items-center px-[50px] mt-32 lg:mt-0 font-poppins">
 					<div className="w-full flex flex-col items-center mx-auto lg:mx-0 lg:items-start max-w-[500px] font-poppins">
 						<div className="text-center lg:hidden">
 							<h1 className="font-bold text-[30px] -mt-10 leading-8 max-w-[500px] tracking-tight">
-								Mot de passe{" "}
-								<span className="text-primary">{`oublié ?`}</span>
+								{forgotTranslation.title.span1}{" "}
+								<span className="text-primary">
+									{forgotTranslation.title.span2}
+								</span>
 							</h1>
-							<p>
-								Veuillez saisir votre adresse e-mail pour
-								recevoir le lien de réinitalisation
-							</p>
+							<p>{forgotTranslation.description}</p>
 						</div>
 						<FormProvider {...form}>
 							<form
@@ -127,7 +129,7 @@ const ForgotPassword = () => {
 								/>
 								<div className="mt-[30px] flex flex-col gap-4 items-center sm:flex-row justify-center lg:justify-start">
 									<CButton
-										text="Envoyer le lien"
+										text={forgotTranslation.sendLink}
 										btnStyle="blue"
 										type="submit"
 										width="175px"
@@ -137,9 +139,11 @@ const ForgotPassword = () => {
 										className="bg-[#F3F3F3] text-black text-[12px] font-bold flex gap-1 items-center justify-center w-[325px] h-[52px] rounded-[18px]"
 										href={createLocalizedLink("/login")}
 									>
-										<span>{`Je me souviens`},</span>{" "}
+										<span>
+											{forgotTranslation.login.span1}
+										</span>{" "}
 										<span className="text-primary">
-											{`Retourner au login`}
+											{forgotTranslation.login.span2}
 										</span>
 									</a>
 								</div>

@@ -14,6 +14,7 @@ export const authUrls = {
 	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
 	LOGIN_WITH_COMPANY: `${BASE_URL_AUTH}/select-company`,
 	ACCEPT_INVITATION: `${BASE_URL_AUTH}/invitations/accept`,
+	RESEND_OTP: `${BASE_URL_AUTH}/resend-otp`,
 };
 
 /** COMPANY ============================================================ */

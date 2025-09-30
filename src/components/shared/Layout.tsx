@@ -43,6 +43,13 @@ const Layout: React.FC<LayoutProps> = ({
 	const sectionAfterLocale = pathSegments[1] || ""; // e.g., /fr/onboarding -> onboarding
 	const isOnboardingRoute = sectionAfterLocale === "onboarding";
 
+	// Consider onboarding traversed if completed or if any verification submitted (kyc/kyb not NONE)
+	const kycStatus = ((company as any)?.kyc_status || (user as any)?.kyc_status || "NONE") as string;
+	const kybStatus = ((company as any)?.kyb_status || "NONE") as string;
+	const hasSubmittedOnboarding = Boolean((company as any)?.onboarding_is_completed) || kycStatus !== "NONE" || kybStatus !== "NONE";
+
+	console.log("hasSubmittedOnboarding : ", user, company);
+
 	// console.log("token : ", token);
 
 	/** //////////////////////////////////////////// */
@@ -171,7 +178,7 @@ const Layout: React.FC<LayoutProps> = ({
 						isExpanded={isExpanded}
 					/>
 				</div>
-				{!isOnboardingRoute && (
+				{!isOnboardingRoute && !hasSubmittedOnboarding && (
 					<div className="border-[1px] w-full py-2  flex flex-col gap-y-2 border-gray-300 border-dotted bg-primary-50">
 						<h3 className=" text-center mt-2">
 							Bienvenue sur Cartevo – Mode Pré-production
@@ -197,10 +204,9 @@ const Layout: React.FC<LayoutProps> = ({
 									{" "}
 									Devises
 								</span>{" "}
-								: conversion FCFA ⇄ USD disponible 50000 FCFA,
-								<span className="font-semibold">Devises</span> :
-								conversion FCFA ⇄ USD disponible. Pour débloquer
-								la Production complète, vérifiez votre compte.{" "}
+								: conversion FCFA ⇄ USD disponible 50000 FCFA.
+								Pour débloquer la Production complète, vérifiez
+								votre compte.{" "}
 								<span
 									className="font-semibold cursor-pointer underline"
 									onClick={() => navigateTo("/onboarding")}
