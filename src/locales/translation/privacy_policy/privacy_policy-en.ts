@@ -1,0 +1,121 @@
+import { title } from "process";
+
+export const privacyEn = {
+	title: "Privacy Policy",
+	description: "Protection of your personal data",
+	lastUpdate: "Last updated: October 1, 2025",
+	table: {
+		title: "Table of Contents",
+		option1: "01. DATA CONTROLLER",
+		option2: "02. PERSONAL DATA COLLECTED",
+		option3: "03. PURPOSES OF PROCESSING",
+		option4: "04. LEGAL BASIS FOR PROCESSING",
+		option5: "05. DATA RECIPIENTS",
+		option6: "06. DATA RETENTION PERIOD",
+		option7: "07. DATA SECURITY",
+		option8: "08. USER RIGHTS",
+		option9: "09. DATA TRANSFER OUTSIDE YOUR COUNTRY",
+		option10: "10. COOKIES AND SIMILAR TECHNOLOGIES",
+		option11: "11. UPDATING THE PRIVACY POLICY",
+		option12: "12. CONTACT",
+	},
+	constent1: {
+		description:
+			"The processing of personal data is carried out by the Cartevo team, acting as the data controller within the framework of providing its services.",
+		contact: " Contact: contact@cartevo.co",
+	},
+	constent2: {
+		desciption:
+			"We only collect data necessary to provide our services. This data includes:",
+		optiona: {
+			title: "a. Identification data",
+			a: "- First name, last name",
+			b: "- Email address",
+			c: "- Date of birth",
+			d: "- Postal address (if necessary)",
+			e: "- Identity information (ID card photo, passport, etc.)",
+		},
+		optionb: {
+			title: "b. Financial and transactional data",
+			a: "- Money transfer history",
+			b: "- Payment details",
+			c: "- Cartevo account balance",
+			d: "- Virtual bank card number",
+		},
+		optionc: {
+			title: "c. Technical data",
+			a: "- Type of device used",
+			b: "- Login and authentication information (OTP, secure token)",
+			c: "- Security logs",
+		},
+		optiond: {
+			title: "d. Conversational data",
+			a: "- Payment requests, transfers, or other verbal or written instructions",
+		},
+	},
+	constent3: {
+		title: "We use your personal data to:",
+		1: "- Create and manage your user account",
+		2: "- Verify your identity (KYC)",
+		3: "- Process your financial transactions",
+		4: "- Provide personalized customer service",
+		5: "- Send you useful or mandatory notifications",
+		6: "- Prevent fraud, money laundering, and comply with legal obligations",
+	},
+	content4: {
+		title: "Your data is processed based on:",
+		1: "- The performance of the contract (use of the Cartevo app)",
+		2: "- Compliance with our legal obligations (e.g., anti-money laundering)",
+		3: "- Your explicit consent when required (e.g., marketing communications)",
+		4: "- Legitimate interest (e.g., platform security)",
+	},
+	content5: {
+		title: "Personal data may be shared with:",
+		1: "- Technical service providers (hosting, security, customer support)",
+		2: "- Our payment partners",
+		3: "- Competent authorities, in the context of legal or regulatory investigations",
+		4: "Under no circumstances is your data sold to third parties.",
+	},
+	content6: {
+		title: "Your personal data is retained:",
+		1: "- As long as your account is active",
+		2: "- Then archived for 5 years to comply with regulatory obligations (fraud prevention, etc.)",
+		3: "- Deleted or anonymized after this period, unless legally required otherwise",
+	},
+	content7: {
+		title: "Cartevo implements all necessary technical and organizational measures to ensure the security of your data:",
+		1: "- Encrypted communications",
+		2: "- Secure storage",
+		3: "- Enhanced authentication",
+		4: "- Restricted access to sensitive data",
+		5: "We regularly conduct internal audits and security tests.",
+	},
+	content8: {
+		title: "In accordance with applicable data protection laws (including GDPR when applicable), you have the following rights:",
+		1: "- Right of access to your data",
+		2: "- Right of rectification",
+		3: "- Right to erasure (within legal limits)",
+		4: "- Right to restrict processing",
+		5: "- Right to object",
+		6: "- Right to data portability",
+		7: "- Right to withdraw your consent at any time (for consent-based processing)",
+		8: "You can exercise your rights by contacting us at contact@cartevo.co.",
+	},
+	content9: {
+		title: "If your data is transferred to another country (e.g., for hosting or technical processing), we ensure sufficient safeguards are in place to protect it, in accordance with international standards.",
+	},
+	content10: {
+		title: "The Cartevo app may use technical cookies or equivalents (local storage, technical logs) to:",
+		1: "- Keep your session open",
+		2: "- Improve app performance",
+		3: "- Ensure the security of your interactions",
+		4: "No advertising or external tracking cookies are used without your consent.",
+	},
+	content11: {
+		title: "This policy may be updated at any time. In case of major changes, you will be notified via the app. Continued use of the service constitutes acceptance of the new version.",
+	},
+	content12: {
+		title: "For any questions regarding the protection of your data, you can contact our team:",
+		email: "contact@cartevoIcon.co",
+	},
+};

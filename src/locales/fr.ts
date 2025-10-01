@@ -12,6 +12,7 @@ import { signUpFr } from "./translation/sign-up/signUp-fr";
 import { forgotPasswordFr } from "./translation/forgot-password/forgotPassword-fr";
 import { resetPasswordFr } from "./translation/reset-password/resetPassword-fr";
 import { registerFr } from "./translation/register/register-fr";
+import { privacyFr } from "./translation/privacy_policy/privacy_policy-fr";
 
 export default {
 	onboarding: onboardingTranslationsFr,
@@ -28,4 +29,5 @@ export default {
 	forgotPassword: forgotPasswordFr,
 	resetPassword: resetPasswordFr,
 	register: registerFr,
+	privacy: privacyFr
 } as const;

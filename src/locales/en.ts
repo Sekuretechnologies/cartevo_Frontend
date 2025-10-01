@@ -11,6 +11,7 @@ import { signUpEn } from "./translation/sign-up/signUp-en";
 import { forgotPasswordEn } from "./translation/forgot-password/forgotPassword-en";
 import { resetPasswordEn } from "./translation/reset-password/resetPassword-en";
 import { registerEn } from "./translation/register/register-en";
+import { privacyEn } from "./translation/privacy_policy/privacy_policy-en";
 
 export default {
 	hello: "Hello",
@@ -27,4 +28,5 @@ export default {
 	forgotPassword: forgotPasswordEn,
 	resetPassword: resetPasswordEn,
 	register: registerEn,
+	privacy: privacyEn,
 } as const;
