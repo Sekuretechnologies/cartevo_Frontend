@@ -1,3 +1,5 @@
+import { result } from "lodash";
+
 export const contactFr = {
 	title: "Contactez le service client",
 	description:
@@ -32,5 +34,10 @@ export const contactFr = {
 		enterpriseName: "Le nom de l’entreprise est obligatoire",
 		activity: "L’activité est obligatoire",
 		service: "Le service est obligatoire",
+	},
+	input: {
+		phone: "Numéro de téléphone",
+		code: "Chercher par pays ou code",
+		result: "Aucun résultat ",
 	},
 };

@@ -1,6 +1,6 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-export const BASE_URL = `https://api.cartevo.co/api/v1`;
-// export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
+// export const BASE_URL = `https://api.cartevo.co/api/v1`;
+export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 /** AUTH ============================================================ */
 export const BASE_URL_AUTH = `${BASE_URL}/auth`;

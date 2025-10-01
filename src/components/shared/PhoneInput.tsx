@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
 import { allCountries } from "country-telephone-data"; // ou autre source de données pays
+import { useTranslation } from "@/hooks/useTranslation";
 // utilitaire pour fermer au clic extérieur
 
 type Country = {
@@ -24,6 +25,8 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 	placeholder = "Numéro de téléphone",
 	className = "",
 }) => {
+	const { t } = useTranslation();
+	const inputTranslate = t.contact.input;
 	const countries: Country[] = allCountries.map((c) => ({
 		name: c.name,
 		iso2: c.iso2.toLowerCase(),
@@ -112,8 +115,9 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 					type="tel"
 					value={phoneNumber}
 					onChange={handlePhoneChange}
-					placeholder={placeholder}
-					className="flex-1 px-3 py-2 outline-none"
+					placeholder={inputTranslate.phone}
+					inputMode="tel"
+					className="flex-1 px-3 text-[14px] py-3 outline-none rounded-[7px]"
 				/>
 			</div>
 
@@ -124,12 +128,12 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 						type="text"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
-						placeholder="Chercher pays ou code"
+						placeholder={inputTranslate.code}
 						className="w-full px-3 py-2 border-b outline-none"
 					/>
 					{filteredCountries.length === 0 && (
 						<div className="px-3 py-2 text-gray-500">
-							Aucun résultat
+							{inputTranslate.result}
 						</div>
 					)}
 					{filteredCountries.map((c) => (

@@ -26,7 +26,10 @@ const WebsiteFooter = () => {
 					</div>
 					<ul className="flex flex-col gap-2 font-semibold text-[12px] font-poppins">
 						<li>
-							<a href="#"> {footerTranslate.politique}</a>
+							<a href={createLocalizedLink("/privacy_policy")}>
+								{" "}
+								{footerTranslate.politique}
+							</a>
 						</li>
 						<li>
 							<a href="#"> {footerTranslate.termes}</a>
