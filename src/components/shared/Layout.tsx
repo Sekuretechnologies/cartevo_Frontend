@@ -15,6 +15,7 @@ import { isTokenExpired } from "@/utils/auth";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "@/hooks/useTranslation";
 interface LayoutProps {
 	title: string;
 	children: React.ReactNode;
@@ -37,6 +38,7 @@ const Layout: React.FC<LayoutProps> = ({
 	const user = useSelector(selectCurrentUser);
 	const company = useSelector(selectCurrentCompany);
 	const { token, isAuthenticated, isChecking } = useAuth();
+	const { t }: { t: any } = useTranslation();
 
 	// Determine current section after [locale]
 	const pathSegments = (pathname || "").split("/").filter(Boolean);
@@ -181,37 +183,34 @@ const Layout: React.FC<LayoutProps> = ({
 				{!isOnboardingRoute && !hasSubmittedOnboarding && (
 					<div className="border-[1px] w-full py-2  flex flex-col gap-y-2 border-gray-300 border-dotted bg-primary-50">
 						<h3 className=" text-center mt-2">
-							Bienvenue sur Cartevo – Mode Pré-production
+							{t.layout.preProductionBanner.title}
 						</h3>
 						<div className="flex justify-center items-center w-full">
 							<h4
 								text-center
 								className="text-sm text-center max-w-[80%]"
 							>
-								Vous testez la plateforme dans un environnement
-								proche de la réalité, avec des limites de
-								sécurité :{" "}
+								{t.layout.preProductionBanner.description}{" "}
 								<span className="font-semibold">
-									Transactions
+									{t.layout.preProductionBanner.transactions}
 								</span>{" "}
-								: volume restreint
+								: {t.layout.preProductionBanner.transactionsLimit}
 								<span className="font-semibold">
 									{" "}
-									Cartes{" "}
+									{t.layout.preProductionBanner.cards}{" "}
 								</span>{" "}
-								: quota réduit ,{" "}
+								: {t.layout.preProductionBanner.cardsLimit} ,{" "}
 								<span className="font-semibold">
 									{" "}
-									Devises
+									{t.layout.preProductionBanner.currencies}
 								</span>{" "}
-								: conversion FCFA ⇄ USD disponible 50000 FCFA.
-								Pour débloquer la Production complète, vérifiez
-								votre compte.{" "}
+								: {t.layout.preProductionBanner.currenciesLimit}
+								{t.layout.preProductionBanner.unlockProduction}{" "}
 								<span
 									className="font-semibold cursor-pointer underline"
 									onClick={() => navigateTo("/onboarding")}
 								>
-									Passer en production
+									{t.layout.preProductionBanner.goToProduction}
 								</span>
 							</h4>
 						</div>
