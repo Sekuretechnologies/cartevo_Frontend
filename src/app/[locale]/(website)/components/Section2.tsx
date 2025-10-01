@@ -31,12 +31,12 @@ const Section2 = () => {
 					{/* Bloc 1 */}
 					<div className="flex flex-col">
 						{/* Images */}
-						<div className="w-full h-[243px] bg-[#DBEDF3] rounded-[15px] mt-8 md:mt-0 mb-8 flex items-end justify-center">
+						<div className="w-full h-[243px] bg-[#DBEDF3] rounded-[15px] mb-8 flex items-end justify-center">
 							<Image
-								src="/website/home/collect_payment.png"
+								src="/website/home/collect000.png"
 								alt="Mobile payment illustration showing payment collection across African countries"
-								width={300}
-								height={200}
+								width={450}
+								height={350}
 								loading="lazy"
 								// className="w-auto h-auto"
 							/>

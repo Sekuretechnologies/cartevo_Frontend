@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { FlipWords } from "@/components/ui/shadcn-io/flip-words";
+import { mastercardIcon, visaIcon } from "@/constants/icons";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -24,7 +25,7 @@ const Section1 = () => {
 				}}
 			>
 				{/* <div className="w-full h-full bg-primary/5 top-0 left-0 z-20 absolute "></div> */}
-				<div className=" flex flex-col lg:flex-row  pt-40">
+				<div className=" flex flex-col lg:flex-row  pt-[140px]">
 					<div
 						className=" lg:absolute lg:bottom-0 lg:-right-0  lg:flex lg:justify-end  lg:px-0 lg:w-[65%] h-full  overflow-y-hidden"
 						style={{
@@ -73,6 +74,10 @@ const Section1 = () => {
 							>
 								{btnTranslate.btnTextContact}
 							</a>
+						</div>
+						<div className="flex justify-center md:justify-start items-center my-8 gap-5">
+							<div>{visaIcon}</div>
+							<div>{mastercardIcon}</div>
 						</div>
 					</div>
 				</div>

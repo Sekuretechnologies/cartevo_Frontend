@@ -67,7 +67,7 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { FaArrowsRotate } from "react-icons/fa6";
 import * as CFlags from "country-flag-icons/react/3x2";
 import { getCategoryModeV2, getCategoryTypeV2 } from "@/utils/graphs";
-// import TransactionModal from "../dashboard/v2/users_accounts/manage/[id]/components/Tabs/Transactions/modals/TransactionModal";
+import TransactionModal from "../cards/[id]/components/Transactions/modals/TransactionModal";
 import {
 	headerAllTransactionData,
 	headerTransactionData,
@@ -102,7 +102,7 @@ export default function Home() {
 	const currentToken: any = useSelector(selectCurrentToken);
 	const [filterContent, setFilterContent] = useState({});
 	const [statsData, setStatsData] = useState<TDataList[]>();
-	const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<number | false>(false);
 
 	const dispatch = useDispatch();
 	const redirectRef: any = useRef();
@@ -189,7 +189,7 @@ export default function Home() {
 							<></>
 						),
 					date: getFormattedDateTime(item.created_at, "en"),
-					actions: (
+                    actions: (
 						<>
 							<div className="flex gap-5">
 								<CButton
@@ -198,19 +198,19 @@ export default function Home() {
 									onClick={() => setIsOpen(index)}
 									btnStyle={"outlineDark"}
 								/>
-								{/* <Modal
-									index={`${index}`}
-									name={"pending"}
-									isOpen={isOpen === index}
-									setIsOpen={setIsOpen}
-									modalContent={
-										<TransactionModal
-											setIsOpen={setIsOpen}
-											// customer={customerDetails?.customer}
-											item={item}
-										/>
-									}
-								/> */}
+                                <Modal
+                                    index={`${index}`}
+                                    name={"transactionDetails"}
+                                    isOpen={isOpen === index}
+                                    setIsOpen={setIsOpen}
+                                    modalContent={
+                                        <TransactionModal
+                                            setIsOpen={setIsOpen}
+                                            customer={item?.customer}
+                                            item={item}
+                                        />
+                                    }
+                                />
 							</div>
 						</>
 					),
