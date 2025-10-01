@@ -28,6 +28,7 @@ import {
 } from "./icons";
 import cstyle from "./styles/sidebar-style.module.scss";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type Props = {
 	isExpanded: boolean;
@@ -36,8 +37,10 @@ type Props = {
 };
 
 const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
+	const { t } = useTranslation();
+	const sideBarTranslation = t.sideBar;
 	const pathname = usePathname();
-    const { createLocalizedLink} = useLocalizedNavigation();
+	const { createLocalizedLink } = useLocalizedNavigation();
 	const clearance = useSelector(
 		(state: RootState) => (state.auth.company as any)?.clearance
 	);
@@ -126,7 +129,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 
 	const SideBarLinksV2 = [
 		{
-			title: "Onboarding",
+			title: sideBarTranslation.onboarding,
 			slug: "onboarding",
 			canSee: true,
 			path: urls.onboarding.root,
@@ -134,7 +137,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Accueil />,
 		},
 		{
-			title: "Wallets",
+			title: sideBarTranslation.Wallets,
 			slug: "wallets",
 			canSee: true,
 			path: urls.wallets.root,
@@ -142,7 +145,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Wallet />,
 		},
 		{
-			title: "Customers",
+			title: sideBarTranslation.Customers,
 			slug: "customers",
 			canSee: true,
 			path: urls.customers.root,
@@ -150,7 +153,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Users />,
 		},
 		{
-			title: "Cards",
+			title: sideBarTranslation.Cards,
 			slug: "cards",
 			canSee: true,
 			path: urls.cards.root,
@@ -158,7 +161,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Cards />,
 		},
 		{
-			title: "Transactions",
+			title: sideBarTranslation.transactions,
 			slug: "transactions",
 			canSee: true,
 			path: urls.transactions.root,
@@ -166,7 +169,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Transaction />,
 		},
 		{
-			title: "Developers",
+			title: sideBarTranslation.Developers,
 			slug: "developers",
 			canSee: true,
 			path: urls.developers.root,
@@ -174,7 +177,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Developers />,
 		},
 		{
-			title: "Settings",
+			title: sideBarTranslation.Settings,
 			slug: "settings",
 			canSee: true,
 			path: urls.settings.root,
@@ -247,11 +250,13 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 						</div>
 
 						{/* Links */}
-                        {(isAdminView ? SideBarLinksAdmin : SideBarLinksV2).map(
+						{(isAdminView ? SideBarLinksAdmin : SideBarLinksV2).map(
 							(link) => {
-                                const currentSegment = pathname?.split("/")[2] || ""; // after [locale]
-                                const linkSegment = link.path.split("/")[1] || ""; // path without locale
-                                const isActive = currentSegment === linkSegment;
+								const currentSegment =
+									pathname?.split("/")[2] || ""; // after [locale]
+								const linkSegment =
+									link.path.split("/")[1] || ""; // path without locale
+								const isActive = currentSegment === linkSegment;
 								const iconColor = isActive
 									? "fill-[#1F66FF] stroke-[#1F66FF]"
 									: "fill-[#000]";
@@ -263,8 +268,10 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 
 								return (
 									<li key={link.title} className="relative">
-                                        <Link
-                                            href={createLocalizedLink(link.path)}
+										<Link
+											href={createLocalizedLink(
+												link.path
+											)}
 											style={{
 												color: isActive
 													? "#1F66FF"

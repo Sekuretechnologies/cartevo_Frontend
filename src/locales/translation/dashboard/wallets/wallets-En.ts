@@ -1,0 +1,20 @@
+export const walletsEn = {
+	wallet: "Wallet",
+	balance: "Available balance",
+	add: "Add New Wallet",
+	selectCurrency: "Select Currency",
+	create: "Create Wallet",
+	select: "Select Country and Currency",
+	lastTransactions: "Last transactions",
+	type: "Type",
+	phone: "Telephone",
+	idTransanction: "ID Transaction",
+	currency: "Currency",
+	amount: "Amount",
+	status: "Status",
+	Details: {
+		walletInfos: "Wallet Information",
+		totalBalance: "Total Balance",
+		payOutBalance: "PayOut Balance",
+	},
+};

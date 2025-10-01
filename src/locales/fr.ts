@@ -13,6 +13,7 @@ import { forgotPasswordFr } from "./translation/forgot-password/forgotPassword-f
 import { resetPasswordFr } from "./translation/reset-password/resetPassword-fr";
 import { registerFr } from "./translation/register/register-fr";
 import { privacyFr } from "./translation/privacy_policy/privacy_policy-fr";
+import { sideBarFr } from "./translation/sideBar/sideBar-Fr";
 
 export default {
 	onboarding: onboardingTranslationsFr,
@@ -29,5 +30,6 @@ export default {
 	forgotPassword: forgotPasswordFr,
 	resetPassword: resetPasswordFr,
 	register: registerFr,
-	privacy: privacyFr
+	privacy: privacyFr,
+	sideBar: sideBarFr
 } as const;
