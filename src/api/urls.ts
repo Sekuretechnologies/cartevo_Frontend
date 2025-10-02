@@ -1,25 +1,5 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-
-const getBaseUrl = () => {
-	return `https://api.cartevo.co/api/v1`;
-	// try {
-	// 	const state = store.getState();
-	// 	const mode = state.settings?.mode || "sandbox";
-	// 	return mode === "live"
-	// 		? `https://api.cartevo.co/api/v1`
-	// 		: `https://apisandbox.cartevo.co/api/v1`;
-	// } catch (error) {
-	// 	// Fallback during build time or when store is not available
-	// 	return `https://api.cartevo.co/api/v1`;
-	// }
-};
-
-export const BASE_URL = getBaseUrl;
-
-// export const BASE_URL = `https://api.cartevo.co/api/v1`;
-
-//export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
-
+export const BASE_URL = `https://api.cartevo.co/api/v1`;
 // export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 // export const API_V2_BASE_URL = `http://localhost:3000/api/v2/admin`;
@@ -35,20 +15,20 @@ export const API_V2_BASE_URL = `https://skr-api-v2.fly.dev/api/v2/admin`;
 // };
 
 /** AUTH ============================================================ */
-export const BASE_URL_AUTH = `${BASE_URL()}/auth`;
+export const BASE_URL_AUTH = `${BASE_URL}/auth`;
 export const authUrls = {
 	LOGIN: `${BASE_URL_AUTH}/login`,
 	LOGOUT: `${BASE_URL_AUTH}/logout`,
 	// RESEND_OTP: `${BASE_URL_AUTH}/resend-otp`,
 	VERIFY_OTP: `${BASE_URL_AUTH}/verify-otp`,
-	REGISTER_STEP1: `${BASE_URL()}/company/register/step1`,
-	REGISTER_STEP2: `${BASE_URL()}/company/register/step2`,
+	REGISTER_STEP1: `${BASE_URL}/company/register/step1`,
+	REGISTER_STEP2: `${BASE_URL}/company/register/step2`,
 	FORGOT_PASSWORD: `${BASE_URL_AUTH}/forgot-password`,
 	RESET_PASSWORD: `${BASE_URL_AUTH}/reset-password`,
 };
 
 /** COMPANY ============================================================ */
-export const BASE_URL_COMPANY = `${BASE_URL()}/company`;
+export const BASE_URL_COMPANY = `${BASE_URL}/company`;
 export const companyUrls = {
 	GET_WALLETS: `${BASE_URL_COMPANY}/wallets`,
 };
@@ -197,7 +177,7 @@ export const transactionUrlsV1V2 = {
 };
 
 /** ======================================================== */
-export const BASE_URL_USER = `${BASE_URL()}/admin/users`;
+export const BASE_URL_USER = `${BASE_URL}/admin/users`;
 export const userUrls = {
 	GET_USERS: `${BASE_URL_USER}`,
 	GET_KYC: `${BASE_URL_USER}/kyc`,
@@ -223,7 +203,7 @@ export const userUrls = {
 		`${BASE_URL_USER}/updateVerificationStatus/${id}`,
 };
 
-export const BASE_URL_CARD = `${BASE_URL()}/admin/cards`;
+export const BASE_URL_CARD = `${BASE_URL}/admin/cards`;
 export const cardUrls = {
 	GET_CARDS: `${BASE_URL_CARD}`,
 	GET_CARDS_STATS: `${BASE_URL_CARD}/stats`,
@@ -235,7 +215,7 @@ export const cardUrls = {
 	GET_ONE_CARD: (id: any) => `${BASE_URL_CARD}/${id}`,
 };
 
-export const BASE_URL_TRANSACTION = `${BASE_URL()}/admin/transactions`;
+export const BASE_URL_TRANSACTION = `${BASE_URL}/admin/transactions`;
 export const transactionUrls = {
 	GET_ALL_TRANSACTIONS: `${BASE_URL_TRANSACTION}`,
 	GET_PERIODIC_TRANSACTIONS: `${BASE_URL_TRANSACTION}/periodic`,
@@ -311,7 +291,7 @@ export const operationUrls = {
 	BALANCE_OPERATIONS: `${BASE_URL_OPERATIONS}`,
 };
 
-export const BASE_URL_USER_MANAGEMENT = `${BASE_URL()}/users`;
+export const BASE_URL_USER_MANAGEMENT = `${BASE_URL}/users`;
 export const userManagementUrls = {
 	CREATE_USER: `${BASE_URL_USER_MANAGEMENT}`,
 	GET_TEAM_MEMBERS: `${BASE_URL_USER_MANAGEMENT}`,
@@ -321,7 +301,7 @@ export const userManagementUrls = {
 	EDIT_USER: (id: string) => `http://127.0.0.1:3001/api/v1/users/${id}`,
 };
 
-export const ADMIN_BASE_URL = `${BASE_URL()}/admin`;
+export const ADMIN_BASE_URL = `${BASE_URL}/admin`;
 export const adminUrls = {
 	GET_COMPANIES: `${ADMIN_BASE_URL}/get-all-companies`,
 	HANDLE_KYC: `${ADMIN_BASE_URL}/handle-kyc`,
@@ -356,9 +336,4 @@ export const walletUrls = {
 	GET_ONE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}`,
 	UPDATE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}`,
 	DISABLE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}/disable`,
-};
-
-export const BASE_URL_CONTACT = `${BASE_URL}/contact`;
-export const contactUrls = {
-	SEND_MESSAGE: `${BASE_URL_CONTACT}/send`,
 };
