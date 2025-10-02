@@ -112,6 +112,75 @@ export default function CreateCardModal({
 
 	const customers = customersQuery.data as any[];
 
+	const [query, setQuery] = React.useState("");
+	const [open, setOpen] = React.useState(false);
+	const [highlightedIndex, setHighlightedIndex] = React.useState(-1);
+
+	React.useEffect(() => {
+		// Reset on modal open
+		if (!isOpen) {
+			setQuery("");
+			setOpen(false);
+			setHighlightedIndex(-1);
+		}
+	}, [isOpen]);
+
+	const normalized = (val: string) => (val || "").toLowerCase();
+	const filtered = React.useMemo(() => {
+		const q = normalized(query);
+		if (!q) return customers || [];
+		return (customers || []).filter((c: any) => {
+			const name = `${c.first_name || c.full_name || ""} ${
+				c.last_name || ""
+			}`.trim();
+			return (
+				normalized(name).includes(q) ||
+				normalized(c.email || "").includes(q)
+			);
+		});
+	}, [customers, query]);
+
+	const selectCustomer = (c: any) => {
+		setValue("customer_id", c.id, {
+			shouldValidate: true,
+		});
+		const name = `${c.first_name || c.full_name || ""} ${
+			c.last_name || ""
+		}`.trim();
+		setValue("name_on_card", name);
+		setQuery(`${name} - ${c.email || ""}`.trim());
+		setOpen(false);
+		setHighlightedIndex(-1);
+	};
+
+	const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+			setOpen(true);
+			return;
+		}
+		if (!open) return;
+		if (e.key === "ArrowDown") {
+			e.preventDefault();
+			setHighlightedIndex((prev) => {
+				const next = prev + 1;
+				return next >= filtered.length ? filtered.length - 1 : next;
+			});
+		} else if (e.key === "ArrowUp") {
+			e.preventDefault();
+			setHighlightedIndex((prev) => {
+				const next = prev - 1;
+				return next < 0 ? 0 : next;
+			});
+		} else if (e.key === "Enter") {
+			if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
+				e.preventDefault();
+				selectCustomer(filtered[highlightedIndex]);
+			}
+		} else if (e.key === "Escape") {
+			setOpen(false);
+		}
+	};
+
 	return (
 		<Modal
 			name="createCard"
@@ -152,193 +221,72 @@ export default function CreateCardModal({
 								})}
 							/>
 
-							{/* Local state via React.useState without extra imports */}
-							{(() => {
-								const [query, setQuery] = React.useState("");
-								const [open, setOpen] = React.useState(false);
-								const [highlightedIndex, setHighlightedIndex] =
-									React.useState(-1);
-
-								React.useEffect(() => {
-									// Reset on modal open
-									if (!isOpen) {
-										setQuery("");
-										setOpen(false);
-										setHighlightedIndex(-1);
+							<div>
+								<input
+									type="text"
+									value={query}
+									onChange={(e) => {
+										setQuery(e.target.value);
+										setOpen(true);
+									}}
+									onFocus={() => setOpen(true)}
+									onKeyDown={onKeyDown}
+									placeholder={
+										customersQuery.isLoading
+											? "Loading customers..."
+											: "Type to search by name or email"
 									}
-								}, [isOpen]);
-
-								const normalized = (val: string) =>
-									(val || "").toLowerCase();
-								const filtered = React.useMemo(() => {
-									const q = normalized(query);
-									if (!q) return customers || [];
-									return (customers || []).filter(
-										(c: any) => {
+									disabled={customersQuery.isLoading}
+									className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+								/>
+								{open && filtered && filtered.length > 0 && (
+									<ul className="absolute z-[12000] mt-1 max-h-56 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg">
+										{filtered.map((c: any, idx: number) => {
 											const name = `${
 												c.first_name ||
 												c.full_name ||
 												""
 											} ${c.last_name || ""}`.trim();
+											const label = `${name}${
+												c.email ? ` - ${c.email}` : ""
+											}`;
+											const highlighted =
+												idx === highlightedIndex;
 											return (
-												normalized(name).includes(q) ||
-												normalized(
-													c.email || ""
-												).includes(q)
-											);
-										}
-									);
-								}, [customers, query]);
-
-								const selectCustomer = (c: any) => {
-									setValue("customer_id", c.id, {
-										shouldValidate: true,
-									});
-									const name = `${
-										c.first_name || c.full_name || ""
-									} ${c.last_name || ""}`.trim();
-									setValue("name_on_card", name);
-									setQuery(
-										`${name} - ${c.email || ""}`.trim()
-									);
-									setOpen(false);
-									setHighlightedIndex(-1);
-								};
-
-								const onKeyDown = (
-									e: React.KeyboardEvent<HTMLInputElement>
-								) => {
-									if (
-										!open &&
-										(e.key === "ArrowDown" ||
-											e.key === "ArrowUp")
-									) {
-										setOpen(true);
-										return;
-									}
-									if (!open) return;
-									if (e.key === "ArrowDown") {
-										e.preventDefault();
-										setHighlightedIndex((prev) => {
-											const next = prev + 1;
-											return next >= filtered.length
-												? filtered.length - 1
-												: next;
-										});
-									} else if (e.key === "ArrowUp") {
-										e.preventDefault();
-										setHighlightedIndex((prev) => {
-											const next = prev - 1;
-											return next < 0 ? 0 : next;
-										});
-									} else if (e.key === "Enter") {
-										if (
-											highlightedIndex >= 0 &&
-											highlightedIndex < filtered.length
-										) {
-											e.preventDefault();
-											selectCustomer(
-												filtered[highlightedIndex]
-											);
-										}
-									} else if (e.key === "Escape") {
-										setOpen(false);
-									}
-								};
-
-								return (
-									<div>
-										<input
-											type="text"
-											value={query}
-											onChange={(e) => {
-												setQuery(e.target.value);
-												setOpen(true);
-											}}
-											onFocus={() => setOpen(true)}
-											onKeyDown={onKeyDown}
-											placeholder={
-												customersQuery.isLoading
-													? "Loading customers..."
-													: "Type to search by name or email"
-											}
-											disabled={customersQuery.isLoading}
-											className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-										/>
-										{open &&
-											filtered &&
-											filtered.length > 0 && (
-												<ul className="absolute z-[12000] mt-1 max-h-56 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg">
-													{filtered.map(
-														(
-															c: any,
-															idx: number
-														) => {
-															const name = `${
-																c.first_name ||
-																c.full_name ||
-																""
-															} ${
-																c.last_name ||
-																""
-															}`.trim();
-															const label = `${name}${
-																c.email
-																	? ` - ${c.email}`
-																	: ""
-															}`;
-															const highlighted =
-																idx ===
-																highlightedIndex;
-															return (
-																<li
-																	key={c.id}
-																	className={classNames(
-																		"cursor-pointer px-3 py-2 hover:bg-blue-50",
-																		{
-																			"bg-blue-50":
-																				highlighted,
-																		}
-																	)}
-																	onMouseEnter={() =>
-																		setHighlightedIndex(
-																			idx
-																		)
-																	}
-																	onMouseDown={(
-																		e
-																	) => {
-																		e.preventDefault();
-																		selectCustomer(
-																			c
-																		);
-																	}}
-																>
-																	{label}
-																</li>
-															);
+												<li
+													key={c.id}
+													className={classNames(
+														"cursor-pointer px-3 py-2 hover:bg-blue-50",
+														{
+															"bg-blue-50":
+																highlighted,
 														}
 													)}
-												</ul>
-											)}
-										{open &&
-											filtered &&
-											filtered.length === 0 && (
-												<div className="absolute z-[12000] mt-1 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-500 shadow-lg">
-													No customers found
-												</div>
-											)}
-										{errors.customer_id && (
-											<p className="text-red-500 text-sm mt-1">
-												{
-													errors.customer_id
-														.message as any
-												}
-											</p>
-										)}
+													onMouseEnter={() =>
+														setHighlightedIndex(idx)
+													}
+													onMouseDown={(e) => {
+														e.preventDefault();
+														selectCustomer(c);
+													}}
+												>
+													{label}
+												</li>
+											);
+										})}
+									</ul>
+								)}
+								{open && filtered && filtered.length === 0 && (
+									<div className="absolute z-[12000] mt-1 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-500 shadow-lg">
+										No customers found
 									</div>
-								);
-							})()}
+								)}
+								{errors.customer_id && (
+									<p className="text-red-500 text-sm mt-1">
+										{errors.customer_id.message as any}
+									</p>
+								)}
+							</div>
 						</div>
 
 						{/* Cardholder Name (disabled, mirrors AddCardModal) */}
@@ -365,68 +313,69 @@ export default function CreateCardModal({
 
 						{/* Card Brand (same as AddCardModal) */}
 						<div>
-					<label className="block text-sm font-medium text-gray-700 mb-2">
+							<label className="block text-sm font-medium text-gray-700 mb-2">
 								Card Brand
 							</label>
-					<Select
+							<Select
 								onValueChange={(val) =>
 									setValue("brand", val as any, {
 										shouldValidate: true,
 									})
 								}
 							>
-						<SelectTrigger>
-							{(() => {
-								const brand = (watch("brand") as string) || "";
-								const src =
-									brand === "VISA"
-										? "/images/visa-logo.png"
-										: brand === "MASTERCARD"
-										? "/images/mastercard-logo.jpg"
-										: null;
-								return (
-									<div className="flex items-center gap-2">
-										{src ? (
+								<SelectTrigger>
+									{(() => {
+										const brand =
+											(watch("brand") as string) || "";
+										const src =
+											brand === "VISA"
+												? "/images/visa-logo.png"
+												: brand === "MASTERCARD"
+												? "/images/mastercard-logo.jpg"
+												: null;
+										return (
+											<div className="flex items-center gap-2">
+												{src ? (
+													<Image
+														src={src}
+														alt={`${brand} logo`}
+														width={20}
+														height={20}
+														className="object-contain"
+													/>
+												) : null}
+												<span className="text-sm text-gray-700">
+													{brand || "Select brand"}
+												</span>
+											</div>
+										);
+									})()}
+								</SelectTrigger>
+								<SelectContent className="z-[10001]">
+									<SelectItem value="VISA">
+										<div className="flex items-center gap-2">
 											<Image
-												src={src}
-												alt={`${brand} logo`}
+												src="/images/visa-logo.png"
+												alt="VISA logo"
 												width={20}
 												height={20}
 												className="object-contain"
 											/>
-										) : null}
-										<span className="text-sm text-gray-700">
-											{brand || "Select brand"}
-										</span>
-									</div>
-								);
-							})()}
-						</SelectTrigger>
-								<SelectContent className="z-[10001]">
-							<SelectItem value="VISA">
-								<div className="flex items-center gap-2">
-									<Image
-										src="/images/visa-logo.png"
-										alt="VISA logo"
-										width={20}
-										height={20}
-										className="object-contain"
-									/>
-									<span>VISA</span>
-								</div>
-							</SelectItem>
-							<SelectItem value="MASTERCARD">
-								<div className="flex items-center gap-2">
-									<Image
-										src="/images/mastercard-logo.jpg"
-										alt="MasterCard logo"
-										width={20}
-										height={20}
-										className="object-contain"
-									/>
-									<span>MASTERCARD</span>
-								</div>
-							</SelectItem>
+											<span>VISA</span>
+										</div>
+									</SelectItem>
+									<SelectItem value="MASTERCARD">
+										<div className="flex items-center gap-2">
+											<Image
+												src="/images/mastercard-logo.jpg"
+												alt="MasterCard logo"
+												width={20}
+												height={20}
+												className="object-contain"
+											/>
+											<span>MASTERCARD</span>
+										</div>
+									</SelectItem>
 								</SelectContent>
 							</Select>
 							{errors.brand && (
