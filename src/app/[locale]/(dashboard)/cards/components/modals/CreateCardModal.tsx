@@ -4,6 +4,7 @@ import { CustomerService } from "@/api/services/cartevo-api/customer";
 import CButton from "@/components/shared/CButton";
 import Modal from "@/components/shared/Modal/Modal";
 import Title from "@/components/shared/Title";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
 	Select,
 	SelectContent,
@@ -40,6 +41,7 @@ export default function CreateCardModal({
 	isOpen,
 	setIsOpen,
 }: CreateCardModalProps) {
+	const { t }: { t: any } = useTranslation();
 	const token: any = useSelector(selectCurrentToken);
 	const queryClient = useQueryClient();
 
@@ -83,19 +85,19 @@ export default function CreateCardModal({
 			return json;
 		},
 		onSuccess: () => {
-			toast.success("Card created successfully");
+			toast.success(t.cards.modals.createCard.cardCreatedSuccess);
 			reset();
 			setIsOpen(false);
 			queryClient.invalidateQueries(["allCards"]);
 		},
 		onError: (err: any) => {
 			if (err?.message === "504") {
-				toast.success("Card creation initiated");
+				toast.success(t.cards.modals.createCard.cardCreationInitiated);
 				reset();
 				setIsOpen(false);
 				queryClient.invalidateQueries(["allCards"]);
 			} else {
-				toast.error(err?.message || "Failed to create card");
+				toast.error(err?.message || t.cards.modals.createCard.cardCreationFailed);
 			}
 		},
 	});
@@ -194,7 +196,7 @@ export default function CreateCardModal({
 								className="text-blue-600 -mt-1"
 								size={24}
 							/>
-							<Title title={"Add New Card"} />
+							<Title title={t.cards.modals.createCard.title} />
 						</div>
 						<div
 							className="cursor-pointer hover:bg-gray-100 p-2 rounded-full"
@@ -211,13 +213,13 @@ export default function CreateCardModal({
 						{/* Customer typeahead input (filter by name or email) */}
 						<div className="relative">
 							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Customer
+								{t.cards.modals.createCard.customer}
 							</label>
 							{/* Hidden field to keep form validation and submission */}
 							<input
 								type="hidden"
 								{...register("customer_id", {
-									required: "Please select a customer" as any,
+									required: t.cards.modals.createCard.customerRequired as any,
 								})}
 							/>
 
@@ -233,8 +235,8 @@ export default function CreateCardModal({
 									onKeyDown={onKeyDown}
 									placeholder={
 										customersQuery.isLoading
-											? "Loading customers..."
-											: "Type to search by name or email"
+											? t.cards.modals.createCard.loadingCustomers
+											: t.cards.modals.createCard.customerPlaceholder
 									}
 									disabled={customersQuery.isLoading}
 									className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -278,7 +280,7 @@ export default function CreateCardModal({
 								)}
 								{open && filtered && filtered.length === 0 && (
 									<div className="absolute z-[12000] mt-1 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-500 shadow-lg">
-										No customers found
+										{t.cards.modals.createCard.noCustomersFound}
 									</div>
 								)}
 								{errors.customer_id && (
@@ -292,16 +294,16 @@ export default function CreateCardModal({
 						{/* Cardholder Name (disabled, mirrors AddCardModal) */}
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Cardholder Name
+								{t.cards.modals.createCard.cardholderName}
 							</label>
 							<input
 								type="text"
 								{...register("name_on_card", {
 									required:
-										"Cardholder name is required" as any,
+										t.cards.modals.createCard.cardholderNameRequired as any,
 								})}
 								disabled
-								placeholder="Enter cardholder name"
+								placeholder={t.cards.modals.createCard.cardholderNamePlaceholder}
 								className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 							/>
 							{errors.name_on_card && (
@@ -314,7 +316,7 @@ export default function CreateCardModal({
 						{/* Card Brand (same as AddCardModal) */}
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Card Brand
+								{t.cards.modals.createCard.cardBrand}
 							</label>
 							<Select
 								onValueChange={(val) =>
@@ -345,7 +347,7 @@ export default function CreateCardModal({
 													/>
 												) : null}
 												<span className="text-sm text-gray-700">
-													{brand || "Select brand"}
+													{brand || t.cards.modals.createCard.selectBrand}
 												</span>
 											</div>
 										);
@@ -388,20 +390,20 @@ export default function CreateCardModal({
 						{/* Initial Amount (same as AddCardModal) */}
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Initial Balance (USD)
+								{t.cards.modals.createCard.initialBalance}
 							</label>
 							<input
 								type="number"
 								{...register("amount", {
 									required:
-										"Please enter a valid amount" as any,
+										t.cards.modals.createCard.initialBalanceRequired as any,
 									min: {
 										value: 1,
-										message: "Amount must be at least 1",
+										message: t.cards.modals.createCard.initialBalanceMin,
 									} as any,
 									valueAsNumber: true,
 								})}
-								placeholder="0.00"
+								placeholder={t.cards.modals.createCard.initialBalancePlaceholder}
 								min={2}
 								className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 							/>
@@ -416,8 +418,8 @@ export default function CreateCardModal({
 							<CButton
 								text={
 									createMutation.isLoading
-										? "Creating..."
-										: "Create Card"
+										? t.cards.modals.createCard.creating
+										: t.cards.modals.createCard.createCard
 								}
 								btnStyle={"blue"}
 								type={"submit"}
@@ -425,7 +427,7 @@ export default function CreateCardModal({
 								height={"40px"}
 							/>
 							<CButton
-								text={"Cancel"}
+								text={t.cards.modals.createCard.cancel}
 								btnStyle={"outlineDark"}
 								onClick={() => setIsOpen && setIsOpen(false)}
 								disabled={createMutation.isLoading}

@@ -12,6 +12,8 @@ import { resetPasswordEn } from "./translation/reset-password/resetPassword-en";
 import { signUpEn } from "./translation/sign-up/signUp-en";
 import { verifyOtpTranslationsEn } from "./translation/verifyOtp/verifyOtp-en";
 import { walletsTranslations } from "./translation/wallets/wallets";
+import { cardsTranslations } from "./translation/cards/cards";
+import { settingsTranslations } from "./translation/settings/settings";
 import { websiteFooterEn } from "./translation/websiteFooter/websiteFooter-en";
 import { websiteNavBarEn } from "./translation/websiteNavBar/websiteNavBar-en";
 
@@ -21,6 +23,8 @@ export default {
 	layout: layoutTranslationsEn,
 	verifyOtp: verifyOtpTranslationsEn,
 	wallets: walletsTranslations,
+	cards: cardsTranslations,
+	settings: settingsTranslations,
 	home: homeTranslationsEn,
 	btn: buttonsTranslationsEn,
 	websiteNavBar: websiteNavBarEn,

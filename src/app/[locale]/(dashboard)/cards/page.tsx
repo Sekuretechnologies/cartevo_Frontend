@@ -1,5 +1,6 @@
 "use client";
 import { useTitle } from "@/hooks/useTitle";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
@@ -53,7 +54,8 @@ const getAllCards = async ({ queryKey }: any) => {
 };
 
 export default function Cards() {
-	useTitle("Cartevo | Cards", true);
+	const { t }: { t: any } = useTranslation();
+	useTitle(t.cards.pageTitle, true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const [searchTrx, setSearchTrx] = useState("");
 	const [filterContent, setFilterContent] = useState({});
@@ -68,7 +70,7 @@ export default function Cards() {
 		queryKey: ["allCards", currentToken, filterContent, searchTrx],
 		queryFn: getAllCards,
 		onError: (err) => {
-			toast.error("Failed to get cards.");
+			toast.error(t.cards.messages.failedToGetCards);
 			console.log("Failed to get cards : ", err);
 		},
 		// enabled: false,
@@ -100,14 +102,14 @@ export default function Cards() {
 						item.status === "ACTIVE" ? (
 							<BadgeLabel
 								className={`text-xs`}
-								label={"Active"}
+								label={t.cards.labels.status.active}
 								badgeColor={"#1F66FF"}
 								textColor={"#444"}
 							/>
 						) : (
 							<BadgeLabel
 								className={`text-xs`}
-								label={"Inactive"}
+								label={t.cards.labels.status.inactive}
 								badgeColor={"#F85D4B"}
 								textColor={"#444"}
 							/>
@@ -115,7 +117,7 @@ export default function Cards() {
 					date: getFormattedDateTime(item.created_at, "en"), //item.date,
 					actions: (
 						<CButton
-							text={"Details"}
+							text={t.cards.actions.details}
 							href={createLocalizedLink(
 								`${urls.cards.root}/${item.id}`
 							)}
@@ -131,14 +133,23 @@ export default function Cards() {
 	}
 
 	return (
-		<Layout title={"Cards"}>
+		<Layout title={t.cards.mainTitle}>
 			<section className="mt-2">
 				<div className="mb-[50px] bg-white  shadow-md rounded-xl p-5">
 					{/* <div className="mb-5">
 						<Title title={"Users list"} />
 					</div> */}
 					<CustomTable
-						headerData={headerCardData}
+						headerData={{
+							serial: t.cards.table.serial,
+							type: t.cards.table.type,
+							number: t.cards.table.number,
+							name: t.cards.table.name,
+							balance: t.cards.table.balance,
+							status: t.cards.table.status,
+							date: t.cards.table.date,
+							edit: "",
+						}}
 						tableData={rearrangedTableData}
 						isLoading={allCardsQueryRes?.status == "loading"}
 						// threeButtons
@@ -148,7 +159,7 @@ export default function Cards() {
 						setFilterContent={setFilterContent}
 						btn={
 							<CButton
-								text={"Create Card"}
+								text={t.cards.actions.createCard}
 								btnStyle={"blue"}
 								icon={<Plus size={18} color="#fff" />}
 								height={"33px"}

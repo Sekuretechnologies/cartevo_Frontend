@@ -1,5 +1,6 @@
 "use client";
 import { useTitle } from "@/hooks/useTitle";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -54,7 +55,8 @@ const getTransactionFees = async ({ queryKey }: any) => {
 };
 
 export default function Settings() {
-	useTitle("Cartevo | Settings", true);
+	const { t }: { t: any } = useTranslation();
+	useTitle(t.settings.pageTitle, true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const queryClient = useQueryClient();
 
@@ -71,7 +73,7 @@ export default function Settings() {
 		queryKey: ["exchangeRates", currentToken],
 		queryFn: getExchangeRates,
 		onError: (err) => {
-			toast.error("Failed to get exchange rates.");
+			toast.error(t.settings.exchangeRates.messages.failedToGetExchangeRates);
 		},
 	});
 
@@ -79,7 +81,7 @@ export default function Settings() {
 		queryKey: ["transactionFees", currentToken],
 		queryFn: getTransactionFees,
 		onError: (err) => {
-			toast.error("Failed to get transaction fees.");
+			toast.error(t.settings.transactionFees.messages.failedToGetTransactionFees);
 		},
 	});
 
@@ -88,11 +90,11 @@ export default function Settings() {
 			SettingsService.delete_exchange_rate({ token: currentToken, id }),
 		{
 			onSuccess: () => {
-				toast.success("Exchange rate deleted successfully!");
+				toast.success(t.settings.exchangeRates.messages.exchangeRateDeletedSuccess);
 				queryClient.invalidateQueries(["exchangeRates"]);
 			},
 			onError: (error: any) => {
-				toast.error("Failed to delete exchange rate");
+				toast.error(t.settings.exchangeRates.messages.failedToDeleteExchangeRate);
 			},
 		}
 	);
@@ -102,11 +104,11 @@ export default function Settings() {
 			SettingsService.delete_transaction_fee({ token: currentToken, id }),
 		{
 			onSuccess: () => {
-				toast.success("Transaction fee deleted successfully!");
+				toast.success(t.settings.transactionFees.messages.transactionFeeDeletedSuccess);
 				queryClient.invalidateQueries(["transactionFees"]);
 			},
 			onError: (error: any) => {
-				toast.error("Failed to delete transaction fee");
+				toast.error(t.settings.transactionFees.messages.failedToDeleteTransactionFee);
 			},
 		}
 	);
@@ -124,7 +126,7 @@ export default function Settings() {
 	const handleDeleteExchangeRate = (id: string) => {
 		if (
 			window.confirm(
-				"Are you sure you want to delete this exchange rate?"
+				t.settings.messages.areYouSureDeleteExchangeRate
 			)
 		) {
 			deleteExchangeRateMutation.mutate(id);
@@ -134,7 +136,7 @@ export default function Settings() {
 	const handleDeleteTransactionFee = (id: string) => {
 		if (
 			window.confirm(
-				"Are you sure you want to delete this transaction fee?"
+				t.settings.transactionFees.messages.areYouSureDeleteTransactionFee
 			)
 		) {
 			deleteTransactionFeeMutation.mutate(id);
@@ -236,32 +238,32 @@ export default function Settings() {
 		) || [];
 
 	const exchangeRatesHeaderData = {
-		serial: "#",
-		fromCurrency: "From",
-		toCurrency: "To",
-		rate: "Rate",
+		serial: t.settings.exchangeRates.table.serial,
+		fromCurrency: t.settings.exchangeRates.table.from,
+		toCurrency: t.settings.exchangeRates.table.to,
+		rate: t.settings.exchangeRates.table.rate,
 		// source: "Source",
 		// status: "Status",
-		description: "Description",
+		description: t.settings.exchangeRates.table.description,
 		// date: "Created",
 		// actions: "Actions",
 	};
 
 	const transactionFeesHeaderData = {
-		serial: "#",
+		serial: t.settings.transactionFees.table.serial,
 		// type: "Type",
 		// category: "Category",
 		// country: "Country",
 		// currency: "Currency",
 		// feeType: "Fee Type",
-		description: "Description",
-		value: "Value",
+		description: t.settings.transactionFees.table.description,
+		value: t.settings.transactionFees.table.value,
 		// date: "Created",
 		// actions: "Actions",
 	};
 
 	return (
-		<Layout title={"Settings"}>
+		<Layout title={t.settings.mainTitle}>
 			<section className="mt-2 space-y-8">
 				<div className="bg-white shadow-md rounded-xl py-5">
 					<Tabs defaultValue="teamMembers" className="w-full">
@@ -275,7 +277,7 @@ export default function Settings() {
 									value="teamMembers"
 								>
 									<span className="px-10 py-4 border-1 rounded-full">
-										Team Members
+										{t.settings.tabs.teamMembers}
 									</span>
 								</TabsTrigger>
 
@@ -284,7 +286,7 @@ export default function Settings() {
 									value="exchangeRates"
 								>
 									<span className="px-10 py-4 border-1 rounded-full">
-										Exchange Rates
+										{t.settings.tabs.exchangeRates}
 									</span>
 								</TabsTrigger>
 
@@ -293,7 +295,7 @@ export default function Settings() {
 									value="transactionFees"
 								>
 									<span className="px-10 py-4 border-1 rounded-full">
-										Transaction Fees
+										{t.settings.tabs.transactionFees}
 									</span>
 								</TabsTrigger>
 							</TabsList>
@@ -414,6 +416,7 @@ export default function Settings() {
 									"exchangeRates",
 								]);
 							}}
+							t={t}
 						/>
 					}
 				/>
@@ -437,6 +440,7 @@ export default function Settings() {
 									"transactionFees",
 								]);
 							}}
+							t={t}
 						/>
 					}
 				/>
@@ -450,10 +454,12 @@ function ExchangeRateModal({
 	exchangeRate,
 	onClose,
 	onSuccess,
+	t,
 }: {
 	exchangeRate: ExchangeRate | null;
 	onClose: () => void;
 	onSuccess: () => void;
+	t: any;
 }) {
 	const currentToken = useSelector(selectCurrentToken);
 	const [formData, setFormData] = useState<CreateExchangeRateRequest>({
@@ -491,14 +497,14 @@ function ExchangeRateModal({
 					);
 				}
 				toast.success(
-					`Exchange rate ${
-						exchangeRate?.id ? "updated" : "created"
-					} successfully!`
+					exchangeRate?.id 
+						? t.settings.exchangeRates.modal.exchangeRateUpdatedSuccess
+						: t.settings.exchangeRates.modal.exchangeRateCreatedSuccess
 				);
 				onSuccess();
 			},
 			onError: (error: any) => {
-				toast.error(error.message || "Failed to save exchange rate");
+				toast.error(error.message || t.settings.exchangeRates.modal.failedToSaveExchangeRate);
 			},
 		}
 	);
@@ -518,13 +524,13 @@ function ExchangeRateModal({
 	return (
 		<div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
 			<h3 className="text-lg font-semibold text-gray-800 mb-4">
-				{exchangeRate?.id ? "Edit" : "Add"} Exchange Rate
+				{exchangeRate?.id ? t.settings.exchangeRates.modal.editTitle : t.settings.exchangeRates.modal.addTitle}
 			</h3>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				<div className="grid grid-cols-2 gap-4">
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							From Currency
+							{t.settings.exchangeRates.modal.fromCurrency}
 						</label>
 						<input
 							type="text"
@@ -533,13 +539,13 @@ function ExchangeRateModal({
 								handleChange("fromCurrency", e.target.value)
 							}
 							className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-							placeholder="USD"
+							placeholder={t.settings.exchangeRates.modal.fromCurrencyPlaceholder}
 							required
 						/>
 					</div>
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							To Currency
+							{t.settings.exchangeRates.modal.toCurrency}
 						</label>
 						<input
 							type="text"
@@ -548,14 +554,14 @@ function ExchangeRateModal({
 								handleChange("toCurrency", e.target.value)
 							}
 							className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-							placeholder="XAF"
+							placeholder={t.settings.exchangeRates.modal.toCurrencyPlaceholder}
 							required
 						/>
 					</div>
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700 mb-2">
-						Rate
+						{t.settings.exchangeRates.modal.rate}
 					</label>
 					<input
 						type="number"
@@ -565,27 +571,27 @@ function ExchangeRateModal({
 							handleChange("rate", parseFloat(e.target.value))
 						}
 						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-						placeholder="650"
+						placeholder={t.settings.exchangeRates.modal.ratePlaceholder}
 						required
 					/>
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700 mb-2">
-						Source
+						{t.settings.exchangeRates.modal.source}
 					</label>
 					<select
 						value={formData.source}
 						onChange={(e) => handleChange("source", e.target.value)}
 						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 					>
-						<option value="DEFAULT">Default</option>
-						<option value="MANUAL">Manual</option>
-						<option value="API">API</option>
+						<option value="DEFAULT">{t.settings.exchangeRates.modal.sourceOptions.default}</option>
+						<option value="MANUAL">{t.settings.exchangeRates.modal.sourceOptions.manual}</option>
+						<option value="API">{t.settings.exchangeRates.modal.sourceOptions.api}</option>
 					</select>
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700 mb-2">
-						Description
+						{t.settings.exchangeRates.modal.description}
 					</label>
 					<textarea
 						value={formData.description}
@@ -594,7 +600,7 @@ function ExchangeRateModal({
 						}
 						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 						rows={3}
-						placeholder="Exchange rate description"
+						placeholder={t.settings.exchangeRates.modal.descriptionPlaceholder}
 						required
 					/>
 				</div>
@@ -608,18 +614,18 @@ function ExchangeRateModal({
 							}
 							className="mr-2"
 						/>
-						<span className="text-sm text-gray-700">Active</span>
+						<span className="text-sm text-gray-700">{t.settings.exchangeRates.modal.active}</span>
 					</label>
 				</div>
 				<div className="flex gap-3 justify-end pt-4">
 					<CButton
-						text="Cancel"
+						text={t.settings.exchangeRates.modal.cancel}
 						btnStyle="outlineDark"
 						onClick={onClose}
 						type="button"
 					/>
 					<CButton
-						text={mutation.isLoading ? "Saving..." : "Save"}
+						text={mutation.isLoading ? t.settings.exchangeRates.modal.saving : t.settings.exchangeRates.modal.save}
 						btnStyle="blue"
 						type="submit"
 						disabled={mutation.isLoading}
@@ -635,10 +641,12 @@ function TransactionFeeModal({
 	transactionFee,
 	onClose,
 	onSuccess,
+	t,
 }: {
 	transactionFee: TransactionFee | null;
 	onClose: () => void;
 	onSuccess: () => void;
+	t: any;
 }) {
 	const currentToken = useSelector(selectCurrentToken);
 	const [formData, setFormData] = useState<CreateTransactionFeeRequest>({
@@ -677,14 +685,14 @@ function TransactionFeeModal({
 					);
 				}
 				toast.success(
-					`Transaction fee ${
-						transactionFee?.id ? "updated" : "created"
-					} successfully!`
+					transactionFee?.id 
+						? t.settings.transactionFees.modal.transactionFeeUpdatedSuccess
+						: t.settings.transactionFees.modal.transactionFeeCreatedSuccess
 				);
 				onSuccess();
 			},
 			onError: (error: any) => {
-				toast.error(error.message || "Failed to save transaction fee");
+				toast.error(error.message || t.settings.transactionFees.modal.failedToSaveTransactionFee);
 			},
 		}
 	);
@@ -704,13 +712,13 @@ function TransactionFeeModal({
 	return (
 		<div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
 			<h3 className="text-lg font-semibold text-gray-800 mb-4">
-				{transactionFee?.id ? "Edit" : "Add"} Transaction Fee
+				{transactionFee?.id ? t.settings.transactionFees.modal.editTitle : t.settings.transactionFees.modal.addTitle}
 			</h3>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				<div className="grid grid-cols-2 gap-4">
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Transaction Type
+							{t.settings.transactionFees.modal.transactionType}
 						</label>
 						<select
 							value={formData.transactionType}
@@ -720,15 +728,15 @@ function TransactionFeeModal({
 							className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 							required
 						>
-							<option value="CARD">Card</option>
-							<option value="TRANSFER">Transfer</option>
-							<option value="WITHDRAWAL">Withdrawal</option>
-							<option value="DEPOSIT">Deposit</option>
+							<option value="CARD">{t.settings.transactionFees.modal.transactionTypeOptions.card}</option>
+							<option value="TRANSFER">{t.settings.transactionFees.modal.transactionTypeOptions.transfer}</option>
+							<option value="WITHDRAWAL">{t.settings.transactionFees.modal.transactionTypeOptions.withdrawal}</option>
+							<option value="DEPOSIT">{t.settings.transactionFees.modal.transactionTypeOptions.deposit}</option>
 						</select>
 					</div>
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Transaction Category
+							{t.settings.transactionFees.modal.transactionCategory}
 						</label>
 						<select
 							value={formData.transactionCategory}
@@ -741,17 +749,17 @@ function TransactionFeeModal({
 							className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 							required
 						>
-							<option value="PURCHASE">Purchase</option>
-							<option value="ATM">ATM</option>
-							<option value="ONLINE">Online</option>
-							<option value="INTERNATIONAL">International</option>
+							<option value="PURCHASE">{t.settings.transactionFees.modal.transactionCategoryOptions.purchase}</option>
+							<option value="ATM">{t.settings.transactionFees.modal.transactionCategoryOptions.atm}</option>
+							<option value="ONLINE">{t.settings.transactionFees.modal.transactionCategoryOptions.online}</option>
+							<option value="INTERNATIONAL">{t.settings.transactionFees.modal.transactionCategoryOptions.international}</option>
 						</select>
 					</div>
 				</div>
 				<div className="grid grid-cols-2 gap-4">
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Country ISO Code
+							{t.settings.transactionFees.modal.countryIsoCode}
 						</label>
 						<input
 							type="text"
@@ -760,13 +768,13 @@ function TransactionFeeModal({
 								handleChange("countryIsoCode", e.target.value)
 							}
 							className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-							placeholder="US"
+							placeholder={t.settings.transactionFees.modal.countryIsoCodePlaceholder}
 							required
 						/>
 					</div>
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Currency
+							{t.settings.transactionFees.modal.currency}
 						</label>
 						<input
 							type="text"
@@ -775,7 +783,7 @@ function TransactionFeeModal({
 								handleChange("currency", e.target.value)
 							}
 							className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-							placeholder="USD"
+							placeholder={t.settings.transactionFees.modal.currencyPlaceholder}
 							required
 						/>
 					</div>
@@ -783,7 +791,7 @@ function TransactionFeeModal({
 				<div className="grid grid-cols-2 gap-4">
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Fee Type
+							{t.settings.transactionFees.modal.feeType}
 						</label>
 						<select
 							value={formData.type}
@@ -793,13 +801,13 @@ function TransactionFeeModal({
 							className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 							required
 						>
-							<option value="FIXED">Fixed</option>
-							<option value="PERCENTAGE">Percentage</option>
+							<option value="FIXED">{t.settings.transactionFees.modal.feeTypeOptions.fixed}</option>
+							<option value="PERCENTAGE">{t.settings.transactionFees.modal.feeTypeOptions.percentage}</option>
 						</select>
 					</div>
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Value
+							{t.settings.transactionFees.modal.value}
 						</label>
 						<input
 							type="number"
@@ -812,14 +820,14 @@ function TransactionFeeModal({
 								)
 							}
 							className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-							placeholder="1.00"
+							placeholder={t.settings.transactionFees.modal.valuePlaceholder}
 							required
 						/>
 					</div>
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700 mb-2">
-						Description
+						{t.settings.transactionFees.modal.description}
 					</label>
 					<textarea
 						value={formData.description}
@@ -828,19 +836,19 @@ function TransactionFeeModal({
 						}
 						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 						rows={3}
-						placeholder="Transaction fee description"
+						placeholder={t.settings.transactionFees.modal.descriptionPlaceholder}
 						required
 					/>
 				</div>
 				<div className="flex gap-3 justify-end pt-4">
 					<CButton
-						text="Cancel"
+						text={t.settings.transactionFees.modal.cancel}
 						btnStyle="outlineDark"
 						onClick={onClose}
 						type="button"
 					/>
 					<CButton
-						text={mutation.isLoading ? "Saving..." : "Save"}
+						text={mutation.isLoading ? t.settings.transactionFees.modal.saving : t.settings.transactionFees.modal.save}
 						btnStyle="blue"
 						type="submit"
 						disabled={mutation.isLoading}

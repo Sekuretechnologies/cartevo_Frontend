@@ -1,6 +1,7 @@
 import { SettingsService } from "@/api/services/cartevo-api/settings";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { EditRoleSchema } from "@/validation/FormValidation";
+import { useTranslation } from "@/hooks/useTranslation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import React, { useState } from "react";
@@ -38,14 +39,14 @@ const handleEditRole = async (
 	return responseJson;
 };
 
-const userRoles = [
+const getUserRoles = (t: any) => [
 	{
 		key: "member",
-		label: "Member",
+		label: t.settings.teamMembers.modals.userRoles.member,
 	},
 	{
 		key: "admin",
-		label: "Admin",
+		label: t.settings.teamMembers.modals.userRoles.admin,
 	},
 ];
 
@@ -55,6 +56,7 @@ type ModalProps = {
 };
 
 const EditRoleModal = ({ onClose, userId }: ModalProps) => {
+	const { t }: { t: any } = useTranslation();
 	const currentToken: any = useSelector(selectCurrentToken);
 
 	const form = useForm<z.infer<typeof EditRoleSchema>>({
@@ -68,10 +70,10 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 		mutationFn: (data: z.infer<typeof EditRoleSchema>) =>
 			handleEditRole(currentToken, data, userId),
 		onError: (err: any) => {
-			toast.error("Failed to update user role.", err.message);
+			toast.error(t.settings.teamMembers.modals.editRole.failedToUpdateUserRole, err.message);
 		},
 		onSuccess: (data: any) => {
-			toast.success("User role updated successfully.");
+			toast.success(t.settings.teamMembers.modals.editRole.userRoleUpdatedSuccess);
 		},
 	});
 
@@ -86,7 +88,7 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 		<div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex justify-center items-center z-[1000]">
 			<div className="relative flex flex-col px-8 py-8 bg-white rounded-lg w-[600px]">
 				<div className="flex justify-between items-center mb-8">
-					<h1 className="text-xl font-semibold">Edit user role</h1>
+					<h1 className="text-xl font-semibold">{t.settings.teamMembers.modals.editRole.title}</h1>
 
 					<button
 						className="text-gray-500 hover:text-black duration-300"
@@ -104,14 +106,14 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
-										Select Role
+										{t.settings.teamMembers.modals.editRole.selectRole}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 
 									<FormControl>
 										<Select
 											{...field}
-											placeholder="Select Role"
+											placeholder={t.settings.teamMembers.modals.editRole.selectRole}
 											style={{
 												width: "100%",
 											}}
@@ -123,7 +125,7 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 												field.value ? [field.value] : []
 											}
 										>
-											{userRoles.map((item) => (
+											{getUserRoles(t).map((item) => (
 												<SelectItem
 													key={item.key}
 													value={item.key}
@@ -140,7 +142,7 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 
 						<div className="mt-8">
 							<CButton
-								text="Edit Role"
+								text={t.settings.teamMembers.modals.editRole.editRole}
 								btnStyle="blue"
 								width="175px"
 								height="49px"

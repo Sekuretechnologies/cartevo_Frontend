@@ -1,6 +1,7 @@
 import { ITableHeader } from "@/components/AdminTable/Table";
 import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
+import { useTranslation } from "@/hooks/useTranslation";
 import React, { useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import AddTeamMemberModal from "./components/AddTeamMemberModal";
@@ -28,6 +29,7 @@ const getTeamMembers = async ({ queryKey }: any) => {
 };
 
 const TeamMember = () => {
+	const { t }: { t: any } = useTranslation();
 	const [addTeamMemberModal, setAddTeamMemberModal] =
 		useState<boolean>(false);
 	const [deleteModalVisible, setDeleteModalVisible] =
@@ -42,7 +44,7 @@ const TeamMember = () => {
 		queryKey: ["teamMembers", currentToken],
 		queryFn: getTeamMembers,
 		onError: (err) => {
-			toast.error("Failed to get Transaction fees.s");
+			toast.error(t.settings.teamMembers.messages.failedToGetTeamMembers);
 		},
 	});
 
@@ -57,13 +59,13 @@ const TeamMember = () => {
 			action: (
 				<div className="flex gap-2">
 					<CButton
-						text="Edit role"
+						text={t.settings.teamMembers.actions.editRole}
 						btnStyle="yellow"
 						height="30px"
 						onClick={() => handleEditModal(member.id)}
 					/>
 					<CButton
-						text="Delete"
+						text={t.settings.teamMembers.actions.delete}
 						btnStyle="red"
 						height="30px"
 						onClick={() => handleDeleteModal(member.id)}
@@ -81,13 +83,13 @@ const TeamMember = () => {
 	// };
 
 	const teamMembersHeaderData = {
-		serial: "#",
-		firts_name: "First Name",
-		last_name: "Last Name",
-		role_in_company: "Role in Company",
-		email: "Email",
-		status: "Status",
-		actions: "Actions",
+		serial: t.settings.teamMembers.table.serial,
+		firts_name: t.settings.teamMembers.table.firstName,
+		last_name: t.settings.teamMembers.table.lastName,
+		role_in_company: t.settings.teamMembers.table.roleInCompany,
+		email: t.settings.teamMembers.table.email,
+		status: t.settings.teamMembers.table.status,
+		actions: t.settings.teamMembers.table.actions,
 	};
 
 	const handleDeleteModal = async (memberId: string) => {
@@ -105,12 +107,12 @@ const TeamMember = () => {
 		mutationFn: (id: string) =>
 			SettingsService.delete_team_member({ token: currentToken, id }),
 		onSuccess: () => {
-			toast.success("Team member deleted successfully");
+			toast.success(t.settings.teamMembers.messages.teamMemberDeletedSuccess);
 			setDeleteModalVisible(false);
 			queryClient.invalidateQueries(["teamMembers", currentToken]);
 		},
 		onError: (err: any) => {
-			toast.error(err.message || "Failed to delete member");
+			toast.error(err.message || t.settings.teamMembers.messages.failedToDeleteMember);
 		},
 	});
 
@@ -123,11 +125,10 @@ const TeamMember = () => {
 	return (
 		<div className="p-4">
 			<h2 className="text-xl font-semibold text-gray-800">
-				Team Members
+				{t.settings.teamMembers.title}
 			</h2>
 			<p className="text-gray-600 text-sm mt-1 mb-4">
-				Manage your team members, assign roles, and control access
-				permissions.
+				{t.settings.teamMembers.description}
 			</p>
 
 			<CustomTable
@@ -136,7 +137,7 @@ const TeamMember = () => {
 				isLoading={teamMembersQuery.isLoading}
 				btn={
 					<CButton
-						text="Add New Team Member"
+						text={t.settings.teamMembers.actions.addNewTeamMember}
 						btnStyle="blue"
 						icon={<HiPlus />}
 						height="33px"
@@ -160,7 +161,7 @@ const TeamMember = () => {
 					<div className="p-8 w-[500px] bg-white rounded-2xl">
 						<div className="flex justify-between items-center">
 							<h1 className="text-2xl font-bold text-primary">
-								Confirm Delete
+								{t.settings.teamMembers.modals.deleteConfirmation.title}
 							</h1>
 							<button
 								className="hover:bg-gray-200 duration-300 p-1 rounded-md"
@@ -170,17 +171,16 @@ const TeamMember = () => {
 							</button>
 						</div>
 						<p>
-							Are you sure you want to delete this team member?
-							This action cannot be undone.
+							{t.settings.teamMembers.modals.deleteConfirmation.message}
 						</p>
 						<div className=" flex justify-start items-center gap-4 mt-8">
 							<CButton
-								text="Delete"
+								text={t.settings.teamMembers.modals.deleteConfirmation.delete}
 								btnStyle="red"
 								onClick={handleConfirmDelete}
 							/>
 							<CButton
-								text="Cancel"
+								text={t.settings.teamMembers.modals.deleteConfirmation.cancel}
 								btnStyle="blue"
 								onClick={() => setDeleteModalVisible(false)}
 							/>
