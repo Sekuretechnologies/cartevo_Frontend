@@ -1,136 +1,115 @@
-import Title from "@/components/shared/Title";
-import cstyle from "../styles/style.module.scss";
-import Link from "next/link";
-import { FaX } from "react-icons/fa6";
-import { usePathname, useSearchParams } from "next/navigation";
+import { TransactionService } from "@/api/services/v2/transaction";
 import { TDataList } from "@/components/cards/InfoCard";
-import {
-	checkCircleIcon,
-	ongoingCircleIcon,
-	haltCircleIcon,
-	transferIcon,
-	calendarIcon,
-	transferIconToday,
-	transferIconAvg,
-	transferIconTotal,
-	mobileMoneyIcon,
-	sekureIcon,
-	transferIconMomoToday,
-	transferIconMomoTotal,
-	transferIconSekureToday,
-	transferIconSekureTotal,
-} from "@/constants/Index";
-import CButton from "@/components/shared/CButton";
-import { FourDots } from "@/components/shared/icons";
-import { IoCopyOutline } from "react-icons/io5";
+import Title from "@/components/shared/Title";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
 	getFormattedDate,
 	getFormattedDateTime,
 	getFormattedTime,
 } from "@/utils/DateFormat";
 import {
-	categoryType,
 	getCategoryMode,
 	getCategoryModeV2,
 	getCategoryTypeV2,
 } from "@/utils/graphs";
-import { HashLoader } from "react-spinners";
 import classNames from "classnames";
-import { useMutation } from "react-query";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { TransactionService } from "@/api/services/v2/transaction";
-import CustomDropdown from "@/components/shared/CustomDropdown";
-import { RxDotsHorizontal } from "react-icons/rx";
+import { FaX } from "react-icons/fa6";
+import { useMutation } from "react-query";
+import { HashLoader } from "react-spinners";
+import cstyle from "../styles/style.module.scss";
 
-const infoData: TDataList[] = [
+// Create translated info data structure
+const getInfoData = (t: any): TDataList[] => [
 	[
 		[
 			{
 				key: "type",
-				label: { text: "Type", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.type,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", fw: "bold", color: "#444" },
 			},
 		],
 		[
 			{
 				key: "date",
-				label: { text: "Date", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.date,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", fw: "bold", color: "#444" },
 			},
 		],
 		[
 			{
 				key: "heure",
-				label: { text: "Time", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.time,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", fw: "bold", color: "#444" },
 			},
 		],
 		[
 			{
 				key: "status",
-				label: { text: "Status", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.status,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", fw: "bold", color: "#1F66FF" },
 			},
 		],
 		[
 			{
 				key: "name",
-				label: { text: "Name", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.name,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", color: "#444" },
 			},
 		],
-		// [
-		// 	{
-		// 		key: "phone",
-		// 		label: { text: "Téléphone", fw: "bold", color: "#444" },
-		// 		value: { text: "", color: "#444" },
-		// 	},
-		// ],
-		// [
-		// 	{
-		// 		key: "country",
-		// 		label: { text: "Pays", fw: "bold", color: "#444" },
-		// 		value: { text: "", color: "#444" },
-		// 	},
-		// ],
 		[
 			{
 				key: "masked_number",
-				label: { text: "Masked number", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.maskedNumber,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", color: "#444" },
 			},
 		],
 		[
 			{
 				key: "id",
-				label: { text: "Transaction ID", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels
+						.transactionId,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", color: "#444" },
 			},
 		],
-		// [
-		// 	{
-		// 		key: "trx_ref",
-		// 		label: { text: "Ref Transaction", fw: "bold", color: "#444" },
-		// 		value: { text: "", color: "#444" },
-		// 	},
-		// ],
-		// [
-		// 	{
-		// 		key: "order_id",
-		// 		label: {
-		// 			text: "Order ID",
-		// 			fw: "bold",
-		// 			color: "#444",
-		// 		},
-		// 		value: { text: "", color: "#444" },
-		// 	},
-		// ],
-
 		[
 			{
 				key: "merchant_name",
-				label: { text: "Merchant (name)", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.merchantName,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", color: "#444" },
 			},
 		],
@@ -138,7 +117,8 @@ const infoData: TDataList[] = [
 			{
 				key: "merchant_country",
 				label: {
-					text: "Merchant (country)",
+					text: t.cards.modals.transactionDetails.labels
+						.merchantCountry,
 					fw: "bold",
 					color: "#444",
 				},
@@ -148,21 +128,24 @@ const infoData: TDataList[] = [
 		[
 			{
 				key: "merchant_city",
-				label: { text: "Merchant (city)", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.merchantCity,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", color: "#444" },
 			},
 		],
-		// [{
-		//     key: 'phone2',
-		//     label:{text: 'Téléphone débiteur', fw:"bold", color:"#444"},
-		//     value:{text:"+237 699 58 62 35", color:"#444"}
-		// }],
 	],
 	[
 		[
 			{
 				key: "amount",
-				label: { text: "Amount (USD)", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.amount,
+					fw: "bold",
+					color: "#444",
+				},
 				value: { text: "", fw: "bold", color: "#444" },
 			},
 		],
@@ -170,7 +153,7 @@ const infoData: TDataList[] = [
 			{
 				key: "fee",
 				label: {
-					text: "Fee",
+					text: t.cards.modals.transactionDetails.labels.fee,
 					fw: "bold",
 					color: "#444",
 				},
@@ -180,7 +163,11 @@ const infoData: TDataList[] = [
 		[
 			{
 				key: "description",
-				label: { text: "Description", fw: "bold", color: "#444" },
+				label: {
+					text: t.cards.modals.transactionDetails.labels.description,
+					fw: "bold",
+					color: "#444",
+				},
 				value: {
 					text: "",
 					color: "#444",
@@ -189,58 +176,6 @@ const infoData: TDataList[] = [
 				},
 			},
 		],
-		// [
-		// 	{
-		// 		key: "reason",
-		// 		label: { text: "Motif", fw: "bold", color: "#444" },
-		// 		value: {
-		// 			text: "",
-		// 			color: "#444",
-		// 			maxWidth: "200px",
-		// 			whiteSpace: "wrap",
-		// 		},
-		// 	},
-		// ],
-		// [
-		// 	{
-		// 		key: "author",
-		// 		label: { text: "Fait par", fw: "bold", color: "#444" },
-		// 		value: { text: "", color: "#444" },
-		// 	},
-		// ],
-		// [
-		// 	{
-		// 		key: "customer_phone",
-		// 		label: {
-		// 			text: "Fait pour (telephone)",
-		// 			fw: "bold",
-		// 			color: "#444",
-		// 		},
-		// 		value: { text: "", color: "#444" },
-		// 	},
-		// ],
-		// [
-		// 	{
-		// 		key: "customer_name",
-		// 		label: { text: "Fait pour (nom)", fw: "bold", color: "#444" },
-		// 		value: { text: "", color: "#444" },
-		// 	},
-		// ],
-		// [{
-		//     key: 'amount',
-		//     label:{text: 'Montant débité', fw:"bold", color:"#444"},
-		//     value:{text:"50 350 XAF", fw:"bold", color:"#F85D4B"}
-		// }],
-		// [{
-		//     key: '',
-		//     label:{text: 'Solde préc.', fw:"bold", color:"#444"},
-		//     value:{text:"353 000 XAF", color:"#444"}
-		// }],
-		// [{
-		//     key: '',
-		//     label:{text: 'Nouv. solde', fw:"bold", color:"#444"},
-		//     value:{text:"225 000 XAF", fw:"bold", color:"#1F66FF"}
-		// }],
 	],
 ];
 
@@ -287,6 +222,7 @@ export default function TransactionModal({
 	customer,
 	setIsOpen,
 }: TransferModalProps) {
+	const { t }: { t: any } = useTranslation();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	// const dispatch = useDispatch();
@@ -299,7 +235,8 @@ export default function TransactionModal({
 	const itemData = (
 		itm: ItmInterface,
 		infoData: TDataList[],
-		customer: any
+		customer: any,
+		t: any
 	): TDataList[] => {
 		// Assuming TDataList is an array of arrays or a similar structure that supports forEach
 		let modifiedInfoData: TDataList[] = JSON.parse(
@@ -335,8 +272,9 @@ export default function TransactionModal({
 				data.forEach((line, lineIndex) => {
 					line.forEach((x, xIndex) => {
 						if (key.toString() === String(x.key)) {
-						if (key.toString() === "name") {
-							x.value.text = `${customerLastName} ${customerFirstName}`.trim();
+							if (key.toString() === "name") {
+								x.value.text =
+									`${customerLastName} ${customerFirstName}`.trim();
 							} else if (key.toString() === "oldNew") {
 								x.value.text = itm?.is_from_v1
 									? "Ancien"
@@ -345,7 +283,7 @@ export default function TransactionModal({
 									? "#444"
 									: "#1F66FF";
 							} else if (key.toString() === "masked_number") {
-								x.value.text = itm?.cardDetails?.masked_number;
+								x.value.text = itm?.card?.masked_number;
 							} else if (key.toString() === "customer_phone") {
 								x.value.text = `${itm?.phone}`;
 							} else if (key.toString() === "customer_name") {
@@ -360,8 +298,8 @@ export default function TransactionModal({
 								x.value.text = getFormattedTime(
 									itm["created_at"]
 								);
-						} else if (key.toString() === "phone") {
-							x.value.text = customerPhone;
+							} else if (key.toString() === "phone") {
+								x.value.text = customerPhone;
 							} else if (key.toString() === "merchant_name") {
 								x.value.text = itm.merchant?.name ?? "";
 							} else if (key.toString() === "merchant_country") {
@@ -488,25 +426,30 @@ export default function TransactionModal({
 								x.value.text = itm[key]?.name ?? "";
 							} else if (key.toString() === "status") {
 								if (itm[key] === "SUCCESS") {
-									x.value.text = "Réussi";
+									x.value.text =
+										t.cards.modals.transactionDetails.statusValues.success;
 									x.value.color = "#1F66FF";
 								} else if (itm[key] === "FAILED") {
-									x.value.text = "Echec"; //'Echoué';
+									x.value.text =
+										t.cards.modals.transactionDetails.statusValues.failed;
 									x.value.color = "#F85D4B";
 								} else if (
 									itm[key] === "PENDING" ||
 									itm[key] === "pending"
 								) {
-									x.value.text = "En cours";
+									x.value.text =
+										t.cards.modals.transactionDetails.statusValues.pending;
 									x.value.color = "orange";
 								} else if (
 									itm[key] === "CANCELLED" ||
 									itm[key] === "CANCELED"
 								) {
-									x.value.text = "En cours";
+									x.value.text =
+										t.cards.modals.transactionDetails.statusValues.cancelled;
 									x.value.color = "#777";
 								} else if (itm[key] === "INITIATED") {
-									x.value.text = "Initial";
+									x.value.text =
+										t.cards.modals.transactionDetails.statusValues.initiated;
 									x.value.color = "#007FFF";
 								}
 							} else if (key.toString() === "created_at") {
@@ -557,13 +500,13 @@ export default function TransactionModal({
 		onError: (err: any) => {
 			console.error("onError : ", err.message);
 			toast.error(
-				`Erreur lors de la verification de la transaction : ${err.message}`
+				`${t.cards.modals.transactionDetails.messages.verificationError} : ${err.message}`
 			);
 		},
 		onSuccess: (data) => {
 			console.log("onSuccess : ", data);
 			toast.success(
-				`La verification de la transaction a été effectuée avec succès`
+				t.cards.modals.transactionDetails.messages.verificationSuccess
 			);
 			redirectRef.current.href = `${window.location.pathname}?${searchParams}`;
 			redirectRef.current.click();
@@ -580,13 +523,13 @@ export default function TransactionModal({
 		onError: (err: any) => {
 			console.error("onError : ", err.message);
 			toast.error(
-				`Erreur lors de la verification de la transaction : ${err.message}`
+				`${t.cards.modals.transactionDetails.messages.verificationError} : ${err.message}`
 			);
 		},
 		onSuccess: (data) => {
 			console.log("onSuccess : ", data);
 			toast.success(
-				`La verification de la transaction a été effectuée avec succès`
+				t.cards.modals.transactionDetails.messages.verificationSuccess
 			);
 			setPartnerTrx(data);
 			// redirectRef.current.href = `${window.location.pathname}${searchParams}`;
@@ -617,7 +560,7 @@ export default function TransactionModal({
 	return (
 		<div className="bg-white m-auto p-8 rounded-md">
 			<div className="flex justify-between mb-5">
-				<Title title={"Details de la transaction"} />
+				<Title title={t.cards.modals.transactionDetails.title} />
 				{/* {customer.name} */}
 				<div className="flex justify-end items-center gap-5">
 					{/* {item?.category === "wallet" ||
@@ -698,60 +641,72 @@ export default function TransactionModal({
 				</>
 			) : (
 				<div className={`${cstyle["dualGrid"]}`}>
-					{itemData(item, infoData, customer).map((data, index) => (
-						<div key={index} className={``}>
-							{data.map((line, index1) => (
-								<div
-									key={index1}
-									className={`flex flex-wrap justify-between items-center mx-1`}
-								>
-									{line.map((item, index2) => (
-										<div
-											key={index2}
-											className={`my-3 grid grid-cols-2 gap-3 w-full`}
-										>
-											<span
-												title={item.label.tooltip ?? ""}
-												style={{
-													fontSize:
-														item.label.fs ?? "14px",
-													color:
-														item.label.color ??
-														"#444",
-												}}
-												className={`font-${
-													item.label.fw ?? "normal"
-												}`}
+					{itemData(item, getInfoData(t), customer, t).map(
+						(data, index) => (
+							<div key={index} className={``}>
+								{data.map((line, index1) => (
+									<div
+										key={index1}
+										className={`flex flex-wrap justify-between items-center mx-1`}
+									>
+										{line.map((item, index2) => (
+											<div
+												key={index2}
+												className={`my-3 grid grid-cols-2 gap-3 w-full`}
 											>
-												{item.label.text}
-											</span>
-											<span
-												title={item.value.tooltip ?? ""}
-												style={{
-													maxWidth:
-														item.value.maxWidth ??
-														"unset",
-													whiteSpace:
-														item.value.whiteSpace ??
-														"unset",
-													fontSize:
-														item.value.fs ?? "14px",
-													color:
-														item.value.color ??
-														"#444",
-												}}
-												className={`font-${
-													item.value.fw ?? "normal"
-												}`}
-											>
-												{item.value.text}
-											</span>
-										</div>
-									))}
-								</div>
-							))}
-						</div>
-					))}
+												<span
+													title={
+														item.label.tooltip ?? ""
+													}
+													style={{
+														fontSize:
+															item.label.fs ??
+															"14px",
+														color:
+															item.label.color ??
+															"#444",
+													}}
+													className={`font-${
+														item.label.fw ??
+														"normal"
+													}`}
+												>
+													{item.label.text}
+												</span>
+												<span
+													title={
+														item.value.tooltip ?? ""
+													}
+													style={{
+														maxWidth:
+															item.value
+																.maxWidth ??
+															"unset",
+														whiteSpace:
+															item.value
+																.whiteSpace ??
+															"unset",
+														fontSize:
+															item.value.fs ??
+															"14px",
+														color:
+															item.value.color ??
+															"#444",
+													}}
+													className={`font-${
+														item.value.fw ??
+														"normal"
+													}`}
+												>
+													{item.value.text}
+												</span>
+											</div>
+										))}
+									</div>
+								))}
+							</div>
+						)
+					)}
 				</div>
 			)}
 

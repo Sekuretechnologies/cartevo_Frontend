@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { headerWalletTransactionData } from "@/constants/TransactionData";
 import { useTitle } from "@/hooks/useTitle";
+import { useTranslation } from "@/hooks/useTranslation";
 import { selectCurrentToken, selectCurrentUser } from "@/redux/slices/auth";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import classNames from "classnames";
@@ -65,7 +66,8 @@ const getWalletTransactions = async ({ queryKey }: any) => {
 };
 
 export default function WalletDetailsPage() {
-	useTitle("Cartevo | Wallet details", true);
+	const { t }: { t: any } = useTranslation();
+	useTitle(t.wallets.detail.pageTitle, true);
 	const { id } = useParams();
 	const router = useRouter();
 	const token: any = useSelector(selectCurrentToken);
@@ -195,7 +197,7 @@ export default function WalletDetailsPage() {
 							return (
 								<BadgeLabel
 									className="text-xs"
-									label="Success"
+									label={t.wallets.labels.status.success}
 									badgeColor="#1F66FF"
 									textColor="#444"
 								/>
@@ -205,7 +207,7 @@ export default function WalletDetailsPage() {
 							return (
 								<BadgeLabel
 									className="text-xs"
-									label="Failed"
+									label={t.wallets.labels.status.failed}
 									badgeColor="#F85D4B"
 									textColor="#444"
 								/>
@@ -214,7 +216,7 @@ export default function WalletDetailsPage() {
 							return (
 								<BadgeLabel
 									className="text-xs"
-									label="Pending"
+									label={t.wallets.labels.status.pending}
 									badgeColor="#FFAC1C"
 									textColor="#444"
 								/>
@@ -224,7 +226,7 @@ export default function WalletDetailsPage() {
 							return (
 								<BadgeLabel
 									className="text-xs"
-									label="Cancelled"
+									label={t.wallets.labels.status.cancelled}
 									badgeColor="#444"
 									textColor="#444"
 								/>
@@ -618,7 +620,7 @@ export default function WalletDetailsPage() {
 		}
 	};
 	return (
-		<Layout title={"Wallet Details"}>
+		<Layout title={t.wallets.detail.mainTitle}>
 			<section className="mt-2">
 				{walletQuery.status === "loading" ? (
 					<div
@@ -641,13 +643,13 @@ export default function WalletDetailsPage() {
 						{/* Wallet Information Card */}
 						<div className="bg-white shadow-md rounded-xl p-6 mb-6">
 							<div className="flex items-center justify-between mb-6">
-								<Title title="Wallet Information" />
+								<Title title={t.wallets.detail.informationTitle} />
 								<BadgeLabel
 									className="text-xs"
 									label={
 										walletDetails.active
-											? "Active"
-											: "Inactive"
+											? t.wallets.detail.active
+											: t.wallets.detail.inactive
 									}
 									badgeColor={
 										walletDetails.active
@@ -663,7 +665,7 @@ export default function WalletDetailsPage() {
 									<div className="w-3/4">
 										<div className="flex items-center gap-3 mb-2">
 											<span className="text-sm font-medium text-gray-600">
-												Total Balance
+												{t.wallets.detail.totalBalance}
 											</span>
 											{walletDetails.country_iso_code && (
 												<span className="flex items-center overflow-hidden rounded-full h-[30px] w-[30px]">
@@ -689,7 +691,7 @@ export default function WalletDetailsPage() {
                                         </div>
 										<div className="mt-2 space-y-1">
 											<div className="flex items-center  text-sm text-gray-600">
-												<span>Main Balance</span>
+												<span>{t.wallets.detail.mainBalance}</span>
                                                 <span className="font-medium text-gray-900 ml-[20%]">
                                                     <RollingText
                                                         text={
@@ -704,7 +706,7 @@ export default function WalletDetailsPage() {
                                                 </span>
 											</div>
 											<div className="flex items-center  text-sm text-gray-600">
-												<span>Collected Balance</span>
+												<span>{t.wallets.detail.collectedBalance}</span>
                                                 <span className="font-medium text-gray-900 ml-[20%]">
                                                     <RollingText
                                                         text={
@@ -722,7 +724,7 @@ export default function WalletDetailsPage() {
 									</div>
 									<div className="mt-3 flex flex-col gap-2  w-2/4 ">
 										<CButton
-											text={"Fund"}
+											text={t.wallets.actions.fund}
 											btnStyle={"blue"}
 											icon={
 												<MdOutlineFileDownload
@@ -742,7 +744,7 @@ export default function WalletDetailsPage() {
 
 										<div className="relative w-full  ">
 											<CButton
-												text={"Actions"}
+												text={t.wallets.actions.actions}
 												btnStyle={"outlineDark"}
 												icon={
 													<MoreVertical size={16} />
@@ -796,7 +798,7 @@ export default function WalletDetailsPage() {
 															);
 														}}
 													>
-														Transfer to PayOut
+														{t.wallets.modals.actionsMenu.transferToPayout}
 													</button>
 													<button
 														className="w-full text-left px-3 py-2 rounded-md hover:bg-blue-50 text-sm text-gray-800"
@@ -809,8 +811,7 @@ export default function WalletDetailsPage() {
 															);
 														}}
 													>
-														Transfer to another
-														wallet
+														{t.wallets.modals.actionsMenu.transferToAnotherWallet}
 													</button>
 												</div>
 											)}
@@ -822,7 +823,7 @@ export default function WalletDetailsPage() {
 								<div className="border-neutral-100 border-2 bg-white p-4 rounded-lg flex shadow-sm">
 									<div className="w-3/4">
 										<div className="text-sm font-medium text-gray-600 mb-1">
-											PayOut Balance
+											{t.wallets.detail.payOutBalance}
 										</div>
 										<div className="text-2xl font-bold text-red-600">
 											{walletDetails.payout_balance?.toLocaleString(
@@ -849,7 +850,7 @@ export default function WalletDetailsPage() {
 
 										<div className="w-full h-full flex ">
 											<CButton
-												text={"withdraw"}
+												text={t.wallets.modals.withdraw.withdraw}
 												btnStyle={"red"}
 												onClick={() =>
 													setShowWithdrawModal(true)
@@ -871,7 +872,7 @@ export default function WalletDetailsPage() {
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
 									<div>
 										<span className="font-medium text-gray-600">
-											Wallet ID:
+											{t.wallets.detail.walletId}
 										</span>
 										<span className="ml-2 text-gray-900 font-mono">
 											{walletDetails.id}
@@ -879,7 +880,7 @@ export default function WalletDetailsPage() {
 									</div>
 									<div>
 										<span className="font-medium text-gray-600">
-											Company:
+											{t.wallets.detail.company}
 										</span>
 										<span className="ml-2 text-gray-900">
 											{walletDetails.company
@@ -895,7 +896,7 @@ export default function WalletDetailsPage() {
 									</div>
 									<div>
 										<span className="font-medium text-gray-600">
-											Created:
+											{t.wallets.detail.created}
 										</span>
 										<span className="ml-2 text-gray-900">
 											{getFormattedDateTime(
@@ -906,7 +907,7 @@ export default function WalletDetailsPage() {
 									</div>
 									<div>
 										<span className="font-medium text-gray-600">
-											Last Updated:
+											{t.wallets.detail.updated}
 										</span>
 										<span className="ml-2 text-gray-900">
 											{getFormattedDateTime(
@@ -923,10 +924,10 @@ export default function WalletDetailsPage() {
 									<div className="mt-6 pt-6 border-t border-gray-200">
 										<div className="flex items-center justify-between mb-4">
 											<h3 className="text-lg font-semibold text-gray-900">
-												Associated Phone Numbers
+												{t.wallets.detail.phoneNumbersTitle}
 											</h3>
 											<CButton
-												text={"+ Add"}
+												text={t.wallets.detail.addPhone}
 												btnStyle={"blue"}
 												onClick={() => {
 													setNewPhone({
@@ -1026,10 +1027,10 @@ export default function WalletDetailsPage() {
 							{/* Transactions Section */}
 							<div className="bg-white shadow-md rounded-xl p-5">
 								<div className="mb-5">
-									<Title title="Wallet Transaction History" />
+									<Title title={t.wallets.detail.trxHistoryTitle} />
 									<p className="text-sm text-gray-600 mt-2">
-										All transactions for this{" "}
-										{walletDetails.currency} wallet
+										{t.wallets.detail.trxHistorySubtitlePrefix}{" "}
+										{walletDetails.currency} {t.wallets.detail.trxHistorySubtitleSuffix}
 									</p>
 								</div>
 								{tableData.length > 0 ? (
@@ -1045,11 +1046,10 @@ export default function WalletDetailsPage() {
 								) : (
 									<div className="text-center py-8">
 										<div className="text-gray-500 text-lg mb-2">
-											No transactions found
+											{t.wallets.overview.noTransactionsTitle}
 										</div>
 										<div className="text-gray-400 text-sm">
-											{`This wallet doesn't have any
-											transactions yet`}
+											{t.wallets.overview.noTransactionsSubtitle}
 										</div>
 									</div>
 								)}
@@ -1060,147 +1060,47 @@ export default function WalletDetailsPage() {
 					<div className="flex justify-center w-full py-10">
 						<div className="text-center">
 							<div className="text-gray-500 text-lg">
-								Wallet not found
+								{t.wallets.detail.walletNotFound}
 							</div>
 							<button
 								onClick={() => router.back()}
 								className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
 							>
-								Go Back
+								{t.wallets.actions.goBack}
 							</button>
 						</div>
 					</div>
 				)}
 			</section>
 			{/* Modals */}
-			{/* PAYIN -> PAYOUT */}
+			{/* Transfer to PayOut Modal - Using existing TransferPayInPayOutModal */}
 			<Modal
 				name="totalToPayOut"
 				isOpen={showTotalToPayOutModal}
 				setIsOpen={setShowTotalToPayOutModal}
-				modalContent={(() => {
-					const amountNum = Number(totalToPayOutAmount) || 0;
-					const available = Number(totalBalance || 0);
-					const hasError = amountNum <= 0 || amountNum > available;
-					return (
-						<div className="bg-white rounded-lg p-6 w-[400px] relative">
-							<h2 className="text-xl font-bold mb-4">
-								Total{" "}
-								<Replace className="inline-block -rotate-180 mx-2 -mt-1.5" />{" "}
-								PayOut
-							</h2>
-							<div className="space-y-4">
-								<div>
-									<label className="flex justify-between items-center  text-sm font-medium text-gray-700 mb-2">
-										<span>
-											Amount ({walletDetails?.currency})
-										</span>
-										<span className="text-xs">
-											Available:{" "}
-											{available.toLocaleString()}{" "}
-											{walletDetails?.currency}
-										</span>
-									</label>
-									<input
-										type="number"
-										value={totalToPayOutAmount}
-										onChange={(e) =>
-											setTotalToPayOutAmount(
-												e.target.value
-											)
-										}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none "
-										placeholder={`Enter amount in ${walletDetails?.currency}`}
-										min="1"
-										step="0.01"
-									/>
-								</div>
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										Reason (Optional)
-									</label>
-									<input
-										type="text"
-										value={totalToPayOutReason}
-										onChange={(e) =>
-											setTotalToPayOutReason(
-												e.target.value
-											)
-										}
-										className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
-										placeholder="Enter reason for transfer"
-									/>
-								</div>
-								{amountNum > 0 && (
-									<div className="bg-gray-50 p-4 rounded-md space-y-2 text-sm">
-										<div className="flex justify-between">
-											<span className="font-medium">
-												From Main:
-											</span>
-											<span className="font-bold text-red-600">
-												-
-												{Math.min(
-													amountNum,
-													Number(
-														walletDetails?.balance ||
-															0
-													)
-												).toLocaleString()}{" "}
-												{walletDetails?.currency}
-											</span>
-										</div>
-										<div className="flex justify-between">
-											<span className="font-medium">
-												From PayIn:
-											</span>
-											<span className="font-bold text-red-600">
-												-
-												{Math.max(
-													amountNum -
-														Number(
-															walletDetails?.balance ||
-																0
-														),
-													0
-												).toLocaleString()}{" "}
-												{walletDetails?.currency}
-											</span>
-										</div>
-										<div className="flex justify-between">
-											<span className="font-medium">
-												To PayOut:
-											</span>
-											<span className="font-bold text-green-600">
-												+{amountNum.toLocaleString()}{" "}
-												{walletDetails?.currency}
-											</span>
-										</div>
-									</div>
-								)}
-							</div>
-							<div className="flex gap-3 justify-end mt-6">
-								<CButton
-									text="Cancel"
-									btnStyle="outlineDark"
-									onClick={() =>
-										setShowTotalToPayOutModal(false)
-									}
-								/>
-								<CButton
-									text={
-										isTransferring
-											? "Processing..."
-											: "Transfer"
-									}
-									btnStyle="blue"
-									onClick={submitTotalToPayOut}
-									disabled={hasError}
-								/>
-							</div>
-							<LoadingOverlay isLoading={isTransferring} />
-						</div>
-					);
-				})()}
+				modalContent={
+					<TransferPayInPayOutModal
+						setIsOpen={setShowTotalToPayOutModal}
+						onSubmit={(data) => {
+							// Handle the complex transfer logic for "Total to PayOut"
+							handleTransferPayInPayOut({
+								...data,
+								direction: "MAIN_TO_PAYOUT", // Force this direction for total transfer
+							});
+						}}
+						isLoading={isTransferring}
+						isSuccess={false}
+						isError={false}
+						source="MAIN"
+						wallet={{
+							id: walletDetails?.id || "",
+							currency: walletDetails?.currency || "",
+							balance: totalBalance || 0, // Use total balance for this special case
+							payin_balance: walletDetails?.payin_balance || 0,
+							payout_balance: walletDetails?.payout_balance || 0,
+						}}
+					/>
+				}
 			/>
 			<Modal
 				name="fundWallet"
@@ -1809,7 +1709,7 @@ export default function WalletDetailsPage() {
 				modalContent={
 					<div className="bg-white rounded-lg p-6 w-[420px] relative">
 						<h2 className="text-xl font-bold mb-4">
-							Add Phone Number
+							{t.wallets.modals.phones.addPhoneTitle}
 						</h2>
 						<div className="space-y-4">
 							<div className="flex items-center gap-3">
@@ -1849,7 +1749,7 @@ export default function WalletDetailsPage() {
 							)}
 							<div>
 								<label className="block text-sm font-medium text-gray-700 mb-2">
-									Operator
+									{t.wallets.modals.phones.operator}
 								</label>
 								{(() => {
 									const operators = (
@@ -1872,7 +1772,7 @@ export default function WalletDetailsPage() {
 											}
 										>
 											<SelectTrigger className="w-full">
-												<SelectValue placeholder="Select operator" />
+												<SelectValue placeholder={t.wallets.modals.phones.selectOperatorPh} />
 											</SelectTrigger>
 											<SelectContent className="z-[12000]">
 												{operators.map((op: any) => (
@@ -1898,12 +1798,12 @@ export default function WalletDetailsPage() {
 						</div>
 								<div className="flex gap-3 justify-end mt-6 relative">
 							<CButton
-								text="Cancel"
+								text={t.wallets.modals.phones.cancel}
 								btnStyle="outlineDark"
 								onClick={() => setShowAddPhoneModal(false)}
 							/>
 							<CButton
-								text={isSavingPhone ? "Saving..." : "Save"}
+								text={isSavingPhone ? t.wallets.modals.phones.saving : t.wallets.modals.phones.save}
 								btnStyle="blue"
 								onClick={handleAddPhone}
 								disabled={isSavingPhone}
@@ -1932,24 +1832,24 @@ export default function WalletDetailsPage() {
 				modalContent={
 					<div className="bg-white rounded-lg p-6 w-[380px]">
 						<h2 className="text-lg font-bold mb-2">
-							Supprimer le numéro
+							{t.wallets.modals.phones.deleteTitle}
 						</h2>
 						<p className="text-sm text-gray-600">
-							Êtes-vous sûr de vouloir supprimer ce numéro{" "}
+							{t.wallets.modals.phones.deleteConfirm}{" "}
 							{selectedPhone?.country_phone_code}{" "}
 							{selectedPhone?.phone_number} ?
 						</p>
 						<div className="flex gap-3 justify-end mt-6">
 							<CButton
-								text="Annuler"
+								text={t.wallets.modals.phones.deleteCancel}
 								btnStyle="outlineDark"
 								onClick={() => setShowDeletePhoneModal(false)}
 							/>
 							<CButton
 								text={
 									isDeletingPhoneId === selectedPhone?.id
-										? "Suppression..."
-										: "Supprimer"
+										? t.wallets.modals.phones.deleting
+										: t.wallets.modals.phones.delete
 								}
 								btnStyle="red"
 								onClick={async () => {
@@ -1996,7 +1896,7 @@ export default function WalletDetailsPage() {
 				modalContent={
 					<div className="bg-white rounded-lg p-6 w-[370px] relative">
 						<h2 className="text-xl font-bold mb-4">
-							Modifier le numéro
+							{t.wallets.modals.phones.editTitle}
 						</h2>
 						<div className="flex items-center">
 							<PhoneInput
@@ -2028,12 +1928,12 @@ export default function WalletDetailsPage() {
 						</div>
 							<div className="flex gap-3 justify-end mt-6 relative">
 							<CButton
-								text="Annuler"
+								text={t.wallets.modals.phones.editCancel}
 								btnStyle="outlineDark"
 								onClick={() => setShowEditPhoneModal(false)}
 							/>
 							<CButton
-									text={isUpdatingPhone ? "Enregistrement..." : "Enregistrer"}
+									text={isUpdatingPhone ? t.wallets.modals.phones.editSaving : t.wallets.modals.phones.editSave}
 								btnStyle="blue"
 								onClick={async () => {
 									if (!selectedPhone?.id) return;

@@ -6,6 +6,7 @@ import BtnTrio from "@/components/shared/BtnTrio";
 import SearchBar from "@/components/shared/SearchBar";
 import { Separator } from "@/components/ui/separator";
 import Title from "@/components/shared/Title";
+import { useTranslation } from "@/hooks/useTranslation";
 import CustomTable from "@/components/shared/CustomTable";
 import { headerUserAccountData, tableUserAccountData } from "@/constants/Index";
 import CButton from "@/components/shared/CButton";
@@ -43,6 +44,7 @@ type Props = {
 };
 
 const Transactions = ({ search, setSearch }: Props) => {
+	const { t }: { t: any } = useTranslation();
 	const [filterContent, setFilterContent] = useState({});
 
 	const cardTransactions: any = useSelector(selectCardTransactions);
@@ -66,21 +68,21 @@ const Transactions = ({ search, setSearch }: Props) => {
 					item.status == "SUCCESS" ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"Réussi"}
+							label={t.wallets.labels.status.success}
 							badgeColor={"#1F66FF"}
 							textColor={"#444"}
 						/>
 					) : item.status == "FAILED" ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"Echec"}
+							label={t.wallets.labels.status.failed}
 							badgeColor={"#F85D4B"}
 							textColor={"#444"}
 						/>
 					) : item.status?.toUpperCase() == "PENDING" ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"En cours"}
+							label={t.wallets.labels.status.pending}
 							badgeColor={"#FFAC1C"}
 							textColor={"#444"}
 						/>
@@ -88,7 +90,7 @@ const Transactions = ({ search, setSearch }: Props) => {
 					  item.status == "CANCELED" ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"Suspendu"}
+							label={t.wallets.labels.status.cancelled}
 							badgeColor={"#444"}
 							textColor={"#444"}
 						/>
@@ -100,7 +102,7 @@ const Transactions = ({ search, setSearch }: Props) => {
 					<>
 						<div className="flex gap-5">
 							<CButton
-								text={"Details"}
+								text={t.cards.details.actions.details}
 								// href={`?transaction${index + 1}=true`}
 								onClick={() => setIsOpen(index)}
 								btnStyle={"outlineDark"}
@@ -133,7 +135,7 @@ const Transactions = ({ search, setSearch }: Props) => {
 		<section className="p-0 md:p-6 pt-6 md:pt-0">
 			<div className="">
 				<div className="mb-5">
-					<Title size={20} title={"Card transactions"} />
+					<Title size={20} title={t.cards.details.transactions.title} />
 				</div>
 				<CustomTable
 					headerData={headerTransactionData}

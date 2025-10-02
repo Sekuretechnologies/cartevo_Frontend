@@ -1,6 +1,7 @@
 import { SettingsService } from "@/api/services/cartevo-api/settings";
 import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
+import { useTranslation } from "@/hooks/useTranslation";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import {
 	CreateTransactionFeeRequest,
@@ -26,6 +27,7 @@ const getTransactionFees = async ({ queryKey }: any) => {
 };
 
 const TransactionFees = () => {
+	const { t }: { t: any } = useTranslation();
 	const currentToken: any = useSelector(selectCurrentToken);
 	const queryClient = useQueryClient();
 
@@ -39,7 +41,7 @@ const TransactionFees = () => {
 		queryKey: ["transactionFees", currentToken],
 		queryFn: getTransactionFees,
 		onError: (err) => {
-			toast.error("Failed to get transaction fees.");
+			toast.error(t.settings.transactionFees.messages.failedToGetTransactionFees);
 		},
 	});
 
@@ -48,11 +50,11 @@ const TransactionFees = () => {
 			SettingsService.delete_transaction_fee({ token: currentToken, id }),
 		{
 			onSuccess: () => {
-				toast.success("Transaction fee deleted successfully!");
+				toast.success(t.settings.transactionFees.messages.transactionFeeDeletedSuccess);
 				queryClient.invalidateQueries(["transactionFees"]);
 			},
 			onError: (error: any) => {
-				toast.error("Failed to delete transaction fee");
+				toast.error(t.settings.transactionFees.messages.failedToDeleteTransactionFee);
 			},
 		}
 	);
@@ -65,7 +67,7 @@ const TransactionFees = () => {
 	const handleDeleteTransactionFee = (id: string) => {
 		if (
 			window.confirm(
-				"Are you sure you want to delete this transaction fee?"
+				t.settings.transactionFees.messages.areYouSureDeleteTransactionFee
 			)
 		) {
 			deleteTransactionFeeMutation.mutate(id);
@@ -116,14 +118,14 @@ const TransactionFees = () => {
 		) || [];
 
 	const transactionFeesHeaderData = {
-		serial: "#",
+		serial: t.settings.transactionFees.table.serial,
 		// type: "Type",
 		// category: "Category",
 		// country: "Country",
 		// currency: "Currency",
 		// feeType: "Fee Type",
-		description: "Description",
-		value: "Value",
+		description: t.settings.transactionFees.table.description,
+		value: t.settings.transactionFees.table.value,
 		// date: "Created",
 		// actions: "Actions",
 	};
@@ -132,11 +134,10 @@ const TransactionFees = () => {
 		<div className=" p-5">
 			<div className="mb-4">
 				<h2 className="text-xl font-semibold text-gray-800">
-					Transaction Fees
+					{t.settings.transactionFees.title}
 				</h2>
 				<p className="text-gray-600 text-sm mt-1">
-					Configure transaction fees for different payment types and
-					countries
+					{t.settings.transactionFees.description}
 				</p>
 			</div>
 			<CustomTable
@@ -145,7 +146,7 @@ const TransactionFees = () => {
 				isLoading={transactionFeesQuery.isLoading}
 				// btn={
 				// 	<CButton
-				// 		text="Add Transaction Fee"
+				// 		text={t.settings.transactionFees.actions.addTransactionFee}
 				// 		btnStyle="blue"
 				// 		icon={<HiPlus />}
 				// 		onClick={() => {

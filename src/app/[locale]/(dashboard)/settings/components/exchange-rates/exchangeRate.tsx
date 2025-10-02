@@ -1,6 +1,7 @@
 import { SettingsService } from "@/api/services/cartevo-api/settings";
 import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
+import { useTranslation } from "@/hooks/useTranslation";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import {
 	CreateExchangeRateRequest,
@@ -25,6 +26,7 @@ const getExchangeRates = async ({ queryKey }: any) => {
 };
 
 const ExchangeRateComponents = () => {
+	const { t }: { t: any } = useTranslation();
 	const currentToken: any = useSelector(selectCurrentToken);
 	const queryClient = useQueryClient();
 
@@ -37,7 +39,7 @@ const ExchangeRateComponents = () => {
 		queryKey: ["exchangeRates", currentToken],
 		queryFn: getExchangeRates,
 		onError: (err) => {
-			toast.error("Failed to get exchange rates.");
+			toast.error(t.settings.exchangeRates.messages.failedToGetExchangeRates);
 		},
 	});
 
@@ -46,11 +48,11 @@ const ExchangeRateComponents = () => {
 			SettingsService.delete_exchange_rate({ token: currentToken, id }),
 		{
 			onSuccess: () => {
-				toast.success("Exchange rate deleted successfully!");
+				toast.success(t.settings.exchangeRates.messages.exchangeRateDeletedSuccess);
 				queryClient.invalidateQueries(["exchangeRates"]);
 			},
 			onError: (error: any) => {
-				toast.error("Failed to delete exchange rate");
+				toast.error(t.settings.exchangeRates.messages.failedToDeleteExchangeRate);
 			},
 		}
 	);
@@ -112,13 +114,13 @@ const ExchangeRateComponents = () => {
 		})) || [];
 
 	const exchangeRatesHeaderData = {
-		serial: "#",
-		fromCurrency: "From",
-		toCurrency: "To",
-		rate: "Rate",
+		serial: t.settings.exchangeRates.table.serial,
+		fromCurrency: t.settings.exchangeRates.table.from,
+		toCurrency: t.settings.exchangeRates.table.to,
+		rate: t.settings.exchangeRates.table.rate,
 		// source: "Source",
 		// status: "Status",
-		description: "Description",
+		description: t.settings.exchangeRates.table.description,
 		// date: "Created",
 		// actions: "Actions",
 	};
@@ -126,10 +128,10 @@ const ExchangeRateComponents = () => {
 		<div className=" p-5">
 			<div className="mb-4">
 				<h2 className="text-xl font-semibold text-gray-800">
-					Exchange Rates
+					{t.settings.exchangeRates.title}
 				</h2>
 				<p className="text-gray-600 text-sm mt-1">
-					Manage currency exchange rates for your platform
+					{t.settings.exchangeRates.description}
 				</p>
 			</div>
 			<CustomTable
@@ -138,7 +140,7 @@ const ExchangeRateComponents = () => {
 				isLoading={exchangeRatesQuery.isLoading}
 				btn={
 					<CButton
-						text="Add Exchange Rate"
+						text={t.settings.exchangeRates.actions.addExchangeRate}
 						btnStyle="blue"
 						icon={<HiPlus />}
 						onClick={() => {

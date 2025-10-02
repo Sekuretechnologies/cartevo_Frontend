@@ -553,39 +553,57 @@ export default function Home() {
 					idTrx: item.id,
 					currency: item.currency,
 					amount: item.amount?.toLocaleString("en-EN") ?? 0,
-					status:
-						item.status == "SUCCESS" ? (
-							<BadgeLabel
-								className={`text-xs`}
-								label={"Réussi"}
-								badgeColor={"#1F66FF"}
-								textColor={"#444"}
-							/>
-						) : item.status == "FAILED" ? (
-							<BadgeLabel
-								className={`text-xs`}
-								label={"Echec"}
-								badgeColor={"#F85D4B"}
-								textColor={"#444"}
-							/>
-						) : item.status?.toUpperCase() == "PENDING" ? (
-							<BadgeLabel
-								className={`text-xs`}
-								label={"En cours"}
-								badgeColor={"#FFAC1C"}
-								textColor={"#444"}
-							/>
-						) : item.status == "CANCELLED" ||
-						  item.status == "CANCELED" ? (
-							<BadgeLabel
-								className={`text-xs`}
-								label={"Suspendu"}
-								badgeColor={"#444"}
-								textColor={"#444"}
-							/>
-						) : (
-							<></>
-						),
+					status: (() => {
+						switch (item.status?.toUpperCase()) {
+							case "SUCCESS":
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={t.wallets.labels.status.success}
+										badgeColor="#1F66FF"
+										textColor="#444"
+									/>
+								);
+							case "FAILED":
+							case "ERROR":
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={t.wallets.labels.status.failed}
+										badgeColor="#F85D4B"
+										textColor="#444"
+									/>
+								);
+							case "PENDING":
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={t.wallets.labels.status.pending}
+										badgeColor="#FFAC1C"
+										textColor="#444"
+									/>
+								);
+							case "CANCELLED":
+							case "CANCELED":
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={t.wallets.labels.status.cancelled}
+										badgeColor="#444"
+										textColor="#444"
+									/>
+								);
+							default:
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={item.status || "Unknown"}
+										badgeColor="#6B7280"
+										textColor="#444"
+									/>
+								);
+						}
+					})(),
 					date: getFormattedDateTime(item.created_at, "en"),
 					actions: (
 						<>
