@@ -17,14 +17,26 @@ import { contactSchema } from "@/validation/FormValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectItem } from "@nextui-org/select";
 import { Check, ChevronRight } from "lucide-react";
-
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { useMutation } from "react-query";
 import { z } from "zod";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { ContactService } from "@/api/services/cartevo-api/contact";
+import { PuffLoader } from "react-spinners";
 
-const handleSubmit = async (data: z.infer<typeof contactSchema>) => {};
+const handleSubmit = async (data: z.infer<typeof contactSchema>) => {
+	const response = await ContactService.send_message({ body: data });
+	const responseJson = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseJson.message || "Something went wrong");
+	}
+
+	return responseJson;
+};
 
 const ContactForm = () => {
 	const { t } = useTranslation();
@@ -34,7 +46,7 @@ const ContactForm = () => {
 	const form = useForm<z.infer<typeof contactSchema>>({
 		resolver: zodResolver(contactSchema),
 		defaultValues: {
-			country_code: "",
+			// country_code: "",
 			whatsapp: "",
 			email: "",
 			subject: "",
@@ -58,6 +70,13 @@ const ContactForm = () => {
 	});
 
 	const onSubmit = (data: any) => {
+		const phoneNumber = parsePhoneNumberFromString(data.whatsapp || "");
+		if (phoneNumber && phoneNumber.isValid()) {
+			data.country_code = phoneNumber.countryCallingCode;
+			data.whatsapp = phoneNumber.nationalNumber;
+		} else {
+			// gérer l’erreur ici si besoin
+		}
 		console.log("soumission", data);
 		mutation.mutate(data);
 	};
@@ -160,9 +179,6 @@ const ContactForm = () => {
 							<FormField
 								control={form.control}
 								name="whatsapp"
-								rules={{
-									required: "whatsapp number is required",
-								}}
 								render={({ field }) => (
 									<FormItem className="w-full">
 										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
@@ -171,32 +187,15 @@ const ContactForm = () => {
 													.PhoneNumber
 											}
 										</FormLabel>
-										<div className="flex gap-1 items-center w-full">
-											<FormControl>
-												<PhoneInput
-													value={field.value}
-													onChange={(
-														number,
-														code
-													) => {
-														form.setValue(
-															"country_code",
-															String(code)
-														);
-													}}
-												/>
-											</FormControl>
-											<FormControl>
-												<input
-													{...field}
-													type="text"
-													id="whatsappNumber"
-													placeholder="ex: 688778894"
-													className="px-6 font-poppins border-1 focus:outline-primary text-[14px] py-3 rounded-[7px] w-full"
-													required
-												/>
-											</FormControl>
-										</div>
+										<FormControl>
+											<PhoneInput
+												{...field}
+												value={field.value}
+												onChange={(value) =>
+													field.onChange(value)
+												}
+											/>
+										</FormControl>
 										<FormMessage className="text-red-400 font-poppins" />
 									</FormItem>
 								)}
@@ -442,6 +441,12 @@ const ContactForm = () => {
 						</button>
 					</div>
 				</form>
+
+				{mutation.isLoading && (
+					<div className="fixed top-0 left-0 w-full h-full bg-black/20 backdrop-blur-sm z-[1000] flex items-center justify-center">
+						<PuffLoader size={50} color="#1F66FF" />
+					</div>
+				)}
 			</Form>
 		</div>
 	);

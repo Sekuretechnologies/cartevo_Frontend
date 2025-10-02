@@ -6,6 +6,7 @@ import { forgotPasswordFr } from "./translation/forgot-password/forgotPassword-f
 import { homeTranslationsFr } from "./translation/home/home-fr";
 import { loginFr } from "./translation/login/login-fr";
 import { pricingFr } from "./translation/pricing/pricing-fr";
+import { privacyFr } from "./translation/privacy_policy/privacy_policy-fr";
 import { registerFr } from "./translation/register/register-fr";
 import { resetPasswordFr } from "./translation/reset-password/resetPassword-fr";
 import { signUpFr } from "./translation/sign-up/signUp-fr";
@@ -30,4 +31,5 @@ export default {
 	forgotPassword: forgotPasswordFr,
 	resetPassword: resetPasswordFr,
 	register: registerFr,
+	privacy: privacyFr,
 } as const;

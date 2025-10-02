@@ -1,3 +1,4 @@
+import parsePhoneNumberFromString from "libphonenumber-js";
 import { values } from "lodash";
 import { string, z } from "zod";
 
@@ -266,8 +267,14 @@ export const resetPsswordSchema = z
 	});
 
 export const contactSchema = z.object({
-	country_code: z.string().min(1, "Country code is required"),
-	whatsapp: z.string().min(1, "WhatsApp number is required"),
+	// country_code: z.string().min(1, "Country code is required"),
+	whatsapp: z
+		.string()
+		.min(1, "Le numéro est requis")
+		.refine((val) => {
+			const phone = parsePhoneNumberFromString(val || "");
+			return phone ? phone.isValid() : false;
+		}, "Invalid phone number"),
 	email: z.string().email("Invalid email address"),
 	subject: z
 		.string()

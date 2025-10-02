@@ -6,6 +6,7 @@ import { forgotPasswordEn } from "./translation/forgot-password/forgotPassword-e
 import { homeTranslationsEn } from "./translation/home/home-en";
 import { loginEn } from "./translation/login/login-en";
 import { pricingEn } from "./translation/pricing/pricing-en";
+import { privacyEn } from "./translation/privacy_policy/privacy_policy-en";
 import { registerEn } from "./translation/register/register-en";
 import { resetPasswordEn } from "./translation/reset-password/resetPassword-en";
 import { signUpEn } from "./translation/sign-up/signUp-en";
@@ -31,4 +32,5 @@ export default {
 	forgotPassword: forgotPasswordEn,
 	resetPassword: resetPasswordEn,
 	register: registerEn,
+	privacy: privacyEn,
 } as const;

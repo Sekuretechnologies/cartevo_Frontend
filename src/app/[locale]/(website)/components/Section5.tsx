@@ -124,7 +124,7 @@ const Section5 = () => {
 				</div>
 
 				<div
-					className="relative w-[350px]  mx-auto md:w-[600px]  lg:w-[1700px]  flex justify-center  items-end mt-96 md:mt-[700px] lg:mt-0 xl:mt-[600px]"
+					className="relative w-[350px]  mx-auto md:w-[600px]  lg:w-[2800px]  flex justify-center  items-end mt-96 md:mt-[700px] lg:mt-0 xl:mt-[600px]"
 					// style={{
 					// 	backgroundImage: "url('/website/home/girl2.png')",
 					// 	backgroundSize: "auto 88%",

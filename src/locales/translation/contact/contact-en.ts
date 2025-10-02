@@ -1,3 +1,5 @@
+import { result } from "lodash";
+
 export const contactEn = {
 	title: "Contact Customer Support",
 	description:
@@ -20,5 +22,10 @@ export const contactEn = {
 		mailObjectMessage: "Message title here",
 		message: "Leave a message",
 		messagePlaceholder: "Your message here",
+	},
+	input: {
+		phone: "Phone number",
+		code: "Search by country or code",
+		result: "No result ",
 	},
 };
