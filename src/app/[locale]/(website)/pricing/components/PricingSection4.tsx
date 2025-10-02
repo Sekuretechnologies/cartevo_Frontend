@@ -4,9 +4,13 @@ import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 
 import React from "react";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const PricingSection4 = () => {
 	const { createLocalizedLink } = useLocalizedNavigation();
+	const { t } = useTranslation();
+	const section4Translation = t.pricing.section4;
+	const btnTranslate = t.btn;
 	return (
 		<section className="py-12">
 			<div className="customContainer">
@@ -38,16 +42,14 @@ const PricingSection4 = () => {
 					/>
 					<div className="px-10 flex flex-col text-center gap-4 items-center justify-center w-full h-full font-poppins absolute left-1/2  top-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
 						<h1 className="text-[42px] font-semibold lg:w-2/3 xl:w-1/2 leading-10">
-							{"Besoin d'une "}
+							{section4Translation.mainTitle.span1}{" "}
 							<span className="text-[#00CFD9]">
-								tarification
+								{section4Translation.mainTitle.span2}
 							</span>{" "}
-							sur mesure ?​
+							{section4Translation.mainTitle.span3}
 						</h1>
 						<p className="text-[14px] lg:w-2/3">
-							Nous offrons une tarification très avantageuse aux
-							entreprises qui traitent un volume supérieur à 50
-							000 000 FCFA par mois.
+							{section4Translation.description}
 						</p>
 
 						<div className="text-[#222222] text-[13px] font-semibold flex flex-col gap-2 sm:flex-row items-center">
@@ -55,13 +57,13 @@ const PricingSection4 = () => {
 								href={createLocalizedLink("/signup")}
 								className="w-[234px] h-[54px] rounded-[20px] flex justify-center items-center bg-[#00CFD9]"
 							>
-								Commencer{" "}
+								{btnTranslate.buttonText}{" "}
 							</a>
 							<a
 								href={createLocalizedLink("/contact")}
 								className="w-[234px] h-[54px] rounded-[20px] flex justify-center items-center bg-white border-1 border-[#222222]"
 							>
-								Demander
+								{section4Translation.ask}
 							</a>
 						</div>
 					</div>

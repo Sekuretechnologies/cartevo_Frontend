@@ -7,13 +7,14 @@ import VerifyOTPForm from "./components/form/Form";
 import Footer from "@/components/shared/Footer/Footer";
 import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
-
+import { useTranslation } from "@/hooks/useTranslation";
 //---------------------------------------
 
 const VerifyOtpPage = () => {
-	useTitle("Cartevo | Verify OTP");
+	const { t } = useTranslation();
+	useTitle(t.verifyOtp.pageTitle, true);
 	const { createLocalizedLink } = useLocalizedNavigation();
-	
+
 	return (
 		<section className="relative flex flex-col h-screen mt-0  w-full">
 			<nav className="absolute z-10 top-0 lg:left-[150px]  h-[80px] flex items-center">
@@ -33,11 +34,10 @@ const VerifyOtpPage = () => {
 					className="font-poppins hidden bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4   text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[35px] leading-10 max-w-[500px] tracking-tight text-app-secondary">
-						Verify OTP
+						{t.verifyOtp.mainTitle}
 					</h1>
 					<p className="text-app-secondary max-w-[500px] font-poppins">
-						{`Veuillez entrer le code OTP (One-Time Password) que nous
-						venons d'envoyer par e-mail`}
+						{t.verifyOtp.instructionText}
 					</p>
 				</div>
 				<div className=" flex justify-center items-center px-[50px]">

@@ -10,6 +10,7 @@ import {
 } from "@/redux/slices_v2/settings";
 import classNames from "classnames";
 import { PuffLoader } from "react-spinners";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const CountryFlags: any = CFlags;
 
@@ -50,6 +51,7 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 	isSuccess,
 	isError,
 }) => {
+	const { t }: { t: any } = useTranslation();
 	const [amount, setAmount] = useState("1");
 
 	const [selectedCountryIsoCode, setSelectedCountryIsoCode] = useState("CM");
@@ -185,13 +187,13 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 	}, [isSuccess, isError]);
 	return (
 		<div className="bg-white rounded-lg p-6 w-[400px]">
-			<h2 className="text-xl font-bold mb-4">Fund USD Wallet</h2>
+			<h2 className="text-xl font-bold mb-4">{t.wallets.modals.depositUSD.title}</h2>
 
 			<div className="space-y-4">
 				{/* Amount Input */}
 				<div>
 					<label className="flex justify-between items-center block text-sm font-medium text-gray-700 mb-2">
-						<span>{`Amount (USD)`}</span>
+						<span>{t.wallets.modals.depositUSD.amountLabel}</span>
 						<span className="text-xs">{`1 USD = ${exchangeRate} ${
 							sourceWallet ? sourceWallet.split("-")[0] : "XAF"
 						}`}</span>
@@ -211,7 +213,7 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 				<div>
 					<label className="flex justify-between items-center text-sm font-medium text-gray-700 mb-2">
 						<div className="flex items-center gap-1">
-							{`Source Wallet`}{" "}
+							{t.wallets.modals.depositUSD.sourceWallet}{" "}
 							{selectedCountryIsoCode && (
 								<ItemFlag
 									iso2={selectedCountryIsoCode}
@@ -291,7 +293,7 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 						<div className="flex flex-col gap-2 font-medium">
 							{fees > 0 ? (
 								<div className="text-sm">
-									Fees: {fees}% (
+									{t.wallets.modals.depositUSD.fees}: {fees}% (
 									{`${feeAmount.toLocaleString()} ${
 										sourceWallet
 											? sourceWallet.split("-")[0]
@@ -303,7 +305,7 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 								<></>
 							)}
 							<div className="text-lg font-bold text-blue-600">
-								Total: {totalAmount.toLocaleString()}{" "}
+								{t.wallets.modals.depositUSD.total}: {totalAmount.toLocaleString()}{" "}
 								{sourceWallet
 									? sourceWallet.split("-")[0]
 									: "XAF"}
@@ -321,12 +323,12 @@ const DepositToWalletModal: React.FC<DepositToWalletModalProps> = ({
 
 			<div className="flex gap-3 justify-end mt-6">
 				<CButton
-					text="Cancel"
+					text={t.wallets.modals.depositUSD.cancel}
 					btnStyle="outlineDark"
 					onClick={() => setIsOpen(false)}
 				/>
 				<CButton
-					text="Deposit"
+					text={t.wallets.modals.depositUSD.deposit}
 					btnStyle="blue"
 					onClick={handleSubmit}
 					disabled={!!errorMessage}

@@ -37,6 +37,7 @@ import { countries as countryDataList } from "country-data";
 import { countryCurrencies } from "@/constants/countryCurrenciesData";
 import { ItemFlag } from "@/components/shared/ItemFlag";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // declare global {
 // 	interface Window {
@@ -168,6 +169,9 @@ const countryOptions: CountryOption[] = Object.entries(countryNames).map(
 );
 
 export default function CreateAccountForm() {
+	const { t } = useTranslation();
+	const signUpTranslation = t.signUp;
+
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const [confirmPasswordVisible, setConfirmPasswordVisible] =
 		useState<boolean>();
@@ -299,19 +303,18 @@ export default function CreateAccountForm() {
 				<div className="space-y-[20px] w-full">
 					<div>
 						<h1 className="text-[30px] tracking-tight font-bold ">
-							Créer un compte
+							{signUpTranslation.title}
 						</h1>
 						<p className="text-[12px] mb-2">
-							Commencez Aujourd’hui, Offrez des services
-							financiers à vos clients dès demain .
+							{signUpTranslation.description}
 						</p>
 						<div className="mb-8 text-app-secondary text-[12px]">
-							Vous avez déjà un compte ?{" "}
+							{signUpTranslation.login1.span1}{" "}
 							<a
 								href={createLocalizedLink("/login")}
 								className="text-app-primary underline hover:text-app-secondary"
 							>
-								Se connecter
+								{signUpTranslation.login1.span2}
 							</a>
 						</div>
 					</div>
@@ -324,13 +327,15 @@ export default function CreateAccountForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-										Nom de l’entreprise{" "}
+										{signUpTranslation.enterpriseName}{" "}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input
 											className="px-6 w-full bg-app-lightgray"
-											placeholder="Enter le nom de l’entreprise"
+											placeholder={
+												signUpTranslation.enterPriseNamePlaceholder
+											}
 											{...field}
 										/>
 									</FormControl>
@@ -352,18 +357,20 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Prénom{" "}
+											{signUpTranslation.prenom}{" "}
 											<span className="text-red-500">
 												*
 											</span>
 											<span className="text-xs text-gray-500">
-												(min. 5 characters)
+												{signUpTranslation.min}
 											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Entrez votre prénom"
+												placeholder={
+													signUpTranslation.prenomPlaceholder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -377,18 +384,20 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Nom de famille{" "}
+											{signUpTranslation.name}{" "}
 											<span className="text-red-500">
 												*
 											</span>
 											<span className="text-xs text-gray-500">
-												(min. 5 characters)
+												{signUpTranslation.min}
 											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Entrez votre nom"
+												placeholder={
+													signUpTranslation.namePlaceholder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -405,7 +414,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											E-mail professionnel{" "}
+											{signUpTranslation.email}{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -414,7 +423,9 @@ export default function CreateAccountForm() {
 											<Input
 												type="email"
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Entrez votre e-mail professionnel"
+												placeholder={
+													signUpTranslation.emailPlaceHolder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -428,7 +439,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Numéro de téléphone{" "}
+											{signUpTranslation.phoneNumber}{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -437,7 +448,9 @@ export default function CreateAccountForm() {
 											<Input
 												type="tel"
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Entrez votre numéro de téléphone"
+												placeholder={
+													signUpTranslation.phoneNumberPlaceholder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -454,7 +467,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Type d’entreprise{" "}
+											{signUpTranslation.typeEntreprise}e{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -462,7 +475,9 @@ export default function CreateAccountForm() {
 										<FormControl>
 											<Select
 												{...field}
-												placeholder="Sélectionnez le type d’entreprise"
+												placeholder={
+													signUpTranslation.typeEntreprisePlaceholder
+												}
 												style={{
 													width: "100%",
 												}}
@@ -500,7 +515,7 @@ export default function CreateAccountForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-											Pays de l’entreprise
+											{signUpTranslation.country}
 											<span className="text-red-500">
 												*
 											</span>
@@ -537,7 +552,9 @@ export default function CreateAccountForm() {
 											</Select> */}
 											<Select
 												{...field}
-												placeholder="Sélectionnez le pays de l’entreprise"
+												placeholder={
+													signUpTranslation.countryPlaceholder
+												}
 												style={{
 													width: "100%",
 												}}
@@ -628,7 +645,7 @@ export default function CreateAccountForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-										Mot de passe
+										{signUpTranslation.password}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl className="relative">
@@ -640,7 +657,9 @@ export default function CreateAccountForm() {
 														: "password"
 												}`}
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Créez un mot de passe sécurisé"
+												placeholder={
+													signUpTranslation.passwordPlaceHolder
+												}
 												{...field}
 											/>
 											<div className="absolute text-gray-500 cursor-pointer right-[10px] top-[12px]">
@@ -674,7 +693,7 @@ export default function CreateAccountForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-[12px] font-semibold tracking-tight">
-										Confirmer le mot de passe
+										{signUpTranslation.confirmPassword}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl className="relative">
@@ -686,7 +705,9 @@ export default function CreateAccountForm() {
 														: "password"
 												}
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Confirmez votre mot de passe"
+												placeholder={
+													signUpTranslation.confirmPasswordPlaceHolder
+												}
 												{...field}
 											/>
 											<div className="absolute text-gray-500 cursor-pointer right-[10px] top-[12px]">
@@ -725,29 +746,29 @@ export default function CreateAccountForm() {
 							onChange={setAcceptTerms}
 							label={
 								<>
-									{"Je consens par la présente aux "}
+									{signUpTranslation.condition.span1}
 									<a
-										href={createLocalizedLink("/terms-of-use")}
+										href={createLocalizedLink(
+											"/terms-of-use"
+										)}
 										target="_blank"
 										rel="noopener noreferrer"
 										className="text-blue-600 hover:text-blue-800 underline"
 									>
-										{`Conditions d'utilisation`}
+										{signUpTranslation.condition.span2}
 									</a>
-									{` et donne mon consentement pour que Cartevo traite mes
-									données conformément à la `}
+									{signUpTranslation.condition.span3}
 									<a
-										href={createLocalizedLink("/privacy-policy")}
+										href={createLocalizedLink(
+											"/privacy-policy"
+										)}
 										target="_blank"
 										rel="noopener noreferrer"
 										className="text-blue-600 hover:text-blue-800 underline"
 									>
-										Politique de confidentialité
+										{signUpTranslation.condition.span4}
 									</a>
-									{` de Cartevo. Je confirme également que j'ai l'autorisation du
-									Conseil d'administration et de la Société pour
-									créer ce compte et fournir leurs
-									données personnelles.`}
+									{signUpTranslation.condition.span5}
 								</>
 							}
 						/>
@@ -760,7 +781,7 @@ export default function CreateAccountForm() {
 				{/* <Link href="#" className="text-gray-800 font-semibold text-righttext-md">Forgotten Password?</Link> */}
 				<div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center ">
 					<CButton
-						text={"Créer un compte"}
+						text={signUpTranslation.create}
 						btnStyle={"blue"}
 						type={"submit"}
 						width={"200px"}
@@ -772,8 +793,10 @@ export default function CreateAccountForm() {
 						className="bg-[#F3F3F3] text-black text-[12px] font-bold flex gap-1 items-center justify-center w-[325px] h-[52px] rounded-[18px]"
 						href={createLocalizedLink("/login")}
 					>
-						<span>Déjà un compte ?</span>{" "}
-						<span className="text-primary">Connectez-vous</span>
+						<span>{signUpTranslation.login.span1}</span>{" "}
+						<span className="text-primary">
+							{signUpTranslation.login.span2}
+						</span>
 					</a>
 				</div>
 				<div

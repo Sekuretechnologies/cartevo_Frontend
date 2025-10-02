@@ -3,9 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Section3 = () => {
 	const { createLocalizedLink } = useLocalizedNavigation();
+	const { t } = useTranslation();
+	const section3Translate = t.home.section3;
+	const btnTranslate = t.btn;
 	return (
 		<section>
 			<div
@@ -29,19 +33,17 @@ const Section3 = () => {
 				</div> */}
 				<div className="flex absolute top-10 left-1/2 w-full   -translate-x-1/2 flex-col items-center gap-4 z-50 ">
 					<h3 className="w-[350px] h-[35px] border-1 text-center  whitespace-nowrap  border-white text-[13px] font-semibold flex items-center justify-center rounded-full">
-						Pour les développeurs et les entreprises
+						{section3Translate.title}
 					</h3>
 					<h1 className="text-[37px] text-white font-semibold text-center max-w-[900px] leading-[45px]">
-						Intégrez nos API et développez, vos propres solutions de{" "}
+						{section3Translate.mainTitle.span1}{" "}
 						<span className="text-[#5BC9E5]">
-							paiement et produits financiers.
+							{section3Translate.mainTitle.span2}
 						</span>{" "}
 						{/* directement intégrés aux applications de vos clients. */}
 					</h1>
 					<p className="text-[14px] text-white text-center  max-w-[900px]">
-						Accédez à une documentation complète, des SDKs et un
-						environnement sandbox pour déployer et scaler vos
-						produits financiers directement dans vos produits.
+						{section3Translate.description}
 					</p>
 
 					<div className="flex flex-col gap-3 md:flex-row mt-4">
@@ -49,13 +51,13 @@ const Section3 = () => {
 							href={createLocalizedLink("/signup")}
 							className="bg-[#1F66FF] hover:bg-[#00CFD9] hover:text-black  text-[13px] font-[600] w-[238px] h-[49px] rounded-[10px] flex justify-center items-center"
 						>
-							Commencer
+							{btnTranslate.buttonText}
 						</a>
 						<a
 							href={createLocalizedLink("/contact")}
 							className="bg-gray-800 hover:bg-gray-700 dark:bg-white cursor-pointer w-[238px] text-[13px] font-[600] text-white dark:text-[#3A3D44]  dark:text-[#3A3D44] h-[49px] rounded-[10px] flex justify-center items-center"
 						>
-							Contacter le support
+							{btnTranslate.btnTextContact}
 						</a>
 					</div>
 				</div>

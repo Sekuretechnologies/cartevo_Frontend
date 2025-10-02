@@ -4,9 +4,13 @@ import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { ChevronRight } from "lucide-react";
 import React from "react";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Section5 = () => {
 	const { createLocalizedLink } = useLocalizedNavigation();
+	const { t } = useTranslation();
+	const section5Translate = t.home.section5;
+	const btnTranslate = t.btn;
 	return (
 		<section className="text-[#222222] pt-12">
 			<div className="customContainer  flex flex-col gap-8 lg:flex-row-reverse lg:w-full ">
@@ -14,15 +18,13 @@ const Section5 = () => {
 					<div>
 						<div>
 							<p className=" border-1 border-[#222222] mb-4 font-semibold text-[13px] px-8 py-2 w-fit rounded-full hover:bg-[#222222] duration-300 hover:text-white">
-								Pourquoi nous choisir ?
+								{section5Translate.title}
 							</p>
 							<h1 className="text-[40px] tracking-tight font-bold leading-10 mb-6 text-center lg:text-left  leading-12 ">
-								Choisissez la simplicité qui s’adapte à vous
+								{section5Translate.mainTitle}
 							</h1>
 							<p className="text-center text-[12px] text-[#222222] lg:text-left lg:w-[80%] mb-6">
-								Une solution de paiements flexible et sécurisée,
-								conçue pour s’adapter aux besoins uniques de
-								votre entreprise.
+								{section5Translate.description}
 							</p>
 						</div>
 
@@ -38,18 +40,13 @@ const Section5 = () => {
 								</div>
 								<div className="-mt-2">
 									<h2 className="text-[24px] font-semibold ">
-										Integration simplifiée
+										{section5Translate.simplicity.title}
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
-										Intégrez notre API en toute simplicité
-										dans vos systèmes existants grâce à une
-										documentation claire, un support dédié
-										et des outils conçus pour les
-										développeurs. Lancez rapidement vos
-										propres services financiers, sans
-										contraintes techniques, et
-										concentrez-vous sur l’innovation et la
-										valeur ajoutée pour vos clients.
+										{
+											section5Translate.simplicity
+												.description
+										}
 									</p>
 								</div>
 							</div>
@@ -65,18 +62,13 @@ const Section5 = () => {
 								</div>
 								<div className="-mt-2">
 									<h2 className="text-[24px] font-semibold ">
-										Fiabilité optimale
+										{section5Translate.fiability.title}
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
-										Offrez à vos clients une confiance
-										digitale inégaléegrâce à une sécurité de
-										niveau bancaire, une conformité stricte
-										aux réglementations internationales et
-										une transparence totale dans vos
-										opérations. Chaque transaction est
-										protégée et chaque donnée est sécurisée
-										pour renforcer la crédibilité de vos
-										services financiers.
+										{
+											section5Translate.fiability
+												.description
+										}
 									</p>
 								</div>
 							</div>
@@ -92,18 +84,13 @@ const Section5 = () => {
 								</div>
 								<div className="-mt-2">
 									<h2 className="text-[24px] font-semibold ">
-										Scalable
+										{section5Translate.scalability.title}
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
-										Développez vos activités sans limites
-										avec une infrastructure robuste et
-										évolutive, capable d’accompagner aussi
-										bien les premiers pas d’une startup que
-										l’expansion internationale d’une grande
-										entreprise. Notre technologie s’adapteà
-										vos besoins et supporte des volumes
-										élevés de transactions, pour une
-										croissance fluide et durable.
+										{
+											section5Translate.scalability
+												.description
+										}
 									</p>
 								</div>
 							</div>
@@ -119,18 +106,10 @@ const Section5 = () => {
 								</div>
 								<div className="-mt-2">
 									<h2 className="text-[24px] font-semibold ">
-										Processus automatisés
+										{section5Translate.process.title}
 									</h2>
 									<p className="text-[#7B7B7B] text-[12px]">
-										Automatisez vos processus financiers, de
-										la gestion des paiements aux contrôles
-										de conformité, pour gagner en rapidité
-										et en fiabilité. Réduisez les erreurs
-										humaines, améliorez l’efficacité
-										opérationnelle et offrez à vos clients
-										une expérience plus fluide et moderne,
-										tout en libérant du temps pour vos
-										équipes.
+										{section5Translate.process.description}
 									</p>
 								</div>
 							</div>
@@ -140,12 +119,12 @@ const Section5 = () => {
 						href={createLocalizedLink("/signup")}
 						className="text-white text-[13px] font-semibold lg:mb-20 cursor-pointer mt-4 flex items-center justify-between pl-16 pr-5 bg-[#222222] w-[251px] h-[59px] rounded-[20px] "
 					>
-						Commencer <ChevronRight />
+						{btnTranslate.buttonText} <ChevronRight />
 					</a>
 				</div>
 
 				<div
-					className="relative md:w-[800px]  lg:w-[2800px]  flex justify-center  items-end "
+					className="relative w-[350px]  mx-auto md:w-[600px]  lg:w-[1700px]  flex justify-center  items-end mt-96 md:mt-[700px] lg:mt-0 xl:mt-[600px]"
 					// style={{
 					// 	backgroundImage: "url('/website/home/girl2.png')",
 					// 	backgroundSize: "auto 88%",
@@ -159,7 +138,7 @@ const Section5 = () => {
 						width={1300}
 						height={1000}
 						loading="lazy"
-						className="absolute bottom-[-5px] w-full object-contain h-auto"
+						className="absolute left-1/2 -translate-x-1/2  bottom-[-5px] w-full object-contain h-auto"
 					/>
 					{/* <Image
 						src="/website/home/section5-2.png"

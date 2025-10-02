@@ -5,6 +5,7 @@ import { Select, SelectItem } from "@nextui-org/select";
 import { countryCurrencies } from "@/constants/countryCurrenciesData";
 import { getCountryPhonePrefix } from "@/utils/utils";
 import { countries as countryDataList } from "country-data";
+import { useTranslation } from "@/hooks/useTranslation";
 interface AddWalletModalProps {
 	setIsOpen: (isOpen: boolean) => void;
 	onSubmit: (data: AddWalletSubmitProps) => void;
@@ -22,6 +23,7 @@ const AddWalletModal: React.FC<AddWalletModalProps> = ({
 	onSubmit,
 	existingWallets = [],
 }) => {
+	const { t }: { t: any } = useTranslation();
 	const [selectedCurrency, setSelectedCurrency] = useState("");
 	const [selectedCountry, setSelectedCountry] = useState("");
 
@@ -62,15 +64,15 @@ const AddWalletModal: React.FC<AddWalletModalProps> = ({
 
 	return (
 		<div className="bg-white rounded-lg p-6 w-[400px]">
-			<h2 className="text-xl font-bold mb-4">Add New Wallet</h2>
+			<h2 className="text-xl font-bold mb-4">{t.wallets.modals.addWallet.title}</h2>
 
 			<div className="my-4">
 				<label className="block text-sm font-medium text-gray-700 mb-2">
-					Select Currency
+					{t.wallets.modals.addWallet.selectCurrency}
 				</label>
 				<div className="grid grid-cols-1 gap-2">
 					<Select
-						placeholder="Select Country and Currency"
+						placeholder={t.wallets.modals.addWallet.selectCountryCurrencyPh}
 						selectedKeys={
 							availableCountries.length > 0
 								? [`${selectedCurrency}-${selectedCountry}`]
@@ -152,12 +154,12 @@ const AddWalletModal: React.FC<AddWalletModalProps> = ({
 
 			<div className="flex mt-5 gap-3 justify-end">
 				<CButton
-					text="Cancel"
+					text={t.wallets.modals.addWallet.cancel}
 					btnStyle="outlineDark"
 					onClick={() => setIsOpen(false)}
 				/>
 				<CButton
-					text="Create Wallet"
+					text={t.wallets.modals.addWallet.createWallet}
 					btnStyle="blue"
 					onClick={handleSubmit}
 				/>

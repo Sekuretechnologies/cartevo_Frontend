@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 import { setCredentials, setCurrentUserEmail } from "@/redux/slices/auth";
 import { setCompagnies } from "@/redux/slices/companySlice";
 import { loginSchema } from "@/validation/FormValidation";
@@ -38,6 +39,9 @@ const handleLogin = async (data: z.infer<typeof loginSchema>) => {
 };
 
 export default function LoginForm() {
+	const { t } = useTranslation();
+	const loginFormTranslate = t.login.form;
+	const btnTranslate = t.btn;
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const previousUrl = window.sessionStorage.getItem("previousUrl");
 	const router = useRouter();
@@ -101,10 +105,10 @@ export default function LoginForm() {
 				<div className="w-full pt-20 lg:pt-0 font-poppins">
 					<div>
 						<h1 className="text-[30px] font-poppins tracking-tight font-bold">
-							Connectez-vous
+							{loginFormTranslate.title}
 						</h1>
 						<p className="text-[12px] mb-8">
-							Bon retour ! Veuillez saisir vos informations.
+							{loginFormTranslate.description}
 						</p>
 					</div>
 					<FormField
@@ -113,12 +117,14 @@ export default function LoginForm() {
 						render={({ field }) => (
 							<FormItem className="mb-2">
 								<FormLabel className=" text-[12px] font-semibold tracking-tight">
-									Adresse Mail
+									{loginFormTranslate.email}
 								</FormLabel>
 								<FormControl>
 									<Input
 										className="px-6 w-full bg-app-lightgray"
-										placeholder="Entrez votre adresse e-mail"
+										placeholder={
+											loginFormTranslate.emailPlaceholder
+										}
 										{...field}
 									/>
 								</FormControl>
@@ -132,7 +138,7 @@ export default function LoginForm() {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel className="text-[12px] font-semibold tracking-tight">
-									Password
+									{loginFormTranslate.password}
 								</FormLabel>
 								<FormControl className="relative">
 									<div>
@@ -144,7 +150,9 @@ export default function LoginForm() {
 											}`}
 											className="px-6 w-full bg-app-lightgray"
 											{...field}
-											placeholder="Entrez votre mot de passe"
+											placeholder={
+												loginFormTranslate.passwordPlaceholder
+											}
 										/>
 										<div className="absolute text-gray-500 cursor-pointer right-[10px] top-[12px]">
 											{passwordVisible ? (
@@ -176,7 +184,7 @@ export default function LoginForm() {
 						href={createLocalizedLink("/forgot-password")}
 						className="text-app-primary text-[12px] font-bold hover:text-app-secondary"
 					>
-						Mot de passe oublié ?
+						{loginFormTranslate.forgot}
 					</a>
 				</div>
 
@@ -187,15 +195,17 @@ export default function LoginForm() {
 						type="submit"
 						className="bg-primary flex gap-8 text-white text-[13px] font-bold  justify-center items-center w-[175px] h-[49px] rounded-[10px]"
 					>
-						Continue <ChevronRight />
+						{btnTranslate.continue} <ChevronRight />
 					</button>
 
 					<a
 						className="bg-[#F3F3F3] text-black text-[12px] font-bold flex gap-1 items-center justify-center w-[325px] h-[52px] rounded-[18px]"
 						href={createLocalizedLink("/signup")}
 					>
-						<span> Pas encore de compte ?</span>{" "}
-						<span className="text-primary">Inscrivez vous</span>
+						<span> {loginFormTranslate.signup.span1}</span>{" "}
+						<span className="text-primary">
+							{loginFormTranslate.signup.span2}
+						</span>
 					</a>
 				</div>
 				<div

@@ -1,0 +1,36 @@
+export const contactFr = {
+	title: "Contactez le service client",
+	description:
+		"Un projet ? Une question ? Partagez-les avec nous via le formulaire, et notre équipe commerciale vous recontactera rapidement pour vous accompagner dans ce que vous souhaitez lancer.",
+	form: {
+		name: "Entrez votre nom complet",
+		namePlaceholder: "Votre nom",
+		legalName: "Nom légal de votre entreprise",
+		legalNamePlaceholder: "Nom de l'entreprise",
+		PhoneNumber: "Numéro WhatsApp / Téléphone",
+		phoneNumberPlaceHolder: "Numéro de téléphone",
+		email: "Adresse e-mail professionnelle",
+		emailPlaceholder: "contact@votreentreprise.com",
+		secteurActivite: "Secteur d’activité",
+		secteurActivitePlaceholder:
+			"Veuillez sélectionner votre secteur d’activité",
+		service: "Sélectionnez le service souhaité",
+		serviceCard: "Cartes bancaires virtuelles",
+		servicePayment: "Collecte de paiements",
+		mailObject: "Objet du mail",
+		mailObjectMessage: "Titre du message ici",
+		message: "Laissez un message",
+		messagePlaceholder: "Votre message ici",
+	},
+	errors: {
+		country: "Le code pays est obligatoire",
+		phone: "Le numéro WhatsApp est obligatoire",
+		email: "Adresse e-mail invalide",
+		subject: "L’objet doit contenir au moins 3 caractères",
+		message: "Le message doit contenir au moins 5 caractères",
+		name: "Le nom est obligatoire",
+		enterpriseName: "Le nom de l’entreprise est obligatoire",
+		activity: "L’activité est obligatoire",
+		service: "Le service est obligatoire",
+	},
+};

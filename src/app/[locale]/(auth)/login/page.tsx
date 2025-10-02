@@ -9,11 +9,14 @@ import Link from "next/link";
 import { cartevoIconName } from "@/constants/icons";
 import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 //---------------------------------------
 
 const LoginPage = () => {
 	useTitle("Cartevo | Login");
 	const { createLocalizedLink } = useLocalizedNavigation();
+	const { t } = useTranslation();
+	const loginTranslate = t.login;
 	return (
 		<section className="relative flex flex-col mt-0 ">
 			<nav className="absolute z-10 top-0 left-0 lg:left-[150px] md:left-[120px]  h-[80px] flex items-center">
@@ -33,25 +36,24 @@ const LoginPage = () => {
 					className="font-poppins hidden   bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4 items-center  text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[30px] leading-8 max-w-[500px] tracking-tight">
-						Créez une expérience{" "}
-						<span className="text-primary">exceptionnelle</span>{" "}
-						pour vos clients grâce à une fintech mondiale intégrée{" "}
+						{loginTranslate.title.span1}{" "}
+						<span className="text-primary">
+							{loginTranslate.title.span2}
+						</span>{" "}
+						{loginTranslate.title.span3}{" "}
 					</h1>
 					<div className="flex items-center justify-start  text-left gap-4">
 						<img src="/website/contact/chevron.png" alt="chevron" />
 
 						<div>
 							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
-								Émission de cartes{" "}
+								{loginTranslate.options.option1.title.span1}{" "}
 								<span className="text-primary">
-									Bancaires virtuelles
+									{loginTranslate.options.option1.title.span2}
 								</span>
 							</h2>
 							<p className="text-[11px] max-w-[380px]">
-								Créez et distribuez instantanément des cartes
-								bancaires virtuelles pour vos clients ou vos
-								équipes, avec un contrôle total sur les plafonds
-								et la sécurité.
+								{loginTranslate.options.option1.description}
 							</p>
 						</div>
 					</div>
@@ -60,16 +62,17 @@ const LoginPage = () => {
 						<img src="/website/contact/chevron.png" alt="" />
 						<div>
 							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
-								Collecte de paiements
+								{loginTranslate.options.option2.title.span1}
 								<span className="text-primary">
 									{" "}
-									multi-pays{" "}
+									{
+										loginTranslate.options.option2.title
+											.span2
+									}{" "}
 								</span>
 							</h2>
 							<p className="text-[11px] max-w-[380px]">
-								Encaissez des paiements via mobile money, cartes
-								bancaires et solutions locales dans 14 pays
-								africains, le tout depuis une API unique.
+								{loginTranslate.options.option2.description}
 							</p>
 						</div>
 					</div>
@@ -79,14 +82,12 @@ const LoginPage = () => {
 						<div>
 							<h2 className="text-[17px] leading-5 mb-2 font-semibold max-w-[400px]">
 								<span className="text-primary">
-									Tableau de bord{" "}
+									{loginTranslate.options.option3.title.span1}{" "}
 								</span>
-								en temps réel
+								{loginTranslate.options.option3.title.span2}
 							</h2>
 							<p className="text-[11px] max-w-[380px]">
-								Suivez vos transactions, configurez vos règles
-								de paiement et contrôlez vos flux financiers
-								grâce à un espace intuitif et sécurisé.
+								{loginTranslate.options.option3.description}
 							</p>
 						</div>
 					</div>

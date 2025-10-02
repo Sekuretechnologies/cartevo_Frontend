@@ -25,8 +25,11 @@ import { PuffLoader } from "react-spinners";
 import WebsiteFooter from "@/components/websiteComponents/WebsiteFooter";
 import CButton from "@/components/shared/CButton";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const ResetPassword = () => {
+	const { t } = useTranslation();
+	const resetTransalation = t.resetPassword;
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const [confirmPasswordVisible, setConfirmPasswordVisible] =
 		useState<boolean>();
@@ -106,27 +109,23 @@ const ResetPassword = () => {
 					className="font-poppins hidden   bg-primary/10 rounded-br-[50px] h-[750px] pr-28 pl-[150px]  lg:flex flex-col justify-center gap-4  text-center lg:text-left"
 				>
 					<h1 className="font-bold text-[30px] leading-8 max-w-[500px] tracking-tight">
-						Créez un nouveau{" "}
-						<span className="text-primary">mot de passe</span>{" "}
+						{resetTransalation.title.span1}{" "}
+						<span className="text-primary">
+							{resetTransalation.title.span2}
+						</span>{" "}
 					</h1>
-					<p>
-						Entrez un nouveau mot de passe pour sécuriser votre
-						compte
-					</p>
+					<p>{resetTransalation.description}</p>
 				</div>
 				<div className=" flex items-center px-[50px] mt-32 lg:mt-0">
 					<div className="w-full ">
 						<div className="text-center flex flex-col items-center  mb-8 lg:hidden">
 							<h1 className="font-bold text-[30px] leading-8 max-w-[500px] tracking-tight">
-								Créez un nouveau{" "}
+								{resetTransalation.title.span1}{" "}
 								<span className="text-primary">
-									{`mot de passe`}
+									{resetTransalation.title.span2}
 								</span>{" "}
 							</h1>
-							<p>
-								Entrez un nouveau mot de passe pour sécuriser
-								votre compte
-							</p>
+							<p>{resetTransalation.description}</p>
 						</div>
 						<FormProvider {...form}>
 							<form
@@ -139,7 +138,7 @@ const ResetPassword = () => {
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel className="text-gray-900 text-md tracking-tight">
-												Password
+												{resetTransalation.password}
 											</FormLabel>
 											<FormControl className="relative">
 												<div>
@@ -149,7 +148,9 @@ const ResetPassword = () => {
 																? "text"
 																: "password"
 														}`}
-														placeholder="Entrez le mot de passe"
+														placeholder={
+															resetTransalation.passwordPlaceholder
+														}
 														className="px-6 w-full bg-app-lightgray"
 														{...field}
 													/>
@@ -190,7 +191,9 @@ const ResetPassword = () => {
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel className="text-gray-900 text-md tracking-tight">
-												Confirm Password
+												{
+													resetTransalation.confirmPassword
+												}
 											</FormLabel>
 											<FormControl className="relative">
 												<div>
@@ -200,7 +203,9 @@ const ResetPassword = () => {
 																? "text"
 																: "password"
 														}`}
-														placeholder="Confirmez le mot de passe"
+														placeholder={
+															resetTransalation.confirmPasswordPlaceholder
+														}
 														className="px-6 w-full bg-app-lightgray"
 														{...field}
 													/>
@@ -238,7 +243,7 @@ const ResetPassword = () => {
 								<div className="flex justify-center mt-[50px]">
 									<CButton
 										type="submit"
-										text="	Rénitialiser le mot de passe"
+										text={resetTransalation.reinitialiser}
 										btnStyle="blue"
 										height="49px"
 									/>

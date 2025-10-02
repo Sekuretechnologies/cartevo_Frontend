@@ -91,6 +91,7 @@ export default function Navbar(props: Props) {
 			toast.success("Bye. See you soon!");
 			dispatch(logOut());
 			router.push(createLocalizedLink("/login"));
+			localStorage.removeItem("isAdminView");
 		},
 		onError: (err: any) => {
 			console.error("Logout onError : ", err.message);
