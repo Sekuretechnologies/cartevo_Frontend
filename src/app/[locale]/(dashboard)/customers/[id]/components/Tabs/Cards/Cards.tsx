@@ -4,7 +4,6 @@ import CButton from "@/components/shared/CButton";
 import CustomTable from "@/components/shared/CustomTable";
 import Modal from "@/components/shared/Modal/Modal";
 import urls from "@/config/urls";
-import { headerCardData } from "@/constants/CardData";
 import {
 	selectCurrentCustomerCards,
 	selectCurrentCustomerDetails,
@@ -17,6 +16,8 @@ import CardDetailsModal from "./modals/CardDetailsModal";
 import AddCardModal from "./modals/AddCardModal";
 import { sortByCreatedAtDescending } from "@/utils/utils";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
+import { ITableHeader } from "@/components/AdminTable/Table";
 
 type Props = {
 	search?: string;
@@ -24,6 +25,9 @@ type Props = {
 };
 
 const Cards = ({ search, setSearch }: Props) => {
+	const { t } = useTranslation();
+	const cardTrans = t.customers.details.addCart;
+	const statusTrans = t.status;
 	const [filterContent, setFilterContent] = useState({});
 	const { createLocalizedLink } = useLocalizedNavigation();
 
@@ -46,14 +50,14 @@ const Cards = ({ search, setSearch }: Props) => {
 				item.status === "ACTIVE" ? (
 					<BadgeLabel
 						className={`text-xs`}
-						label={"Active"}
+						label={statusTrans.active}
 						badgeColor={"#1F66FF"}
 						textColor={"#444"}
 					/>
 				) : (
 					<BadgeLabel
 						className={`text-xs`}
-						label={"Inactive"}
+						label={statusTrans.inactive}
 						badgeColor={"#F85D4B"}
 						textColor={"#444"}
 					/>
@@ -66,7 +70,9 @@ const Cards = ({ search, setSearch }: Props) => {
 							text={"Details"}
 							// onClick={() => setIsOpen(index)}
 							btnStyle={"outlineDark"}
-							href={createLocalizedLink(`${urls.cards.root}/${item.id}`)}
+							href={createLocalizedLink(
+								`${urls.cards.root}/${item.id}`
+							)}
 							// icon={<FourDots />}
 						/>
 						{/* <Modal
@@ -90,6 +96,20 @@ const Cards = ({ search, setSearch }: Props) => {
 		return item;
 	});
 
+	const headerCardData: ITableHeader = {
+		serial: "#",
+		type: "Type",
+		// "regNumber": "Matricule",
+		number: cardTrans.cardsHeader.number,
+		name: cardTrans.cardsHeader.name,
+		// phone: "Phone",
+		balance: cardTrans.cardsHeader.balance,
+		// "totalPayments": "Total paiements (XAF)",
+		status: "Status",
+		date: "Date ",
+		edit: "",
+	};
+
 	return (
 		<section className="p-0 md:p-6 pt-6 md:pt-0">
 			<div className="my-[30px]">
@@ -110,7 +130,7 @@ const Cards = ({ search, setSearch }: Props) => {
 					setFilterContent={setFilterContent}
 					btn={
 						<CButton
-							text={"Add card"}
+							text={cardTrans.link}
 							btnStyle={"blue"}
 							onClick={() => setIsOpen("addCard")}
 							icon={<HiPlus />}

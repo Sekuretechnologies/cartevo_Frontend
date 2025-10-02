@@ -38,6 +38,7 @@ import { CustomerService } from "@/api/services/cartevo-api/customer";
 import { DatePicker } from "@nextui-org/date-picker";
 import { getNextUIDatePickerValueStr, parseDateStr } from "@/utils/DateFormat";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
+import { useTranslation } from "@/hooks/useTranslation";
 // declare global {
 // 	interface Window {
 // 		FileList: typeof FileList;
@@ -203,6 +204,8 @@ const countryOptions: CountryOption[] = Object.entries(countryNames).map(
 );
 
 export default function PersonalInfoForm() {
+	const { t } = useTranslation();
+	const customersTranslation = t.customers.createCustomer;
 	const currentToken: any = useSelector(selectCurrentToken);
 	const [passwordVisible, setPasswordVisible] = useState<boolean>();
 	const [confirmPasswordVisible, setConfirmPasswordVisible] =
@@ -332,7 +335,7 @@ export default function PersonalInfoForm() {
 					{/* Personal Block */}
 					<div className="mb-8 space-y-[15px]">
 						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
-							Personal Informations
+							{customersTranslation.personalInfo}
 						</h3>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<FormField
@@ -341,18 +344,20 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											First Name{" "}
+											{customersTranslation.firstName}{" "}
 											<span className="text-red-500">
 												*
 											</span>
 											<span className="text-xs text-gray-500">
-												(min. 5 characters)
+												{customersTranslation.min}
 											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your first name"
+												placeholder={
+													customersTranslation.lirstNamePlaceholder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -366,18 +371,20 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											Last Name{" "}
+											{customersTranslation.lastName}{" "}
 											<span className="text-red-500">
 												*
 											</span>
 											<span className="text-xs text-gray-500">
-												(min. 5 characters)
+												{customersTranslation.min}
 											</span>
 										</FormLabel>
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your last name"
+												placeholder={
+													customersTranslation.lastNamePlaceholder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -394,7 +401,7 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											Email Address{" "}
+											{customersTranslation.email}{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -403,7 +410,9 @@ export default function PersonalInfoForm() {
 											<Input
 												type="email"
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your email"
+												placeholder={
+													customersTranslation.emailPlaceholder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -417,7 +426,7 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											Phone Number{" "}
+											{customersTranslation.phone}{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -426,7 +435,9 @@ export default function PersonalInfoForm() {
 											<Input
 												type="tel"
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your phone number"
+												placeholder={
+													customersTranslation.phonePlaceHolder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -440,7 +451,7 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											Date of birth{" "}
+											{customersTranslation.dateBirth}{" "}
 											<span className="text-red-500">
 												*
 											</span>
@@ -485,7 +496,7 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											Country
+											{customersTranslation.country}
 											<span className="text-red-500">
 												*
 											</span>
@@ -493,7 +504,9 @@ export default function PersonalInfoForm() {
 										<FormControl>
 											<Select
 												{...field}
-												placeholder="Select Nationality"
+												placeholder={
+													customersTranslation.countryplaceholder
+												}
 												style={{
 													width: "100%",
 												}}
@@ -536,7 +549,7 @@ export default function PersonalInfoForm() {
 					{/* Address Block */}
 					<div className="mb-8 space-y-[15px]">
 						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
-							Personal Address Informations
+							{customersTranslation.personalAdress.title}
 						</h3>
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 							<FormField
@@ -545,7 +558,10 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											State/Province
+											{
+												customersTranslation
+													.personalAdress.state
+											}
 											<span className="text-red-500">
 												*
 											</span>
@@ -553,7 +569,11 @@ export default function PersonalInfoForm() {
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter state/province"
+												placeholder={
+													customersTranslation
+														.personalAdress
+														.statePlaceHolder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -567,7 +587,10 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											City
+											{
+												customersTranslation
+													.personalAdress.city
+											}
 											<span className="text-red-500">
 												*
 											</span>
@@ -575,7 +598,11 @@ export default function PersonalInfoForm() {
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter your city"
+												placeholder={
+													customersTranslation
+														.personalAdress
+														.cityPlaceholder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -589,7 +616,10 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											Postal Code
+											{
+												customersTranslation
+													.personalAdress.postalCode
+											}
 											<span className="text-red-500">
 												*
 											</span>
@@ -597,7 +627,11 @@ export default function PersonalInfoForm() {
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter postal code"
+												placeholder={
+													customersTranslation
+														.personalAdress
+														.postalCodePlaceHolder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -613,13 +647,20 @@ export default function PersonalInfoForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
-										Street Address
+										{
+											customersTranslation.personalAdress
+												.street
+										}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input
 											className="px-6 w-full bg-app-lightgray"
-											placeholder="Enter your street address"
+											placeholder={
+												customersTranslation
+													.personalAdress
+													.streetPlaceholder
+											}
 											{...field}
 										/>
 									</FormControl>
@@ -632,7 +673,7 @@ export default function PersonalInfoForm() {
 					{/* ID Document Block */}
 					<div className="mb-8 space-y-[15px]">
 						<h3 className="text-lg font-semibold mb-4 text-app-secondary">
-							Personal ID Document Informations
+							{customersTranslation.personalId.title}
 						</h3>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<FormField
@@ -641,7 +682,10 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											ID Document Type
+											{
+												customersTranslation.personalId
+													.idType
+											}
 											<span className="text-red-500">
 												*
 											</span>
@@ -649,7 +693,11 @@ export default function PersonalInfoForm() {
 										<FormControl>
 											<Select
 												{...field}
-												placeholder="Select ID Type"
+												placeholder={
+													customersTranslation
+														.personalId
+														.idTypePlaceholder
+												}
 												style={{
 													width: "100%",
 													// background: "#F4EFE3",
@@ -668,19 +716,31 @@ export default function PersonalInfoForm() {
 													key="PASSORT"
 													value="PASSORT"
 												>
-													Passport
+													{
+														customersTranslation
+															.personalId.idItem
+															.passport
+													}
 												</SelectItem>
 												<SelectItem
 													key="NIN"
 													value="NIN"
 												>
-													National ID
+													{
+														customersTranslation
+															.personalId.idItem
+															.NIN
+													}
 												</SelectItem>
 												<SelectItem
 													key="DRIVERS_LICENSE"
 													value="DRIVERS_LICENSE"
 												>
-													Driving License
+													{
+														customersTranslation
+															.personalId.idItem
+															.driver
+													}
 												</SelectItem>
 											</Select>
 										</FormControl>
@@ -694,7 +754,10 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											ID Number
+											{
+												customersTranslation.personalId
+													.idNumber
+											}
 											<span className="text-red-500">
 												*
 											</span>
@@ -702,7 +765,11 @@ export default function PersonalInfoForm() {
 										<FormControl>
 											<Input
 												className="px-6 w-full bg-app-lightgray"
-												placeholder="Enter ID number"
+												placeholder={
+													customersTranslation
+														.personalId
+														.idNumberPlaceholder
+												}
 												{...field}
 											/>
 										</FormControl>
@@ -720,7 +787,10 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											ID Document (Front)
+											{
+												customersTranslation.personalId
+													.idFront
+											}
 											<span className="text-red-500">
 												*
 											</span>
@@ -762,7 +832,10 @@ export default function PersonalInfoForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel className="text-gray-900 text-md tracking-tight">
-											ID Document (Back)
+											{
+												customersTranslation.personalId
+													.idBack
+ 											}
 											<span className="text-red-500">
 												*
 											</span>

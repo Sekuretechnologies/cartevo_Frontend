@@ -22,10 +22,7 @@ import {
 } from "@/redux/slices/customer";
 import TransactionModal from "./modals/TransactionModal";
 import Modal from "@/components/shared/Modal/Modal";
-import {
-	headerTransactionData,
-	headerUserTransactionDataV2,
-} from "@/constants/TransactionData";
+import { headerUserTransactionDataV2 } from "@/constants/TransactionData";
 import {
 	categoryType,
 	categoryMode,
@@ -38,6 +35,8 @@ import { getFormattedDateTime } from "@/utils/DateFormat";
 import { useState } from "react";
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import { sortByCreatedAtDescending } from "@/utils/utils";
+import { useTranslation } from "@/hooks/useTranslation";
+import { ITableHeader } from "@/components/AdminTable/Table";
 
 type Props = {
 	search?: string;
@@ -46,6 +45,9 @@ type Props = {
 
 const Transactions = ({ search, setSearch }: Props) => {
 	const [filterContent, setFilterContent] = useState({});
+	const { t } = useTranslation();
+	const status = t.status;
+	const transactionTrans = t.customers;
 
 	const customerDetails: any = useSelector(selectCurrentCustomerDetails);
 	const customerTransactions: any = useSelector(
@@ -73,21 +75,21 @@ const Transactions = ({ search, setSearch }: Props) => {
 					item.status == "SUCCESS" ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"Réussi"}
+							label={status.success}
 							badgeColor={"#1F66FF"}
 							textColor={"#444"}
 						/>
 					) : item.status == "FAILED" ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"Echec"}
+							label={status.failed}
 							badgeColor={"#F85D4B"}
 							textColor={"#444"}
 						/>
 					) : item.status?.toUpperCase() == "PENDING" ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"En cours"}
+							label={status.pending}
 							badgeColor={"#FFAC1C"}
 							textColor={"#444"}
 						/>
@@ -95,7 +97,7 @@ const Transactions = ({ search, setSearch }: Props) => {
 					  item.status == "CANCELED" ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"Suspendu"}
+							label={status.canceled}
 							badgeColor={"#444"}
 							textColor={"#444"}
 						/>
@@ -135,6 +137,23 @@ const Transactions = ({ search, setSearch }: Props) => {
 			return item;
 		}
 	);
+
+	const headerTransactionData: ITableHeader = {
+		serial: "#",
+		type: "Type",
+		name: transactionTrans.headerTransaction.merchant,
+		// country: "Country",
+		// phone: "Telephone",
+		idTrx: transactionTrans.headerTransaction.idTransaction,
+		// refTrx: "Ref Transaction",
+		// oldNew: "A/N",
+		amount: transactionTrans.headerTransaction.amount,
+		// method: "Methode",
+		// mode: "Mode",
+		status: "Status",
+		date: "Date",
+		edit: "",
+	};
 
 	return (
 		<section className="p-0 md:p-6 pt-6 md:pt-0">

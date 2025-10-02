@@ -1,7 +1,7 @@
 import urls from "@/config/urls";
 import { selectCurrentVersion } from "@/redux/slices_v2/settings";
 import { RootState } from "@/redux/store";
-import { Wallet as Wallets } from "lucide-react";
+import { Badge, Code, Wallet as Wallets } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -28,6 +28,7 @@ import {
 } from "./icons";
 import cstyle from "./styles/sidebar-style.module.scss";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type Props = {
 	isExpanded: boolean;
@@ -36,8 +37,10 @@ type Props = {
 };
 
 const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
+	const { t } = useTranslation();
+	const sideBarTranslation = t.sideBar;
 	const pathname = usePathname();
-    const { createLocalizedLink} = useLocalizedNavigation();
+	const { createLocalizedLink } = useLocalizedNavigation();
 	const clearance = useSelector(
 		(state: RootState) => (state.auth.company as any)?.clearance
 	);
@@ -126,7 +129,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 
 	const SideBarLinksV2 = [
 		{
-			title: "Onboarding",
+			title: sideBarTranslation.onboarding,
 			slug: "onboarding",
 			canSee: true,
 			path: urls.onboarding.root,
@@ -134,7 +137,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Accueil />,
 		},
 		{
-			title: "Wallets",
+			title: sideBarTranslation.Wallets,
 			slug: "wallets",
 			canSee: true,
 			path: urls.wallets.root,
@@ -142,7 +145,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Wallet />,
 		},
 		{
-			title: "Customers",
+			title: sideBarTranslation.Customers,
 			slug: "customers",
 			canSee: true,
 			path: urls.customers.root,
@@ -150,7 +153,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Users />,
 		},
 		{
-			title: "Cards",
+			title: sideBarTranslation.Cards,
 			slug: "cards",
 			canSee: true,
 			path: urls.cards.root,
@@ -158,7 +161,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Cards />,
 		},
 		{
-			title: "Transactions",
+			title: sideBarTranslation.transactions,
 			slug: "transactions",
 			canSee: true,
 			path: urls.transactions.root,
@@ -166,7 +169,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Transaction />,
 		},
 		{
-			title: "Developers",
+			title: sideBarTranslation.Developers,
 			slug: "developers",
 			canSee: true,
 			path: urls.developers.root,
@@ -174,12 +177,28 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			icon: <Developers />,
 		},
 		{
-			title: "Settings",
+			title: sideBarTranslation.Settings,
 			slug: "settings",
 			canSee: true,
 			path: urls.settings.root,
 			count: null,
 			icon: <Parameters />,
+		},
+		{
+			title: sideBarTranslation.apiDoc,
+			slug: sideBarTranslation.apiDoc,
+			canSee: true,
+			path: "http://developer.cartevo.co",
+			count: null,
+			icon: <Code />,
+		},
+		{
+			title: sideBarTranslation.help,
+			slug: sideBarTranslation.help,
+			canSee: true,
+			path: "/contact",
+			count: null,
+			icon: <Badge />,
 		},
 	];
 
@@ -247,11 +266,14 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 						</div>
 
 						{/* Links */}
-                        {(isAdminView ? SideBarLinksAdmin : SideBarLinksV2).map(
+						{(isAdminView ? SideBarLinksAdmin : SideBarLinksV2).map(
 							(link) => {
-                                const currentSegment = pathname?.split("/")[2] || ""; // after [locale]
-                                const linkSegment = link.path.split("/")[1] || ""; // path without locale
-                                const isActive = currentSegment === linkSegment;
+								const currentSegment =
+									pathname?.split("/")[2] || "";
+								const linkSegment =
+									link.path.split("/")[1] || "";
+								const isActive = currentSegment === linkSegment;
+
 								const iconColor = isActive
 									? "fill-[#1F66FF] stroke-[#1F66FF]"
 									: "fill-[#000]";
@@ -261,49 +283,101 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 
 								if (!link.canSee) return null;
 
+								const isExternal = link.path.startsWith("http");
+
 								return (
 									<li key={link.title} className="relative">
-                                        <Link
-                                            href={createLocalizedLink(link.path)}
-											style={{
-												color: isActive
-													? "#1F66FF"
-													: "#000",
-											}}
-											className={`relative pl-[22px] pr-3 py-3 flex items-center justify-between gap-[15px] group text-gray-700 hover:bg-app-lightgray hover:pl-7 transition-all ${
-												isActive
-													? "bg-app-lightgray pl-7 text-app-primary font-bold"
-													: ""
-											}`}
-										>
-											<div className="flex items-center gap-[15px]">
-												<div
-													style={{
-														transform: "scale(1.2)",
-													}}
-												>
-													{React.cloneElement(
-														link.icon,
-														{
-															className:
-																iconColor,
-															strokeColor:
-																iconStrokeColor,
-															isActive,
-														}
+										{isExternal ? (
+											<a
+												href={link.path}
+												target="_blank"
+												rel="noopener noreferrer"
+												style={{
+													color: isActive
+														? "#1F66FF"
+														: "#000",
+												}}
+												className={`relative pl-[22px] pr-3 py-3 flex items-center justify-between gap-[15px] group text-gray-700 hover:bg-app-lightgray hover:pl-7 transition-all ${
+													isActive
+														? "bg-app-lightgray pl-7 text-app-primary font-bold"
+														: ""
+												}`}
+											>
+												<div className="flex items-center gap-[15px]">
+													<div
+														style={{
+															transform:
+																"scale(1.2)",
+														}}
+													>
+														{React.cloneElement(
+															link.icon,
+															{
+																className:
+																	iconColor,
+																strokeColor:
+																	iconStrokeColor,
+																isActive,
+															}
+														)}
+													</div>
+													{isExpanded ? (
+														<div className="text-[16px]">
+															{link.title}
+														</div>
+													) : (
+														<div className="absolute top-0 left-[80px] shadow-lg rounded-md bg-white px-3 py-3 hidden group-hover:block">
+															{link.title}
+														</div>
 													)}
 												</div>
-												{isExpanded ? (
-													<div className="text-[16px]">
-														{link.title}
-													</div>
-												) : (
-													<div className="absolute top-0 left-[80px] shadow-lg rounded-md bg-white px-3 py-3 hidden group-hover:block">
-														{link.title}
-													</div>
+											</a>
+										) : (
+											<Link
+												href={createLocalizedLink(
+													link.path
 												)}
-											</div>
-										</Link>
+												style={{
+													color: isActive
+														? "#1F66FF"
+														: "#000",
+												}}
+												className={`relative pl-[22px] pr-3 py-3 flex items-center justify-between gap-[15px] group text-gray-700 hover:bg-app-lightgray hover:pl-7 transition-all ${
+													isActive
+														? "bg-app-lightgray pl-7 text-app-primary font-bold"
+														: ""
+												}`}
+											>
+												<div className="flex items-center gap-[15px]">
+													<div
+														style={{
+															transform:
+																"scale(1.2)",
+														}}
+													>
+														{React.cloneElement(
+															link.icon,
+															{
+																className:
+																	iconColor,
+																strokeColor:
+																	iconStrokeColor,
+																isActive,
+															}
+														)}
+													</div>
+													{isExpanded ? (
+														<div className="text-[16px]">
+															{link.title}
+														</div>
+													) : (
+														<div className="absolute top-0 left-[80px] shadow-lg rounded-md bg-white px-3 py-3 hidden group-hover:block">
+															{link.title}
+														</div>
+													)}
+												</div>
+											</Link>
+										)}
 									</li>
 								);
 							}

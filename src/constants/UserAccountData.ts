@@ -41,20 +41,7 @@ export const headerUserAccountDataV2: ITableHeader = {
 	edit: "",
 };
 
-export const headerCustomersData: ITableHeader = {
-	serial: "#",
-	name: "Name",
-	country: "Country",
-	phone: "Telephone",
-	email: "Email",
-	// "balance": "Balance",
-	// nbCards: "Nb. Cards",
-	// "kyc": "KYC",
-	status: "Status",
-	// locked: "Bloqué",
-	date: "Date",
-	edit: "",
-};
+
 
 export const tableUserAccountData: IGenericRow[] = [
 	{

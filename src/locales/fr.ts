@@ -16,6 +16,12 @@ import { cardsTranslationsFr } from "./translation/cards/cards-fr";
 import { settingsTranslationsFr } from "./translation/settings/settings-fr";
 import { websiteFooterFr } from "./translation/websiteFooter/websiteFooter-fr";
 import { websiteNavBarFr } from "./translation/websiteNavBar/websiteNavBar-fr";
+import { sideBarFr } from "./translation/sideBar/sideBar-Fr";
+import { customersFr } from "./translation/dashboard/customer/customer-Fr";
+import { transactionFr } from "./translation/dashboard/transactions/transaction-Fr";
+import { statusFr } from "./translation/status/status-Fr";
+import { developerFr } from "./translation/dashboard/developers/developer-Fr";
+import { navBarFr } from "./translation/navBar/navBar-Fr";
 
 export default {
 	onboarding: onboardingTranslationsFr,
@@ -36,4 +42,10 @@ export default {
 	resetPassword: resetPasswordFr,
 	register: registerFr,
 	privacy: privacyFr,
+	sideBar: sideBarFr,
+	customers: customersFr,
+	transaction: transactionFr,
+	status: statusFr,
+	developer: developerFr,
+	navBar: navBarFr,
 } as const;

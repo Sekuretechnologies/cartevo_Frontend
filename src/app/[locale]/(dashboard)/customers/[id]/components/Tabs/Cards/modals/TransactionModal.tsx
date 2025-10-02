@@ -42,6 +42,7 @@ import toast from "react-hot-toast";
 import { TransactionService } from "@/api/services/v2/transaction";
 import CustomDropdown from "@/components/shared/CustomDropdown";
 import { RxDotsHorizontal } from "react-icons/rx";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const infoData: TDataList[] = [
 	[
@@ -348,6 +349,8 @@ export default function TransactionModal({
 	customer,
 	setIsOpen,
 }: TransferModalProps) {
+	const { t } = useTranslation();
+	const transactionTrans = t.customers.details.transactionModal;
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	// const dispatch = useDispatch();
@@ -655,12 +658,6 @@ export default function TransactionModal({
 	const onError = (err: any) => {
 		console.error("any", err);
 	};
-
-	console.log(`window.location.pathname :: ${window.location.pathname}`);
-	console.log(`searchParams :: ${searchParams}`);
-	console.log(
-		`window.location.pathname - searchParams ::${window.location.pathname}?${searchParams}`
-	);
 
 	return (
 		<div className="bg-white m-auto p-8 rounded-md">
