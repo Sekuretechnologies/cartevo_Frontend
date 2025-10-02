@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type TText = {
 	text: string | number | React.ReactNode;
@@ -30,11 +33,16 @@ interface InfoCardProps {
 // };
 
 const WalletCard: React.FC<InfoCardProps> = ({ data, onClick }) => {
+	const { t } = useTranslation();
 	return (
-    <div 
-      className={`px-2 py-4 bg-white rounded-lg shadow-md grid grid-cols-2 ${onClick ? 'cursor-pointer hover:shadow-lg transition-shadow' : 'cursor-default'}`}
-      onClick={onClick}
-    >
+		<div
+			className={`px-2 py-4 bg-white rounded-lg shadow-md grid grid-cols-2 ${
+				onClick
+					? "cursor-pointer hover:shadow-lg transition-shadow"
+					: "cursor-default"
+			}`}
+			onClick={onClick}
+		>
 			{data.map((line, index1) => (
 				<div
 					key={index1}

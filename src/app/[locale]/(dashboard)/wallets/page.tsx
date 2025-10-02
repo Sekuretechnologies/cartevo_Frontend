@@ -25,9 +25,9 @@ import WalletCardGrid from "@/components/cards/WalletCardGrid";
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import { ItemFlag } from "@/components/shared/ItemFlag";
 import Modal from "@/components/shared/Modal/Modal";
-import { headerWalletTransactionData } from "@/constants/TransactionData";
 import useKeyPressed from "@/hooks/useKeyPressed";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 import { selectCurrentToken, selectCurrentUser } from "@/redux/slices/auth";
 import { selectSearchTerm } from "@/redux/slices/search";
 import { setCompanyWallets } from "@/redux/slices/wallets";
@@ -46,13 +46,14 @@ import { useDispatch, useSelector } from "react-redux";
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
 	openFundModal: (wallet: any) => void,
-	walletData?: any[]
+	walletData?: any[],
+	t?: any
 ): TDataList[] => [
 	[
 		[
 			{
 				label: {
-					text: "Wallet",
+					text: t?.wallets?.labels?.wallet,
 					fw: "bold",
 					fs: "20px",
 					color: "#444",
@@ -72,7 +73,13 @@ const getInitialInfoData = (
 				},
 			},
 			{
-				label: { text: "Available balance", fw: "", color: "#444" },
+				label: {
+					text:
+						t?.wallets?.labels?.availableBalance ||
+						"Available balance",
+					fw: "",
+					color: "#444",
+				},
 				value: {
 					text: "0",
 					fs: "25px",
@@ -87,7 +94,7 @@ const getInitialInfoData = (
 				value: {
 					text: (
 						<CButton
-							text={"Fund"}
+							text={t?.wallets?.actions?.fund}
 							btnStyle={"blue"}
 							icon={<MdOutlineFileDownload size={50} />}
 							width={"100%"}
@@ -102,7 +109,7 @@ const getInitialInfoData = (
 		[
 			{
 				label: {
-					text: "Wallet",
+					text: t?.wallets?.labels?.wallet || "Wallet",
 					fw: "bold",
 					fs: "20px",
 					color: "#444",
@@ -122,7 +129,13 @@ const getInitialInfoData = (
 				},
 			},
 			{
-				label: { text: "Available balance", fw: "", color: "#444" },
+				label: {
+					text:
+						t?.wallets?.labels?.availableBalance ||
+						"Available balance",
+					fw: "",
+					color: "#444",
+				},
 				value: {
 					text: "0",
 					fs: "25px",
@@ -137,7 +150,7 @@ const getInitialInfoData = (
 				value: {
 					text: (
 						<CButton
-							text={"Fund"}
+							text={t?.wallets?.actions?.fund || "Fund"}
 							btnStyle={"blue"}
 							icon={<MdOutlineFileDownload size={50} />}
 							width={"100%"}
@@ -239,11 +252,14 @@ const depositToWallet = async (
 // };
 
 export default function Home() {
-	useTitle("Cartevo | wallets", true);
+	const { t }: { t: any } = useTranslation();
+	const currentUser: any = useSelector(selectCurrentUser);
+	const companyName = currentUser?.company?.name || "Cartevo";
+
+	useTitle(t.wallets.pageTitle.replace("{companyName}", companyName), true);
 
 	const router = useRouter();
 	const currentToken: any = useSelector(selectCurrentToken);
-	const currentUser: any = useSelector(selectCurrentUser);
 	const currentEnvMode: any = useSelector(selectCurrentMode);
 	console.log("currentEnvMode :: ", currentEnvMode);
 	console.log("currentEnvMode :: ", currentEnvMode);
@@ -262,8 +278,10 @@ export default function Home() {
 	}>({ isOpen: false, wallet: null });
 
 	// Initialize infoData
-	let infoData: TDataList[] = getInitialInfoData((wallet: any) =>
-		setFundModalData({ isOpen: true, wallet })
+	let infoData: TDataList[] = getInitialInfoData(
+		(wallet: any) => setFundModalData({ isOpen: true, wallet }),
+		undefined,
+		t
 	);
 
 	const dispatch = useDispatch<any>();
@@ -428,7 +446,13 @@ export default function Home() {
 					},
 				},
 				{
-					label: { text: "Available balance", fw: "", color: "#444" },
+					label: {
+						text:
+							t?.wallets?.labels?.availableBalance ||
+							"Available balance",
+						fw: "",
+						color: "#444",
+					},
 					value: {
 						text: (
 							<span className="flex gap-2 items-center">
@@ -529,39 +553,57 @@ export default function Home() {
 					idTrx: item.id,
 					currency: item.currency,
 					amount: item.amount?.toLocaleString("en-EN") ?? 0,
-					status:
-						item.status == "SUCCESS" ? (
-							<BadgeLabel
-								className={`text-xs`}
-								label={"Réussi"}
-								badgeColor={"#1F66FF"}
-								textColor={"#444"}
-							/>
-						) : item.status == "FAILED" ? (
-							<BadgeLabel
-								className={`text-xs`}
-								label={"Echec"}
-								badgeColor={"#F85D4B"}
-								textColor={"#444"}
-							/>
-						) : item.status?.toUpperCase() == "PENDING" ? (
-							<BadgeLabel
-								className={`text-xs`}
-								label={"En cours"}
-								badgeColor={"#FFAC1C"}
-								textColor={"#444"}
-							/>
-						) : item.status == "CANCELLED" ||
-						  item.status == "CANCELED" ? (
-							<BadgeLabel
-								className={`text-xs`}
-								label={"Suspendu"}
-								badgeColor={"#444"}
-								textColor={"#444"}
-							/>
-						) : (
-							<></>
-						),
+					status: (() => {
+						switch (item.status?.toUpperCase()) {
+							case "SUCCESS":
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={t.wallets.labels.status.success}
+										badgeColor="#1F66FF"
+										textColor="#444"
+									/>
+								);
+							case "FAILED":
+							case "ERROR":
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={t.wallets.labels.status.failed}
+										badgeColor="#F85D4B"
+										textColor="#444"
+									/>
+								);
+							case "PENDING":
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={t.wallets.labels.status.pending}
+										badgeColor="#FFAC1C"
+										textColor="#444"
+									/>
+								);
+							case "CANCELLED":
+							case "CANCELED":
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={t.wallets.labels.status.cancelled}
+										badgeColor="#444"
+										textColor="#444"
+									/>
+								);
+							default:
+								return (
+									<BadgeLabel
+										className="text-xs"
+										label={item.status || "Unknown"}
+										badgeColor="#6B7280"
+										textColor="#444"
+									/>
+								);
+						}
+					})(),
 					date: getFormattedDateTime(item.created_at, "en"),
 					actions: (
 						<>
@@ -592,7 +634,7 @@ export default function Home() {
 	}
 
 	return (
-		<Layout title={"Wallets"}>
+		<Layout title={t.wallets.mainTitle}>
 			<section className="mt-2">
 				{companyWalletsQueryRes?.status === "loading" ? (
 					<div className="flex justify-center w-full py-10">
@@ -680,11 +722,22 @@ export default function Home() {
 					className="my-[50px] bg-white  shadow-md rounded-xl p-5 "
 				>
 					<div className="mb-5">
-						<Title title={"Last transactions"} />
+						<Title title={t.wallets.labels.lastTransactions} />
 					</div>
 
 					<CustomTable
-						headerData={headerWalletTransactionData}
+						headerData={{
+							serial: t.wallets.transactions.serial,
+							type: t.wallets.transactions.type,
+							wallet: t.wallets.transactions.wallet,
+							phone: t.wallets.transactions.phone,
+							idTrx: t.wallets.transactions.idTrx,
+							currency: t.wallets.transactions.currency,
+							amount: t.wallets.transactions.amount,
+							status: t.wallets.transactions.status,
+							date: t.wallets.transactions.date,
+							edit: "",
+						}}
 						tableData={rearrangedTableData}
 						filter
 						filterType={"transaction"}

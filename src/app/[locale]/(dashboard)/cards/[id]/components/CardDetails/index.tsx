@@ -2,6 +2,7 @@
 import CustomTable from "@/components/shared/CustomTable";
 import Title from "@/components/shared/Title";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "@/hooks/useTranslation";
 // import TransactionModal from "@/app/dashboard/v2/wallet_transactions/components/TransactionModal";
 import { ITableHeader } from "@/components/AdminTable/Table";
 import { selectCurrentCustomerDetails } from "@/redux/slices/customer";
@@ -144,6 +145,7 @@ export function VirtualVisaCard() {
 }
 
 const CardDetails = ({ search, setSearch }: Props) => {
+	const { t }: { t: any } = useTranslation();
 	const redirectRef: any = useRef();
 	const dispatch = useDispatch();
 	const cardDetails: any = useSelector(selectCurrentCard);
@@ -179,20 +181,20 @@ const CardDetails = ({ search, setSearch }: Props) => {
 
 	// const userData = useSelector(selectCurrentUser);
 	const Labels: any = {
-		brand: "Brand",
-		cvv: "CVV",
-		masked_number: "Number",
-		name: "Name",
-		status: "Status",
-		created_at: "Issuing Date",
-		balance: "Balance",
+		brand: t.cards.details.labels.brand,
+		cvv: t.cards.details.labels.cvv,
+		masked_number: t.cards.details.labels.masked_number,
+		name: t.cards.details.labels.name,
+		status: t.cards.details.labels.status,
+		created_at: t.cards.details.labels.created_at,
+		balance: t.cards.details.labels.balance,
 	};
 
 	const handleFundCard = async (cardId: string) => {
 		if (!cardId) return;
 		const token = localStorage.getItem("sktoken");
 		if (!token) {
-			toast.error("Authentication required");
+			toast.error(t.cards.details.messages.authRequired);
 			return;
 		}
 
@@ -209,9 +211,9 @@ const CardDetails = ({ search, setSearch }: Props) => {
 					customer_id: "customer_id_here",
 				}, // You'd get customer_id from context
 			});
-			toast.success("Card funded successfully");
+			toast.success(t.cards.details.messages.cardFundedSuccess);
 		} catch (error) {
-			toast.error("Failed to fund card");
+			toast.error(t.cards.details.messages.cardFundFailed);
 			console.error(error);
 		}
 	};
@@ -220,7 +222,7 @@ const CardDetails = ({ search, setSearch }: Props) => {
 		if (!cardId) return;
 		const token = localStorage.getItem("sktoken");
 		if (!token) {
-			toast.error("Authentication required");
+			toast.error(t.cards.details.messages.authRequired);
 			return;
 		}
 
@@ -236,9 +238,9 @@ const CardDetails = ({ search, setSearch }: Props) => {
 					customer_id: "customer_id_here",
 				},
 			});
-			toast.success("Withdrawal successful");
+			toast.success(t.cards.details.messages.withdrawalSuccess);
 		} catch (error) {
-			toast.error("Failed to withdraw from card");
+			toast.error(t.cards.details.messages.withdrawalFailed);
 			console.error(error);
 		}
 	};
@@ -247,15 +249,15 @@ const CardDetails = ({ search, setSearch }: Props) => {
 		if (!cardId) return;
 		const token = localStorage.getItem("sktoken");
 		if (!token) {
-			toast.error("Authentication required");
+			toast.error(t.cards.details.messages.authRequired);
 			return;
 		}
 
 		try {
 			await CardService.freeze_card({ token, cardId });
-			toast.success("Card frozen successfully");
+			toast.success(t.cards.details.messages.cardFrozenSuccess);
 		} catch (error) {
-			toast.error("Failed to freeze card");
+			toast.error(t.cards.details.messages.cardFreezeFailed);
 			console.error(error);
 		}
 	};
@@ -264,15 +266,15 @@ const CardDetails = ({ search, setSearch }: Props) => {
 		if (!cardId) return;
 		const token = localStorage.getItem("sktoken");
 		if (!token) {
-			toast.error("Authentication required");
+			toast.error(t.cards.details.messages.authRequired);
 			return;
 		}
 
 		try {
 			await CardService.unfreeze_card({ token, cardId });
-			toast.success("Card unfrozen successfully");
+			toast.success(t.cards.details.messages.cardUnfrozenSuccess);
 		} catch (error) {
-			toast.error("Failed to unfreeze card");
+			toast.error(t.cards.details.messages.cardUnfreezeFailed);
 			console.error(error);
 		}
 	};
@@ -290,14 +292,14 @@ const CardDetails = ({ search, setSearch }: Props) => {
 							{cardDetails.status == "ACTIVE" ? (
 								<BadgeLabel
 									className={`text-xs`}
-									label={"ACTIVE"}
+									label={t.cards.details.status.active}
 									badgeColor={"#1F66FF"}
 									textColor={"#444"}
 								/>
 							) : cardDetails.status == "TERMINATED" ? (
 								<BadgeLabel
 									className={`text-xs`}
-									label={"TERMINATED"}
+									label={t.cards.details.status.terminated}
 									badgeColor={"#F85D4B"}
 									textColor={"#444"}
 								/>
@@ -305,14 +307,14 @@ const CardDetails = ({ search, setSearch }: Props) => {
 							  "FROZEN" ? (
 								<BadgeLabel
 									className={`text-xs`}
-									label={"FROZEN"}
+									label={t.cards.details.status.frozen}
 									badgeColor={"#FFAC1C"}
 									textColor={"#444"}
 								/>
 							) : (
 								<BadgeLabel
 									className={`text-xs`}
-									label={"Suspendu"}
+									label={t.cards.details.status.suspended}
 									badgeColor={"#444"}
 									textColor={"#444"}
 								/>
@@ -393,14 +395,14 @@ const CardDetails = ({ search, setSearch }: Props) => {
 								className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
 							>
 								<FaDownload className="" />
-								Fund
+								{t.cards.details.actions.fund}
 							</button>
 							<button
 								onClick={() => setIsWithdrawModalOpen(true)}
 								className="flex-1 flex gap-2 items-center justify-center bg-app-primary hover:bg-app-secondary text-white py-2 px-4 rounded transition"
 							>
 								<FaUpload className="" />
-								Withdraw
+								{t.cards.details.actions.withdraw}
 							</button>
 						</>
 					) : (
@@ -412,7 +414,7 @@ const CardDetails = ({ search, setSearch }: Props) => {
 							className="col-span-2 flex-1 flex gap-2 items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded transition"
 						>
 							<FaLock className="" />
-							Freeze
+							{t.cards.details.actions.freeze}
 						</button>
 					) : cardDetails.status?.toUpperCase() === "FROZEN" ? (
 						<button
@@ -420,7 +422,7 @@ const CardDetails = ({ search, setSearch }: Props) => {
 							className="col-span-2 flex-1 flex gap-2 items-center justify-center bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition"
 						>
 							<FaLock className="" />
-							Unfreeze
+							{t.cards.details.actions.unfreeze}
 						</button>
 					) : (
 						<></>

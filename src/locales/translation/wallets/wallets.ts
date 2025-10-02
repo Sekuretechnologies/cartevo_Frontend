@@ -1,5 +1,5 @@
 export const walletsTranslations = {
-	pageTitle: "Cartevo | Wallets",
+	pageTitle: "{companyName} | Wallets",
 	mainTitle: "Wallets",
 	labels: {
 		wallet: "Wallet",
@@ -156,6 +156,28 @@ export const walletsTranslations = {
 			editSave: "Save",
 			editSaving: "Saving...",
 		},
+	},
+	// Additional texts found in the page
+	walletCardGrid: {
+		addNewWallet: "Add New Wallet",
+	},
+	loading: {
+		loadingSpinner: "Loading...",
+	},
+	transactions: {
+		serial: "#",
+		type: "Type",
+		name: "Name",
+		country: "Country",
+		wallet: "Wallet",
+		card: "Card",
+		phone: "Phone",
+		idTrx: "Transaction ID",
+		currency: "Currency",
+		amount: "Amount",
+		status: "Status",
+		date: "Date",
+		actions: "Actions",
 	},
 } as const;
 
