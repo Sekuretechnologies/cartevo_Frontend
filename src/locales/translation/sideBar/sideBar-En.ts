@@ -5,5 +5,7 @@ export const sideBarEn = {
 	transactions: "Transactions",
 	Developers: "Developers",
 	Settings: "Settings",
-    Customers: "Customers"
+	Customers: "Customers",
+	apiDoc: "Api documentation",
+	help: "Help",
 };

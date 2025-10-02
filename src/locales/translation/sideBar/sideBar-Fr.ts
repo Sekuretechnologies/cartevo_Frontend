@@ -6,4 +6,6 @@ export const sideBarFr = {
 	Developers: "Développeurs",
 	Settings: "Paramètres",
 	Customers: "Clients",
+	apiDoc: "Documentation API",
+	help: "Aide",
 };

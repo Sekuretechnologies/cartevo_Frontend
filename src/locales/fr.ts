@@ -14,6 +14,11 @@ import { resetPasswordFr } from "./translation/reset-password/resetPassword-fr";
 import { registerFr } from "./translation/register/register-fr";
 import { privacyFr } from "./translation/privacy_policy/privacy_policy-fr";
 import { sideBarFr } from "./translation/sideBar/sideBar-Fr";
+import { customersFr } from "./translation/dashboard/customer/customer-Fr";
+import { transactionFr } from "./translation/dashboard/transactions/transaction-Fr";
+import { statusFr } from "./translation/status/status-Fr";
+import { developerFr } from "./translation/dashboard/developers/developer-Fr";
+import { navBarFr } from "./translation/navBar/navBar-Fr";
 
 export default {
 	onboarding: onboardingTranslationsFr,
@@ -31,5 +36,10 @@ export default {
 	resetPassword: resetPasswordFr,
 	register: registerFr,
 	privacy: privacyFr,
-	sideBar: sideBarFr
+	sideBar: sideBarFr,
+	customers: customersFr,
+	transaction: transactionFr,
+	status: statusFr,
+	developer: developerFr,
+	navBar: navBarFr,
 } as const;

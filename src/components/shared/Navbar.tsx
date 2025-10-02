@@ -34,8 +34,9 @@ import CButton from "./CButton";
 import CustomDropdown2 from "./CustomDropdown2";
 import { ItemFlag } from "./ItemFlag";
 import SearchUserInput from "./search/UserSearchInput";
-import "./style-navbar.css";
+
 import cstyle from "./styles/navbar-style.module.scss";
+import { useTranslation } from "@/hooks/useTranslation";
 type Props = {
 	title: string | undefined;
 	backLink?: string;
@@ -58,6 +59,8 @@ const envModes: any = {
 };
 
 export default function Navbar(props: Props) {
+	const { t } = useTranslation();
+	const navBarTranslate = t.navBar;
 	const router = useRouter();
 	const pathname = usePathname();
 	const dispatch = useDispatch();
@@ -404,7 +407,7 @@ export default function Navbar(props: Props) {
 									className="flex justify-center w-full px-3 gap-2 my-3"
 								>
 									<CButton
-										text={"Deconnexion"}
+										text={navBarTranslate.logout}
 										btnStyle={"outlineDark"}
 										onClick={onLogout}
 										icon={<MdLogout size={40} />}

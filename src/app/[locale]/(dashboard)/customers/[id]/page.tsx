@@ -19,6 +19,7 @@ import Cards from "./components/Tabs/Cards/Cards";
 import Transactions from "./components/Tabs/Transactions/Transactions";
 import UserDetails from "./components/UserDetails";
 import { selectCurrentToken } from "@/redux/slices/auth";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const getCustomer = async ({ queryKey }: any) => {
 	const [_key, token, id] = queryKey;
@@ -71,6 +72,8 @@ const getCustomerCards = async ({ queryKey }: any) => {
 };
 
 export default function ManageUserAccount() {
+	const { t } = useTranslation();
+	const customerTrans = t.customers.details;
 	useTitle("Cartevo | Customer", true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const { id } = useParams();
@@ -166,7 +169,7 @@ export default function ManageUserAccount() {
 											value="Cards"
 										>
 											<span className="px-10 py-4 border-1 rounded-full">
-												Cards
+												{customerTrans.cards}
 											</span>
 										</TabsTrigger>
 										<TabsTrigger
@@ -174,7 +177,7 @@ export default function ManageUserAccount() {
 											value="Transactions"
 										>
 											<span className="px-10 py-4 border-1 rounded-full">
-												Transactions
+													{customerTrans.transactions}
 											</span>
 										</TabsTrigger>
 									</TabsList>

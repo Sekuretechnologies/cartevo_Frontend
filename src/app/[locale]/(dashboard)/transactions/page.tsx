@@ -18,7 +18,7 @@ import Layout from "@/components/shared/Layout";
 import CustomDropdown from "@/components/shared/CustomDropdown";
 import Link from "next/link";
 import ButtonFilled from "@/components/shared/ButtonFilled";
-import { IGenericRow } from "@/components/AdminTable/Table";
+import { IGenericRow, ITableHeader } from "@/components/AdminTable/Table";
 import ActiveYesNo from "@/components/shared/ActiveYesNo";
 import ButtonOutlined from "@/components/shared/ButtonOutlined";
 import { FourDots } from "@/components/shared/icons";
@@ -68,14 +68,11 @@ import { FaArrowsRotate } from "react-icons/fa6";
 import * as CFlags from "country-flag-icons/react/3x2";
 import { getCategoryModeV2, getCategoryTypeV2 } from "@/utils/graphs";
 import TransactionModal from "../cards/[id]/components/Transactions/modals/TransactionModal";
-import {
-	headerAllTransactionData,
-	headerTransactionData,
-	headerUserTransactionDataV2,
-} from "@/constants/TransactionData";
+import { headerUserTransactionDataV2 } from "@/constants/TransactionData";
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import { CompanyService } from "@/api/services/cartevo-api/company";
 import { selectCurrentToken } from "@/redux/slices/auth";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const CountryFlags: any = CFlags;
 
@@ -98,11 +95,14 @@ const getCompanyTransactions = async ({ queryKey }: any) => {
 
 export default function Home() {
 	useTitle("Cartevo | transactions", true);
+	const { t } = useTranslation();
+	const transactionTrans = t.transaction;
+	const statusTrans = t.status;
 
 	const currentToken: any = useSelector(selectCurrentToken);
 	const [filterContent, setFilterContent] = useState({});
 	const [statsData, setStatsData] = useState<TDataList[]>();
-    const [isOpen, setIsOpen] = useState<number | false>(false);
+	const [isOpen, setIsOpen] = useState<number | false>(false);
 
 	const dispatch = useDispatch();
 	const redirectRef: any = useRef();
@@ -135,6 +135,24 @@ export default function Home() {
 
 	/** ------------------------------------------------- */
 	const { shiftDown, iPressed, ePressed } = useKeyPressed();
+	const headerAllTransactionData: ITableHeader = {
+		serial: "#",
+		type: transactionTrans.type,
+		name: transactionTrans.merchant,
+		country: transactionTrans.counrtry,
+		wallet: transactionTrans.wallet,
+		card: transactionTrans.card,
+		phone: transactionTrans.phone,
+		idTrx: transactionTrans.idTrans,
+		// refTrx: "Ref Transaction",
+		currency: transactionTrans.currency,
+		amount: transactionTrans.amount,
+		// method: "Methode",
+		// mode: "Mode",
+		status: "Status",
+		date: "Date",
+		edit: "",
+	};
 
 	if (companyTransactionsQueryRes.data) {
 		const sortedTransactions = sortByCreatedAtDescending([
@@ -159,21 +177,21 @@ export default function Home() {
 						item.status == "SUCCESS" ? (
 							<BadgeLabel
 								className={`text-xs`}
-								label={"Réussi"}
+								label={statusTrans.success}
 								badgeColor={"#1F66FF"}
 								textColor={"#444"}
 							/>
 						) : item.status == "FAILED" ? (
 							<BadgeLabel
 								className={`text-xs`}
-								label={"Echec"}
+								label={statusTrans.failed}
 								badgeColor={"#F85D4B"}
 								textColor={"#444"}
 							/>
 						) : item.status?.toUpperCase() == "PENDING" ? (
 							<BadgeLabel
 								className={`text-xs`}
-								label={"En cours"}
+								label={statusTrans.pending}
 								badgeColor={"#FFAC1C"}
 								textColor={"#444"}
 							/>
@@ -181,7 +199,7 @@ export default function Home() {
 						  item.status == "CANCELED" ? (
 							<BadgeLabel
 								className={`text-xs`}
-								label={"Suspendu"}
+								label={statusTrans.canceled}
 								badgeColor={"#444"}
 								textColor={"#444"}
 							/>
@@ -189,7 +207,7 @@ export default function Home() {
 							<></>
 						),
 					date: getFormattedDateTime(item.created_at, "en"),
-                    actions: (
+					actions: (
 						<>
 							<div className="flex gap-5">
 								<CButton
@@ -198,19 +216,19 @@ export default function Home() {
 									onClick={() => setIsOpen(index)}
 									btnStyle={"outlineDark"}
 								/>
-                                <Modal
-                                    index={`${index}`}
-                                    name={"transactionDetails"}
-                                    isOpen={isOpen === index}
-                                    setIsOpen={setIsOpen}
-                                    modalContent={
-                                        <TransactionModal
-                                            setIsOpen={setIsOpen}
-                                            customer={item?.customer}
-                                            item={item}
-                                        />
-                                    }
-                                />
+								<Modal
+									index={`${index}`}
+									name={"transactionDetails"}
+									isOpen={isOpen === index}
+									setIsOpen={setIsOpen}
+									modalContent={
+										<TransactionModal
+											setIsOpen={setIsOpen}
+											customer={item?.customer}
+											item={item}
+										/>
+									}
+								/>
 							</div>
 						</>
 					),
