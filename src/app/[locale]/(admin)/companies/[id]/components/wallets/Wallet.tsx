@@ -41,7 +41,7 @@ const getWalletsByCompany = async ({
 	return responseJson;
 };
 
-const Wallet = () => {
+const WalletComponent = () => {
 	const currentToken: any = useSelector(selectCurrentToken);
 	const selectedCompany = useSelector(
 		(state: RootState) => state.selectedCompany.company
@@ -57,6 +57,7 @@ const Wallet = () => {
 	const [detailsWallet, setDetailsWallet] = useState<any | null>(null);
 	const [isSavingBalances, setIsSavingBalances] = useState<boolean>(false);
 	const [isTogglingWallet, setIsTogglingWallet] = useState<boolean>(false);
+	const [filterContent, setFilterContent] = useState();
 	const dispatch = useDispatch();
 
 	const walletsQuery = useQuery({
@@ -161,7 +162,7 @@ const Wallet = () => {
 
 	return (
 		<div className="my-[50px] bg-white shadow-md rounded-xl p-5">
-			<Title title={"Users List"} />
+			<Title title={"Wallets List"} />
 
 			<CustomTable
 				headerData={walletsHeaderData}
@@ -289,7 +290,7 @@ const Wallet = () => {
 	);
 };
 
-export default Wallet;
+export default WalletComponent;
 
 function WalletDetailsModal({
 	wallet,

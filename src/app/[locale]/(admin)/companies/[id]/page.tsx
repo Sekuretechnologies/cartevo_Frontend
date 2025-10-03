@@ -8,6 +8,7 @@ import Customers from "./components/Customers/Customers";
 import Cards from "./components/Cards/Cards";
 import Transactions from "./components/Transaction/Transactions";
 import { Wallet } from "@/components/shared/icons";
+import WalletComponent from "./components/wallets/Wallet";
 
 const ManageCompany = () => {
 	return (
@@ -88,7 +89,7 @@ const ManageCompany = () => {
 								</TabsContent>
 
 								<TabsContent value="wallets">
-									<Wallet />
+									<WalletComponent />
 								</TabsContent>
 
 								<TabsContent value="cards">
