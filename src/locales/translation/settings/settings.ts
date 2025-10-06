@@ -217,3 +217,4 @@ export const settingsTranslations = {
 		areYouSureDeleteExchangeRate: "Are you sure you want to delete this exchange rate?",
 	},
 } as const;
+

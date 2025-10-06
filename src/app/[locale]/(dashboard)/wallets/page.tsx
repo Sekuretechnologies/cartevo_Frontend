@@ -109,7 +109,7 @@ const getInitialInfoData = (
 		[
 			{
 				label: {
-					text: t?.wallets?.labels?.wallet || "Wallet",
+					text: t?.wallets?.labels?.wallet || "wallet",
 					fw: "bold",
 					fs: "20px",
 					color: "#444",
@@ -150,7 +150,7 @@ const getInitialInfoData = (
 				value: {
 					text: (
 						<CButton
-							text={t?.wallets?.actions?.fund || "Fund"}
+							text={t?.wallets?.actions?.fund || "Recharger"}
 							btnStyle={"blue"}
 							icon={<MdOutlineFileDownload size={50} />}
 							width={"100%"}
@@ -480,8 +480,8 @@ export default function Home() {
 								<CButton
 									text={
 										wallet.currency === "USD"
-											? "Deposit"
-											: "Fund"
+											? `${t.wallets.actions.deposit}`
+											: `${t.wallets.actions.fund}`
 									}
 									btnStyle={"blue"}
 									onClick={() => {
@@ -588,7 +588,9 @@ export default function Home() {
 								return (
 									<BadgeLabel
 										className="text-xs"
-										label={t.wallets.labels.status.cancelled}
+										label={
+											t.wallets.labels.status.cancelled
+										}
 										badgeColor="#444"
 										textColor="#444"
 									/>
