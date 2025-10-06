@@ -1,20 +1,20 @@
 "use client";
 import { useTitle } from "@/hooks/useTitle";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import CButton from "@/components/shared/CButton";
+import Checkbox from "@/components/shared/Checkbox";
 import Layout from "@/components/shared/Layout";
 import Modal from "@/components/shared/Modal/Modal";
-import Checkbox from "@/components/shared/Checkbox";
 
 import { DevelopersService } from "@/api/services/cartevo-api/developers";
-import { selectCurrentToken } from "@/redux/slices/auth";
-import { useSelector } from "react-redux";
-import { HiClipboardCopy, HiPencil, HiRefresh } from "react-icons/hi";
-import { DeveloperSettings } from "@/types/settings";
 import { useTranslation } from "@/hooks/useTranslation";
+import { selectCurrentToken } from "@/redux/slices/auth";
+import { DeveloperSettings } from "@/types/settings";
+import { HiClipboardCopy, HiPencil, HiRefresh } from "react-icons/hi";
+import { useSelector } from "react-redux";
 
 const getDeveloperSettings = async ({ queryKey }: any) => {
 	const [_key, token] = queryKey;
@@ -358,7 +358,7 @@ function EditWebhookModal({
 	};
 
 	return (
-		<div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+		<div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4 md:w-[655px]">
 			<h3 className="text-lg font-semibold text-gray-800 mb-4">
 				{developerTrans.editModal}
 			</h3>
