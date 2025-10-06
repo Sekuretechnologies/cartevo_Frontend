@@ -86,6 +86,17 @@ export const headerWalletTransactionData: ITableHeader = {
 	edit: "",
 };
 
+export const headerTransactionData: ITableHeader = {
+	serial: "#",
+	type: "Type",
+	name: "Merchant",
+	idTrx: "Transaction ID",
+	amount: "Amount",
+	status: "Status",
+	date: "Date",
+	actions: "Actions",
+};
+
 export const headerUserTransactionDataV2: ITableHeader = {
 	serial: "#",
 	type: "Type",
