@@ -13,7 +13,6 @@ import { sortByCreatedAtDescending } from "@/utils/utils";
 import { CardService } from "@/api/services/cartevo-api/card";
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import urls from "@/config/urls";
-import { headerCardData } from "@/constants/CardData";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { selectSearchTerm } from "@/redux/slices/search";
