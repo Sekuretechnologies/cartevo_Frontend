@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
-import { allCountries } from "country-telephone-data"; // ou autre source de données pays
+import { allCountries } from "country-telephone-data";
 import { useTranslation } from "@/hooks/useTranslation";
-// utilitaire pour fermer au clic extérieur
 
 type Country = {
 	name: string;
@@ -20,13 +19,14 @@ interface CountryPhoneInputProps {
 
 const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 	value = "",
-	defaultCountryIso2,
+	defaultCountryIso2 = "bj", // Bénin par défaut
 	onChange,
 	placeholder = "Numéro de téléphone",
 	className = "",
 }) => {
 	const { t } = useTranslation();
 	const inputTranslate = t.contact.input;
+
 	const countries: Country[] = allCountries.map((c) => ({
 		name: c.name,
 		iso2: c.iso2.toLowerCase(),
@@ -35,23 +35,21 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 	}));
 
 	const defaultCountry =
-		countries.find((c) => c.iso2 === defaultCountryIso2?.toLowerCase()) ||
+		countries.find((c) => c.iso2 === defaultCountryIso2.toLowerCase()) ||
 		countries[0];
 
 	const [selectedCountry, setSelectedCountry] =
 		useState<Country>(defaultCountry);
-	const [phoneNumber, setPhoneNumber] = useState<string>(value);
+	const [phoneNumber, setPhoneNumber] = useState<string>(value); // <-- vide par défaut
 	const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
-	// Fermer le dropdown si clic à l'extérieur
 	useOnClickOutside(wrapperRef, () => {
 		setDropdownOpen(false);
 	});
 
-	// Filtrer les pays selon la saisie
 	const filteredCountries = countries.filter((c) => {
 		const term = searchTerm.trim().toLowerCase();
 		if (term === "") return true;
@@ -62,7 +60,6 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 		);
 	});
 
-	// Quand le pays change ou numéro change, on envoie la valeur
 	useEffect(() => {
 		const full = `${selectedCountry.dialCode}${phoneNumber.replace(
 			/\D/g,
@@ -77,16 +74,12 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 	};
 
 	const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const v = e.target.value;
-		// autoriser chiffres, espace, tirets etc
-		setPhoneNumber(v);
+		setPhoneNumber(e.target.value);
 	};
 
 	return (
 		<div className={`relative ${className}`} ref={wrapperRef}>
-			{/* Sélecteur pays + numéro */}
 			<div className="flex items-center border rounded-md overflow-hidden">
-				{/* bouton pays */}
 				<button
 					type="button"
 					className="flex items-center px-3 py-2 bg-white hover:bg-gray-100 border-r"
@@ -110,7 +103,6 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 						/>
 					</svg>
 				</button>
-				{/* input phone number */}
 				<input
 					type="tel"
 					value={phoneNumber}
@@ -121,7 +113,6 @@ const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({
 				/>
 			</div>
 
-			{/* Dropdown de sélection des pays */}
 			{dropdownOpen && (
 				<div className="absolute mt-1 left-0 w-full max-h-60 bg-white border rounded-md shadow-lg overflow-y-auto z-50">
 					<input
@@ -168,9 +159,8 @@ function useOnClickOutside(
 ) {
 	useEffect(() => {
 		const listener = (event: MouseEvent | TouchEvent) => {
-			if (!ref.current || ref.current.contains(event.target as Node)) {
+			if (!ref.current || ref.current.contains(event.target as Node))
 				return;
-			}
 			handler(event);
 		};
 		document.addEventListener("mousedown", listener);
