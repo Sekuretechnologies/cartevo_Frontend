@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectItem } from "@nextui-org/select";
 import { selectCurrentToken, selectCurrentUser } from "@/redux/slices/auth";
 import { teamMemberSchema } from "@/validation/FormValidation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
@@ -40,14 +40,9 @@ const handleMemberInfo = async (
 
 	if (!response.ok) {
 		const responseBody = await response.json();
-		if (response.status === 401) {
-			throw new Error(responseBody.message);
-		} else {
-			throw new Error(responseBody.message);
-		}
+		throw new Error(responseBody.message);
 	}
-	const responseJson = await response.json();
-	return responseJson;
+	return await response.json();
 };
 
 const getUserRoles = (t: any) => [
@@ -64,15 +59,86 @@ const getUserRoles = (t: any) => [
 const TeamMemberForm = ({ onClose, t }: TeamMemberFormProps) => {
 	const currentToken: any = useSelector(selectCurrentToken);
 	const currentUser = useSelector(selectCurrentUser);
-	// const userId =
+
+	const rolePermissions: Record<
+		string,
+		{ action: string; allowed: boolean }[]
+	> = {
+		admin: [
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.accessSystem,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.modifyWebhook,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.reloadWalletOrCard,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.withdrawWalletOrCard,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.viewBalances,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.freezeOrUnfreezeCard,
+				allowed: true,
+			},
+		],
+		member: [
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.accessSystem,
+				allowed: false,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.modifyWebhook,
+				allowed: false,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.reloadWalletOrCard,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.withdrawWalletOrCard,
+				allowed: false,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.viewBalances,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.freezeOrUnfreezeCard,
+				allowed: false,
+			},
+		],
+	};
+
 	const form = useForm<z.infer<typeof teamMemberSchema>>({
 		resolver: zodResolver(teamMemberSchema),
 		defaultValues: {
 			email: "",
 			role: "",
-			// ownerUserId: currentUser.id,
 		},
 	});
+
+	const [selectedRole, setSelectedRole] = useState<string>("");
 
 	const mutation = useMutation({
 		mutationFn: (data: z.infer<typeof teamMemberSchema>) =>
@@ -82,7 +148,10 @@ const TeamMemberForm = ({ onClose, t }: TeamMemberFormProps) => {
 			toast.error(err.message);
 		},
 		onSuccess: (data: any) => {
-			toast.success(t.settings.teamMembers.modals.addTeamMember.newTeamMemberAddedSuccess);
+			toast.success(
+				t.settings.teamMembers.modals.addTeamMember
+					.newTeamMemberAddedSuccess
+			);
 			onClose();
 		},
 	});
@@ -94,6 +163,7 @@ const TeamMemberForm = ({ onClose, t }: TeamMemberFormProps) => {
 	const onError = (err: any) => {
 		console.error("error", err);
 	};
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit, onError)}>
@@ -102,20 +172,26 @@ const TeamMemberForm = ({ onClose, t }: TeamMemberFormProps) => {
 						control={form.control}
 						name="email"
 						render={({ field }) => (
-						<FormItem className="mb-2">
-							<FormLabel className="text-gray-900 text-md tracking-tight">
-								{t.settings.teamMembers.modals.addTeamMember.emailAddress}
-								<span className="text-red-500">*</span>
-							</FormLabel>
-							<FormControl>
-								<Input
-									className="px-6 w-full bg-app-lightgray"
-									placeholder={t.settings.teamMembers.modals.addTeamMember.emailPlaceholder}
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage className="text-red-400" />
-						</FormItem>
+							<FormItem className="mb-2">
+								<FormLabel className="text-gray-900 text-md tracking-tight">
+									{
+										t.settings.teamMembers.modals
+											.addTeamMember.emailAddress
+									}
+									<span className="text-red-500">*</span>
+								</FormLabel>
+								<FormControl>
+									<Input
+										className="px-6 w-full bg-app-lightgray"
+										placeholder={
+											t.settings.teamMembers.modals
+												.addTeamMember.emailPlaceholder
+										}
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage className="text-red-400" />
+							</FormItem>
 						)}
 					/>
 
@@ -123,44 +199,86 @@ const TeamMemberForm = ({ onClose, t }: TeamMemberFormProps) => {
 						control={form.control}
 						name="role"
 						render={({ field }) => (
-						<FormItem>
-							<FormLabel className="text-gray-900 text-md tracking-tight">
-								{t.settings.teamMembers.modals.addTeamMember.role}
-								<span className="text-red-500">*</span>
-							</FormLabel>
-							<FormControl>
-								<Select
-									{...field}
-									placeholder={t.settings.teamMembers.modals.addTeamMember.selectRole}
-									style={{
-										width: "100%",
-									}}
-									className="bg-app-lightgray text-gray-900 font-normal"
-									defaultSelectedKeys={[
-										field.value ?? "",
-									]}
-									selectedKeys={
-										field.value ? [field.value] : []
+							<FormItem>
+								<FormLabel className="text-gray-900 text-md tracking-tight">
+									{
+										t.settings.teamMembers.modals
+											.addTeamMember.role
 									}
-								>
-									{getUserRoles(t).map((item) => (
-										<SelectItem
-											key={item.key}
-											value={item.key}
-										>
-											{item.label}
-										</SelectItem>
-									))}
-								</Select>
-							</FormControl>
-							<FormMessage className="text-red-400 " />
-						</FormItem>
+									<span className="text-red-500">*</span>
+								</FormLabel>
+								<FormControl>
+									<Select
+										{...field}
+										placeholder={
+											t.settings.teamMembers.modals
+												.addTeamMember.selectRole
+										}
+										style={{ width: "100%" }}
+										className="bg-app-lightgray text-gray-900 font-normal"
+										defaultSelectedKeys={[
+											field.value ?? "",
+										]}
+										selectedKeys={
+											field.value ? [field.value] : []
+										}
+										onSelectionChange={(keys) => {
+											const value =
+												Array.from(keys)[0] ?? "";
+											field.onChange(value);
+											setSelectedRole(String(value));
+										}}
+									>
+										{getUserRoles(t).map((item) => (
+											<SelectItem
+												key={item.key}
+												value={item.key}
+											>
+												{item.label}
+											</SelectItem>
+										))}
+									</Select>
+								</FormControl>
+								<FormMessage className="text-red-400 " />
+							</FormItem>
 						)}
 					/>
 
+					{/* Permissions list */}
+					{selectedRole && (
+						<ul className="mt-2 ml-4 list-none flex flex-col gap-1">
+							{rolePermissions[selectedRole].map((perm, idx) => (
+								<li
+									key={idx}
+									className="flex items-center gap-2"
+								>
+									<span
+										className={`font-bold ${
+											perm.allowed
+												? "text-green-600"
+												: "text-red-600"
+										}`}
+									>
+										{perm.allowed ? "✅" : "❌"}
+									</span>
+									<span
+										className={
+											perm.allowed ? "" : "line-through"
+										}
+									>
+										{perm.action}
+									</span>
+								</li>
+							))}
+						</ul>
+					)}
+
 					<div className="mt-8">
 						<CButton
-							text={t.settings.teamMembers.modals.addTeamMember.saveAndContinue}
+							text={
+								t.settings.teamMembers.modals.addTeamMember
+									.saveAndContinue
+							}
 							btnStyle="blue"
 							type="submit"
 						/>

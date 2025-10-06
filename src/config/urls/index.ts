@@ -70,6 +70,9 @@ const URLConfig = {
 	adminWallets: {
 		...adminWallets(),
 	},
+	help: {
+		...help(),
+	},
 
 	// Admin Module
 	// ADMIN: {
@@ -140,6 +143,13 @@ function cards(prefix: string = "") {
 
 function settings(prefix: string = "") {
 	const PATH = `${rootUrl}settings`;
+	return {
+		root: PATH,
+	};
+}
+
+function help() {
+	const PATH = `${rootUrl}help`;
 	return {
 		root: PATH,
 	};

@@ -56,22 +56,23 @@ const TeamMember = () => {
 			role_in_company: member.role,
 			email: member.email,
 			status: member.status,
-			action: (
-				<div className="flex gap-2">
-					<CButton
-						text={t.settings.teamMembers.actions.editRole}
-						btnStyle="yellow"
-						height="30px"
-						onClick={() => handleEditModal(member.id)}
-					/>
-					<CButton
-						text={t.settings.teamMembers.actions.delete}
-						btnStyle="red"
-						height="30px"
-						onClick={() => handleDeleteModal(member.id)}
-					/>
-				</div>
-			),
+			action:
+				member.role === "owner" ? null : (
+					<div className="flex gap-2">
+						<CButton
+							text={t.settings.teamMembers.actions.editRole}
+							btnStyle="yellow"
+							height="30px"
+							onClick={() => handleEditModal(member.id)}
+						/>
+						<CButton
+							text={t.settings.teamMembers.actions.delete}
+							btnStyle="red"
+							height="30px"
+							onClick={() => handleDeleteModal(member.id)}
+						/>
+					</div>
+				),
 		})
 	);
 
@@ -107,12 +108,17 @@ const TeamMember = () => {
 		mutationFn: (id: string) =>
 			SettingsService.delete_team_member({ token: currentToken, id }),
 		onSuccess: () => {
-			toast.success(t.settings.teamMembers.messages.teamMemberDeletedSuccess);
+			toast.success(
+				t.settings.teamMembers.messages.teamMemberDeletedSuccess
+			);
 			setDeleteModalVisible(false);
 			queryClient.invalidateQueries(["teamMembers", currentToken]);
 		},
 		onError: (err: any) => {
-			toast.error(err.message || t.settings.teamMembers.messages.failedToDeleteMember);
+			toast.error(
+				err.message ||
+					t.settings.teamMembers.messages.failedToDeleteMember
+			);
 		},
 	});
 
@@ -161,7 +167,10 @@ const TeamMember = () => {
 					<div className="p-8 w-[500px] bg-white rounded-2xl">
 						<div className="flex justify-between items-center">
 							<h1 className="text-2xl font-bold text-primary">
-								{t.settings.teamMembers.modals.deleteConfirmation.title}
+								{
+									t.settings.teamMembers.modals
+										.deleteConfirmation.title
+								}
 							</h1>
 							<button
 								className="hover:bg-gray-200 duration-300 p-1 rounded-md"
@@ -171,16 +180,25 @@ const TeamMember = () => {
 							</button>
 						</div>
 						<p>
-							{t.settings.teamMembers.modals.deleteConfirmation.message}
+							{
+								t.settings.teamMembers.modals.deleteConfirmation
+									.message
+							}
 						</p>
 						<div className=" flex justify-start items-center gap-4 mt-8">
 							<CButton
-								text={t.settings.teamMembers.modals.deleteConfirmation.delete}
+								text={
+									t.settings.teamMembers.modals
+										.deleteConfirmation.delete
+								}
 								btnStyle="red"
 								onClick={handleConfirmDelete}
 							/>
 							<CButton
-								text={t.settings.teamMembers.modals.deleteConfirmation.cancel}
+								text={
+									t.settings.teamMembers.modals
+										.deleteConfirmation.cancel
+								}
 								btnStyle="blue"
 								onClick={() => setDeleteModalVisible(false)}
 							/>
@@ -192,6 +210,12 @@ const TeamMember = () => {
 			{editModalVIsible && (
 				<EditRoleModal
 					userId={selectedMemberId}
+					currentRole={
+						teamMembersQuery.data?.find(
+							(member: TeamMemberSettingsRequest) =>
+								member.id === selectedMemberId
+						)?.role ?? "member"
+					}
 					onClose={() => setEditModalVisible(false)}
 				/>
 			)}

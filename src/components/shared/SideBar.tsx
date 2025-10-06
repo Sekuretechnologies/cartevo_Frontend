@@ -196,7 +196,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			title: sideBarTranslation.help,
 			slug: sideBarTranslation.help,
 			canSee: true,
-			path: "/contact",
+			path: urls.help.root,
 			count: null,
 			icon: <Badge />,
 		},
@@ -261,7 +261,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 						</div>
 
 						{/* Logo */}
-						<div className="pl-[20px] mb-[27px] flex flex-col items-center gap-4">
+						<div className="pl-[20px] mb-[27px] flex flex-col  gap-4">
 							<Logo isExpanded={isExpanded} />
 						</div>
 

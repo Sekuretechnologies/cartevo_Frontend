@@ -1,3 +1,5 @@
+"use client";
+
 import { SettingsService } from "@/api/services/cartevo-api/settings";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { EditRoleSchema } from "@/validation/FormValidation";
@@ -29,7 +31,6 @@ const handleEditRole = async (
 	userId: string
 ) => {
 	const response = await SettingsService.EditUser({ userId, token, data });
-
 	const responseJson = await response.json();
 
 	if (!response.ok) {
@@ -53,16 +54,89 @@ const getUserRoles = (t: any) => [
 type ModalProps = {
 	onClose: () => void;
 	userId: string;
+	currentRole: "admin" | "member";
 };
 
-const EditRoleModal = ({ onClose, userId }: ModalProps) => {
+const EditRoleModal = ({ onClose, userId, currentRole }: ModalProps) => {
 	const { t }: { t: any } = useTranslation();
 	const currentToken: any = useSelector(selectCurrentToken);
+
+	const [selectedRole, setSelectedRole] = useState<string>(currentRole);
+
+	const rolePermissions: Record<
+		string,
+		{ action: string; allowed: boolean }[]
+	> = {
+		admin: [
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.accessSystem,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.modifyWebhook,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.reloadWalletOrCard,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.withdrawWalletOrCard,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.viewBalances,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.freezeOrUnfreezeCard,
+				allowed: true,
+			},
+		],
+		member: [
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.accessSystem,
+				allowed: false,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.modifyWebhook,
+				allowed: false,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.reloadWalletOrCard,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.withdrawWalletOrCard,
+				allowed: false,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.viewBalances,
+				allowed: true,
+			},
+			{
+				action: t.settings.teamMembers.modals.permissionRole
+					.freezeOrUnfreezeCard,
+				allowed: false,
+			},
+		],
+	};
 
 	const form = useForm<z.infer<typeof EditRoleSchema>>({
 		resolver: zodResolver(EditRoleSchema),
 		defaultValues: {
-			role: undefined,
+			role: currentRole,
 		},
 	});
 
@@ -70,10 +144,15 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 		mutationFn: (data: z.infer<typeof EditRoleSchema>) =>
 			handleEditRole(currentToken, data, userId),
 		onError: (err: any) => {
-			toast.error(t.settings.teamMembers.modals.editRole.failedToUpdateUserRole, err.message);
+			toast.error(
+				t.settings.teamMembers.modals.editRole.failedToUpdateUserRole,
+				err.message
+			);
 		},
-		onSuccess: (data: any) => {
-			toast.success(t.settings.teamMembers.modals.editRole.userRoleUpdatedSuccess);
+		onSuccess: () => {
+			toast.success(
+				t.settings.teamMembers.modals.editRole.userRoleUpdatedSuccess
+			);
 		},
 	});
 
@@ -81,14 +160,13 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 		mutation.mutate(data);
 	};
 
-	const onError = (err: any) => {
-		console.error("error", err);
-	};
 	return (
 		<div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex justify-center items-center z-[1000]">
 			<div className="relative flex flex-col px-8 py-8 bg-white rounded-lg w-[600px]">
 				<div className="flex justify-between items-center mb-8">
-					<h1 className="text-xl font-semibold">{t.settings.teamMembers.modals.editRole.title}</h1>
+					<h1 className="text-xl font-semibold">
+						{t.settings.teamMembers.modals.editRole.title}
+					</h1>
 
 					<button
 						className="text-gray-500 hover:text-black duration-300"
@@ -99,30 +177,39 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 				</div>
 
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit, onError)}>
+					<form onSubmit={form.handleSubmit(onSubmit)}>
 						<FormField
 							control={form.control}
 							name="role"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className="text-gray-900 text-md tracking-tight">
-										{t.settings.teamMembers.modals.editRole.selectRole}
+										{
+											t.settings.teamMembers.modals
+												.editRole.selectRole
+										}
 										<span className="text-red-500">*</span>
 									</FormLabel>
 
 									<FormControl>
 										<Select
 											{...field}
-											placeholder={t.settings.teamMembers.modals.editRole.selectRole}
-											style={{
-												width: "100%",
-											}}
+											placeholder={
+												t.settings.teamMembers.modals
+													.editRole.selectRole
+											}
+											style={{ width: "100%" }}
 											className="bg-app-lightgray text-gray-900 font-normal"
-											defaultSelectedKeys={[
-												field.value ?? "",
-											]}
+											defaultSelectedKeys={[currentRole]} // rôle actuel
 											selectedKeys={
-												field.value ? [field.value] : []
+												selectedRole
+													? [selectedRole]
+													: []
+											}
+											onSelectionChange={(keys) =>
+												setSelectedRole(
+													String(Array.from(keys)[0])
+												)
 											}
 										>
 											{getUserRoles(t).map((item) => (
@@ -140,9 +227,45 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 							)}
 						/>
 
+						{/* Permissions list */}
+						{selectedRole && (
+							<ul className="mt-4 ml-4 list-none flex flex-col gap-1">
+								{rolePermissions[selectedRole].map(
+									(perm, idx) => (
+										<li
+											key={idx}
+											className="flex items-center gap-2"
+										>
+											<span
+												className={`font-bold ${
+													perm.allowed
+														? "text-green-600"
+														: "text-red-600"
+												}`}
+											>
+												{perm.allowed ? "✅" : "❌"}
+											</span>
+											<span
+												className={
+													perm.allowed
+														? ""
+														: "line-through"
+												}
+											>
+												{perm.action}
+											</span>
+										</li>
+									)
+								)}
+							</ul>
+						)}
+
 						<div className="mt-8">
 							<CButton
-								text={t.settings.teamMembers.modals.editRole.editRole}
+								text={
+									t.settings.teamMembers.modals.editRole
+										.editRole
+								}
 								btnStyle="blue"
 								width="175px"
 								height="49px"
@@ -152,7 +275,7 @@ const EditRoleModal = ({ onClose, userId }: ModalProps) => {
 
 						<div
 							className={classNames(
-								"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-1/2 -translate-y-1/2 -translate-x-1/2 -trasnlate left-1/2 h-screen w-screen flex items-center justify-center",
+								"transition-all invisible z-[1000] bg-blue-900/30 opacity-0 absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 h-screen w-screen flex items-center justify-center",
 								{
 									"!opacity-100 !visible z-[1000]":
 										mutation.isLoading,

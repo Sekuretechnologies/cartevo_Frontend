@@ -20,7 +20,7 @@ const ManageCompany = () => {
 							<div className="w-fit">
 								<TabsList
 									defaultValue={"companyDetails"}
-									className="TabsList grid grid-cols-2 md:flex mb-[120px] md:mb-0"
+									className="TabsList grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:flex mb-[120px] 2xl:mb-0 "
 								>
 									<TabsTrigger
 										className="TabsTrigger"

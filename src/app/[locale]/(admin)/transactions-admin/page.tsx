@@ -1,9 +1,15 @@
-import React from 'react'
+import Layout from "@/components/shared/Layout";
+import ProtectedRoute from "@/components/shared/ProtectedRoute";
+import React from "react";
 
 const TransactionAdmin = () => {
-  return (
-    <div>TransactionAdmin</div>
-  )
-}
+	return (
+		<ProtectedRoute allowedClearances={["admin"]}>
+			<Layout title="Transaction">
+				<p>hello</p>
+			</Layout>
+		</ProtectedRoute>
+	);
+};
 
-export default TransactionAdmin
+export default TransactionAdmin;

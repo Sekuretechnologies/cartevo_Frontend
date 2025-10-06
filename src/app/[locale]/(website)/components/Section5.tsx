@@ -12,7 +12,7 @@ const Section5 = () => {
 	const section5Translate = t.home.section5;
 	const btnTranslate = t.btn;
 	return (
-		<section className="text-[#222222] pt-12">
+		<section className="text-[#222222] pt-12 max-w-[1700px] mx-auto">
 			<div className="customContainer  flex flex-col gap-8 lg:flex-row-reverse lg:w-full ">
 				<div className="flex flex-col  items-center  lg:items-start   font-poppins">
 					<div>
@@ -124,7 +124,7 @@ const Section5 = () => {
 				</div>
 
 				<div
-					className="relative w-[350px]  mx-auto md:w-[600px]  lg:w-[2800px]  flex justify-center  items-end mt-96 md:mt-[700px] lg:mt-0 xl:mt-[600px]"
+					className="relative w-[350px]  mx-auto md:w-[600px]  lg:w-[2800px]   flex justify-center  items-end mt-96 md:mt-[700px] lg:mt-0 xl:mt-[600px]"
 					// style={{
 					// 	backgroundImage: "url('/website/home/girl2.png')",
 					// 	backgroundSize: "auto 88%",
