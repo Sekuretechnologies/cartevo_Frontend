@@ -310,6 +310,7 @@ export const adminUrls = {
 	TOGGLE_USERS_STATUS: (id: string) => `${ADMIN_BASE_URL}/toggle-user/${id}`,
 	TOGGLE_COMPANY_STATUS: (id: string) =>
 		`${ADMIN_BASE_URL}/toggle-company/${id}`,
+	GET_ALL_CARDS: `${ADMIN_BASE_URL}/all`,
 };
 
 export const COMPANY_ADMIN_URL = `${BASE_URL}/companies-admin`;
@@ -336,4 +337,9 @@ export const walletUrls = {
 	GET_ONE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}`,
 	UPDATE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}`,
 	DISABLE_WALLET: (id: string) => `${BASE_URL_WALLET}/${id}/disable`,
+};
+
+export const BASE_URL_CONTACT = `${BASE_URL}/contact`;
+export const contactUrls = {
+	SEND_MESSAGE: `${BASE_URL_CONTACT}/send`,
 };

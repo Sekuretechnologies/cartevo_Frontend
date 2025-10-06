@@ -16,6 +16,12 @@ import { cardsTranslations } from "./translation/cards/cards";
 import { settingsTranslations } from "./translation/settings/settings";
 import { websiteFooterEn } from "./translation/websiteFooter/websiteFooter-en";
 import { websiteNavBarEn } from "./translation/websiteNavBar/websiteNavBar-en";
+import { sideBarEn } from "./translation/sideBar/sideBar-En";
+import { customersEn } from "./translation/dashboard/customer/customer-En";
+import { transactionEn } from "./translation/dashboard/transactions/transaction-En";
+import { statusEn } from "./translation/status/status-En";
+import { developerEn } from "./translation/dashboard/developers/developer-En";
+import { navBarEn } from "./translation/navBar/navBar-En";
 
 export default {
 	hello: "Hello",
@@ -37,4 +43,10 @@ export default {
 	resetPassword: resetPasswordEn,
 	register: registerEn,
 	privacy: privacyEn,
+	sideBar: sideBarEn,
+	customers: customersEn,
+	transaction: transactionEn,
+	status: statusEn,
+	developer: developerEn,
+	navBar: navBarEn,
 } as const;

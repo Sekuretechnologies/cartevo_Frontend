@@ -54,22 +54,6 @@ export const headerCardTransactionData2: ITableHeader = {
 	edit: "",
 };
 
-export const headerTransactionData: ITableHeader = {
-	serial: "#",
-	type: "Type",
-	name: "Merchant",
-	// country: "Country",
-	// phone: "Telephone",
-	idTrx: "ID Transaction",
-	// refTrx: "Ref Transaction",
-	// oldNew: "A/N",
-	amount: "Amount (USD)",
-	// method: "Methode",
-	// mode: "Mode",
-	status: "Status",
-	date: "Date",
-	edit: "",
-};
 export const headerTransactionDataV2: ITableHeader = {
 	serial: "S/N",
 	type: "Type",
@@ -101,24 +85,18 @@ export const headerWalletTransactionData: ITableHeader = {
 	date: "Date",
 	edit: "",
 };
-export const headerAllTransactionData: ITableHeader = {
+
+export const headerTransactionData: ITableHeader = {
 	serial: "#",
 	type: "Type",
 	name: "Merchant",
-	country: "Country",
-	wallet: "Wallet",
-	card: "Card",
-	phone: "Telephone",
-	idTrx: "ID Transaction",
-	// refTrx: "Ref Transaction",
-	currency: "Currency",
+	idTrx: "Transaction ID",
 	amount: "Amount",
-	// method: "Methode",
-	// mode: "Mode",
 	status: "Status",
 	date: "Date",
-	edit: "",
+	actions: "Actions",
 };
+
 export const headerUserTransactionDataV2: ITableHeader = {
 	serial: "#",
 	type: "Type",
