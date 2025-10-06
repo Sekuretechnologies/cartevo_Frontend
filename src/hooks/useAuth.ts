@@ -23,6 +23,7 @@ export const useAuth = () => {
 			if (authState.isExpired) {
 				// Token is expired, logout and redirect
 				dispatch(logOut());
+				localStorage.removeItem("isAdminView");
 				redirectToLogin();
 				return;
 			}

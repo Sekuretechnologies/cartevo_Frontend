@@ -5,7 +5,7 @@ import CustomTable from "@/components/shared/CustomTable";
 import Title from "@/components/shared/Title";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { RootState } from "@/redux/store";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
@@ -13,13 +13,16 @@ import { useSelector } from "react-redux";
 const getTransactionsByCompany = async ({
 	companyId,
 	token,
+	filters,
 }: {
 	companyId: string;
 	token: string;
+	filters?: any;
 }) => {
 	const response = await AdminService.getTransactionsByCompany({
 		token,
 		companyId,
+		filters,
 	});
 
 	const responseJson = await response.json();
@@ -37,15 +40,21 @@ const Transactions = () => {
 	const selectedCompany = useSelector(
 		(state: RootState) => state.selectedCompany.company
 	);
+	const [filterContent, setFilterContent] = useState<any>({});
 
 	const transactionsQuery = useQuery({
-		queryKey: ["transactions", selectedCompany.id, currentToken],
+		queryKey: [
+			"transactions",
+			selectedCompany.id,
+			currentToken,
+			filterContent,
+		],
 		queryFn: () =>
 			getTransactionsByCompany({
 				companyId: selectedCompany.id as string,
 				token: currentToken as string,
+				filters: filterContent,
 			}),
-
 		onError: (err: any) => {
 			toast.error("Failed to get transactions");
 		},
@@ -68,39 +77,38 @@ const Transactions = () => {
 	};
 
 	// Table data
-	const transactionsTableData =
-		transactionsQuery.data?.transactions?.transactions?.map(
-			(txn: any, index: number) => ({
-				serial: index + 1,
-				reference: txn.reference ?? "-",
-				type: txn.type ?? "-",
-				amount: txn.amount ?? "-",
-				fee_amount: txn.fee_amount ?? "-",
-				net_amount: txn.net_amount ?? "-",
-				status: (
-					<span
-						className={
-							txn.status === "SUCCESS"
-								? "px-2 py-1 rounded-full text-green-700 bg-green-100"
-								: txn.status === "FAILED"
-								? "px-2 py-1 rounded-full text-red-700 bg-red-100"
-								: txn.status === "PENDING"
-								? "px-2 py-1 rounded-full text-yellow-700 bg-yellow-100"
-								: "px-2 py-1 rounded-full text-gray-700 bg-gray-100"
-						}
-					>
-						{txn.status ?? "-"}
-					</span>
-				),
-				currency: txn.currency ?? "-",
-				provider: txn.provider ?? "-",
-				operator: txn.operator ?? "-",
-				phone_number: txn.phone_number ?? "-",
-				created_at: txn.created_at
-					? new Date(txn.created_at).toLocaleString()
-					: "-",
-			})
-		);
+	const transactionsTableData = transactionsQuery.data?.transactions?.map(
+		(txn: any, index: number) => ({
+			serial: index + 1,
+			reference: txn.reference ?? "-",
+			type: txn.type ?? "-",
+			amount: txn.amount ?? "-",
+			fee_amount: txn.fee_amount ?? "-",
+			net_amount: txn.net_amount ?? "-",
+			status: (
+				<span
+					className={
+						txn.status === "SUCCESS"
+							? "px-2 py-1 rounded-full text-green-700 bg-green-100"
+							: txn.status === "FAILED"
+							? "px-2 py-1 rounded-full text-red-700 bg-red-100"
+							: txn.status === "PENDING"
+							? "px-2 py-1 rounded-full text-yellow-700 bg-yellow-100"
+							: "px-2 py-1 rounded-full text-gray-700 bg-gray-100"
+					}
+				>
+					{txn.status ?? "-"}
+				</span>
+			),
+			currency: txn.currency ?? "-",
+			provider: txn.provider ?? "-",
+			operator: txn.operator ?? "-",
+			phone_number: txn.phone_number ?? "-",
+			created_at: txn.created_at
+				? new Date(txn.created_at).toLocaleString()
+				: "-",
+		})
+	);
 
 	return (
 		<div className="my-[50px] bg-white shadow-md rounded-xl p-5">
@@ -112,6 +120,10 @@ const Transactions = () => {
 				isLoading={
 					transactionsQuery.isLoading || transactionsQuery.isFetching
 				}
+				filter
+				filterType={"companyTransactions"}
+				filterContent={filterContent}
+				setFilterContent={setFilterContent}
 			/>
 		</div>
 	);

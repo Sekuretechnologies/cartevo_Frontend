@@ -255,16 +255,27 @@ export class AdminService {
 	static getTransactionsByCompany = ({
 		token,
 		companyId,
+		filters,
 	}: {
 		token: string;
 		companyId: string;
+		filters?: {
+			status?: "SUCCESS" | "FAILED" | "PENDING" | "CANCELED";
+			operator?: "orange" | "mtn" | "OTHER";
+			order?: "RECENT" | "OLD";
+		};
 	}) => {
-		return BaseMethods.getRequest(
-			companyAdminUrl.GET_ADMIN_TRANSACTION_BY_COMPANY(companyId),
-			true,
-			{},
-			token
-		);
+		const queryParams = new URLSearchParams();
+
+		if (filters?.status) queryParams.append("status", filters.status);
+		if (filters?.operator) queryParams.append("operator", filters.operator);
+		if (filters?.order) queryParams.append("order", filters.order);
+
+		const url = `${companyAdminUrl.GET_ADMIN_TRANSACTION_BY_COMPANY(
+			companyId
+		)}?${queryParams.toString()}`;
+
+		return BaseMethods.getRequest(url, true, {}, token);
 	};
 
 	static getCustomersByCompany = ({
@@ -285,16 +296,25 @@ export class AdminService {
 	static getCardByCompany = ({
 		token,
 		companyId,
+		filters,
 	}: {
 		token: string;
 		companyId: string;
+		filters?: any;
 	}) => {
-		return BaseMethods.getRequest(
-			companyAdminUrl.GET_ADMIN_CARDS_BY_COMPANY(companyId),
-			true,
-			{},
-			token
-		);
+		const params = new URLSearchParams();
+
+		// Ajout des filtres
+		if (filters) {
+			if (filters.status) params.append("status", filters.status);
+			if (filters.brand) params.append("brand", filters.brand);
+		}
+
+		const url = `${companyAdminUrl.GET_ADMIN_CARDS_BY_COMPANY(
+			companyId
+		)}?${params.toString()}`;
+
+		return BaseMethods.getRequest(url, true, {}, token);
 	};
 
 	static toggleCompanyStatus = ({
@@ -335,6 +355,31 @@ export class AdminService {
 			companyAdminUrl.GET_WALLETS_BY_COMPANY(companyId),
 			true,
 			{},
+			token
+		);
+	};
+
+	static getAllCards = ({
+		token,
+		filters,
+		order,
+	}: {
+		token: string;
+		filters?: {
+			status?: string;
+			brand?: string;
+			created_at?: { gte?: string; lte?: string };
+		};
+		order?: { [key: string]: "asc" | "desc" };
+	}) => {
+		const params: { [key: string]: string } = {};
+		if (filters) params.filters = JSON.stringify(filters);
+		if (order) params.order = JSON.stringify(order);
+
+		return BaseMethods.getRequest(
+			adminUrls.GET_ALL_CARDS,
+			true,
+			params,
 			token
 		);
 	};
