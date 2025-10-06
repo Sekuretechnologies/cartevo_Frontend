@@ -1,5 +1,5 @@
 export const walletsTranslationsFr = {
-	pageTitle: "Cartevo | Portefeuilles",
+	pageTitle: "{companyName} | Portefeuilles",
 	mainTitle: "Portefeuilles",
 	labels: {
 		wallet: "Portefeuille",
@@ -156,6 +156,28 @@ export const walletsTranslationsFr = {
 			editSave: "Enregistrer",
 			editSaving: "Enregistrement...",
 		},
+	},
+	// Textes supplémentaires trouvés dans la page
+	walletCardGrid: {
+		addNewWallet: "Ajouter un nouveau portefeuille",
+	},
+	loading: {
+		loadingSpinner: "Chargement...",
+	},
+	transactions: {
+		serial: "#",
+		type: "Type",
+		name: "Nom",
+		country: "Pays",
+		wallet: "Portefeuille",
+		card: "Carte",
+		phone: "Téléphone",
+		idTrx: "ID Transaction",
+		currency: "Devise",
+		amount: "Montant",
+		status: "Statut",
+		date: "Date",
+		actions: "Actions",
 	},
 } as const;
 

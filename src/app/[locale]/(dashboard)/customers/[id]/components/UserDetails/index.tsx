@@ -9,6 +9,7 @@ import { selectCurrentUser } from "@/redux/slices/auth";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { getFormattedDateTime } from "@/utils/DateFormat";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type Props = {
 	search?: string;
@@ -23,6 +24,8 @@ const headerData: ITableHeader = {
 };
 
 const UserDetails = ({ search, setSearch }: Props) => {
+	const { t } = useTranslation();
+	const customerTrans = t.customers.details;
 	const redirectRef: any = useRef();
 	const dispatch = useDispatch();
 	const userData: any = useSelector(selectCurrentCustomerDetails);
@@ -112,7 +115,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 			<div className="flex flex-col gap-5 py-5 border-t-1">
 				<div>
 					<p className="text-gray-800 text-sm font-normal tracking-tight">
-						{"Phone"}
+						{customerTrans.phone}
 					</p>
 					<span className="font-bold">
 						{`(${customerDetails?.country_phone_code}) ${customerDetails?.phone_number}`}
@@ -121,7 +124,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 
 				<div>
 					<p className="text-gray-800 text-sm font-normal tracking-tight">
-						{"Country"}
+						{customerTrans.country}
 					</p>
 					<span className="font-bold">
 						{`(${customerDetails?.country_iso_code}) ${customerDetails?.country}`}
@@ -135,7 +138,7 @@ const UserDetails = ({ search, setSearch }: Props) => {
 				</div>
 				<div>
 					<p className="text-gray-800 text-sm font-normal tracking-tight">
-						{"Created at"}
+						{customerTrans.create}
 					</p>
 					<span className="font-bold">
 						{getFormattedDateTime(customerDetails?.created_at)}

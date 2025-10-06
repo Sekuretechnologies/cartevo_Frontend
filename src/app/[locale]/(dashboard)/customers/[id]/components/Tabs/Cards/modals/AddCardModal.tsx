@@ -1,6 +1,7 @@
 import { CardService } from "@/api/services/cartevo-api/card";
 import CButton from "@/components/shared/CButton";
 import Title from "@/components/shared/Title";
+import { useTranslation } from "@/hooks/useTranslation";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { selectCurrentCustomerDetails } from "@/redux/slices/customer";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,6 +46,9 @@ const handleCreateCard = async (
 };
 
 export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
+	const { t } = useTranslation();
+	const cardTrans = t.customers.details.addCart;
+	const btnTrans = t.btn;
 	const currentToken: any = useSelector(selectCurrentToken);
 	const customerDetails = useSelector(selectCurrentCustomerDetails);
 
@@ -106,7 +110,7 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 			<div className="flex justify-between mb-6">
 				<div className="flex items-center gap-3">
 					<FaCreditCard className="text-blue-600" size={24} />
-					<Title title={"Add New Card"} />
+					<Title title={cardTrans.title} />
 				</div>
 				<div
 					className="cursor-pointer hover:bg-gray-100 p-2 rounded-full"
@@ -120,7 +124,7 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 				{/* Cardholder Name */}
 				<div>
 					<label className="block text-sm font-medium text-gray-700 mb-2">
-						Cardholder Name
+						{cardTrans.cardHolder}
 					</label>
 					<input
 						type="text"
@@ -140,7 +144,7 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 				{/* Card Brand */}
 				<div>
 					<label className="block text-sm font-medium text-gray-700 mb-2">
-						Card Brand
+						{cardTrans.cardBrand}
 					</label>
 					<select
 						{...register("brand", {
@@ -161,7 +165,7 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 				{/* Initial Amount */}
 				<div>
 					<label className="block text-sm font-medium text-gray-700 mb-2">
-						Initial Balance (USD)
+						{cardTrans.initialBalance}
 					</label>
 					<input
 						type="number"
@@ -190,8 +194,8 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 					<CButton
 						text={
 							createCardMutation.isLoading
-								? "Creating..."
-								: "Create Card"
+								? cardTrans.creating
+								: cardTrans.createCard
 						}
 						btnStyle={"blue"}
 						type={"submit"}
@@ -200,7 +204,7 @@ export default function AddCardModal({ setIsOpen }: AddCardModalProps) {
 						height={"33px"}
 					/>
 					<CButton
-						text={"Cancel"}
+						text={btnTrans.cancel}
 						btnStyle={"outlineDark"}
 						onClick={() => setIsOpen && setIsOpen(false)}
 						disabled={createCardMutation.isLoading}

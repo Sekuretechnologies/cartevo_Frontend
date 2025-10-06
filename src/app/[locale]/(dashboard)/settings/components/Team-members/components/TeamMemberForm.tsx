@@ -26,6 +26,7 @@ import classNames from "classnames";
 
 type TeamMemberFormProps = {
 	onClose: () => void;
+	t: any;
 };
 
 const handleMemberInfo = async (
@@ -49,18 +50,18 @@ const handleMemberInfo = async (
 	return responseJson;
 };
 
-const userRoles = [
+const getUserRoles = (t: any) => [
 	{
 		key: "member",
-		label: "Member",
+		label: t.settings.teamMembers.modals.userRoles.member,
 	},
 	{
 		key: "admin",
-		label: "Admin",
+		label: t.settings.teamMembers.modals.userRoles.admin,
 	},
 ];
 
-const TeamMemberForm = ({ onClose }: TeamMemberFormProps) => {
+const TeamMemberForm = ({ onClose, t }: TeamMemberFormProps) => {
 	const currentToken: any = useSelector(selectCurrentToken);
 	const currentUser = useSelector(selectCurrentUser);
 	// const userId =
@@ -81,7 +82,7 @@ const TeamMemberForm = ({ onClose }: TeamMemberFormProps) => {
 			toast.error(err.message);
 		},
 		onSuccess: (data: any) => {
-			toast.success("New team member added successfully");
+			toast.success(t.settings.teamMembers.modals.addTeamMember.newTeamMemberAddedSuccess);
 			onClose();
 		},
 	});
@@ -101,20 +102,20 @@ const TeamMemberForm = ({ onClose }: TeamMemberFormProps) => {
 						control={form.control}
 						name="email"
 						render={({ field }) => (
-							<FormItem className="mb-2">
-								<FormLabel className="text-gray-900 text-md tracking-tight">
-									Email Adress
-									<span className="text-red-500">*</span>
-								</FormLabel>
-								<FormControl>
-									<Input
-										className="px-6 w-full bg-app-lightgray"
-										placeholder="ex prenom@gmail.com"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage className="text-red-400" />
-							</FormItem>
+						<FormItem className="mb-2">
+							<FormLabel className="text-gray-900 text-md tracking-tight">
+								{t.settings.teamMembers.modals.addTeamMember.emailAddress}
+								<span className="text-red-500">*</span>
+							</FormLabel>
+							<FormControl>
+								<Input
+									className="px-6 w-full bg-app-lightgray"
+									placeholder={t.settings.teamMembers.modals.addTeamMember.emailPlaceholder}
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage className="text-red-400" />
+						</FormItem>
 						)}
 					/>
 
@@ -122,44 +123,44 @@ const TeamMemberForm = ({ onClose }: TeamMemberFormProps) => {
 						control={form.control}
 						name="role"
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel className="text-gray-900 text-md tracking-tight">
-									Role
-									<span className="text-red-500">*</span>
-								</FormLabel>
-								<FormControl>
-									<Select
-										{...field}
-										placeholder="Select Role"
-										style={{
-											width: "100%",
-										}}
-										className="bg-app-lightgray text-gray-900 font-normal"
-										defaultSelectedKeys={[
-											field.value ?? "",
-										]}
-										selectedKeys={
-											field.value ? [field.value] : []
-										}
-									>
-										{userRoles.map((item) => (
-											<SelectItem
-												key={item.key}
-												value={item.key}
-											>
-												{item.label}
-											</SelectItem>
-										))}
-									</Select>
-								</FormControl>
-								<FormMessage className="text-red-400 " />
-							</FormItem>
+						<FormItem>
+							<FormLabel className="text-gray-900 text-md tracking-tight">
+								{t.settings.teamMembers.modals.addTeamMember.role}
+								<span className="text-red-500">*</span>
+							</FormLabel>
+							<FormControl>
+								<Select
+									{...field}
+									placeholder={t.settings.teamMembers.modals.addTeamMember.selectRole}
+									style={{
+										width: "100%",
+									}}
+									className="bg-app-lightgray text-gray-900 font-normal"
+									defaultSelectedKeys={[
+										field.value ?? "",
+									]}
+									selectedKeys={
+										field.value ? [field.value] : []
+									}
+								>
+									{getUserRoles(t).map((item) => (
+										<SelectItem
+											key={item.key}
+											value={item.key}
+										>
+											{item.label}
+										</SelectItem>
+									))}
+								</Select>
+							</FormControl>
+							<FormMessage className="text-red-400 " />
+						</FormItem>
 						)}
 					/>
 
 					<div className="mt-8">
 						<CButton
-							text="Save & Continue"
+							text={t.settings.teamMembers.modals.addTeamMember.saveAndContinue}
 							btnStyle="blue"
 							type="submit"
 						/>

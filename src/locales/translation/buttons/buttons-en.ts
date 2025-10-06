@@ -3,4 +3,5 @@ export const buttonsTranslationsEn = {
 	btnTextContact: "Contact Support",
 	btnTextNow: "Start Now",
 	continue: "Continue",
+	cancel: "Cancel",
 };

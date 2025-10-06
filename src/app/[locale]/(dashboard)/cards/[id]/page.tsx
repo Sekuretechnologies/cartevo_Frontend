@@ -3,6 +3,7 @@ import { CardService } from "@/api/services/cartevo-api/card";
 import Layout from "@/components/shared/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTitle } from "@/hooks/useTitle";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
 	setCurrentCustomerDetails,
 	setCurrentCustomerTransactions,
@@ -58,7 +59,8 @@ const getCardTransactions = async ({ queryKey }: any) => {
 };
 
 export default function ManageCard() {
-	useTitle("Cartevo | Card details", true);
+	const { t }: { t: any } = useTranslation();
+	useTitle(t.cards.details.pageTitle, true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const { id } = useParams();
 	// const id = "2bfc06e5-195e-4482-b728-9b84a5a45af4";
@@ -72,7 +74,7 @@ export default function ManageCard() {
 		queryKey: ["cardDetails", currentToken, id],
 		queryFn: getCardDetails,
 		onError: (err) => {
-			toast.error("Failed to get card : " + id);
+			toast.error(t.cards.details.failedToGetCard + " : " + id);
 		},
 		// enabled: false,
 		// refetchInterval: 50000, // Fetches data every 60 seconds
@@ -82,7 +84,7 @@ export default function ManageCard() {
 		queryKey: ["cardTransactions", currentToken, id],
 		queryFn: getCardTransactions,
 		onError: (err) => {
-			toast.error("Failed to get card Transactions : " + id);
+			toast.error(t.cards.details.failedToGetCardTransactions + " : " + id);
 		},
 		// enabled: false,
 		// refetchInterval: 50000, // Fetches data every 60 seconds
@@ -118,7 +120,7 @@ export default function ManageCard() {
 
 	return (
 		<Layout
-			title={"Card details"}
+			title={t.cards.details.mainTitle}
 			// backLink={URLConfig.usersAccounts.root}
 			// goBack={() => router.back()} //urls.cards.manage
 		>

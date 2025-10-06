@@ -1,21 +1,36 @@
+import { layoutTranslationsEn } from "@/locales/translation/layout/layout-en";
 import { onboardingTranslations } from "@/locales/translation/onboarding/onboarding";
-import { verifyOtpTranslationsEn } from "./translation/verifyOtp/verifyOtp-en";
-import { homeTranslationsEn } from "./translation/home/home-en";
 import { buttonsTranslationsEn } from "./translation/buttons/buttons-en";
-import { websiteNavBarEn } from "./translation/websiteNavBar/websiteNavBar-en";
-import { websiteFooterEn } from "./translation/websiteFooter/websiteFooter-en";
-import { pricingEn } from "./translation/pricing/pricing-en";
 import { contactEn } from "./translation/contact/contact-en";
-import { loginEn } from "./translation/login/login-en";
-import { signUpEn } from "./translation/sign-up/signUp-en";
 import { forgotPasswordEn } from "./translation/forgot-password/forgotPassword-en";
-import { resetPasswordEn } from "./translation/reset-password/resetPassword-en";
+import { homeTranslationsEn } from "./translation/home/home-en";
+import { loginEn } from "./translation/login/login-en";
+import { pricingEn } from "./translation/pricing/pricing-en";
+import { privacyEn } from "./translation/privacy_policy/privacy_policy-en";
 import { registerEn } from "./translation/register/register-en";
+import { resetPasswordEn } from "./translation/reset-password/resetPassword-en";
+import { signUpEn } from "./translation/sign-up/signUp-en";
+import { verifyOtpTranslationsEn } from "./translation/verifyOtp/verifyOtp-en";
+import { walletsTranslations } from "./translation/wallets/wallets";
+import { cardsTranslations } from "./translation/cards/cards";
+import { settingsTranslations } from "./translation/settings/settings";
+import { websiteFooterEn } from "./translation/websiteFooter/websiteFooter-en";
+import { websiteNavBarEn } from "./translation/websiteNavBar/websiteNavBar-en";
+import { sideBarEn } from "./translation/sideBar/sideBar-En";
+import { customersEn } from "./translation/dashboard/customer/customer-En";
+import { transactionEn } from "./translation/dashboard/transactions/transaction-En";
+import { statusEn } from "./translation/status/status-En";
+import { developerEn } from "./translation/dashboard/developers/developer-En";
+import { navBarEn } from "./translation/navBar/navBar-En";
 
 export default {
 	hello: "Hello",
 	onboarding: onboardingTranslations,
+	layout: layoutTranslationsEn,
 	verifyOtp: verifyOtpTranslationsEn,
+	wallets: walletsTranslations,
+	cards: cardsTranslations,
+	settings: settingsTranslations,
 	home: homeTranslationsEn,
 	btn: buttonsTranslationsEn,
 	websiteNavBar: websiteNavBarEn,
@@ -27,4 +42,11 @@ export default {
 	forgotPassword: forgotPasswordEn,
 	resetPassword: resetPasswordEn,
 	register: registerEn,
+	privacy: privacyEn,
+	sideBar: sideBarEn,
+	customers: customersEn,
+	transaction: transactionEn,
+	status: statusEn,
+	developer: developerEn,
+	navBar: navBarEn,
 } as const;

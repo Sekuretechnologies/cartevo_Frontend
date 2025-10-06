@@ -14,6 +14,7 @@ import { selectCurrentToken } from "@/redux/slices/auth";
 import { useSelector } from "react-redux";
 import { HiClipboardCopy, HiPencil, HiRefresh } from "react-icons/hi";
 import { DeveloperSettings } from "@/types/settings";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const getDeveloperSettings = async ({ queryKey }: any) => {
 	const [_key, token] = queryKey;
@@ -49,6 +50,9 @@ const handleUpdateWebhook = async (queryData: any) => {
 };
 
 export default function Developers() {
+	const { t } = useTranslation();
+	const developerTrans = t.developer;
+	const statusTrans = t.status;
 	useTitle("Cartevo | Developers", true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const queryClient = useQueryClient();
@@ -103,11 +107,10 @@ export default function Developers() {
 				<div className="mb-[50px] bg-white shadow-md rounded-xl p-5">
 					<div className="mb-6">
 						<h2 className="text-xl font-semibold text-gray-800">
-							Developer Settings
+							{developerTrans.title}
 						</h2>
 						<p className="text-gray-600 text-sm mt-1">
-							Manage your API credentials and webhook
-							configuration
+							{developerTrans.description}
 						</p>
 					</div>
 
@@ -126,12 +129,11 @@ export default function Developers() {
 											Webhook URL
 										</h3>
 										<p className="text-gray-600 text-sm">
-											Receive real-time notifications for
-											events
+											{developerTrans.realTimeNotif}
 										</p>
 									</div>
 									<CButton
-										text="Edit"
+										text={developerTrans.edit}
 										btnStyle="outlineDark"
 										icon={<HiPencil />}
 										onClick={() => setIsEditModalOpen(true)}
@@ -169,8 +171,8 @@ export default function Developers() {
 									<span className="text-sm text-gray-600">
 										Status:{" "}
 										{developerSettings.webhook_is_active
-											? "Active"
-											: "Inactive"}
+											? statusTrans.active
+											: statusTrans.inactive}
 									</span>
 								</div>
 							</div>
@@ -180,15 +182,14 @@ export default function Developers() {
 								<div className="flex justify-between items-start mb-4">
 									<div>
 										<h3 className="text-lg font-medium text-gray-800">
-											API Credentials
+											{developerTrans.apiCredential}
 										</h3>
 										<p className="text-gray-600 text-sm">
-											Use these credentials to
-											authenticate API requests
+											{developerTrans.apiDescription}
 										</p>
 									</div>
 									<CButton
-										text="Regenerate"
+										text={developerTrans.regenerate}
 										btnStyle="outlineDark"
 										icon={<HiRefresh />}
 										onClick={() =>
@@ -256,8 +257,7 @@ export default function Developers() {
 										/>
 									</div>
 									<p className="text-xs text-gray-500 mt-1">
-										⚠️ Keep this secret secure. It will only
-										be shown once after regeneration.
+										{developerTrans.secure}
 									</p>
 								</div>
 							</div>
@@ -265,16 +265,15 @@ export default function Developers() {
 							{/* Documentation Section */}
 							<div className="border border-blue-100 rounded-lg p-4 bg-blue-50">
 								<h3 className="text-lg font-medium text-blue-800 mb-2">
-									📚 API Documentation
+									{developerTrans.apiDoc}
 								</h3>
 								<p className="text-blue-700 text-sm mb-3">
-									Learn how to integrate with our API and
-									handle webhook events
+									{developerTrans.apiDescription}
 								</p>
 								<CButton
-									text="View Documentation"
+									text={developerTrans.viewDoc}
 									btnStyle="blue"
-									href="https://api.cartevo.co/docs"
+									href="https://developer.cartevo.co"
 									openInNewTab={true}
 								/>
 							</div>
@@ -315,6 +314,9 @@ function EditWebhookModal({
 	onClose: () => void;
 	onSuccess: () => void;
 }) {
+	const { t } = useTranslation();
+	const developerTrans = t.developer;
+	const btn = t.btn;
 	const currentToken = useSelector(selectCurrentToken);
 	const [webhook_url, setWebhookUrl] = useState(
 		currentSettings.webhook_url || ""
@@ -358,7 +360,7 @@ function EditWebhookModal({
 	return (
 		<div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
 			<h3 className="text-lg font-semibold text-gray-800 mb-4">
-				Edit Webhook Settings
+				{developerTrans.editModal}
 			</h3>
 			<form onSubmit={handleSubmit}>
 				<div className="mb-4">
@@ -378,12 +380,12 @@ function EditWebhookModal({
 						id="webhook-active"
 						checked={isActive}
 						onChange={setIsActive}
-						label="Enable webhook notifications"
+						label={developerTrans.enable}
 					/>
 				</div>
 				<div className="flex gap-3 justify-end">
 					<CButton
-						text="Cancel"
+						text={btn.cancel}
 						btnStyle="outlineDark"
 						onClick={onClose}
 						type="button"
@@ -391,8 +393,8 @@ function EditWebhookModal({
 					<CButton
 						text={
 							updateSettingsMutation.isLoading
-								? "Saving..."
-								: "Save"
+								? developerTrans.saving
+								: developerTrans.save
 						}
 						btnStyle="blue"
 						type="submit"

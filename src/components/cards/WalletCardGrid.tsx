@@ -5,6 +5,7 @@ import WalletCard from "./walletCard";
 import FundUSDModal from "./DepositToUSDWalletModal";
 import FundLocalCurrencyWalletModal from "./FundLocalCurrencyWalletModal";
 import Modal from "@/components/shared/Modal/Modal";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type TText = {
 	text: string | number | React.ReactNode;
@@ -41,6 +42,8 @@ const WalletCardGrid: React.FC<WalletCardProps> = ({
 	onWalletClick,
 	walletIds,
 }) => {
+	const { t }: { t: any } = useTranslation();
+	
 	return (
 		// <div className={`mb-10 ${cstyle["infoCardGrid"]}`}>
 		<div
@@ -66,7 +69,7 @@ const WalletCardGrid: React.FC<WalletCardProps> = ({
 			>
 				<div className="text-center">
 					<div className="text-4xl text-gray-400 mb-2">+</div>
-					<div className="text-gray-500">Add New Wallet</div>
+					<div className="text-gray-500">{t.wallets.walletCardGrid.addNewWallet}</div>
 				</div>
 			</div>
 		</div>

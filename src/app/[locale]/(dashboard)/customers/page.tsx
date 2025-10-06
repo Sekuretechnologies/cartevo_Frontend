@@ -13,13 +13,14 @@ import { isObject, sortByCreatedAtDescending } from "@/utils/utils";
 import { CustomerService } from "@/api/services/cartevo-api/customer";
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import urls from "@/config/urls";
-import { headerCustomersData } from "@/constants/UserAccountData";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { selectSearchTerm } from "@/redux/slices/search";
 import { getFormattedDateTime } from "@/utils/DateFormat";
 import { useDispatch, useSelector } from "react-redux";
 import { HiPlus } from "react-icons/hi";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
+import { ITableHeader } from "@/components/AdminTable/Table";
 
 const getAllCustomers = async ({ queryKey }: any) => {
 	const [_key, token, st, filterContent] = queryKey;
@@ -48,6 +49,10 @@ const getAllCustomers = async ({ queryKey }: any) => {
 };
 
 export default function Customers() {
+	const { t } = useTranslation();
+	const customerTranslate = t.customers;
+	const headerTrans = t.customers.headerTable;
+	const status = t.status;
 	useTitle("Cartevo | Customers", true);
 	const currentToken: any = useSelector(selectCurrentToken);
 	const [filterContent, setFilterContent] = useState({});
@@ -97,14 +102,14 @@ export default function Customers() {
 					status: item.is_active ? (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"Active"}
+							label={status.active}
 							badgeColor={"#1F66FF"}
 							textColor={"#444"}
 						/>
 					) : (
 						<BadgeLabel
 							className={`text-xs`}
-							label={"Inactive"}
+							label={status.active}
 							badgeColor={"#F85D4B"}
 							textColor={"#444"}
 						/>
@@ -113,7 +118,9 @@ export default function Customers() {
 					actions: (
 						<CButton
 							text={"Details"}
-							href={createLocalizedLink(`${urls.customers.root}/${item.id}`)}
+							href={createLocalizedLink(
+								`${urls.customers.root}/${item.id}`
+							)}
 							btnStyle={"outlineDark"}
 							// icon={<FourDots />}
 						/>
@@ -124,6 +131,21 @@ export default function Customers() {
 			}
 		);
 	}
+
+	const headerCustomersData: ITableHeader = {
+		serial: "#",
+		name: headerTrans.name,
+		country: headerTrans.country,
+		phone: headerTrans.phone,
+		email: headerTrans.email,
+		// "balance": "Balance",
+		// nbCards: "Nb. Cards",
+		// "kyc": "KYC",
+		status: "Status",
+		// locked: "Bloqué",
+		date: "Date",
+		edit: "",
+	};
 
 	return (
 		<Layout title={"Customers"}>
@@ -142,7 +164,7 @@ export default function Customers() {
 						setFilterContent={setFilterContent}
 						btn={
 							<CButton
-								text={"New customer"}
+								text={customerTranslate.newCustomers}
 								btnStyle={"blue"}
 								href={createLocalizedLink("/customers/create")}
 								icon={<HiPlus />}

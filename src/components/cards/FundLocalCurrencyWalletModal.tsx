@@ -9,6 +9,7 @@ import classNames from "classnames";
 import { PuffLoader } from "react-spinners";
 import { countries as countryDataList } from "country-data";
 import { getCountryPhonePrefix } from "@/utils/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 interface FundLocalCurrencyWalletModalProps {
 	userId: string;
 	walletId: string;
@@ -53,6 +54,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 	countryIsoCode,
 	// countryPhoneCode,
 }) => {
+	const { t }: { t: any } = useTranslation();
 	const [amount, setAmount] = useState("100");
 	const [selectedPhoneNumber, setSelectedPhoneNumber] = useState("");
 	const [newPhoneNumber, setNewPhoneNumber] = useState("");
@@ -167,14 +169,14 @@ const FundLocalCurrencyWalletModal: React.FC<
 
 	return (
 		<div className="bg-white rounded-lg p-6 w-[400px]">
-			<h2 className="text-xl font-bold mb-4">Fund {currency} Wallet</h2>
+			<h2 className="text-xl font-bold mb-4">{t.wallets.modals.fundLocal.title.replace("{currency}", currency)}</h2>
 
 			<div className="space-y-4">
 				{/* Amount Input */}
 				<div>
 					<label className="flex justify-between items-center block text-sm font-medium text-gray-700 mb-2">
-						<span>Amount ({currency})</span>
-						<span className="text-xs">Minimum: 100 {currency}</span>
+						<span>{t.wallets.modals.fundLocal.amountLabel.replace("{currency}", currency)}</span>
+						<span className="text-xs">{t.wallets.modals.fundLocal.amountMin.replace("{currency}", currency)}</span>
 					</label>
 					<input
 						type="number"
@@ -197,7 +199,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 				{hasPhoneNumbers && phoneNumbers.length < 3 && (
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Use existing phone number?
+							{t.wallets.modals.fundLocal.useExistingPhone}
 						</label>
 						<div className="flex gap-4">
 							<label className="flex items-center">
@@ -207,7 +209,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 									onChange={() => setUseExistingPhone(true)}
 									className="mr-2"
 								/>
-								Existing
+								{t.wallets.modals.fundLocal.existing}
 							</label>
 							<label className="flex items-center">
 								<input
@@ -216,7 +218,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 									onChange={() => setUseExistingPhone(false)}
 									className="mr-2"
 								/>
-								New
+								{t.wallets.modals.fundLocal.new}
 							</label>
 						</div>
 					</div>
@@ -225,10 +227,10 @@ const FundLocalCurrencyWalletModal: React.FC<
 				{useExistingPhone && hasPhoneNumbers ? (
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Select Phone Number
+							{t.wallets.modals.fundLocal.selectPhone}
 						</label>
 						<Select
-							placeholder="Select a phone number"
+							placeholder={t.wallets.modals.fundLocal.selectPhone}
 							selectedKeys={[selectedPhoneNumber]}
 							onSelectionChange={(keys) => {
 								const value = keys.currentKey as string;
@@ -251,7 +253,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 						{/* New Phone Number Input */}
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Phone Number
+								{t.wallets.modals.fundLocal.phoneNumber}
 							</label>
 							<div className="phoneInputCustomClass w-full px-3 py-2 border border-gray-300 rounded-md">
 								<PhoneInput
@@ -273,10 +275,10 @@ const FundLocalCurrencyWalletModal: React.FC<
 						{/* Operator Selection */}
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Operator
+								{t.wallets.modals.fundLocal.operator}
 							</label>
 							<Select
-								placeholder="Select an operator"
+								placeholder={t.wallets.modals.fundLocal.operatorPh}
 								selectedKeys={[operator]}
 								onSelectionChange={(keys) => {
 									const value = keys.currentKey as string;
@@ -301,13 +303,13 @@ const FundLocalCurrencyWalletModal: React.FC<
 				{/* {amountNum > 0 && ( */}
 				<div className="bg-gray-50 p-4 rounded-md space-y-2 text-sm">
 					<div className="flex justify-between">
-						<span className="font-medium">Total debited:</span>
+						<span className="font-medium">{t.wallets.modals.fundLocal.totalDebited}</span>
 						<span className="font-bold text-blue-600">
 							{totalAmount.toLocaleString()} {currency}
 						</span>
 					</div>
 					<div className="flex justify-between">
-						<span className="font-medium">Amount received:</span>
+						<span className="font-medium">{t.wallets.modals.fundLocal.amountReceived}</span>
 						<span className="font-bold text-green-600">
 							{amountNum.toLocaleString()} {currency}
 						</span>
@@ -324,12 +326,12 @@ const FundLocalCurrencyWalletModal: React.FC<
 
 			<div className="flex gap-3 justify-end mt-6">
 				<CButton
-					text="Cancel"
+					text={t.wallets.modals.fundLocal.cancel}
 					btnStyle="outlineDark"
 					onClick={() => setIsOpen(false)}
 				/>
 				<CButton
-					text="Fund Wallet"
+					text={t.wallets.modals.fundLocal.fundWallet}
 					btnStyle="blue"
 					onClick={handleSubmit}
 					disabled={amountNum < 100}
