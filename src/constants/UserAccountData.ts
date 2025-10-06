@@ -7,6 +7,18 @@ import { IGenericRow, ITableHeader } from "@/components/AdminTable/Table";
 //      "Date de création", ""
 //   ]
 
+export const headerCustomersData = {
+	serial: "#",
+	name: "Full Name",
+	country: "Country",
+	phone: "Phone Number",
+	email: "Email",
+	nbCards: "Number of Cards",
+	status: "Status",
+	date: "Registration Date",
+	actions: "Actions",
+};
+
 export const headerUserAccountData: ITableHeader = {
 	serial: "S/N",
 	name: "Nom",
@@ -40,8 +52,6 @@ export const headerUserAccountDataV2: ITableHeader = {
 	date: "Date de création",
 	edit: "",
 };
-
-
 
 export const tableUserAccountData: IGenericRow[] = [
 	{
