@@ -217,3 +217,4 @@ export const settingsTranslationsFr = {
 		areYouSureDeleteExchangeRate: "Êtes-vous sûr de vouloir supprimer ce taux de change ?",
 	},
 } as const;
+
