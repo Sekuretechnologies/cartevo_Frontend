@@ -588,7 +588,9 @@ export default function Home() {
 								return (
 									<BadgeLabel
 										className="text-xs"
-										label={t.wallets.labels.status.cancelled}
+										label={
+											t.wallets.labels.status.cancelled
+										}
 										badgeColor="#444"
 										textColor="#444"
 									/>
