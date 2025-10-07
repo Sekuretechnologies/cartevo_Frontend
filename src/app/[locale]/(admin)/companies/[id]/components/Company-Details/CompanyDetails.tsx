@@ -205,28 +205,29 @@ const CompanyDetails = () => {
 	return (
 		<div className="px-5 py-8 relative">
 			<div>
-				<div className="absolute -top-14 right-6">
-					<div
-						className={`px-8 py-3 w-fit rounded-full font-semibold ${
-							formData.is_active
-								? "bg-green-100 text-green-800"
-								: "bg-red-100 text-red-800"
-						}`}
-					>
-						<p>
-							{" "}
-							{formData.is_active
-								? "Active company"
-								: "Inactive company"}
-						</p>
-					</div>
-				</div>
-
 				{/* General Information */}
 				<div>
-					<h3 className="text-lg font-semibold text-app-secondary">
-						General Information
-					</h3>
+					<div className="flex flex-col gap-2 md:flex-row md:justify-between">
+						<h3 className="text-lg font-semibold text-app-secondary">
+							General Information
+						</h3>
+						<div className="">
+							<div
+								className={`px-8 py-3 w-fit rounded-full font-semibold ${
+									formData.is_active
+										? "bg-green-100 text-green-800"
+										: "bg-red-100 text-red-800"
+								}`}
+							>
+								<p>
+									{" "}
+									{formData.is_active
+										? "Active company"
+										: "Inactive company"}
+								</p>
+							</div>
+						</div>
+					</div>
 					<div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
 						<div>
 							<label className="block text-sm mb-1">
