@@ -1,14 +1,8 @@
-import React, { useState } from "react";
-import InfoCard from "./InfoCard";
-import cstyle from "./styles/style.module.scss";
-import WalletCard from "./walletCard";
-import FundUSDModal from "./DepositToUSDWalletModal";
-import FundLocalCurrencyWalletModal from "./FundLocalCurrencyWalletModal";
-import Modal from "@/components/shared/Modal/Modal";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useSelector } from "react-redux";
-import { selectCurrentMode } from "@/redux/slices_v2/settings";
 import { RootState } from "@/redux/store";
+import React from "react";
+import { useSelector } from "react-redux";
+import WalletCard from "./walletCard";
 
 type TText = {
 	text: string | number | React.ReactNode;
