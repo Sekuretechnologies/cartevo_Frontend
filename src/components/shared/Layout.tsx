@@ -6,16 +6,17 @@ import cstyle from "./styles/layout-style.module.scss";
 // import Footer from "./Footer";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
 	logOut,
 	selectCurrentCompany,
 	selectCurrentUser,
 } from "@/redux/slices/auth";
 import { isTokenExpired } from "@/utils/auth";
+import { getGlobalVerificationStatus } from "@/utils/kyb-kyc";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTranslation } from "@/hooks/useTranslation";
 interface LayoutProps {
 	title: string;
 	children: React.ReactNode;
@@ -46,13 +47,10 @@ const Layout: React.FC<LayoutProps> = ({
 	const isOnboardingRoute = sectionAfterLocale === "onboarding";
 
 	// Consider onboarding traversed if completed or if any verification submitted (kyc/kyb not NONE)
-	const kycStatus = ((company as any)?.kyc_status || (user as any)?.kyc_status || "NONE") as string;
-	const kybStatus = ((company as any)?.kyb_status || "NONE") as string;
-	const hasSubmittedOnboarding = Boolean((company as any)?.onboarding_is_completed) || kycStatus !== "NONE" || kybStatus !== "NONE";
+	const kycStatus = user?.kycStatus || "NONE";
+	const kybStatus = company?.kybStatus || "NONE";
 
-	console.log("hasSubmittedOnboarding : ", user, company);
-
-	// console.log("token : ", token);
+	const status = getGlobalVerificationStatus(kycStatus, kybStatus);
 
 	/** //////////////////////////////////////////// */
 	// useEffect(() => {
@@ -180,39 +178,83 @@ const Layout: React.FC<LayoutProps> = ({
 						isExpanded={isExpanded}
 					/>
 				</div>
-				{!isOnboardingRoute && !hasSubmittedOnboarding && (
-					<div className="border-[1px] w-full py-2  flex flex-col gap-y-2 border-gray-300 border-dotted bg-primary-50">
-						<h3 className=" text-center mt-2">
-							{t.layout.preProductionBanner.title}
+				{!isOnboardingRoute &&
+					(status === "NONE" || status === "REJECTED") && (
+						<div className="border-[1px] w-full py-2  flex flex-col gap-y-2 border-gray-300 border-dotted bg-primary-50">
+							<h3 className=" text-center mt-2">
+								{t.layout.preProductionBanner.title}
+							</h3>
+							<div className="flex justify-center items-center w-full">
+								<h4
+									text-center
+									className="text-sm text-center max-w-[80%]"
+								>
+									{t.layout.preProductionBanner.description}{" "}
+									<span className="font-semibold">
+										{
+											t.layout.preProductionBanner
+												.transactions
+										}
+									</span>{" "}
+									:{" "}
+									{
+										t.layout.preProductionBanner
+											.transactionsLimit
+									}
+									<span className="font-semibold">
+										{" "}
+										{
+											t.layout.preProductionBanner.cards
+										}{" "}
+									</span>{" "}
+									: {t.layout.preProductionBanner.cardsLimit}{" "}
+									,{" "}
+									<span className="font-semibold">
+										{" "}
+										{
+											t.layout.preProductionBanner
+												.currencies
+										}
+									</span>{" "}
+									:{" "}
+									{
+										t.layout.preProductionBanner
+											.currenciesLimit
+									}
+									{
+										t.layout.preProductionBanner
+											.unlockProduction
+									}{" "}
+									<span
+										className="font-semibold cursor-pointer underline"
+										onClick={() =>
+											navigateTo("/onboarding")
+										}
+									>
+										{
+											t.layout.preProductionBanner
+												.goToProduction
+										}
+									</span>
+								</h4>
+							</div>
+						</div>
+					)}
+
+				{!isOnboardingRoute && status === "PENDING" && (
+					<div className="border-[1px] w-full py-2 flex flex-col gap-y-2 border-gray-300 border-dotted bg-primary-50">
+						<h3 className="text-center mt-2 uppercase font-semibold">
+							{t.layout.submittedInfoBanner.title}
 						</h3>
 						<div className="flex justify-center items-center w-full">
-							<h4
-								text-center
-								className="text-sm text-center max-w-[80%]"
-							>
-								{t.layout.preProductionBanner.description}{" "}
-								<span className="font-semibold">
-									{t.layout.preProductionBanner.transactions}
-								</span>{" "}
-								: {t.layout.preProductionBanner.transactionsLimit}
-								<span className="font-semibold">
-									{" "}
-									{t.layout.preProductionBanner.cards}{" "}
-								</span>{" "}
-								: {t.layout.preProductionBanner.cardsLimit} ,{" "}
-								<span className="font-semibold">
-									{" "}
-									{t.layout.preProductionBanner.currencies}
-								</span>{" "}
-								: {t.layout.preProductionBanner.currenciesLimit}
-								{t.layout.preProductionBanner.unlockProduction}{" "}
-								<span
-									className="font-semibold cursor-pointer underline"
-									onClick={() => navigateTo("/onboarding")}
-								>
-									{t.layout.preProductionBanner.goToProduction}
-								</span>
+							<h4 className="text-sm text-center max-w-[80%]">
+								{t.layout.submittedInfoBanner.description}
 							</h4>
+						</div>
+						<div className="flex justify-center items-center w-full">
+							<p className="text-sm text-center max-w-[80%]">
+								{t.layout.submittedInfoBanner.patienceNote}
+							</p>
 						</div>
 					</div>
 				)}
