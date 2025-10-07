@@ -6,6 +6,9 @@ import FundUSDModal from "./DepositToUSDWalletModal";
 import FundLocalCurrencyWalletModal from "./FundLocalCurrencyWalletModal";
 import Modal from "@/components/shared/Modal/Modal";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSelector } from "react-redux";
+import { selectCurrentMode } from "@/redux/slices_v2/settings";
+import { RootState } from "@/redux/store";
 
 type TText = {
 	text: string | number | React.ReactNode;
@@ -43,7 +46,9 @@ const WalletCardGrid: React.FC<WalletCardProps> = ({
 	walletIds,
 }) => {
 	const { t }: { t: any } = useTranslation();
-	
+	const prodMode = useSelector((state: RootState) => state.settings.prodMode);
+	console.log("prod mode", prodMode);
+
 	return (
 		// <div className={`mb-10 ${cstyle["infoCardGrid"]}`}>
 		<div
@@ -51,9 +56,10 @@ const WalletCardGrid: React.FC<WalletCardProps> = ({
 		>
 			{walletData.map((data, index) => {
 				const canNavigate = Boolean(walletIds && walletIds[index]);
-				const clickHandler = canNavigate && onWalletClick && walletIds
-					? () => onWalletClick(walletIds![index]!)
-					: undefined;
+				const clickHandler =
+					canNavigate && onWalletClick && walletIds
+						? () => onWalletClick(walletIds![index]!)
+						: undefined;
 				return (
 					<WalletCard
 						key={index}
@@ -63,15 +69,19 @@ const WalletCardGrid: React.FC<WalletCardProps> = ({
 				);
 			})}
 			{/* Add new wallet card */}
-			<div
-				className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
-				onClick={() => onAddWallet && onAddWallet()}
-			>
-				<div className="text-center">
-					<div className="text-4xl text-gray-400 mb-2">+</div>
-					<div className="text-gray-500">{t.wallets.walletCardGrid.addNewWallet}</div>
+			{prodMode && (
+				<div
+					className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
+					onClick={() => onAddWallet && onAddWallet()}
+				>
+					<div className="text-center">
+						<div className="text-4xl text-gray-400 mb-2">+</div>
+						<div className="text-gray-500">
+							{t.wallets.walletCardGrid.addNewWallet}
+						</div>
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { SettingsService } from "@/api/services/cartevo-api/settings";
+import { boolean } from "zod";
 
 interface ExchangeRate {
 	id: string;
@@ -73,6 +74,7 @@ const settingsSlice = createSlice({
 		transactionFees: [] as TransactionFee[],
 		loading: false,
 		error: null as string | null,
+		prodMode: false,
 	},
 	reducers: {
 		setMode: (state, action) => {
@@ -98,6 +100,9 @@ const settingsSlice = createSlice({
 				const limitDate = action.payload;
 				state.limitDate = limitDate;
 			}
+		},
+		setProdMode: (state, action: PayloadAction<boolean>) => {
+			state.prodMode = action.payload;
 		},
 		clearError: (state) => {
 			state.error = null;
@@ -147,6 +152,7 @@ export const { setMode, setVersion, setStartDate, setLimitDate, clearError } =
 
 export default settingsSlice.reducer;
 
+export const { setProdMode } = settingsSlice.actions;
 export const selectCurrentMode = (state: any) => state.settings.mode;
 export const selectCurrentVersion = (state: any) => state.settings.version;
 export const selectStartDate = (state: any) => state.settings.startDate;
