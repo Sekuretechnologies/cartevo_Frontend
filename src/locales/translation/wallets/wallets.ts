@@ -114,6 +114,8 @@ export const walletsTranslations = {
 			errorInvalidAmount: "Please enter a valid amount",
 			errorSelectPhone: "Please select or enter a phone number",
 			errorSelectOperator: "Please select an operator",
+			fundError:
+				"With this funding, the balance would exceed the pre-production limit of",
 		},
 		internalTransfers: {
 			internalTransferTitle: "Internal Transfer",
@@ -188,4 +190,3 @@ export const walletsTranslations = {
 		actions: "Actions",
 	},
 } as const;
-

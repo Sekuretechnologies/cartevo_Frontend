@@ -17,6 +17,7 @@ import { FaBuilding, FaCheck, FaClock, FaUser } from "react-icons/fa";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
+import { getGlobalVerificationStatus } from "@/utils/kyb-kyc";
 
 const PENDING = "PENDING";
 const COMPLETED = "COMPLETED";
@@ -106,7 +107,7 @@ export default function OnboardingPage() {
 			toast.error(t.onboarding.errors.failedToGetVerification);
 		},
 		onSuccess: (data) => {
-			console.log(data);
+			console.log("verification status data", data);
 		},
 	});
 
@@ -288,23 +289,6 @@ export default function OnboardingPage() {
 	};
 
 	const isLoadingVerification = verificationStatusRes?.isLoading;
-
-	const getGlobalVerificationStatus = (
-		kycStatus: string,
-		kybStatus: string
-	): "APPROVED" | "REJECTED" | "NONE" | "PENDING" => {
-		if (kycStatus === "APPROVED" && kybStatus === "APPROVED")
-			return "APPROVED";
-		if (kycStatus === "REJECTED" && kybStatus === "REJECTED")
-			return "REJECTED";
-		if (kycStatus === "NONE" && kybStatus === "NONE") return "NONE";
-		if (
-			(kycStatus === "REJECTED" && kybStatus === "NONE") ||
-			(kycStatus === "NONE" && kybStatus === "REJECTED")
-		)
-			return "REJECTED";
-		return "PENDING";
-	};
 
 	const getGlobalVerificationMessage = (
 		status: "APPROVED" | "REJECTED" | "NONE" | "PENDING"

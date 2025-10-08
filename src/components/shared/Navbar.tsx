@@ -18,6 +18,7 @@ import {
 	selectLimitDate,
 	selectStartDate,
 	setMode,
+	setProdMode,
 } from "@/redux/slices_v2/settings";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
@@ -55,7 +56,7 @@ const handleLogout = async (token: string) => {
 };
 const envModes: any = {
 	live: "Live",
-	sandbox: "Sandbox",
+	pre_production: "Pre-production",
 };
 
 export default function Navbar(props: Props) {
@@ -75,6 +76,13 @@ export default function Navbar(props: Props) {
 	const currentMode = useSelector(selectCurrentMode);
 	const currentStartDate = useSelector(selectStartDate);
 	const currentLimitDate = useSelector(selectLimitDate);
+	const prodMode =
+		currentCompany?.kybStatus === "APPROVED" &&
+		currentUser?.kycStatus === "APPROVED";
+
+	useEffect(() => {
+		dispatch(setProdMode(prodMode));
+	}, [prodMode, dispatch]);
 
 	// Language state from Redux
 	const currentLanguage = useSelector(selectCurrentLanguage);
@@ -83,10 +91,6 @@ export default function Navbar(props: Props) {
 	const [envMode, setEnvMode] = useState(currentMode || "sandbox");
 	const [isChangeStartDateModalFormOpen, setIsChangeStartDateModalFormOpen] =
 		useState(false);
-
-	useEffect(() => {
-		console.log("currentUser", currentUser);
-	}, []);
 
 	const mutation = useMutation({
 		mutationFn: async () => handleLogout(currentToken),
@@ -138,8 +142,8 @@ export default function Navbar(props: Props) {
 			setEnvMode("live");
 			dispatch(setMode("live"));
 		} else {
-			setEnvMode("sandbox");
-			dispatch(setMode("sandbox"));
+			setEnvMode("pre_production");
+			dispatch(setMode("pre_production"));
 		}
 	};
 
@@ -227,9 +231,7 @@ export default function Navbar(props: Props) {
 							</span>
 
 							<Switch
-								defaultChecked={
-									currentCompany?.is_onboarding_completed
-								}
+								checked={prodMode}
 								disabled={
 									!currentCompany?.is_onboarding_completed
 								}
