@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Navbar from "./Navbar";
 import SideBar from "./SideBar";
 import cstyle from "./styles/layout-style.module.scss";
@@ -50,7 +50,16 @@ const Layout: React.FC<LayoutProps> = ({
 	const kycStatus = user?.kycStatus || "NONE";
 	const kybStatus = company?.kybStatus || "NONE";
 
-	const status = getGlobalVerificationStatus(kycStatus, kybStatus);
+	const status = useMemo(() => {
+		const kycStatus = user?.kycStatus || "NONE";
+		const kybStatus = company?.kybStatus || "NONE";
+		return getGlobalVerificationStatus(kycStatus, kybStatus);
+	}, [user, company]);
+
+	useEffect(() => {
+		console.log("Layout: user", user);
+		console.log("Layout: company", company);
+	}, [user, company]);
 
 	/** //////////////////////////////////////////// */
 	// useEffect(() => {

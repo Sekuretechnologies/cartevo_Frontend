@@ -4,9 +4,11 @@ import { AuthService } from "@/api/services/cartevo-api/auth";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import {
 	logOut,
+	selectAnotherCompanies,
 	selectCurrentCompany,
 	selectCurrentToken,
 	selectCurrentUser,
+	setCredentials,
 } from "@/redux/slices/auth";
 import {
 	selectAvailableLanguages,
@@ -38,6 +40,9 @@ import SearchUserInput from "./search/UserSearchInput";
 
 import cstyle from "./styles/navbar-style.module.scss";
 import { useTranslation } from "@/hooks/useTranslation";
+import { error } from "console";
+import Loading from "@/app/[locale]/loading";
+import { PuffLoader } from "react-spinners";
 type Props = {
 	title: string | undefined;
 	backLink?: string;
@@ -59,6 +64,28 @@ const envModes: any = {
 	pre_production: "Pre-production",
 };
 
+const handleSwitchCompany = async ({
+	token,
+	companyId,
+}: {
+	token: string;
+	companyId: string;
+}) => {
+	console.log("token envoye", token);
+	const response = await AuthService.switchCompany({
+		token: token,
+		company_id: companyId,
+	});
+
+	const responseJson = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseJson.message);
+	}
+
+	return responseJson;
+};
+
 export default function Navbar(props: Props) {
 	const { t } = useTranslation();
 	const navBarTranslate = t.navBar;
@@ -72,6 +99,7 @@ export default function Navbar(props: Props) {
 
 	const currentToken = useSelector(selectCurrentToken);
 	const currentCompany = useSelector(selectCurrentCompany);
+	const anotherCompanies = useSelector(selectAnotherCompanies);
 	const currentUser = useSelector(selectCurrentUser);
 	const currentMode = useSelector(selectCurrentMode);
 	const currentStartDate = useSelector(selectStartDate);
@@ -79,9 +107,11 @@ export default function Navbar(props: Props) {
 	const prodMode =
 		currentCompany?.kybStatus === "APPROVED" &&
 		currentUser?.kycStatus === "APPROVED";
+	const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
 
 	useEffect(() => {
 		dispatch(setProdMode(prodMode));
+		console.log("another companies", anotherCompanies);
 	}, [prodMode, dispatch]);
 
 	// Language state from Redux
@@ -103,6 +133,56 @@ export default function Navbar(props: Props) {
 		onError: (err: any) => {
 			console.error("Logout onError : ", err.message);
 			toast.error(err.message);
+		},
+	});
+	// ✅ Mutation for switching company
+	const switchMutation = useMutation({
+		mutationFn: ({
+			token,
+			companyId,
+		}: {
+			token: string;
+			companyId: string;
+		}) => handleSwitchCompany({ token, companyId }),
+
+		onSuccess: (data: any) => {
+			const token = data.access_token;
+			const user = data.user;
+			const company = data.company;
+			console.log("mode", data.mode);
+
+			// Exclure la compagnie sélectionnée de la liste des autres
+			const updatedAnotherCompanies = [
+				currentCompany,
+				...anotherCompanies.filter(
+					(c: { id: any }) => c.id !== company.id
+				),
+			];
+
+			// ✅ Mettre à jour le store Redux
+			dispatch(
+				setCredentials({
+					token,
+					company,
+					user,
+					anotherCompanies: updatedAnotherCompanies,
+				})
+			);
+			dispatch(setMode(data.mode));
+
+			toast.success("Company switch successful");
+
+			//  Redirection selon l'état d’onboarding
+			// 	if (!company?.onboarding_is_completed) {
+			// 		navigateTo(urls.onboarding.root);
+			// 	} else {
+			// 		navigateTo(urls.wallets.root);
+			// 	}
+		},
+
+		onError: (error: any) => {
+			console.error("Switch company error:", error);
+			toast.error(error.message || "Échec du changement d'entreprise");
 		},
 	});
 
@@ -160,6 +240,11 @@ export default function Navbar(props: Props) {
 
 	return (
 		<div className={`w-full pl-0  md:pl-0 ${cstyle["navbar-container"]}`}>
+			{switchMutation.isLoading && (
+				<div className="fixed top-0 left-0 w-full h-full bg-black/20 backdrop-blur-sm z-[2000] flex items-center justify-center">
+					<PuffLoader size={50} color="#1F66FF" />
+				</div>
+			)}
 			<div
 				style={{
 					width: isExpanded
@@ -227,11 +312,11 @@ export default function Navbar(props: Props) {
 							onClick={(e) => handleOnboardingError(e)}
 						>
 							<span className="text-[15px] w-[55px] text-center text-gray-600">
-								{envModes[currentMode]}
+								Live
 							</span>
 
 							<Switch
-								checked={prodMode}
+								checked={currentMode === "prod"}
 								disabled={
 									!currentCompany?.is_onboarding_completed
 								}
@@ -393,17 +478,74 @@ export default function Navbar(props: Props) {
 										{currentUser?.email}
 									</span>
 								</div>,
-								// <div
-								// 	key={"4"}
-								// 	className="flex justify-center w-full px-3 gap-2 py-3"
-								// >
-								// 	<CButton
-								// 		text={"Status check"}
-								// 		btnStyle={"outlineDark"}
-								// 		href={"/retrait-gb"}
-								// 		icon={<MdCheck size={40} />}
-								// 	/>
-								// </div>,
+
+								<div
+									key={"4"}
+									className={` justify-center w-full px-3 gap-2 py-3`}
+								>
+									{(anotherCompanies &&
+										anotherCompanies.length) > 0 && (
+										<div
+											key={"5"}
+											className="flex flex-col justify-center w-full  gap-2 my-2 border-t border-gray-200 pt-2"
+										>
+											<button
+												type="button"
+												className="text-sm text-gray-600 font-medium mb-2 flex items-center whitespace-nowrap"
+												onClick={(e) => {
+													e.stopPropagation();
+													setIsCompanyDropdownOpen(
+														!isCompanyDropdownOpen
+													);
+												}}
+											>
+												Autres entreprises :
+												<ChevronDown
+													color={"#4b5563"}
+													size={18}
+													className={`ml-1 transition-transform duration-200 ${
+														isCompanyDropdownOpen
+															? "rotate-180"
+															: ""
+													}`}
+												/>
+											</button>
+
+											{isCompanyDropdownOpen && (
+												<div className="flex flex-col  rounded-md mt-1 bg-white shadow-sm max-h-60 overflow-y-auto">
+													{anotherCompanies.map(
+														(comp: any) => (
+															<button
+																key={comp.id}
+																onClick={() =>
+																	switchMutation.mutate(
+																		{
+																			token: currentToken, // depuis ton Redux
+																			companyId:
+																				comp.id, // l'id de l'entreprise sélectionnée
+																		}
+																	)
+																}
+																className="w-full flex items-center gap-2 text-left px-3 py-2 text-sm hover:bg-gray-100 transition-all"
+															>
+																<ItemFlag
+																	iso2={
+																		comp.country
+																	}
+																	size={6}
+																/>
+																<span>
+																	{comp.name}
+																</span>
+															</button>
+														)
+													)}
+												</div>
+											)}
+										</div>
+									)}
+								</div>,
+
 								<div
 									key={"6"}
 									className="flex justify-center w-full px-3 gap-2 my-3"

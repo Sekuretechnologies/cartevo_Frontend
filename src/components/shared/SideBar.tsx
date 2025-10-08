@@ -17,10 +17,12 @@ import { useSelector } from "react-redux";
 import Logo from "../shared/Logo";
 import {
 	Accueil,
+	ApiDev,
 	Cards,
 	Company,
 	Developers,
 	Identity,
+	InfoIcon,
 	Parameters,
 	Transaction,
 	Users,
@@ -190,7 +192,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			canSee: true,
 			path: "http://developer.cartevo.co",
 			count: null,
-			icon: <Code />,
+			icon: <ApiDev size={28} />,
 		},
 		{
 			title: sideBarTranslation.help,
@@ -198,7 +200,7 @@ const SideBar = ({ isExpanded, setIsExpanded, user }: Props) => {
 			canSee: true,
 			path: urls.help.root,
 			count: null,
-			icon: <Badge />,
+			icon: <InfoIcon />,
 		},
 	];
 
