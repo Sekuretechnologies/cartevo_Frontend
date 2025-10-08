@@ -118,7 +118,7 @@ const ContactForm = () => {
 				<h1 className="text-[35px] font-bold leading-10 mb-4">
 					{contactTranslation.title}
 				</h1>
-				<p className="text-[12px]">{contactTranslation.description}</p>
+				<p className="text-[12px] max-w-[700px]">{contactTranslation.description}</p>
 			</div>
 
 			<Form {...form}>

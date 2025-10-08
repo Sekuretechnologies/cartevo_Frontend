@@ -1,20 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import AdminTable, {
 	IGenericRow,
 	ITableHeader,
 } from "@/components/AdminTable/Table";
 import SearchBar from "@/components/shared/SearchBar";
-import Link from "next/link";
+import { selectSearchTerm } from "@/redux/slices/search";
+import React, { useState } from "react";
 import { BsFileEarmarkExcel } from "react-icons/bs";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { IoCopyOutline, IoPrintOutline } from "react-icons/io5";
 import { HiOutlineFilter } from "react-icons/hi";
-import CustomDropdown from "./CustomDropdown";
-import { RxDotsHorizontal } from "react-icons/rx";
-import CButton from "./CButton";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchTerm, selectSearchTerm } from "@/redux/slices/search";
+import CButton from "./CButton";
 import CustomersFilterForm from "./CustomTableFilters/CustomersFilterForm";
 import RegularisationFilterForm from "./CustomTableFilters/RegularisationFilterForm";
 import TransactionsFilterForm from "./CustomTableFilters/TransactionsFilterForm";

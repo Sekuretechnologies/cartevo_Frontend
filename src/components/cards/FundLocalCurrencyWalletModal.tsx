@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
 import CButton from "@/components/shared/CButton";
+import { useTranslation } from "@/hooks/useTranslation";
+import { selectTransactionFees } from "@/redux/slices_v2/settings";
+import { getCountryPhonePrefix } from "@/utils/utils";
+import { Select, SelectItem } from "@nextui-org/select";
+import classNames from "classnames";
+import { countries as countryDataList } from "country-data";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { Select, SelectItem } from "@nextui-org/select";
 import { useSelector } from "react-redux";
-import { selectTransactionFees } from "@/redux/slices_v2/settings";
-import classNames from "classnames";
 import { PuffLoader } from "react-spinners";
-import { countries as countryDataList } from "country-data";
-import { getCountryPhonePrefix } from "@/utils/utils";
-import { useTranslation } from "@/hooks/useTranslation";
 interface FundLocalCurrencyWalletModalProps {
 	userId: string;
 	walletId: string;
@@ -23,6 +23,7 @@ interface FundLocalCurrencyWalletModalProps {
 	countryIsoCode: string;
 	// countryPhoneCode: string;
 	operators: { operator_code: string; operator_name: string }[];
+	walletBalance: number;
 }
 
 export interface FundLocalCurrencyWalletSubmitProps {
@@ -38,6 +39,16 @@ export interface FundLocalCurrencyWalletSubmitProps {
 	// countryPhoneCode: string;
 }
 
+const PREPROD_MAX_TRANSACTION: Record<string, number> = {
+	USD: 90,
+	NGN: 130000,
+	GHS: 1000,
+	XAF: 50000,
+	XOF: 50000,
+	GNF: 750000,
+	HTG: 12000,
+};
+
 const FundLocalCurrencyWalletModal: React.FC<
 	FundLocalCurrencyWalletModalProps
 > = ({
@@ -52,7 +63,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 	operators,
 	currency,
 	countryIsoCode,
-	// countryPhoneCode,
+	walletBalance,
 }) => {
 	const { t }: { t: any } = useTranslation();
 	const [amount, setAmount] = useState("100");
@@ -63,6 +74,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 		phoneNumbers.length > 0
 	);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const { prodMode } = useSelector((state: any) => state.settings);
 
 	const countryPhoneCode = getCountryPhonePrefix(
 		(countryDataList as any)[countryIsoCode]?.countryCallingCodes || []
@@ -70,38 +82,37 @@ const FundLocalCurrencyWalletModal: React.FC<
 	// Get transaction fees from Redux store
 	const transactionFees = useSelector(selectTransactionFees);
 
-	// Find the appropriate transaction fee for local currency funding
-	// const feeData = transactionFees.find(
-	// 	(fee: any) =>
-	// 		fee.transaction_category === "TOPUP" &&
-	// 		fee.transaction_type === "WALLET"
-	// );
 	const feeData = transactionFees.find(
 		(fee: any) =>
 			fee.transaction_category === "WALLET" &&
 			fee.transaction_type === "FUND"
 	);
 
-	const fees = feeData?.value || 1.5; // Fallback to 1.5% if not found
+	console.log("feeData :: ", feeData);
+
+	const fees: number = feeData?.value || 1.5;
 
 	const amountNum = parseFloat(amount) || 0;
 	const feeAmount = (amountNum * fees) / 100;
 	const totalAmount = amountNum + feeAmount;
 	const hasPhoneNumbers = phoneNumbers.length > 0;
 
-	// const operators = [
-	// 	{
-	// 		code: "MTN",
-	// 		name: `MTN ${countryIsoCode === "CM" ? "Cameroon" : "Mobile"}`,
-	// 	},
-	// 	{
-	// 		code: "ORANGE",
-	// 		name: `Orange ${countryIsoCode === "CM" ? "Cameroon" : "Mobile"}`,
-	// 	},
-	// 	{ code: "NEXTTEL", name: "Nexttel" },
-	// ];
-
 	const handleSubmit = () => {
+		setErrorMessage(null);
+
+		if (!prodMode) {
+			const limit =
+				PREPROD_MAX_TRANSACTION[
+					currency as keyof typeof PREPROD_MAX_TRANSACTION
+				];
+			if (limit && Number(walletBalance) + amountNum > limit) {
+				setErrorMessage(
+					`${t.wallets.modals.fundLocal.fundError} ${limit} ${currency}.`
+				);
+				return;
+			}
+		}
+
 		if (!amountNum || amountNum <= 0) {
 			setErrorMessage("Please enter a valid amount");
 			return;
@@ -119,11 +130,6 @@ const FundLocalCurrencyWalletModal: React.FC<
 			setErrorMessage("Please select or enter a phone number");
 			return;
 		}
-
-		// if (!operator) {
-		// 	setErrorMessage("Please select an operator");
-		// 	return;
-		// }
 
 		if (!useExistingPhone && !operator) {
 			setErrorMessage("Please select an operator");
@@ -169,14 +175,29 @@ const FundLocalCurrencyWalletModal: React.FC<
 
 	return (
 		<div className="bg-white rounded-lg p-6 w-[400px]">
-			<h2 className="text-xl font-bold mb-4">{t.wallets.modals.fundLocal.title.replace("{currency}", currency)}</h2>
+			<h2 className="text-xl font-bold mb-4">
+				{t.wallets.modals.fundLocal.title.replace(
+					"{currency}",
+					currency
+				)}
+			</h2>
 
 			<div className="space-y-4">
 				{/* Amount Input */}
 				<div>
 					<label className="flex justify-between items-center block text-sm font-medium text-gray-700 mb-2">
-						<span>{t.wallets.modals.fundLocal.amountLabel.replace("{currency}", currency)}</span>
-						<span className="text-xs">{t.wallets.modals.fundLocal.amountMin.replace("{currency}", currency)}</span>
+						<span>
+							{t.wallets.modals.fundLocal.amountLabel.replace(
+								"{currency}",
+								currency
+							)}
+						</span>
+						<span className="text-xs">
+							{t.wallets.modals.fundLocal.amountMin.replace(
+								"{currency}",
+								currency
+							)}
+						</span>
 					</label>
 					<input
 						type="number"
@@ -278,7 +299,9 @@ const FundLocalCurrencyWalletModal: React.FC<
 								{t.wallets.modals.fundLocal.operator}
 							</label>
 							<Select
-								placeholder={t.wallets.modals.fundLocal.operatorPh}
+								placeholder={
+									t.wallets.modals.fundLocal.operatorPh
+								}
 								selectedKeys={[operator]}
 								onSelectionChange={(keys) => {
 									const value = keys.currentKey as string;
@@ -303,13 +326,17 @@ const FundLocalCurrencyWalletModal: React.FC<
 				{/* {amountNum > 0 && ( */}
 				<div className="bg-gray-50 p-4 rounded-md space-y-2 text-sm">
 					<div className="flex justify-between">
-						<span className="font-medium">{t.wallets.modals.fundLocal.totalDebited}</span>
+						<span className="font-medium">
+							{t.wallets.modals.fundLocal.totalDebited}
+						</span>
 						<span className="font-bold text-blue-600">
 							{totalAmount.toLocaleString()} {currency}
 						</span>
 					</div>
 					<div className="flex justify-between">
-						<span className="font-medium">{t.wallets.modals.fundLocal.amountReceived}</span>
+						<span className="font-medium">
+							{t.wallets.modals.fundLocal.amountReceived}
+						</span>
 						<span className="font-bold text-green-600">
 							{amountNum.toLocaleString()} {currency}
 						</span>

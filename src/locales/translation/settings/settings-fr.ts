@@ -12,8 +12,9 @@ export const settingsTranslationsFr = {
 	// Section Membres de l'équipe
 	teamMembers: {
 		title: "Membres de l'équipe",
-		description: "Gérez les membres de votre équipe, attribuez des rôles et contrôlez les autorisations d'accès.",
-		
+		description:
+			"Gérez les membres de votre équipe, attribuez des rôles et contrôlez les autorisations d'accès.",
+
 		// En-têtes de tableau
 		table: {
 			serial: "#",
@@ -34,7 +35,8 @@ export const settingsTranslationsFr = {
 
 		// Messages
 		messages: {
-			failedToGetTeamMembers: "Échec de récupération des membres de l'équipe",
+			failedToGetTeamMembers:
+				"Échec de récupération des membres de l'équipe",
 			teamMemberDeletedSuccess: "Membre de l'équipe supprimé avec succès",
 			failedToDeleteMember: "Échec de suppression du membre",
 		},
@@ -49,7 +51,18 @@ export const settingsTranslationsFr = {
 				role: "Rôle",
 				selectRole: "Sélectionner un rôle",
 				saveAndContinue: "Enregistrer et continuer",
-				newTeamMemberAddedSuccess: "Nouveau membre d'équipe ajouté avec succès",
+				newTeamMemberAddedSuccess:
+					"Nouveau membre d'équipe ajouté avec succès",
+			},
+
+			permissionRole: {
+				accessSystem: "Accès total au système ",
+				modifyWebhook: "Peut modifier le webhook",
+				reloadWalletOrCard: "Peut recharger un wallet ou une carte",
+				withdrawWalletOrCard:
+					"Peut retirer de l'argent du wallet ou d'une carte",
+				viewBalances: "Peut consulter les soldes des cartes et wallets",
+				freezeOrUnfreezeCard: "Peut geler ou dégeler une carte",
 			},
 
 			// Modal Modifier le rôle
@@ -57,14 +70,17 @@ export const settingsTranslationsFr = {
 				title: "Modifier le rôle utilisateur",
 				selectRole: "Sélectionner un rôle",
 				editRole: "Modifier le rôle",
-				failedToUpdateUserRole: "Échec de mise à jour du rôle utilisateur.",
-				userRoleUpdatedSuccess: "Rôle utilisateur mis à jour avec succès.",
+				failedToUpdateUserRole:
+					"Échec de mise à jour du rôle utilisateur.",
+				userRoleUpdatedSuccess:
+					"Rôle utilisateur mis à jour avec succès.",
 			},
 
 			// Modal de confirmation de suppression
 			deleteConfirmation: {
 				title: "Confirmer la suppression",
-				message: "Êtes-vous sûr de vouloir supprimer ce membre d'équipe ? Cette action ne peut pas être annulée.",
+				message:
+					"Êtes-vous sûr de vouloir supprimer ce membre d'équipe ? Cette action ne peut pas être annulée.",
 				delete: "Supprimer",
 				cancel: "Annuler",
 			},
@@ -80,7 +96,8 @@ export const settingsTranslationsFr = {
 	// Section Taux de change
 	exchangeRates: {
 		title: "Taux de change",
-		description: "Gérez les taux de change de devises pour votre plateforme",
+		description:
+			"Gérez les taux de change de devises pour votre plateforme",
 
 		// En-têtes de tableau
 		table: {
@@ -98,9 +115,11 @@ export const settingsTranslationsFr = {
 
 		// Messages
 		messages: {
-			failedToGetExchangeRates: "Échec de récupération des taux de change.",
+			failedToGetExchangeRates:
+				"Échec de récupération des taux de change.",
 			exchangeRateDeletedSuccess: "Taux de change supprimé avec succès !",
-			failedToDeleteExchangeRate: "Échec de suppression du taux de change",
+			failedToDeleteExchangeRate:
+				"Échec de suppression du taux de change",
 		},
 
 		// Modal
@@ -116,7 +135,7 @@ export const settingsTranslationsFr = {
 			cancel: "Annuler",
 			save: "Enregistrer",
 			saving: "Enregistrement...",
-			
+
 			// Placeholders
 			fromCurrencyPlaceholder: "USD",
 			toCurrencyPlaceholder: "XAF",
@@ -132,15 +151,18 @@ export const settingsTranslationsFr = {
 
 			// Messages
 			exchangeRateCreatedSuccess: "Taux de change créé avec succès !",
-			exchangeRateUpdatedSuccess: "Taux de change mis à jour avec succès !",
-			failedToSaveExchangeRate: "Échec d'enregistrement du taux de change",
+			exchangeRateUpdatedSuccess:
+				"Taux de change mis à jour avec succès !",
+			failedToSaveExchangeRate:
+				"Échec d'enregistrement du taux de change",
 		},
 	},
 
 	// Section Frais de transaction
 	transactionFees: {
 		title: "Frais de transaction",
-		description: "Configurez les frais de transaction pour différents types de paiement et pays",
+		description:
+			"Configurez les frais de transaction pour différents types de paiement et pays",
 
 		// En-têtes de tableau
 		table: {
@@ -156,10 +178,14 @@ export const settingsTranslationsFr = {
 
 		// Messages
 		messages: {
-			failedToGetTransactionFees: "Échec de récupération des frais de transaction.",
-			transactionFeeDeletedSuccess: "Frais de transaction supprimés avec succès !",
-			failedToDeleteTransactionFee: "Échec de suppression des frais de transaction",
-			areYouSureDeleteTransactionFee: "Êtes-vous sûr de vouloir supprimer ces frais de transaction ?",
+			failedToGetTransactionFees:
+				"Échec de récupération des frais de transaction.",
+			transactionFeeDeletedSuccess:
+				"Frais de transaction supprimés avec succès !",
+			failedToDeleteTransactionFee:
+				"Échec de suppression des frais de transaction",
+			areYouSureDeleteTransactionFee:
+				"Êtes-vous sûr de vouloir supprimer ces frais de transaction ?",
 		},
 
 		// Modal
@@ -206,14 +232,19 @@ export const settingsTranslationsFr = {
 			},
 
 			// Messages
-			transactionFeeCreatedSuccess: "Frais de transaction créés avec succès !",
-			transactionFeeUpdatedSuccess: "Frais de transaction mis à jour avec succès !",
-			failedToSaveTransactionFee: "Échec d'enregistrement des frais de transaction",
+			transactionFeeCreatedSuccess:
+				"Frais de transaction créés avec succès !",
+			transactionFeeUpdatedSuccess:
+				"Frais de transaction mis à jour avec succès !",
+			failedToSaveTransactionFee:
+				"Échec d'enregistrement des frais de transaction",
 		},
 	},
 
 	// Messages généraux
 	messages: {
-		areYouSureDeleteExchangeRate: "Êtes-vous sûr de vouloir supprimer ce taux de change ?",
+		areYouSureDeleteExchangeRate:
+			"Êtes-vous sûr de vouloir supprimer ce taux de change ?",
 	},
 } as const;
+

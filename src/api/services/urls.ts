@@ -15,6 +15,7 @@ export const authUrls = {
 	LOGIN_WITH_COMPANY: `${BASE_URL_AUTH}/select-company`,
 	ACCEPT_INVITATION: `${BASE_URL_AUTH}/invitations/accept`,
 	RESEND_OTP: `${BASE_URL_AUTH}/resend-otp`,
+	SWITCH_COMPANY: `${BASE_URL_AUTH}/switch-company`,
 };
 
 /** COMPANY ============================================================ */

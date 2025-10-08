@@ -42,6 +42,7 @@ import { sortByCreatedAtDescending } from "@/utils/utils";
 import { HiDownload } from "react-icons/hi";
 import { MdDownload, MdOutlineFileDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 // Initial infoData structure - will be updated with real data
 const getInitialInfoData = (
@@ -109,7 +110,7 @@ const getInitialInfoData = (
 		[
 			{
 				label: {
-					text: t?.wallets?.labels?.wallet || "Wallet",
+					text: t?.wallets?.labels?.wallet || "wallet",
 					fw: "bold",
 					fs: "20px",
 					color: "#444",
@@ -150,7 +151,7 @@ const getInitialInfoData = (
 				value: {
 					text: (
 						<CButton
-							text={t?.wallets?.actions?.fund || "Fund"}
+							text={t?.wallets?.actions?.fund || "Recharger"}
 							btnStyle={"blue"}
 							icon={<MdOutlineFileDownload size={50} />}
 							width={"100%"}
@@ -261,9 +262,7 @@ export default function Home() {
 	const router = useRouter();
 	const currentToken: any = useSelector(selectCurrentToken);
 	const currentEnvMode: any = useSelector(selectCurrentMode);
-	console.log("currentEnvMode :: ", currentEnvMode);
-	console.log("currentEnvMode :: ", currentEnvMode);
-	console.log("currentEnvMode :: ", currentEnvMode);
+	const prodMode = useSelector((state: RootState) => state.settings.prodMode);
 
 	const [filterContent, setFilterContent] = useState({});
 	const [loadTransactions, setLoadTransactions] = useState(false);
@@ -480,8 +479,8 @@ export default function Home() {
 								<CButton
 									text={
 										wallet.currency === "USD"
-											? "Deposit"
-											: "Fund"
+											? `${t.wallets.actions.deposit}`
+											: `${t.wallets.actions.fund}`
 									}
 									btnStyle={"blue"}
 									onClick={() => {
@@ -588,7 +587,9 @@ export default function Home() {
 								return (
 									<BadgeLabel
 										className="text-xs"
-										label={t.wallets.labels.status.cancelled}
+										label={
+											t.wallets.labels.status.cancelled
+										}
 										badgeColor="#444"
 										textColor="#444"
 									/>
@@ -698,6 +699,7 @@ export default function Home() {
 								} // TODO: Get phone numbers from API
 								userId={currentUser.id}
 								walletId={fundModalData.wallet?.id}
+								walletBalance={fundModalData.wallet?.balance || 0}
 								operators={
 									fundModalData.wallet?.operators || []
 								}

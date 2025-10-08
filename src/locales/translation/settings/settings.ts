@@ -12,8 +12,9 @@ export const settingsTranslations = {
 	// Team Members Section
 	teamMembers: {
 		title: "Team Members",
-		description: "Manage your team members, assign roles, and control access permissions.",
-		
+		description:
+			"Manage your team members, assign roles, and control access permissions.",
+
 		// Table Headers
 		table: {
 			serial: "#",
@@ -52,6 +53,16 @@ export const settingsTranslations = {
 				newTeamMemberAddedSuccess: "New team member added successfully",
 			},
 
+			permissionRole: {
+				accessSystem: "Full access to the system",
+				modifyWebhook: "Can modify the webhook",
+				reloadWalletOrCard: "Add funds to a wallet or a card",
+				withdrawWalletOrCard:
+					"Can withdraw money from the wallet or a card",
+				viewBalances: "Can view balances of cards and wallets",
+				freezeOrUnfreezeCard: "Can freeze or unfreeze a card",
+			},
+
 			// Edit Role Modal
 			editRole: {
 				title: "Edit user role",
@@ -64,7 +75,8 @@ export const settingsTranslations = {
 			// Delete Confirmation Modal
 			deleteConfirmation: {
 				title: "Confirm Delete",
-				message: "Are you sure you want to delete this team member? This action cannot be undone.",
+				message:
+					"Are you sure you want to delete this team member? This action cannot be undone.",
 				delete: "Delete",
 				cancel: "Cancel",
 			},
@@ -116,7 +128,7 @@ export const settingsTranslations = {
 			cancel: "Cancel",
 			save: "Save",
 			saving: "Saving...",
-			
+
 			// Placeholders
 			fromCurrencyPlaceholder: "USD",
 			toCurrencyPlaceholder: "XAF",
@@ -140,7 +152,8 @@ export const settingsTranslations = {
 	// Transaction Fees Section
 	transactionFees: {
 		title: "Transaction Fees",
-		description: "Configure transaction fees for different payment types and countries",
+		description:
+			"Configure transaction fees for different payment types and countries",
 
 		// Table Headers
 		table: {
@@ -157,9 +170,11 @@ export const settingsTranslations = {
 		// Messages
 		messages: {
 			failedToGetTransactionFees: "Failed to get transaction fees.",
-			transactionFeeDeletedSuccess: "Transaction fee deleted successfully!",
+			transactionFeeDeletedSuccess:
+				"Transaction fee deleted successfully!",
 			failedToDeleteTransactionFee: "Failed to delete transaction fee",
-			areYouSureDeleteTransactionFee: "Are you sure you want to delete this transaction fee?",
+			areYouSureDeleteTransactionFee:
+				"Are you sure you want to delete this transaction fee?",
 		},
 
 		// Modal
@@ -206,14 +221,18 @@ export const settingsTranslations = {
 			},
 
 			// Messages
-			transactionFeeCreatedSuccess: "Transaction fee created successfully!",
-			transactionFeeUpdatedSuccess: "Transaction fee updated successfully!",
+			transactionFeeCreatedSuccess:
+				"Transaction fee created successfully!",
+			transactionFeeUpdatedSuccess:
+				"Transaction fee updated successfully!",
 			failedToSaveTransactionFee: "Failed to save transaction fee",
 		},
 	},
 
 	// General Messages
 	messages: {
-		areYouSureDeleteExchangeRate: "Are you sure you want to delete this exchange rate?",
+		areYouSureDeleteExchangeRate:
+			"Are you sure you want to delete this exchange rate?",
 	},
 } as const;
+

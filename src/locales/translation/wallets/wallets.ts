@@ -114,8 +114,12 @@ export const walletsTranslations = {
 			errorInvalidAmount: "Please enter a valid amount",
 			errorSelectPhone: "Please select or enter a phone number",
 			errorSelectOperator: "Please select an operator",
+			fundError:
+				"With this funding, the balance would exceed the pre-production limit of",
 		},
 		internalTransfers: {
+			internalTransferTitle: "Internal Transfer",
+			transferDirection: "Transfer Direction",
 			totalToPayoutTitle: "Total to PayOut",
 			amount: "Amount",
 			available: "Available:",
@@ -128,9 +132,15 @@ export const walletsTranslations = {
 			toMain: "To Main:",
 			payInAfter: "PayIn after transfer:",
 			mainAfter: "Main after transfer:",
+			main: "Main",
+			payIn: "PayIn",
+			payOut: "PayOut",
 			cancel: "Cancel",
 			transfer: "Transfer",
 			processing: "Processing...",
+			errorInvalidAmount: "Please enter a valid amount",
+			insufficientMainBalance: "Insufficient Main balance",
+			insufficientPayoutBalance: "Insufficient PayOut balance",
 		},
 		actionsMenu: {
 			transferToPayout: "Transfer to PayOut",
@@ -180,4 +190,3 @@ export const walletsTranslations = {
 		actions: "Actions",
 	},
 } as const;
-

@@ -13,7 +13,7 @@ export const walletsTranslationsFr = {
 		},
 	},
 	actions: {
-		fund: "Alimenter",
+		fund: "Recharger",
 		deposit: "Déposer",
 		creditTestWallet: "Crediter portefeuille test",
 		details: "Détails",
@@ -38,7 +38,8 @@ export const walletsTranslationsFr = {
 	},
 	overview: {
 		noTransactionsTitle: "Aucune transaction trouvée",
-		noTransactionsSubtitle: "Ce portefeuille n'a pas encore de transactions",
+		noTransactionsSubtitle:
+			"Ce portefeuille n'a pas encore de transactions",
 	},
 	detail: {
 		pageTitle: "Cartevo | Détails du portefeuille",
@@ -57,7 +58,8 @@ export const walletsTranslationsFr = {
 		phoneNumbersTitle: "Numéros de téléphone associés",
 		addPhone: "+ Ajouter",
 		trxHistoryTitle: "Historique des transactions du portefeuille",
-		trxHistorySubtitlePrefix: "Toutes les transactions pour ce portefeuille",
+		trxHistorySubtitlePrefix:
+			"Toutes les transactions pour ce portefeuille",
 		trxHistorySubtitleSuffix: "",
 		walletNotFound: "Portefeuille introuvable",
 	},
@@ -78,7 +80,7 @@ export const walletsTranslationsFr = {
 			errorInvalidAmount: "Veuillez saisir un montant valide",
 		},
 		depositUSD: {
-			title: "Alimenter le portefeuille USD",
+			title: "Recharger le portefeuille USD",
 			amountLabel: "Montant (USD)",
 			amountPh: "Saisir le montant en USD",
 			sourceWallet: "Portefeuille source",
@@ -91,10 +93,11 @@ export const walletsTranslationsFr = {
 			selectSourceFirst: "Sélectionnez d'abord un portefeuille source",
 			errorInvalidAmount: "Veuillez saisir un montant valide",
 			usdWalletNotFound: "Portefeuille USD introuvable",
-			insufficientBalance: "Solde insuffisant dans le portefeuille source",
+			insufficientBalance:
+				"Solde insuffisant dans le portefeuille source",
 		},
 		fundLocal: {
-			title: "Alimenter le portefeuille {currency}",
+			title: "Recharger le portefeuille {currency}",
 			amountLabel: "Montant ({currency})",
 			amountMin: "Minimum : 100 {currency}",
 			amountPh: "Saisir le montant en {currency}",
@@ -110,12 +113,16 @@ export const walletsTranslationsFr = {
 			totalDebited: "Total débité :",
 			amountReceived: "Montant reçu :",
 			cancel: "Annuler",
-			fundWallet: "Alimenter",
+			fundWallet: "Recharger",
 			errorInvalidAmount: "Veuillez saisir un montant valide",
 			errorSelectPhone: "Veuillez sélectionner ou saisir un numéro",
 			errorSelectOperator: "Veuillez sélectionner un opérateur",
+			fundError:
+				"Avec ce financement, le solde dépasserait la limite de pré-production de",
 		},
 		internalTransfers: {
+			internalTransferTitle: "Transfert interne",
+			transferDirection: "Sens du transfert",
 			totalToPayoutTitle: "Total vers PayOut",
 			amount: "Montant",
 			available: "Disponible :",
@@ -128,9 +135,15 @@ export const walletsTranslationsFr = {
 			toMain: "Vers Main :",
 			payInAfter: "PayIn après transfert :",
 			mainAfter: "Main après transfert :",
+			main: "Main",
+			payIn: "PayIn",
+			payOut: "PayOut",
 			cancel: "Annuler",
 			transfer: "Transférer",
 			processing: "Traitement...",
+			errorInvalidAmount: "Veuillez saisir un montant valide",
+			insufficientMainBalance: "Solde Main insuffisant",
+			insufficientPayoutBalance: "Solde PayOut insuffisant",
 		},
 		actionsMenu: {
 			transferToPayout: "Transférer vers PayOut",
@@ -180,4 +193,3 @@ export const walletsTranslationsFr = {
 		actions: "Actions",
 	},
 } as const;
-

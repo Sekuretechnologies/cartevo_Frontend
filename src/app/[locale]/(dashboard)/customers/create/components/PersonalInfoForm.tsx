@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 // import { personalInfoSchema } from "@/validation/FormValidation";
+import { CustomerService } from "@/api/services/cartevo-api/customer";
 import CButton from "@/components/shared/CButton";
 import {
 	Form,
@@ -12,18 +13,12 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectItem } from "@nextui-org/select";
-import classNames from "classnames";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import { supportedCountries } from "@/constants/supported-countries";
+import { ItemFlag } from "@/components/shared/ItemFlag";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
-import { FaEye, FaEyeSlash, FaFileAlt } from "react-icons/fa";
-import { useMutation } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
-import { PuffLoader } from "react-spinners";
-import { AuthService } from "@/api/services/cartevo-api/auth";
-import { selectCurrentToken, setCredentials } from "@/redux/slices/auth";
+import { useTranslation } from "@/hooks/useTranslation";
+import { selectCurrentToken } from "@/redux/slices/auth";
+import { getNextUIDatePickerValueStr, parseDateStr } from "@/utils/DateFormat";
 import {
 	generateRandomCode,
 	getFileExtension,
@@ -31,14 +26,17 @@ import {
 	getLabelByKey,
 	getPhonePrefixByKey,
 } from "@/utils/utils";
-import countries from "i18n-iso-countries";
-import enLocale from "i18n-iso-countries/langs/en.json";
-import { getCountryCallingCode } from "libphonenumber-js";
-import { CustomerService } from "@/api/services/cartevo-api/customer";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 import { DatePicker } from "@nextui-org/date-picker";
-import { getNextUIDatePickerValueStr, parseDateStr } from "@/utils/DateFormat";
-import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import { useTranslation } from "@/hooks/useTranslation";
+import { Select, SelectItem } from "@nextui-org/select";
+import classNames from "classnames";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { FaFileAlt } from "react-icons/fa";
+import { useMutation } from "react-query";
+import { useDispatch, useSelector } from "react-redux";
+import { PuffLoader } from "react-spinners";
 // declare global {
 // 	interface Window {
 // 		FileList: typeof FileList;
@@ -171,14 +169,6 @@ const genderData = [
 		label: "Other",
 	},
 ];
-// Register English locale for country names
-countries.registerLocale(enLocale);
-// Generate list of country codes and names
-const countryNames = countries.getNames("en", { select: "official" });
-// const countryOptions = Object.entries(countryNames).map(([code, name]) => ({
-// 	key: code,
-// 	label: name,
-// }));
 
 interface CountryOption {
 	key: string; // e.g. "US"
@@ -186,33 +176,24 @@ interface CountryOption {
 	iso2: string; // same as key
 	phonePrefix: string; // e.g. "+1"
 }
-const countryOptions: CountryOption[] = Object.entries(countryNames).map(
-	([alpha2, label]) => {
-		let phonePrefix: string;
-		try {
-			phonePrefix = `${getCountryCallingCode(alpha2 as any)}`;
-		} catch {
-			phonePrefix = "";
-		}
-		return {
-			key: alpha2,
-			label,
-			iso2: alpha2,
-			phonePrefix,
-		};
-	}
-);
+const countryOptions: CountryOption[] = Object.entries(
+	supportedCountries.data
+).map(([alpha2, countryData]) => {
+	return {
+		key: alpha2,
+		label: countryData.country_name,
+		iso2: alpha2,
+		phonePrefix: countryData.prefix,
+	};
+});
 
 export default function PersonalInfoForm() {
 	const { t } = useTranslation();
 	const customersTranslation = t.customers.createCustomer;
 	const currentToken: any = useSelector(selectCurrentToken);
-	const [passwordVisible, setPasswordVisible] = useState<boolean>();
-	const [confirmPasswordVisible, setConfirmPasswordVisible] =
-		useState<boolean>();
+
 	const [frontPreview, setFrontPreview] = useState<string | null>(null);
 	const [backPreview, setBackPreview] = useState<string | null>(null);
-	const [proofPreview, setProofPreview] = useState<string | null>(null);
 
 	const previousUrl = window.sessionStorage.getItem("previousUrl");
 	const router = useRouter();
@@ -322,6 +303,9 @@ export default function PersonalInfoForm() {
 			fieldOnChange(undefined);
 		}
 	};
+
+	const maxDate = today(getLocalTimeZone()).subtract({ years: 18 });
+	const minDate = today(getLocalTimeZone()).subtract({ years: 100 });
 
 	return (
 		<Form {...form}>
@@ -469,18 +453,34 @@ export default function PersonalInfoForm() {
 														: null
 												}
 												onChange={(date) => {
-													const newDateStr =
-														getNextUIDatePickerValueStr(
-															date.year,
-															date.month,
-															date.day
+													// Vérification renforcée : on s'assure que l'objet date et ses propriétés sont valides
+													if (
+														date &&
+														date.year &&
+														date.month &&
+														date.day
+													) {
+														const newDateStr =
+															getNextUIDatePickerValueStr(
+																date.year,
+																date.month,
+																date.day
+															);
+														form.setValue(
+															"date_of_birth",
+															newDateStr
 														);
-													form.setValue(
-														"date_of_birth",
-														newDateStr
-													);
+													} else {
+														// Pour tous les autres cas (null, date partielle), on efface la valeur
+														form.setValue(
+															"date_of_birth",
+															""
+														);
+													}
 												}}
 												showMonthAndYearPickers
+												minValue={minDate}
+												maxValue={maxDate}
 											/>
 										</FormControl>
 										<FormMessage className="text-red-400" />
@@ -527,6 +527,7 @@ export default function PersonalInfoForm() {
 														<SelectItem
 															key={item.key}
 															value={item.key}
+															startContent={<ItemFlag iso2={item.iso2} size={5} />}
 														>
 															{item.label}
 														</SelectItem>
@@ -713,8 +714,8 @@ export default function PersonalInfoForm() {
 												}
 											>
 												<SelectItem
-													key="PASSORT"
-													value="PASSORT"
+													key="PASSPORT"
+													value="PASSPORT"
 												>
 													{
 														customersTranslation
@@ -835,7 +836,7 @@ export default function PersonalInfoForm() {
 											{
 												customersTranslation.personalId
 													.idBack
- 											}
+											}
 											<span className="text-red-500">
 												*
 											</span>
