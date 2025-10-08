@@ -3,8 +3,6 @@
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { useTranslation } from "@/hooks/useTranslation";
 
-import React from "react";
-
 const WebsiteFooter = () => {
 	const { createLocalizedLink } = useLocalizedNavigation();
 	const { t } = useTranslation();
@@ -35,7 +33,10 @@ const WebsiteFooter = () => {
 							<a href="#"> {footerTranslate.termes}</a>
 						</li>
 						<li>
-							<a href="docs.cartevo.co"> {footerTranslate.api}</a>
+							<a href="developer.cartevo.co">
+								{" "}
+								{footerTranslate.api}
+							</a>
 						</li>
 						<li>
 							<a href={createLocalizedLink("/contact")}>

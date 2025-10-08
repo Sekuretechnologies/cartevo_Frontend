@@ -11,16 +11,17 @@ import Layout from "@/components/shared/Layout";
 import { isObject, sortByCreatedAtDescending } from "@/utils/utils";
 
 import { CustomerService } from "@/api/services/cartevo-api/customer";
+import { ITableHeader } from "@/components/AdminTable/Table";
 import BadgeLabel from "@/components/shared/BadgeLabel";
 import urls from "@/config/urls";
-import { selectCurrentToken } from "@/redux/slices/auth";
-import { selectSearchTerm } from "@/redux/slices/search";
-import { getFormattedDateTime } from "@/utils/DateFormat";
-import { useDispatch, useSelector } from "react-redux";
-import { HiPlus } from "react-icons/hi";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
 import { useTranslation } from "@/hooks/useTranslation";
-import { ITableHeader } from "@/components/AdminTable/Table";
+import { selectCurrentToken } from "@/redux/slices/auth";
+import { selectSearchTerm } from "@/redux/slices/search";
+import { RootState } from "@/redux/store";
+import { getFormattedDateTime } from "@/utils/DateFormat";
+import { HiPlus } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
 
 const getAllCustomers = async ({ queryKey }: any) => {
 	const [_key, token, st, filterContent] = queryKey;
@@ -61,6 +62,7 @@ export default function Customers() {
 	const redirectRef: any = useRef();
 	const searchTerm: string = useSelector(selectSearchTerm);
 	const { createLocalizedLink } = useLocalizedNavigation();
+	const settings = useSelector((state: RootState) => state.settings);
 
 	const allCustomersQueryRes = useQuery({
 		queryKey: ["allCustomers", currentToken, searchTerm, filterContent],
@@ -166,9 +168,19 @@ export default function Customers() {
 							<CButton
 								text={customerTranslate.newCustomers}
 								btnStyle={"blue"}
-								href={createLocalizedLink("/customers/create")}
+								href={
+									!settings.prodMode
+										? ""
+										: createLocalizedLink(
+												"/customers/create"
+										  )
+								}
 								icon={<HiPlus />}
-								// width={"150px"}
+								disabled={
+									!settings.prodMode &&
+									allCustomersQueryRes?.data &&
+									allCustomersQueryRes?.data?.length >= 3
+								}
 								height={"33px"}
 							/>
 						}
