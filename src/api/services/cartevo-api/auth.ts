@@ -28,4 +28,18 @@ export class AuthService {
 		BaseMethods.postRequest(authUrls.ACCEPT_INVITATION, info, false);
 	static resendOtp = (info: any) =>
 		BaseMethods.putRequest(authUrls.RESEND_OTP, info, false);
+	static switchCompany = ({
+		company_id,
+		token,
+	}: {
+		company_id: string;
+		token: string;
+	}) =>
+		BaseMethods.postRequest(
+			authUrls.SWITCH_COMPANY,
+			{ company_id },
+			true,
+			{},
+			token
+		);
 }

@@ -3220,6 +3220,7 @@ export default function WalletDetailsPage() {
 							countryIsoCode={
 								walletDetails?.country_iso_code || "CM"
 							}
+							walletBalance={walletDetails?.balance || 0}
 						/>
 					) : null
 				}

@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-
-
 const authSlice = createSlice({
 	name: "auth",
 	initialState: {
@@ -12,16 +9,18 @@ const authSlice = createSlice({
 		user_email: null,
 		user_password: null,
 		temp_token: null,
+		anotherCompanies: [],
 	},
 	reducers: {
 		setTempToken: (state, action) => {
 			state.temp_token = action.payload;
 		},
 		setCredentials: (state, action) => {
-			const { token, company, user } = action.payload;
+			const { token, company, user, anotherCompanies } = action.payload;
 			state.token = token;
 			state.company = company;
 			state.user = user;
+			state.anotherCompanies = anotherCompanies;
 		},
 		setCurrentCompany: (state, action) => {
 			const { company } = action.payload;
@@ -54,6 +53,8 @@ export const {
 
 export default authSlice.reducer;
 
+export const selectAnotherCompanies = (state: any) =>
+	state.auth.anotherCompanies;
 export const selectCurrentUser = (state: any) => state.auth.user;
 export const selectCurrentCompany = (state: any) => state.auth.company;
 export const selectCurrentUserEmail = (state: any) => state.auth.user_email;
