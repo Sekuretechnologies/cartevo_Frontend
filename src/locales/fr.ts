@@ -22,6 +22,7 @@ import { transactionFr } from "./translation/dashboard/transactions/transaction-
 import { statusFr } from "./translation/status/status-Fr";
 import { developerFr } from "./translation/dashboard/developers/developer-Fr";
 import { navBarFr } from "./translation/navBar/navBar-Fr";
+import { termfr } from "./translation/term/term-fr";
 
 export default {
 	onboarding: onboardingTranslationsFr,
@@ -48,4 +49,5 @@ export default {
 	status: statusFr,
 	developer: developerFr,
 	navBar: navBarFr,
+	term: termfr,
 } as const;

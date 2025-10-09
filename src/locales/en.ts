@@ -22,6 +22,7 @@ import { transactionEn } from "./translation/dashboard/transactions/transaction-
 import { statusEn } from "./translation/status/status-En";
 import { developerEn } from "./translation/dashboard/developers/developer-En";
 import { navBarEn } from "./translation/navBar/navBar-En";
+import { termen } from "./translation/term/term-en";
 
 export default {
 	hello: "Hello",
@@ -49,4 +50,5 @@ export default {
 	status: statusEn,
 	developer: developerEn,
 	navBar: navBarEn,
+	term: termen,
 } as const;
