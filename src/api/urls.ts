@@ -342,4 +342,6 @@ export const walletUrls = {
 export const BASE_URL_CONTACT = `${BASE_URL}/contact`;
 export const contactUrls = {
 	SEND_MESSAGE: `${BASE_URL_CONTACT}/send`,
+	SEND_AUTH_URL: `${BASE_URL_CONTACT}/send-auth`,
+	GET_MY_MESSAGE: `${BASE_URL_CONTACT}/get-my-messages`,
 };

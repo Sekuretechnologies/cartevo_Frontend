@@ -3,9 +3,9 @@ import { useTranslation } from "@/hooks/useTranslation";
 import React from "react";
 import { MdEmail } from "react-icons/md";
 
-const Privacy_Policy = () => {
+const Terms = () => {
 	const { t } = useTranslation();
-	const privacyTranslation = t.privacy;
+	const privacyTranslation = t.term;
 	return (
 		<section className="scroll-smooth ">
 			<div className="customContainer">
@@ -13,11 +13,6 @@ const Privacy_Policy = () => {
 					<h1 className="font-bold text-4xl mb-8 font-poppins tracking-tight">
 						{privacyTranslation.title}
 					</h1>
-					<div className="space-y-2 font-poppins">
-						<p className="text-md">
-							{privacyTranslation.lastUpdate}
-						</p>
-					</div>
 
 					{/**Table des matieres */}
 
@@ -361,6 +356,52 @@ const Privacy_Policy = () => {
 									{privacyTranslation.constent1.option5.span2}
 								</span>
 							</p>
+							<p>
+								<span className="font-bold">
+									{privacyTranslation.constent1.option6.span1}
+								</span>{" "}
+								<span>
+									{privacyTranslation.constent1.option6.span2}
+								</span>
+							</p>
+							<p>
+								<span className="font-bold">
+									{privacyTranslation.constent1.option7.span1}
+								</span>{" "}
+								<span>
+									{privacyTranslation.constent1.option7.span2}
+								</span>
+							</p>
+							<p>
+								<span className="font-bold">
+									{privacyTranslation.constent1.option8.span1}
+								</span>{" "}
+								<span>
+									{privacyTranslation.constent1.option8.span2}
+								</span>
+							</p>
+							<p>
+								<span className="font-bold">
+									{privacyTranslation.constent1.option9.span1}
+								</span>{" "}
+								<span>
+									{privacyTranslation.constent1.option9.span2}
+								</span>
+							</p>
+							<p>
+								<span className="font-bold">
+									{
+										privacyTranslation.constent1.option10
+											.span1
+									}
+								</span>{" "}
+								<span>
+									{
+										privacyTranslation.constent1.option10
+											.span2
+									}
+								</span>
+							</p>
 						</div>
 					</div>
 
@@ -372,7 +413,12 @@ const Privacy_Policy = () => {
 						<h2 className="font-bold text-2xl mb-4">
 							{privacyTranslation.table.option2}
 						</h2>
-						<p>{privacyTranslation.constent2.desciption}</p>
+						<ol className="flex flex-col gap-2">
+							<li> {privacyTranslation.constent2.option1}</li>
+							<li> {privacyTranslation.constent2.option2}</li>
+							<li> {privacyTranslation.constent2.option3}</li>
+							<li> {privacyTranslation.constent2.option4}</li>
+						</ol>
 					</div>
 
 					{/**Content 3 */}
@@ -380,49 +426,18 @@ const Privacy_Policy = () => {
 						className="font-poppins mb-8 border-b-4 pb-8"
 						id="content3"
 					>
-						<h2 className="font-bold text-2xl mb-4">
-							{privacyTranslation.table.option3}
-						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.constent3.title}</p>
-							<p>
-								<span className="font-bold">
-									{privacyTranslation.constent3.option1.span1}
-								</span>{" "}
-								{privacyTranslation.constent3.option1.span2}
-							</p>
-
-							<p>
-								<span className="font-bold">
-									{privacyTranslation.constent3.option2.span1}
-								</span>{" "}
-								{privacyTranslation.constent3.option2.span2}
-							</p>
-
-							<p>
-								<span className="font-bold">
-									{privacyTranslation.constent3.option3.span1}
-								</span>{" "}
-								{privacyTranslation.constent3.option3.span2}
-							</p>
-							<p>
-								<span className="font-bold">
-									{privacyTranslation.constent3.option4.span1}
-								</span>{" "}
-								{privacyTranslation.constent3.option4.span2}
-							</p>
-							<p>
-								<span className="font-bold">
-									{privacyTranslation.constent3.option5.span1}
-								</span>{" "}
-								{privacyTranslation.constent3.option5.span2}
-							</p>
-							<p>
-								<span className="font-bold">
-									{privacyTranslation.constent3.option6.span1}
-								</span>{" "}
-								{privacyTranslation.constent3.option6.span2}
-							</p>
+							<h2 className="font-bold text-2xl mb-4">
+								{privacyTranslation.table.option3}
+							</h2>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>{privacyTranslation.constent3.option1}</li>
+								<li>{privacyTranslation.constent3.option2}</li>
+								<li>{privacyTranslation.constent3.option3}</li>
+								<li>{privacyTranslation.constent3.option4}</li>
+								<li>{privacyTranslation.constent3.option5}</li>
+								<li>{privacyTranslation.constent3.option6}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -437,11 +452,18 @@ const Privacy_Policy = () => {
 						</h2>
 						<div className="flex flex-col gap-2">
 							<p>{privacyTranslation.content4.title}</p>
-							<p>{privacyTranslation.content4[1]}</p>
-							<p>{privacyTranslation.content4[2]}</p>
-							<p>{privacyTranslation.content4[3]}</p>
-							<p>{privacyTranslation.content4[4]}</p>
-							<p>{privacyTranslation.content4[5]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>{privacyTranslation.content4[1]}</li>
+								<li>{privacyTranslation.content4[2]}</li>
+								<li>{privacyTranslation.content4[3]}</li>
+								<li>{privacyTranslation.content4[4]}</li>
+								<li>{privacyTranslation.content4[5]}</li>
+								<li>{privacyTranslation.content4[6]}</li>
+								<li>{privacyTranslation.content4[7]}</li>
+								<li>{privacyTranslation.content4[8]}</li>
+								<li>{privacyTranslation.content4[9]}</li>
+							</ol>
+							<p>{privacyTranslation.content4.description}</p>
 						</div>
 					</div>
 
@@ -455,14 +477,23 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option5}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content5.title}</p>
-							<p>{privacyTranslation.content5[1]}</p>
-							<p>{privacyTranslation.content5[2]}</p>
-							<p>{privacyTranslation.content5[3]}</p>
-							<p>{privacyTranslation.content5[4]}</p>
-							<p>{privacyTranslation.content5[5]}</p>
-							<p>{privacyTranslation.content5[6]}</p>
-							<p>{privacyTranslation.content5[7]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>
+									<span>
+										{privacyTranslation.content5[1].span1}{" "}
+									</span>
+									<span className="font-bold">
+										{privacyTranslation.content5[1].span2}
+									</span>{" "}
+									<span>
+										{privacyTranslation.content5[1].span3}
+									</span>
+								</li>
+								<li>{privacyTranslation.content5[2]}</li>
+								<li>{privacyTranslation.content5[3]}</li>
+								<li>{privacyTranslation.content5[4]}</li>
+								<li>{privacyTranslation.content5[5]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -475,9 +506,15 @@ const Privacy_Policy = () => {
 						<h2 className="font-bold text-2xl mb-4">
 							{privacyTranslation.table.option6}
 						</h2>
-						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content6[1]}</p>
-							<p>{privacyTranslation.content6[2]}</p>
+						<div>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>{privacyTranslation.content6[1]}</li>
+								<li>{privacyTranslation.content6[2]}</li>
+								<li>{privacyTranslation.content6[2]}</li>
+								<li>{privacyTranslation.content6[2]}</li>
+								<li>{privacyTranslation.content6[2]}</li>
+								<li>{privacyTranslation.content6[2]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -491,11 +528,13 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option7}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content7.title}</p>
-							<p>{privacyTranslation.content7[1]}</p>
-							<p>{privacyTranslation.content7[2]}</p>
-							<p>{privacyTranslation.content7[3]}</p>
-							<p>{privacyTranslation.content7[4]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>{privacyTranslation.content7[1]}</li>
+								<li>{privacyTranslation.content7[2]}</li>
+								<li>{privacyTranslation.content7[3]}</li>
+								<li>{privacyTranslation.content7[4]}</li>
+								<li>{privacyTranslation.content7[5]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -509,11 +548,13 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option8}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content8.title}</p>
-							<p>{privacyTranslation.content8[1]}</p>
-							<p>{privacyTranslation.content8[2]}</p>
-							<p>{privacyTranslation.content8[3]}</p>
-							<p>{privacyTranslation.content8[4]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>{privacyTranslation.content8[1]}</li>
+								<li>{privacyTranslation.content8[2]}</li>
+								<li>{privacyTranslation.content8[3]}</li>
+								<li>{privacyTranslation.content8[4]}</li>
+								<li>{privacyTranslation.content8[5]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -527,10 +568,14 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option9}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content9.title}</p>
-							<p>{privacyTranslation.content9[1]}</p>
-							<p>{privacyTranslation.content9[2]}</p>
-							<p>{privacyTranslation.content9[3]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>{privacyTranslation.content9[1]}</li>
+								<li>{privacyTranslation.content9[2]}</li>
+								<li>{privacyTranslation.content9[3]}</li>
+								<li>{privacyTranslation.content9[4]}</li>
+								<li>{privacyTranslation.content9[5]}</li>
+								<li>{privacyTranslation.content9[6]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -544,11 +589,21 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option10}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content10.title}</p>
-							<p>{privacyTranslation.content10[1]}</p>
-							<p>{privacyTranslation.content10[2]}</p>
-							<p>{privacyTranslation.content10[3]}</p>
-							<p>{privacyTranslation.content10[4]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>
+									{privacyTranslation.content10[1]}{" "}
+									<a
+										href="https://www.mincommerce.gov.cm/sites/default/files/documents/loi-n-2010-021-du-21-decembre-2010-regissant-le-commerce-electronique-au-cameroun.pdf"
+										className="text-primary underline"
+									>
+										gmincommerce.gov.cm+2Pr Yvette Rachel
+										KALIEU ELONGO+2
+									</a>
+								</li>
+								<li>{privacyTranslation.content9[2]}</li>
+								<li>{privacyTranslation.content10[3]}</li>
+								<li>{privacyTranslation.content10[4]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -562,14 +617,14 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option11}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content11.title}</p>
-							<p>{privacyTranslation.content11[1]}</p>
-							<p>{privacyTranslation.content11[2]}</p>
-							<p>{privacyTranslation.content11[3]}</p>
-							<p>{privacyTranslation.content11[4]}</p>
-							<p>{privacyTranslation.content11[5]}</p>
-							<p>{privacyTranslation.content11[6]}</p>
-							<p>{privacyTranslation.content11[7]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li> {privacyTranslation.content11[1]}</li>
+
+								<li>{privacyTranslation.content11[2]}</li>
+								<li>{privacyTranslation.content11[3]}</li>
+								<li>{privacyTranslation.content11[4]}</li>
+								<li>{privacyTranslation.content11[5]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -583,7 +638,12 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option12}
 						</h2>
 						<div>
-							<p>{privacyTranslation.content12.title}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li> {privacyTranslation.content12[1]}</li>
+								<li> {privacyTranslation.content12[2]}</li>
+								<li> {privacyTranslation.content12[3]}</li>
+								<li> {privacyTranslation.content12[4]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -597,10 +657,14 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option13}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content13.title}</p>
-							<p>{privacyTranslation.content13[1]}</p>
-							<p>{privacyTranslation.content13[2]}</p>
-							<p>{privacyTranslation.content13[3]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li> {privacyTranslation.content13[1]}</li>
+								<li> {privacyTranslation.content13[2]}</li>
+								<li> {privacyTranslation.content13[3]}</li>
+								<li> {privacyTranslation.content13[4]}</li>
+								<li> {privacyTranslation.content13[5]}</li>
+								<li> {privacyTranslation.content13[6]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -615,6 +679,17 @@ const Privacy_Policy = () => {
 						</h2>
 						<div>
 							<p>{privacyTranslation.content14.title}</p>
+
+							<ol className="list-decimal list-inside space-y-2">
+								<li> {privacyTranslation.content14[1]}</li>
+								<li> {privacyTranslation.content14[2]}</li>
+								<li> {privacyTranslation.content14[3]}</li>
+								<li> {privacyTranslation.content14[4]}</li>
+								<li> {privacyTranslation.content14[5]}</li>
+								<li> {privacyTranslation.content14[6]}</li>
+								<li> {privacyTranslation.content14[7]}</li>
+								<li> {privacyTranslation.content14[8]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -628,7 +703,13 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option15}
 						</h2>
 						<div>
-							<p>{privacyTranslation.content15.title}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li> {privacyTranslation.content15[1]}</li>
+								<li> {privacyTranslation.content15[2]}</li>
+								<li> {privacyTranslation.content15[3]}</li>
+								<li> {privacyTranslation.content15[4]}</li>
+								<li> {privacyTranslation.content15[5]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -642,10 +723,12 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option16}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content16.title}</p>
-							<p>{privacyTranslation.content16[1]}</p>
-							<p>{privacyTranslation.content16[2]}</p>
-							<p>{privacyTranslation.content16[3]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li> {privacyTranslation.content16[1]}</li>
+								<li> {privacyTranslation.content16[2]}</li>
+								<li> {privacyTranslation.content16[3]}</li>
+								<li> {privacyTranslation.content16[4]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -660,13 +743,10 @@ const Privacy_Policy = () => {
 						</h2>
 						<div className="flex flex-col gap-2">
 							<p>{privacyTranslation.content17.title}</p>
-							<p>{privacyTranslation.content17[1]}</p>
-							<p>{privacyTranslation.content17[2]}</p>
-							<p>{privacyTranslation.content17[3]}</p>
 						</div>
 					</div>
 
-					{/**constent 18 */}
+					{/**constent 19 */}
 
 					<div
 						className="font-poppins mb-8 border-b-4 pb-8"
@@ -676,27 +756,23 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option18}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content18.title}</p>
-							<p>{privacyTranslation.content18[1]}</p>
-							<p>{privacyTranslation.content18[2]}</p>
-							<p>{privacyTranslation.content18[3]}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li> {privacyTranslation.content18[1]}</li>
+								<li> {privacyTranslation.content18[2]}</li>
+								<li> {privacyTranslation.content18[3]}</li>
+							</ol>
 						</div>
 					</div>
-
-					{/**constent 19 */}
 
 					<div
 						className="font-poppins mb-8 border-b-4 pb-8"
 						id="content19"
 					>
 						<h2 className="font-bold text-2xl mb-4">
-							{privacyTranslation.table.option18}
+							{privacyTranslation.table.option19}
 						</h2>
 						<div className="flex flex-col gap-2">
 							<p>{privacyTranslation.content19.title}</p>
-							<p>{privacyTranslation.content19[1]}</p>
-							<p>{privacyTranslation.content19[2]}</p>
-							<p>{privacyTranslation.content19[3]}</p>
 						</div>
 					</div>
 
@@ -710,7 +786,11 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option20}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content20.title}</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li> {privacyTranslation.content20[1]}</li>
+								<li> {privacyTranslation.content20[2]}</li>
+								<li> {privacyTranslation.content20[3]}</li>
+							</ol>
 						</div>
 					</div>
 
@@ -724,23 +804,49 @@ const Privacy_Policy = () => {
 							{privacyTranslation.table.option21}
 						</h2>
 						<div className="flex flex-col gap-2">
-							<p>{privacyTranslation.content21.title}</p>
-							<p>
-								<span className="font-bold">
-									{" "}
-									{privacyTranslation.content21[1]}
-								</span>{" "}
-								<span> {privacyTranslation.content21[2]}</span>
-							</p>
+							<ol className="list-decimal list-inside space-y-2">
+								<li>
+									<span>
+										{privacyTranslation.content21.title}
+									</span>
+									<ul>
+										<li>
+											<span className="font-bold">
+												{" "}
+												{
+													privacyTranslation
+														.content21[1]
+												}
+											</span>{" "}
+											<span>
+												{" "}
+												{
+													privacyTranslation
+														.content21[2]
+												}
+											</span>
+										</li>
+										<li>
+											<span className="font-bold">
+												{
+													privacyTranslation
+														.content21[3]
+												}
+											</span>{" "}
+											<a href="/">
+												{
+													privacyTranslation
+														.content21[4]
+												}
+											</a>
+										</li>
+									</ul>
+								</li>
+								<li>{privacyTranslation.content21[5]}</li>
+							</ol>
+							<p></p>
 
-							<p>
-								<span className="font-bold">
-									{privacyTranslation.content21[3]}
-								</span>{" "}
-								<a href="/">
-									{privacyTranslation.content21[4]}
-								</a>
-							</p>
+							<p></p>
 						</div>
 					</div>
 				</div>
@@ -749,4 +855,4 @@ const Privacy_Policy = () => {
 	);
 };
 
-export default Privacy_Policy;
+export default Terms;

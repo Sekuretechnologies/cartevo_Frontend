@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "@/hooks/useTranslation";
-import { contactSchema } from "@/validation/FormValidation";
+import { contactSchema, contactSchema2 } from "@/validation/FormValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectItem } from "@nextui-org/select";
 import { Check, ChevronRight } from "lucide-react";
@@ -26,9 +26,20 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { ContactService } from "@/api/services/cartevo-api/contact";
 import { PuffLoader } from "react-spinners";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "@/redux/slices/auth";
 
-const handleSubmit = async (data: z.infer<typeof contactSchema>) => {
-	const response = await ContactService.send_message({ body: data });
+const handleSubmit = async ({
+	data,
+	token,
+}: {
+	data: z.infer<typeof contactSchema2>;
+	token: string;
+}) => {
+	const response = await ContactService.send_auth_message({
+		body: data,
+		token,
+	});
 
 	// Lecture unique du corps
 	const responseJson = await response.json();
@@ -41,37 +52,35 @@ const handleSubmit = async (data: z.infer<typeof contactSchema>) => {
 	return responseJson;
 };
 
-const ContactForm = () => {
+const HelpForm = () => {
 	const { t } = useTranslation();
 	const contactTranslation = t.contact;
 	const btnTranslate = t.btn;
+	const currentToken: string = useSelector(selectCurrentToken);
 
-	const form = useForm<z.infer<typeof contactSchema>>({
-		resolver: zodResolver(contactSchema),
+	const form = useForm<z.infer<typeof contactSchema2>>({
+		resolver: zodResolver(contactSchema2),
 		defaultValues: {
 			// country_code: "",
-			whatsapp: "",
-			email: "",
+
 			subject: "",
 			message: "",
-			name: "",
-			entrepriseName: "",
 			activity: "",
 		},
 	});
-
 	const mutation = useMutation({
-		mutationFn: handleSubmit,
+		mutationFn: (formData: z.infer<typeof contactSchema2>) => {
+			return handleSubmit({ data: formData, token: currentToken });
+		},
 		onError: (err: any) => {
 			console.error("error", err.message);
 			toast.error(err.message);
 		},
 		onSuccess: (data) => {
 			form.reset();
-			toast.success("Message sned successfully");
+			toast.success("Message sent successfully");
 		},
 	});
-
 	const onSubmit = (data: any) => {
 		const phoneNumber = parsePhoneNumberFromString(data.whatsapp || "");
 		if (phoneNumber && phoneNumber.isValid()) {
@@ -129,108 +138,6 @@ const ContactForm = () => {
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit, onError)}>
 					<div className="flex flex-col gap-4">
-						<div className=" flex flex-col md:flex-row items-center gap-4 w-full ">
-							<FormField
-								control={form.control}
-								name="name"
-								render={({ field }) => (
-									<FormItem className="flex flex-col w-full">
-										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-											{contactTranslation.form.name}
-										</FormLabel>
-										<FormControl>
-											<input
-												{...field}
-												type="text"
-												id="name"
-												placeholder={
-													contactTranslation.form
-														.namePlaceholder
-												}
-												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
-											/>
-										</FormControl>
-										<FormMessage className="text-red-400 font-poppins" />
-									</FormItem>
-								)}
-							/>
-
-							<FormField
-								control={form.control}
-								name="entrepriseName"
-								render={({ field }) => (
-									<FormItem className="flex flex-col w-full">
-										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-											{contactTranslation.form.legalName}
-										</FormLabel>
-										<FormControl>
-											<input
-												{...field}
-												type="text"
-												id="email"
-												placeholder={
-													contactTranslation.form
-														.legalNamePlaceholder
-												}
-												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
-											/>
-										</FormControl>
-										<FormMessage className="text-red-400 font-poppins" />
-									</FormItem>
-								)}
-							/>
-						</div>
-						<div className="flex flex-col md:flex-row items-center gap-4">
-							<FormField
-								control={form.control}
-								name="whatsapp"
-								render={({ field }) => (
-									<FormItem className="w-full">
-										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-											{
-												contactTranslation.form
-													.PhoneNumber
-											}
-										</FormLabel>
-										<FormControl>
-											<PhoneInput
-												{...field}
-												value={field.value}
-												onChange={(value) =>
-													field.onChange(value)
-												}
-											/>
-										</FormControl>
-										<FormMessage className="text-red-400 font-poppins" />
-									</FormItem>
-								)}
-							/>
-
-							<FormField
-								control={form.control}
-								name="email"
-								render={({ field }) => (
-									<FormItem className="flex flex-col w-full">
-										<FormLabel className="text-[#101010] font-poppins text-[12px] ">
-											{contactTranslation.form.email}
-										</FormLabel>
-										<FormControl>
-											<input
-												{...field}
-												type="text"
-												id="email"
-												placeholder={
-													contactTranslation.form
-														.emailPlaceholder
-												}
-												className="px-6 font-poppins border-1  focus:outline-primary text-[14px] py-3 rounded-[7px] "
-											/>
-										</FormControl>
-										<FormMessage className="text-red-400 font-poppins" />
-									</FormItem>
-								)}
-							/>
-						</div>
 						<FormField
 							control={form.control}
 							name="activity"
@@ -457,4 +364,4 @@ const ContactForm = () => {
 	);
 };
 
-export default ContactForm;
+export default HelpForm;

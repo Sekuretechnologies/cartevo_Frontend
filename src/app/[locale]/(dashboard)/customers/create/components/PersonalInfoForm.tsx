@@ -714,8 +714,8 @@ export default function PersonalInfoForm() {
 												}
 											>
 												<SelectItem
-													key="PASSORT"
-													value="PASSORT"
+													key="PASSPORT"
+													value="PASSPORT"
 												>
 													{
 														customersTranslation

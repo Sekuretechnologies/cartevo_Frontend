@@ -29,7 +29,7 @@ const loginWithCompany = async (data: z.infer<typeof LoginWithCompany>) => {
 	console.log("Sending data to API:", data);
 	const response = await AuthService.loginWithCOmpany(data);
 	console.log("API Response status:", response.status);
-	
+
 	if (!response.ok) {
 		const errorData = await response.json().catch(() => ({}));
 		console.error("API Error:", errorData);
@@ -64,13 +64,16 @@ const SelectCompany = () => {
 	const mutation = useMutation({
 		mutationFn: loginWithCompany,
 		onSuccess: (data) => {
-			console.log("Verification OTP onSuccess : ", data);
-
 			const token = data.access_token;
 			const user = data.user;
 			const company = data.company;
+			const anotherCompanies = companies.filter(
+				(c) => c.id !== selectedCompanyId
+			);
 
-			dispatch(setCredentials({ token, company, user }));
+			dispatch(
+				setCredentials({ token, company, user, anotherCompanies })
+			);
 
 			toast.success("Authentication Successful");
 

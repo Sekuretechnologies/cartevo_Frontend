@@ -288,6 +288,18 @@ export const contactSchema = z.object({
 	service: z.string().min(1, "Service is required"),
 });
 
+export const contactSchema2 = z.object({
+	subject: z
+		.string()
+		.min(3, "The subject must contain at least 3 characters"),
+	message: z
+		.string()
+		.min(5, "The message must contain at least 5 characters"),
+
+	activity: z.string().min(1, "Activity is required"),
+	service: z.string().min(1, "Service is required"),
+});
+
 export const teamMemberSchema = z.object({
 	email: z.string().email("Invalid email"),
 	role: z.string().min(2, { message: "role is required" }),

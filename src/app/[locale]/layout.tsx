@@ -2,6 +2,7 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./provider";
 import StoreProvider from "./storeProvider";
+// @ts-ignore
 import "./globals.css";
 
 export default function LocaleLayout({

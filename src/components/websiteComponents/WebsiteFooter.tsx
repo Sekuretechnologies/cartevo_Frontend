@@ -30,7 +30,7 @@ const WebsiteFooter = () => {
 							</a>
 						</li>
 						<li>
-							<a href="#"> {footerTranslate.termes}</a>
+							<a href={createLocalizedLink("/terms")}> {footerTranslate.termes}</a>
 						</li>
 						<li>
 							<a href="developer.cartevo.co">
