@@ -1,11 +1,12 @@
 "use client";
 
-import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
-import { useState } from "react";
 import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { useTranslation } from "@/hooks/useTranslation";
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 import CustomDropdown2 from "../shared/CustomDropdown2";
 import { ItemFlag } from "../shared/ItemFlag";
-import { useTranslation } from "@/hooks/useTranslation";
 
 const languages = [
 	{ iso2: "FR", code: "FR", name: "Français" },
@@ -77,9 +78,12 @@ const WebsiteHeader = () => {
 
 				<div className="flex items-center gap-0 font-poppins">
 					<div className="hidden lg:flex  items-center gap-4">
-						<p className="navItem font-poppins text-lg ">
+						<Link
+							href={createLocalizedLink("/login")}
+							className="navItem font-poppins text-lg cursor-pointer"
+						>
 							{headerTranslate.login}
-						</p>
+						</Link>
 						<a
 							href={createLocalizedLink("/signup")}
 							className="h-[38px] w-[134px] hover:bg-[#00CFD9] hover:text-black duration-300 text-white text-[13px] font-[600] flex justify-center items-center bg-primary rounded-[8px]"
