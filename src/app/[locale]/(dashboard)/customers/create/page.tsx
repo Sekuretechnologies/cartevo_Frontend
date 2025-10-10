@@ -1,18 +1,7 @@
 "use client";
-import { CustomerService } from "@/api/services/v2/customer";
 import Layout from "@/components/shared/Layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTitle } from "@/hooks/useTitle";
-import {
-	setCurrentCustomerDetails,
-	setCurrentCustomerTransactions,
-	setCurrentCustomerTransfers,
-} from "@/redux/slices/customer";
-import { I18nProvider } from "@react-aria/i18n";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 // import PersonalInfoForm from "./components/PersonalInfoForm";
 

@@ -94,4 +94,5 @@ export const customersFr = {
 			fee: "Frais",
 		},
 	},
+	note: "En mode pré-production, vous ne pouvez pas ajouter plus de 3 customers",
 };

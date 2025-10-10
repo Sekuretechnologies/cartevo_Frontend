@@ -1,27 +1,22 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import AdminTable, {
 	IGenericRow,
 	ITableHeader,
 } from "@/components/AdminTable/Table";
 import SearchBar from "@/components/shared/SearchBar";
-import Link from "next/link";
+import { selectSearchTerm } from "@/redux/slices/search";
+import { RootState } from "@/redux/store";
+import React, { useEffect, useState } from "react";
 import { BsFileEarmarkExcel } from "react-icons/bs";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { IoCopyOutline, IoPrintOutline } from "react-icons/io5";
 import { HiOutlineFilter } from "react-icons/hi";
-import CustomDropdown from "./CustomDropdown";
-import { RxDotsHorizontal } from "react-icons/rx";
-import CButton from "./CButton";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchTerm, selectSearchTerm } from "@/redux/slices/search";
-import CustomersFilterForm from "./CustomTableFilters/CustomersFilterForm";
+import CButton from "./CButton";
+import Cards from "./CustomTableFilters/Cards";
+import CompanyFilterForm from "./CustomTableFilters/CompanyFilterForm";
 import RegularisationFilterForm from "./CustomTableFilters/RegularisationFilterForm";
 import TransactionsFilterForm from "./CustomTableFilters/TransactionsFilterForm";
-import UserFilterForm from "./CustomTableFilters/userFilterForm";
-import CompanyFilterForm from "./CustomTableFilters/CompanyFilterForm";
-import Cards from "./CustomTableFilters/Cards";
 import TransactionsForm from "./CustomTableFilters/TransactionsForm";
+import UserFilterForm from "./CustomTableFilters/userFilterForm";
 
 interface CustomTableProps {
 	btn?: React.ReactNode;
@@ -36,6 +31,7 @@ interface CustomTableProps {
 	filterContent?: any;
 	setFilterContent?: (data?: any) => void;
 	generateExcel?: (data?: any) => void;
+	prodMode?: boolean;
 }
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -51,6 +47,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 	filterType,
 	isLoading,
 	threeButtons,
+	prodMode,
 }) => {
 	const dispatch = useDispatch();
 	const searchTerm: string = useSelector(selectSearchTerm);
@@ -81,6 +78,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 		console.log("filterDetails ::: ", filterDetails);
 	};
 
+	const settings = useSelector((state: RootState) => state.settings);
 	return (
 		<>
 			<div className="flex flex-col md:flex-row justify-between items-center">

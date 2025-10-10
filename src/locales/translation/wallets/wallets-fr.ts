@@ -117,6 +117,8 @@ export const walletsTranslationsFr = {
 			errorInvalidAmount: "Veuillez saisir un montant valide",
 			errorSelectPhone: "Veuillez sélectionner ou saisir un numéro",
 			errorSelectOperator: "Veuillez sélectionner un opérateur",
+			fundError:
+				"Avec ce financement, le solde dépasserait la limite de pré-production de",
 		},
 		internalTransfers: {
 			internalTransferTitle: "Transfert interne",

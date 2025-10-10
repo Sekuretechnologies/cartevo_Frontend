@@ -1,16 +1,10 @@
-import { BsUiRadiosGrid } from "react-icons/bs";
-import { Button } from "../ui/button";
-import { FourDots } from "../shared/icons";
+import { useTranslation } from "@/hooks/useTranslation";
+import { RootState } from "@/redux/store";
 import Link from "next/link";
-import ButtonOutlined from "../shared/ButtonOutlined";
 import React, { useEffect, useState } from "react";
-import { BiTransferAlt } from "react-icons/bi";
-import {
-	FaChevronLeft,
-	FaChevronRight,
-	FaSortDown,
-	FaSortUp,
-} from "react-icons/fa";
+import { usePathname } from "next/navigation";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useSelector } from "react-redux";
 export interface ITableHeader {
 	[key: string]: string;
 }
@@ -221,6 +215,10 @@ const AdminTable: React.FC<Props> = ({
 	//   (currentPage - 1) * itemsPerPage + filteredData.length
 	// );
 
+	const prodMode = useSelector<RootState>((state) => state.settings.prodMode);
+	const { t } = useTranslation();
+	const pathname = usePathname();
+
 	return (
 		<div>
 			<div className="w-full overflow-x-auto">
@@ -324,6 +322,20 @@ const AdminTable: React.FC<Props> = ({
 					</tbody>
 					<tfoot>{/* Footer content can be dynamic as well */}</tfoot>
 				</table>
+				{!prodMode &&
+					(pathname.endsWith("/customers") ||
+						pathname.endsWith("/customers/create")) && (
+						<div
+							className={`${
+								isLoading
+									? "hidden"
+									: "ablsolute -bottom-10 w-full mt-7"
+							} h-14 flex justify-center items-center bg-primary-50`}
+						>
+							<span className="font-semibold ">NOTE </span>
+							<p>: {t.customers.note}</p>
+						</div>
+					)}
 				<div className="py-10 flex w-full justify-center items-center">
 					{isLoading ? (
 						<div className={"loadingSpinner"}></div>

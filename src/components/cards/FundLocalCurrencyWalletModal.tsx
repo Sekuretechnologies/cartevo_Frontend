@@ -88,7 +88,9 @@ const FundLocalCurrencyWalletModal: React.FC<
 			fee.transaction_type === "FUND"
 	);
 
-	const fees = feeData?.value || 1.5; // Fallback to 1.5% if not found
+	console.log("feeData :: ", feeData);
+
+	const fees: number = feeData?.value || 1.5;
 
 	const amountNum = parseFloat(amount) || 0;
 	const feeAmount = (amountNum * fees) / 100;
@@ -105,7 +107,7 @@ const FundLocalCurrencyWalletModal: React.FC<
 				];
 			if (limit && Number(walletBalance) + amountNum > limit) {
 				setErrorMessage(
-					`With this funding, the balance would exceed the pre-production limit of ${limit} ${currency}.`
+					`${t.wallets.modals.fundLocal.fundError} ${limit} ${currency}.`
 				);
 				return;
 			}
