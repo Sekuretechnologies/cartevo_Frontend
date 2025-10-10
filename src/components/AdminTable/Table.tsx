@@ -1,8 +1,8 @@
 import { useTranslation } from "@/hooks/useTranslation";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
 export interface ITableHeader {

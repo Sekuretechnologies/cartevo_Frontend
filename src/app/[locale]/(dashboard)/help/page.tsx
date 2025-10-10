@@ -1,15 +1,15 @@
 "use client";
 
-import Layout from "@/components/shared/Layout";
-import React from "react";
-import ContactForm from "../../(website)/contact/component/form";
 import { ContactService } from "@/api/services/cartevo-api/contact";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/slices/auth";
-import { useQuery } from "react-query";
-import toast from "react-hot-toast";
 import CustomTable from "@/components/shared/CustomTable";
+import Layout from "@/components/shared/Layout";
 import Title from "@/components/shared/Title";
+import { useLocalizedNavigation } from "@/hooks/useLocalizedNavigation";
+import { selectCurrentToken } from "@/redux/slices/auth";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import HelpForm from "./components/HelpForm";
 
 const handleGetMessages = async ({ queryKey }: any) => {
@@ -26,6 +26,7 @@ const handleGetMessages = async ({ queryKey }: any) => {
 
 const Help = () => {
 	const currentToken: any = useSelector(selectCurrentToken);
+	const { createLocalizedLink } = useLocalizedNavigation();
 
 	const getMessageQuery = useQuery({
 		queryKey: ["message", currentToken],
@@ -71,14 +72,12 @@ const Help = () => {
 				</span>
 			),
 			actions: (
-				<button
+				<Link
 					className="px-2 py-1 bg-primary text-white text-sm rounded hover:bg-blue-600"
-					onClick={() =>
-						(window.location.href = `/fr/messages/${msg.id}`)
-					}
+					href={createLocalizedLink(`help/messages/${msg.id}`)}
 				>
 					Details
-				</button>
+				</Link>
 			),
 		})
 	);
