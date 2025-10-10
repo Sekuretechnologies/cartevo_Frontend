@@ -1,6 +1,6 @@
 // export const BASE_URL = `${process.senv.NEXT_PUBLIC_API_URI}/api/v1`;
-// export const BASE_URL = `https://api.cartevo.co/api/v1`;
-export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
+export const BASE_URL = `https://api.cartevo.co/api/v1`;
+// export const BASE_URL = `http://127.0.0.1:3001/api/v1`;
 
 // export const API_V2_BASE_URL = `http://localhost:3000/api/v2/admin`;
 // export const API_V2_BASE_URL = `https://apigetsekure.com/api/v2/admin`;
@@ -344,4 +344,6 @@ export const contactUrls = {
 	SEND_MESSAGE: `${BASE_URL_CONTACT}/send`,
 	SEND_AUTH_URL: `${BASE_URL_CONTACT}/send-auth`,
 	GET_MY_MESSAGE: `${BASE_URL_CONTACT}/get-my-messages`,
+	GET_MESSAGE_DETAILS: (id: string) => `${BASE_URL_CONTACT}/${id}`,
+	SEND_MESSAGE_RESPONSE: (id: string) => `${BASE_URL_CONTACT}/${id}/reply`,
 };

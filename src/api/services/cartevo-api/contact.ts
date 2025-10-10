@@ -20,4 +20,35 @@ export class ContactService {
 			{},
 			token
 		);
+
+	static get_message_details = ({
+		token,
+		id,
+	}: {
+		token: string;
+		id: string;
+	}) =>
+		BaseMethods.getRequest(
+			contactUrls.GET_MESSAGE_DETAILS(id),
+			true,
+			{},
+			token
+		);
+
+	static replyToMessage = ({
+		body,
+		id,
+		token,
+	}: {
+		body: any;
+		token: string;
+		id: string;
+	}) =>
+		BaseMethods.postRequest(
+			contactUrls.SEND_MESSAGE_RESPONSE(id),
+			body,
+			true,
+			{},
+			token
+		);
 }

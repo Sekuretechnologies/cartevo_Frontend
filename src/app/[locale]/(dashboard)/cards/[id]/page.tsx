@@ -1,25 +1,18 @@
 "use client";
 import { CardService } from "@/api/services/cartevo-api/card";
 import Layout from "@/components/shared/Layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTitle } from "@/hooks/useTitle";
 import { useTranslation } from "@/hooks/useTranslation";
-import {
-	setCurrentCustomerDetails,
-	setCurrentCustomerTransactions,
-	setCurrentCustomerTransfers,
-} from "@/redux/slices/customer";
-import { I18nProvider } from "@react-aria/i18n";
 import { useParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 
-import Transactions from "./components/Transactions/Transactions";
-import CardDetails from "./components/CardDetails";
 import { selectCurrentToken } from "@/redux/slices/auth";
 import { setCardTransactions, setCurrentCard } from "@/redux/slices/card";
+import CardDetails from "./components/CardDetails";
+import Transactions from "./components/Transactions/Transactions";
 
 const getCardDetails = async ({ queryKey }: any) => {
 	const [_key, token, cardId] = queryKey;
@@ -84,7 +77,9 @@ export default function ManageCard() {
 		queryKey: ["cardTransactions", currentToken, id],
 		queryFn: getCardTransactions,
 		onError: (err) => {
-			toast.error(t.cards.details.failedToGetCardTransactions + " : " + id);
+			toast.error(
+				t.cards.details.failedToGetCardTransactions + " : " + id
+			);
 		},
 		// enabled: false,
 		// refetchInterval: 50000, // Fetches data every 60 seconds
